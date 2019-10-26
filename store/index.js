@@ -212,13 +212,21 @@ export const actions = {
     saveSpecs({ commit, state }, payload) {
 
 
+        var bodyFormData = new FormData();
+
+        bodyFormData.append('id', payload.id)
+
+        bodyFormData.append('specs', payload.specs)
+
+
+
         return new Promise((resolve, reject) => {
 
             axios({
                 method: 'PUT',
                 url: state.api.getsubCategoryDetails + payload.id,
                 contentType: 'application/json',
-                data: payload
+                data: bodyFormData
                 // headers: {
                 //     'Authorization': "bearer " + this.$cookies.get('access_token')
                 // }

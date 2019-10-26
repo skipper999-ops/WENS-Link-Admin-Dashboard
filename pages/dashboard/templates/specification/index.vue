@@ -71,7 +71,7 @@ export default {
     },
     goToDetails: function(index){
         console.log(index)
-        this.$router.push('specification/' + index)
+        this.$router.push('/dashboard/templates/specification/' + index)
     }
   }
 };

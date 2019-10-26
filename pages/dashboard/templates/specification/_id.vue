@@ -180,7 +180,10 @@ export default {
         .then(res => {
           console.log(res);
           console.log("response");
-          this.subCat = res.data[0].name;
+          if(res.data.specs.length != 0){
+            this.data = JSON.parse(res.data.specs)
+          }
+          this.subCat = res.data.name;
         })
         .catch(err => {
           console.log("error in request", err);
@@ -188,11 +191,12 @@ export default {
     },
     saveSpecs: function(){
 
-      var payload = new FormData();
-      payload.append('id', this.category)
-      payload.append('specs', JSON.stringify(this.data))
+      var payload = {
+        id: this.category,
+        specs: JSON.stringify(this.data)
+      }
 
-      this.$store.dispatch('saveSpecs', payload).then(res => {
+      this.$store.dispatch('saveSpecs', payload ).then(res => {
           console.log(res);
           console.log("response");
         })

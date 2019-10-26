@@ -39,7 +39,7 @@
 
       <div class="holder">
         <div
-          class="column-padding header-bottom"
+          class="column-padding"
           style="display: flex; justify-content: space-between"
         >
           <h3 style="display: flex;align-items: center;">Basic Details</h3>
@@ -92,8 +92,8 @@
       </div>
       <div class="holder">
         <h3 class>Images</h3>
-        <p>Upload Images. (Max 5)</p>
-        <div class>
+        <p style="padding-left: 19px;padding-bottom: 10px;">Upload Images. (Max 10)</p>
+        <div style="padding-left: 19px;padding-bottom: 10px;" class>
           <div class="dropzone dz-clickable" id="myDrop">
             <div class="dz-default dz-message" data-dz-message>
               <span>Drop files here to upload</span>
@@ -103,6 +103,7 @@
       </div>
       <div class="holder">
          <h3>Specifications</h3>
+         <!-- <p>Please Complete the specification section</p> -->
         <div v-for="(p, index) in specs" :key="p.id" class="input_fields_wrap drag-list" id="h">
           <h3>{{p.name}}</h3>
           <div class="row">
@@ -240,7 +241,8 @@ export default {
       addRemoveLinks: true,
       uploadMultiple: true,
       autoProcessQueue: true,
-      parallelUploads: 50,
+      parallelUploads: 10,
+      maxFiles: 10,
       maxFilesize: 5, // MB
       acceptedFiles: ".png, .jpeg, .jpg",
       url: vm.$store.state.api.imageUpload,
@@ -303,6 +305,8 @@ export default {
       this.$store.dispatch("getBrand", this.subcategory_selected).then(res => {
         console.log(res);
         this.brand = res.data;
+        
+          this.getsubCategoryDetails()
       });
     },
     addProduct: function() {
@@ -325,7 +329,21 @@ export default {
         console.log(res);
         this.$router.push("/products/all");
       });
-    }
+    },
+        getsubCategoryDetails: function() {
+      this.$store
+        .dispatch("getsubCategoryDetails", this.subcategory_selected)
+        .then(res => {
+          console.log(res);
+          console.log("response");
+          if(res.data.specs.length != 0){
+            this.specs = JSON.parse(res.data.specs)
+          }
+        })
+        .catch(err => {
+          console.log("error in request", err);
+        });
+    },
   }
 };
 </script>
@@ -362,4 +380,16 @@ h4{
 .holder{
   margin-bottom: 20px;
 }
+
+label {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 30px;
+}
+
+/* .form-group{
+  display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+} */
 </style>
