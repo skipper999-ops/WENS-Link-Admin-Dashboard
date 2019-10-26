@@ -185,6 +185,56 @@ export const actions = {
         })
     },
 
+    getsubCategoryDetails({ commit, state }, payload) {
+
+
+        return new Promise((resolve, reject) => {
+
+            axios({
+                method: 'GET',
+                url: state.api.getsubCategoryDetails + payload,
+                contentType: 'application/json',
+                // headers: {
+                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                // }
+            })
+                .then(res => {
+                    console.log(res)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+
+    saveSpecs({ commit, state }, payload) {
+
+
+        return new Promise((resolve, reject) => {
+
+            axios({
+                method: 'PUT',
+                url: state.api.getsubCategoryDetails + payload.id,
+                contentType: 'application/json',
+                data: payload
+                // headers: {
+                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                // }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    commit('getCategory', res.data);
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+
 
     getBrand({ commit, state }, payload) {
 

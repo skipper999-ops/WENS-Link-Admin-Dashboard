@@ -26,7 +26,7 @@
 
     <div class="specification">
       <div class="holder">
-        <h3>{{category}}</h3>
+        <h3>{{subCat}}</h3>
         <div>
           <div
             class="white"
@@ -77,7 +77,10 @@
                         <option value="3">Mixed</option>
                       </select>
 
-                      <select v-if="q.value == 2 || q.value == 3" style="display: inline-block; width: 20% ">
+                      <select
+                        v-if="q.value == 2 || q.value == 3"
+                        style="display: inline-block; width: 20% "
+                      >
                         <option
                           v-for="r in q.dropdown_items"
                           :key="r.id"
@@ -105,6 +108,7 @@
               </div>
             </div>
           </div>
+      <button class="btn" @click="saveSpecs">Save</button>
         </div>
       </div>
     </div>
@@ -117,6 +121,7 @@ export default {
   data() {
     return {
       showDropdown: false,
+      subCat: "",
       input: [{ name: "" }],
       dropdown_title: "false",
       category: this.$route.params.id,
@@ -135,10 +140,17 @@ export default {
     add_field: function(index) {
       // this.field += 1;
       console.log(index);
-      this.data[index].sub.push({ name: "", value: 1, dropdown_items: [{ name: "", value: 1 }]  });
+      this.data[index].sub.push({
+        name: "",
+        value: 1,
+        dropdown_items: [{ name: "", value: 1 }]
+      });
     },
     add_section: function() {
-      var a = { name: "", sub: [{ name: "", value: 1, dropdown_items: [{ name: "", value: 1 }]  }] };
+      var a = {
+        name: "",
+        sub: [{ name: "", value: 1, dropdown_items: [{ name: "", value: 1 }] }]
+      };
       this.data.push(a);
     },
     remove_field: function(section, index) {
@@ -161,70 +173,44 @@ export default {
     },
     remove_input: function(index) {
       this.input.splice(index, 1);
+    },
+    getsubCategoryDetails: function() {
+      this.$store
+        .dispatch("getsubCategoryDetails", this.category)
+        .then(res => {
+          console.log(res);
+          console.log("response");
+          this.subCat = res.data[0].name;
+        })
+        .catch(err => {
+          console.log("error in request", err);
+        });
+    },
+    saveSpecs: function(){
+
+      var payload = new FormData();
+      payload.append('id', this.category)
+      payload.append('specs', JSON.stringify(this.data))
+
+      this.$store.dispatch('saveSpecs', payload).then(res => {
+          console.log(res);
+          console.log("response");
+        })
+        .catch(err => {
+          console.log("error in request", err);
+        });
+
+
     }
   },
 
   mounted() {
     console.log(this.$route.params.id);
 
-    // var n = 1;
-
-    // $(document).on("click", ".add_field_button", function(e) {
-    //   e.preventDefault();
-
-    //   var id = $(this)
-    //     .parent()
-    //     .parent()
-    //     .attr("id");
-
-    //   var r =
-    //     '<div class="row"><div class="col l24"><input type="text" class="input' +
-    //     id +
-    //     '" placeholder="Data" id="data" style="display: inline-block; width: 35% "><input type="text" class="input' +
-    //     id +
-    //     '" placeholder="Value" id="value" style="display: inline-block; width: 35%"><a href="#" class="right remove_field" style="display: inline-block; font-size:12px ">Remove</a></div></div>';
-
-    //   $(r).appendTo("#" + id);
-    // });
-
-    // $(document).on("click", ".remove_field", function(e) {
-    //   e.preventDefault();
-    //   $(this)
-    //     .closest(".row")
-    //     .remove();
-    // });
-
-    // $(document).on("click", ".add-section", function(e) {
-    //   e.preventDefault();
-
-    //   n = n + 1;
-
-    //   var id = "sec-" + n.toString();
-
-    //   $(".spec-section").append(
-    //     '<div class="input_fields_wrap drag-list" id="' +
-    //       id +
-    //       '"><div style="display:flex;justify-content:space-between"><div class="add_field_button">Add More Fields</div><div class="remove-section">Remove Section</div></div><br><input type="text" class="header-data input' +
-    //       id +
-    //       '" id="header" style="display: inline-block;"><div class="row"><div class="col l24"><input class="input' +
-    //       id +
-    //       '" placeholder="Data" id="data" type="text" style="display: inline-block; width: 35% "><input type="text" class="input' +
-    //       id +
-    //       '" placeholder="Value" id="value" style="display: inline-block; width: 35%"><a href="#" class="remove_field right" style="display: inline-block;  font-size:12px">Remove</a></div></div></div>'
-    //   ); //add input box
-    // });
-
-    // $(document).on("click", ".remove-section", function(e) {
-    //   //user click on remove text
-    //   e.preventDefault();
-    //   $(this)
-    //     .closest(".input_fields_wrap")
-    //     .remove();
-    // });
+    this.getsubCategoryDetails();
   }
 };
 </script>
-
 
 <style>
 .add-section,

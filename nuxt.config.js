@@ -2,10 +2,10 @@
 export default {
 
   
-  server: {     
-    port: 8000, // default: 3000     
-    host: '0.0.0.0', // default: localhost   
-  },   //
+  // server: {     
+  //   port: 8000, // default: 3000     
+  //   host: '0.0.0.0', // default: localhost   
+  // },   //
   mode: 'universal',
   /*
   ** Headers of the page
@@ -18,7 +18,8 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css' }
     ],
     script:[
       {
@@ -28,7 +29,11 @@ export default {
       {
         src: "https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js",
         type: "text/javascript"
-      },
+      }, 
+      {
+        src: "https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js",
+        type: "text/javascript"
+      }
     ]
   },
   /*

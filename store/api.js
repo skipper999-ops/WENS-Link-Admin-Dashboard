@@ -59,6 +59,8 @@ export const state = () => ({
 
     deleteBrand : url + "products/product/brand/delete/",
 
+    getsubCategoryDetails : url + "products/product/subcategory/single/", //id
+
 
 
 

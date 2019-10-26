@@ -17,7 +17,7 @@
           <vue-good-table :columns="columns" :rows="subcategory">
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field === 'details'">
-                <button type="button" @click="goToDetails(props.row.name)" class="btn btn-primary">EDIT</button>
+                <button type="button" @click="goToDetails(props.row.id)" class="btn btn-primary">EDIT</button>
               </span>
               <span v-else>{{ props.formattedRow[props.column.field] }}</span>
             </template>
@@ -71,6 +71,7 @@ export default {
     },
     goToDetails: function(index){
         console.log(index)
+        this.$router.push('specification/' + index)
     }
   }
 };
