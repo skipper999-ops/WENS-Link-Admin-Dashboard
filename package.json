@@ -1,0 +1,22 @@
+{
+  "name": "Admin_Dashboard",
+  "version": "1.0.0",
+  "description": "My unreal Nuxt.js project",
+  "author": "dhirusarania",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/pwa": "^3.0.0-0",
+    "cookie-universal-nuxt": "^2.0.18",
+    "nuxt": "^2.0.0",
+    "vue-good-table": "^2.18.0",
+    "vue2-perfect-scrollbar": "^1.2.1"
+  },
+  "devDependencies": {}
+}
