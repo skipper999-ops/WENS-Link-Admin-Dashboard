@@ -1,3 +1,9 @@
+
+// var url = "https://moovafrica.com/api/api";
+
+
+console.log(process.env.NODE_ENV)
+
 var url
 
 if(process.env.NODE_ENV == "development"){
@@ -19,27 +25,46 @@ export const state = () => ({
 
     login: url + "login/",
 
-    register: url + "vendors/create/",
+    imageUpload: url + "products/upload/image",
 
-    seller_info: url + "vendors/seller_info/",
+    allProducts : url + "products/",
 
-    seller_interview: url + "vendors/seller_interview/",
+    singleProduct : url + "products/single/",
 
-    getCompany_name: url + "vendors/company_name/", //phone_number
+    getCategory : url + "products/product/category",
 
-    tax: url + "vendors/tax/",
+    getsubCategory : url + "products/product/subcategory",
 
-    otp: "http://weberleads.in/http-jsonapi.php?",
+    getBrand : url + "products/product/brand",
 
-    otp_verify: url + 'vendors/otp_verify/',
+    getAllOrder : url + "orders",
 
-    resendOTP: url + 'vendors/resendOTP/',
+    getAllAuction : url + "auction",
+    
+    getAllCompletedAuction : url + "auction/completed/",
 
-    company_name:  url +  "vendors/company_name/",
+    getAllOngoingAuction : url + "auction/ongoing/",
 
-    getStep:  url +  "vendors/getStep/", //phone_number
+    addProduct : url + "products/create/product",
 
-    createOrder:  url +  "payments/create/order", //phone_number
+    addAuction : url + "auction/create",
+
+    deleteProduct : url + "products/delete/",
+
+    deleteCategory : url + "products/product/category/delete/",
+
+    deleteSubCategory : url + "products/product/subcategory/delete/",
+
+    deleteBrand : url + "products/product/brand/delete/",
+
+
 
 
 })
+
+
+export const getters = {
+    // getLoginAPI(state) {
+    //     return state.login
+    // }
+}

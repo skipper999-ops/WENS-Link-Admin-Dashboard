@@ -142,7 +142,7 @@ export default {
             maxAge: 60 * 60 * 24 * 7
           });
 
-          this.$router.push("/dashboard/products/");
+          this.$router.push("/dashboard/products/all");
         })
         .catch(err => {
           console.log(err);
