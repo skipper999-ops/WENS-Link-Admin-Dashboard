@@ -14,10 +14,10 @@
         </div>
 
         <div class="row">
-          <vue-good-table :columns="columns" :rows="rows">
+          <vue-good-table :columns="columns" :rows="subcategory">
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field === 'details'">
-                <button type="button" class="btn btn-primary">EDIT</button>
+                <button type="button" @click="goToDetails(props.row.name)" class="btn btn-primary">EDIT</button>
               </span>
               <span v-else>{{ props.formattedRow[props.column.field] }}</span>
             </template>
@@ -33,22 +33,12 @@ export default {
   name: "my-component",
   data() {
     return {
+      category_selected: 0,
+      subcategory: [],
       columns: [
         {
           label: "Category",
           field: "name"
-        },
-        {
-          label: "Age",
-          field: "age",
-          type: "number"
-        },
-        {
-          label: "Created On",
-          field: "createdAt",
-          type: "date",
-          dateInputFormat: "yyyy-MM-dd",
-          dateOutputFormat: "MMM Do yy"
         },
         {
           label: "Action",
@@ -59,12 +49,29 @@ export default {
         {
           id: 1,
           name: "Mobile",
-          age: 20,
-          createdAt: "2011-10-31",
           details: "<p>asa</p>"
         }
       ]
     };
+  },
+  mounted(){
+
+        this.getSubcategories()
+
+
+  },
+  methods:{
+        getSubcategories: function() {
+      this.$store
+        .dispatch("getsubCategory", 0)
+        .then(res => {
+          console.log(res);
+          this.subcategory = res.data;
+        });
+    },
+    goToDetails: function(index){
+        console.log(index)
+    }
   }
 };
 </script>

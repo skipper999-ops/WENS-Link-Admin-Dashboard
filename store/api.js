@@ -35,6 +35,8 @@ export const state = () => ({
 
     getsubCategory : url + "products/product/subcategory",
 
+    getAllSubCategory : url + "products/product/subcategory/all",
+
     getBrand : url + "products/product/brand",
 
     getAllOrder : url + "orders",
