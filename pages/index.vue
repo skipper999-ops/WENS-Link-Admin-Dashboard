@@ -10,14 +10,14 @@
               <div class="form-group margin-top-25">
                 <input
                   id="email"
-                  type="email"
+                  type="tel"
                   v-model="email"
                   class="form-control material-input"
                   maxlength="50"
                   placeholder="Email"
                   autocomplete="anyrandomstring"
                 />
-                <label class="control-label noselect material-input">Email</label>
+                <label class="control-label noselect material-input">Phone Number</label>
               </div>
 
               <div class="form-group">
@@ -110,15 +110,15 @@ export default {
 
       var bodyFormData = new FormData();
 
-      bodyFormData.append("email", document.getElementById("email").value);
+      bodyFormData.append("phone_number", this.email);
       bodyFormData.append(
         "password",
-        document.getElementById("password").value
+        this.password
       );
 
       axios({
         method: "POST",
-        url: this.$store.state.api.login,
+        url: 'http://127.0.0.1:8000/backend/api/login/',
         headers: {
           "Content-Type": "multipart/form-data"
         },
@@ -127,33 +127,22 @@ export default {
         .then(res => {
           console.log("res", res);
           console.log("response");
-          this.$vs.notify({
-            title: "Success",
-            text: "Login Successfully",
-            color: "success",
-            time: 5000
-          });
+
           this.$cookies.set("access_token", res.data.access, {
             path: "/",
             // httpOnly : true,
             // secure: true,
             maxAge: 60 * 60 * 24 * 7
           });
-          this.$cookies.set("email", res.data.user_info.email, {
+
+          this.$cookies.set("refresh_token", res.data.refresh, {
             path: "/",
             // httpOnly : true,
             // secure: true,
             maxAge: 60 * 60 * 24 * 7
           });
 
-          this.$cookies.set("user_id", res.data.user_info.id, {
-            path: "/",
-            // httpOnly : true,
-            // secure: true,
-            maxAge: 60 * 60 * 24 * 7
-          });
-
-          this.$router.push("/products/all");
+          this.$router.push("/dashboard/products/");
         })
         .catch(err => {
           console.log(err);

@@ -40,13 +40,13 @@
       </div>
       <p>Product</p>
       <div class="navbar__parent">
-        <nuxt-link to="/dashboard/video">
+        <nuxt-link to="/dashboard/products/new">
           <i data-feather="video"></i>
           <span>New</span>
         </nuxt-link>
       </div>
       <div class="navbar__parent">
-        <nuxt-link to="/products/all">
+        <nuxt-link to="/dashboard/products/all">
           <i data-feather="users"></i>
           <span>Catalogue</span>
         </nuxt-link>
