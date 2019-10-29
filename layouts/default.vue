@@ -139,4 +139,22 @@ h3 {
   max-width: 1280px;
 }
 
+@media only screen and (max-width: 600px) {
+.holder {
+ padding: 20px 0;
+}
+.navbar-spacing{
+  width: 100%;
+}
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.break{
+  border: 0;
+    border-bottom: 1px dashed #d4d4d4;
+    margin: 45px 0;
+}
 </style>

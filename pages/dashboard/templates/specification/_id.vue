@@ -3,7 +3,7 @@
     <div v-if="showDropdown" class="popup">
       <div class="popup-main">
         <div class="popup-title">
-          <h3>{{dropdown_title}}</h3>
+          <h3>Sub Section</h3>
           <div class="add_dropdown pointer" @click="addInput">+</div>
         </div>
         <div class="popup-body">
@@ -71,25 +71,25 @@
                         type="text"
                         style="display: inline-block; width: 35%"
                       />
-                      <select v-model="q.value" style="display: inline-block; width: 15% ">
+                      <select v-model="q.type" style="display: inline-block; width: 15% ">
                         <option value="1">Text</option>
                         <option value="2">Dropdown</option>
                         <option value="3">Mixed</option>
                       </select>
 
                       <select
-                        v-if="q.value == 2 || q.value == 3"
+                        v-if="q.type == 2 || q.type == 3"
                         style="display: inline-block; width: 20% "
                       >
                         <option
                           v-for="r in q.dropdown_items"
                           :key="r.id"
-                          :value="r.value"
+                          :value="r.type"
                         >{{r.name}}</option>
                       </select>
 
                       <a
-                        v-if="q.value == 2 || q.value == 3"
+                        v-if="q.type == 2 || q.type == 3"
                         href="#"
                         @click="openDropdownPanel(index, index1)"
                         class="right add_field_button"
@@ -129,7 +129,7 @@ export default {
         {
           name: "",
           sub: [
-            { name: "", value: 1, dropdown_items: [{ name: "", value: 1 }] }
+            { name: "", type: 1, dropdown_items: [{ name: "", type: 1 }] }
           ]
         }
       ]
@@ -142,14 +142,14 @@ export default {
       console.log(index);
       this.data[index].sub.push({
         name: "",
-        value: 1,
-        dropdown_items: [{ name: "", value: 1 }]
+        type: 1,
+        dropdown_items: [{ name: "", type: 1 }]
       });
     },
     add_section: function() {
       var a = {
         name: "",
-        sub: [{ name: "", value: 1, dropdown_items: [{ name: "", value: 1 }] }]
+        sub: [{ name: "", type: 1, dropdown_items: [{ name: "", type: 1 }] }]
       };
       this.data.push(a);
     },
@@ -253,6 +253,9 @@ input,
 
 .input_fields_wrap {
   padding: 25px 0;
+}
+
+.input_fields_wrap:not(:last-child) {
   border-bottom: 1px solid #e6e6e6;
 }
 

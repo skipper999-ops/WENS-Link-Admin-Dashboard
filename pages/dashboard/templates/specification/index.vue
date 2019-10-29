@@ -17,7 +17,11 @@
           <vue-good-table :columns="columns" :rows="subcategory">
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field === 'details'">
-                <button type="button" @click="goToDetails(props.row.id)" class="btn btn-primary">EDIT</button>
+                <button
+                  type="button"
+                  @click="goToDetails(props.row.id)"
+                  class="btn btn-primary"
+                >EDIT</button>
               </span>
               <span v-else>{{ props.formattedRow[props.column.field] }}</span>
             </template>
@@ -41,6 +45,10 @@ export default {
           field: "name"
         },
         {
+          label: "Status",
+          field: "status"
+        },
+        {
           label: "Action",
           field: "details"
         }
@@ -54,24 +62,26 @@ export default {
       ]
     };
   },
-  mounted(){
-
-        this.getSubcategories()
-
-
+  mounted() {
+    this.getSubcategories();
   },
-  methods:{
-        getSubcategories: function() {
-      this.$store
-        .dispatch("getsubCategory", 0)
-        .then(res => {
-          console.log(res);
-          this.subcategory = res.data;
-        });
+  methods: {
+    getSubcategories: function() {
+      this.$store.dispatch("getsubCategory", 0).then(res => {
+        console.log(res);
+        this.subcategory = res.data;
+        for(var i = 0; i < res.data.length; i++){
+            if(res.data[i].specs == ""){
+              this.subcategory[i].status = "Not Added"    
+        }else{
+              this.subcategory[i].status = "Added"
+        }
+        }
+      });
     },
-    goToDetails: function(index){
-        console.log(index)
-        this.$router.push('/dashboard/templates/specification/' + index)
+    goToDetails: function(index) {
+      console.log(index);
+      this.$router.push("/dashboard/templates/specification/" + index);
     }
   }
 };
@@ -79,5 +89,4 @@ export default {
 
 
 <style>
-
 </style>

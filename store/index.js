@@ -110,7 +110,7 @@ export const actions = {
     //             data: bodyFormData,
     //             contentType: 'application/json',
     //             headers: {
-    //                 'Authorization': "bearer " + this.$cookies.get('access_token')
+    //                 'Authorization': "Bearer " + this.$cookies.get('access_token')
     //             }
     //         })
     //             .then(res => {
@@ -138,7 +138,7 @@ export const actions = {
                 url: state.api.getCategory,
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -170,7 +170,7 @@ export const actions = {
                 url: state.api.getsubCategory + "/" + payload,
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -195,7 +195,7 @@ export const actions = {
                 url: state.api.getsubCategoryDetails + payload,
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -228,7 +228,7 @@ export const actions = {
                 contentType: 'application/json',
                 data: bodyFormData
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -259,7 +259,7 @@ export const actions = {
                 url: state.api.getBrand + "/" + payload,
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -284,7 +284,7 @@ export const actions = {
                 url: state.api.allProducts + localStorage.getItem("currentUserID"),
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -309,7 +309,7 @@ export const actions = {
                 url: state.api.getAllOrder,
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -334,7 +334,7 @@ export const actions = {
                 url: state.api.getAllAuction,
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -359,7 +359,7 @@ export const actions = {
                 url: state.api.getAllCompletedAuction + localStorage.getItem("currentUserID"),
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -384,7 +384,7 @@ export const actions = {
                 url: state.api.getAllOngoingAuction + localStorage.getItem("currentUserID"),
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -409,7 +409,7 @@ export const actions = {
                 url: state.api.singleProduct + localStorage.getItem("auction_item"),
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -437,7 +437,7 @@ export const actions = {
                 url: state.api.addProduct,
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -463,7 +463,7 @@ export const actions = {
                 url: state.api.addAuction,
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -488,7 +488,7 @@ export const actions = {
                 url: state.api.deleteProduct + payload + "/",
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -514,7 +514,7 @@ export const actions = {
                 url: state.api.deleteCategory + payload ,
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -540,7 +540,7 @@ export const actions = {
                 url: state.api.deleteSubCategory + payload ,
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
@@ -566,7 +566,7 @@ export const actions = {
                 url: state.api.deleteBrand + payload ,
                 contentType: 'application/json',
                 // headers: {
-                //     'Authorization': "bearer " + this.$cookies.get('access_token')
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
                 // }
             })
                 .then(res => {
