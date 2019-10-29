@@ -252,11 +252,11 @@ input,
 }
 
 .input_fields_wrap {
-  padding: 25px 0;
+  padding: 15px 0 0;
 }
 
 .input_fields_wrap:not(:last-child) {
-  border-bottom: 1px solid #e6e6e6;
+  border-bottom: 1px dashed #e6e6e6;
 }
 
 .popup {

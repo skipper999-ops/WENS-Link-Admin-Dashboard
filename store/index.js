@@ -153,6 +153,30 @@ export const actions = {
         })
     },
 
+
+    addCategory({ commit, state }, payload) {
+
+
+        return new Promise((resolve, reject) => {
+
+            axios({
+                method: 'POST',
+                url: state.api.getCategory,
+                data: payload,
+                contentType: 'application/json',
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    commit('getCategory', res.data);
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+
     getsubCategory({ commit, state }, payload) {
 
 

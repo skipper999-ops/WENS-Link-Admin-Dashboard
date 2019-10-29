@@ -68,7 +68,7 @@
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/templates/product">
           <i data-feather="hash"></i>
-          <span>Product</span>
+          <span>Category</span>
         </nuxt-link>
       </div>
       <div class="navbar__parent">
