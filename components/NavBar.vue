@@ -66,7 +66,7 @@
       </div>
       <p>Templates</p>
       <div class="navbar__parent">
-        <nuxt-link to="/dashboard/templates/product">
+        <nuxt-link to="/dashboard/templates/category">
           <i data-feather="hash"></i>
           <span>Category</span>
         </nuxt-link>

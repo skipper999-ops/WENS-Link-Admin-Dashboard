@@ -14,10 +14,10 @@
         </div>
 
         <div class="row">
-          <vue-good-table :columns="columns" :rows="rows">
+          <vue-good-table :columns="columns" :rows="allproducts">
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field === 'details'">
-                <button type="button" class="btn btn-primary">EDIT</button>
+                <button type="button" @click="deleteProduct(props.row.id)" class="btn btn-primary">Delete</button>
               </span>
               <span v-else>{{ props.formattedRow[props.column.field] }}</span>
             </template>
@@ -35,20 +35,16 @@ export default {
     return {
       columns: [
         {
+          label: "Product Name",
+          field: "product_name"
+        },
+        {
+          label: "Brand",
+          field: "brand"
+        },
+        {
           label: "Category",
-          field: "name"
-        },
-        {
-          label: "Age",
-          field: "age",
-          type: "number"
-        },
-        {
-          label: "Created On",
-          field: "createdAt",
-          type: "date",
-          dateInputFormat: "yyyy-MM-dd",
-          dateOutputFormat: "MMM Do yy"
+          field: "category.name"
         },
         {
           label: "Action",
@@ -63,13 +59,30 @@ export default {
           createdAt: "2011-10-31",
           details: "<p>asa</p>"
         }
-      ]
+      ],
+      allproducts: []
     };
+  },
+  mounted(){
+    this.getAllProducts()
+  },
+  methods: {
+    getAllProducts: function() {
+      this.$store.dispatch("allProducts").then(res => {
+        console.log(res);
+        this.allproducts = JSON.parse(JSON.stringify(res.data));
+      });
+    },
+    deleteProduct: function(id) {
+      this.$store.dispatch("deleteProduct", id).then(res => {
+        console.log(res);
+        this.getAllProducts();
+      });
+    }
   }
 };
 </script>
 
 
 <style>
-
 </style>

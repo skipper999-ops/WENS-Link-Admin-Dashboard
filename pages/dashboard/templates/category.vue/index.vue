@@ -1,6 +1,5 @@
 <template>
   <div class="navbar-spacing padding-top-30">
-
     <div v-if="showDropdown" class="popup">
       <div class="popup-main">
         <div class="popup-title">
@@ -17,7 +16,26 @@
         </div>
       </div>
     </div>
+    <div v-if="showDropdown1" class="popup">
+      <div class="popup-main">
+        <div class="popup-title">
+          <h3>Add Sub Category</h3>
+        </div>
+        <div class="popup-body">
+          <div>
+            <select v-model="selected_category" style="width:70%">
+              <option v-for="p in category" :key="p.id" :value="p.id">{{p.name}}</option>
+            </select>
 
+            <input v-model="sub_Category" type="text" style="width:70%" />
+          </div>
+        </div>
+        <div class="popup-action">
+          <div class="pointer" @click="addSubCategory">Save</div>
+          <div class="pointer" @click="closeSubCatModel">Cancel</div>
+        </div>
+      </div>
+    </div>
 
     <div class="holder">
       <div
@@ -25,8 +43,12 @@
         style="display: flex; justify-content: space-between"
       >
         <h3 style="display: flex;align-items: center;">All Categories</h3>
-        <button class="btn btn-red" style="display: flex;align-items: center;">
-          <p class="white-text"  @click="openDropdownPanel">+ Add New</p>
+        <button
+          @click="openDropdownPanel"
+          class="btn btn-red"
+          style="display: flex;align-items: center;"
+        >
+          <p class="white-text">+ Add New</p>
         </button>
       </div>
 
@@ -34,7 +56,42 @@
         <vue-good-table :columns="columns" :rows="category">
           <template slot="table-row" slot-scope="props">
             <span v-if="props.column.field === 'details'">
-              <button type="button" @click="deleteCategory(props.row.id)" class="btn btn-primary">Delete</button>
+              <button
+                type="button"
+                @click="deleteCategory(props.row.id)"
+                class="btn btn-primary"
+              >Delete</button>
+            </span>
+            <span v-else>{{ props.formattedRow[props.column.field] }}</span>
+          </template>
+        </vue-good-table>
+      </div>
+    </div>
+
+    <div class="holder">
+      <div
+        class="column-padding header-bottom"
+        style="display: flex; justify-content: space-between"
+      >
+        <h3 style="display: flex;align-items: center;">All Sub Categories</h3>
+        <button
+          @click="openSubCatModel"
+          class="btn btn-red"
+          style="display: flex;align-items: center;"
+        >
+          <p class="white-text">+ Add New</p>
+        </button>
+      </div>
+
+      <div class="row">
+        <vue-good-table :columns="sub_columns" :rows="subcategory">
+          <template slot="table-row" slot-scope="props">
+            <span v-if="props.column.field === 'details'">
+              <button
+                type="button"
+                @click="deleteSubCategory(props.row.id)"
+                class="btn btn-primary"
+              >Delete</button>
             </span>
             <span v-else>{{ props.formattedRow[props.column.field] }}</span>
           </template>
@@ -50,6 +107,8 @@ export default {
   data: () => ({
     allproducts: [],
     newCategory: "",
+    selected_category: 0,
+    sub_Category: "",
     category: [],
     category_selected: 0,
     subcategory: [],
@@ -57,10 +116,25 @@ export default {
     subcategory_selected: 0,
     brand: [],
     brand_selected: 0,
+    showDropdown1: false,
     columns: [
       {
         label: "Category",
         field: "name"
+      },
+      {
+        label: "Action",
+        field: "details"
+      }
+    ],
+    sub_columns: [
+      {
+        label: "Sub Category",
+        field: "name"
+      },
+      {
+        label: "Category",
+        field: "category_id"
       },
       {
         label: "Action",
@@ -83,16 +157,29 @@ export default {
       });
     },
     addCategory: function() {
-
       this.closeDropdownPanel();
 
       var payload = new FormData();
-     
-      payload.append('name', this.newCategory)
+
+      payload.append("name", this.newCategory);
 
       this.$store.dispatch("addCategory", payload).then(res => {
         console.log(res);
         this.getCategory();
+        // this.category = JSON.parse(JSON.stringify(res.data));
+      });
+    },
+    addSubCategory: function() {
+      this.closeSubCatModel();
+
+      var payload = {
+        category: this.selected_category,
+        name: this.sub_Category
+      };
+
+      this.$store.dispatch("addSubCategory", payload).then(res => {
+        console.log(res);
+        this.getSubcategories();
         // this.category = JSON.parse(JSON.stringify(res.data));
       });
     },
@@ -102,6 +189,12 @@ export default {
         .then(res => {
           console.log(res);
           this.subcategory = res.data;
+
+          for (var i = 0; i < this.subcategory.length; i++) {
+            this.subcategory[i].category_id = this.category.filter(
+              v => v.id === this.subcategory[i].category
+            )[0]["name"];
+          }
         });
     },
     getBrand: function() {
@@ -134,9 +227,15 @@ export default {
     openDropdownPanel: function() {
       this.showDropdown = true;
     },
+    openSubCatModel: function() {
+      this.showDropdown1 = true;
+    },
     closeDropdownPanel: function() {
       this.showDropdown = false;
     },
+    closeSubCatModel: function() {
+      this.showDropdown1 = false;
+    }
   }
 };
 </script>
@@ -158,7 +257,7 @@ export default {
   margin: auto;
   position: absolute;
   max-width: 400px;
-  height: 260px;
+  height: 290px;
   left: 260px;
   right: 0;
   top: 0;

@@ -76,6 +76,11 @@ export default {
   /*
   ** Build configuration
   */
+
+  router:{
+    base: "/admin/"
+  },
+
   build: {
     /*
     ** You can extend webpack config here

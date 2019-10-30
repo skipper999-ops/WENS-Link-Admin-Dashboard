@@ -71,7 +71,7 @@ export default {
         console.log(res);
         this.subcategory = res.data;
         for(var i = 0; i < res.data.length; i++){
-            if(res.data[i].specs == ""){
+            if(res.data[i].specs == "" || res.data[i].specs == null || res.data[i].specs == undefined){
               this.subcategory[i].status = "Not Added"    
         }else{
               this.subcategory[i].status = "Added"

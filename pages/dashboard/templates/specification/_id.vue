@@ -9,12 +9,11 @@
         <div class="popup-body">
           <div v-for="(p,index) in input" :key="p.id">
             <input v-model="p.name" type="text" style="width:70%" />
-            <a
+            <div
               @click="remove_input(index)"
-              href="#"
               class="remove_field right"
               style="display: inline-block;  font-size:12px"
-            >Remove</a>
+            >Remove</div>
           </div>
         </div>
         <div class="popup-action">
@@ -88,20 +87,18 @@
                         >{{r.name}}</option>
                       </select>
 
-                      <a
+                      <div
                         v-if="q.type == 2 || q.type == 3"
-                        href="#"
                         @click="openDropdownPanel(index, index1)"
                         class="right add_field_button"
                         style="display: inline-block; text-decoration:none; font-size:12px"
-                      >+ Add</a>
+                      >+ Add</div>
 
-                      <a
+                      <div
                         @click="remove_field(index, index1)"
-                        href="#"
                         class="remove_field right"
                         style="display: inline-block;  font-size:12px"
-                      >Remove</a>
+                      >Remove</div>
                     </div>
                   </div>
                 </div>

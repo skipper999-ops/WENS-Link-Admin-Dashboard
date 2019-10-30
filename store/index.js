@@ -208,6 +208,37 @@ export const actions = {
                 })
         })
     },
+    addSubCategory({ commit, state }, payload) {
+
+
+        return new Promise((resolve, reject) => {
+
+            console.log(payload)
+            var bodyFormData = new FormData();
+            bodyFormData.append("name", payload.name);
+            bodyFormData.append("category", payload.category);
+      
+
+            axios({
+                method: 'POST',
+                url: state.api.getsubCategory + "/" + payload.category,
+                data: bodyFormData,
+                contentType: 'application/json',
+                // headers: {
+                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
+                // }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    commit('getCategory', res.data);
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
 
     getsubCategoryDetails({ commit, state }, payload) {
 
@@ -305,7 +336,7 @@ export const actions = {
 
             axios({
                 method: 'GET',
-                url: state.api.allProducts + localStorage.getItem("currentUserID"),
+                url: state.api.allProducts,
                 contentType: 'application/json',
                 // headers: {
                 //     'Authorization': "Bearer " + this.$cookies.get('access_token')
