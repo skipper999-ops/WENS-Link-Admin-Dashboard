@@ -53,15 +53,22 @@
       </div>
       <p>Orders</p>
       <div class="navbar__parent">
-        <nuxt-link to="/orders/all">
+        <nuxt-link to="/dashboard/orders/all">
           <i data-feather="plus-square"></i>
           <span>All</span>
         </nuxt-link>
       </div>
       <div class="navbar__parent">
-        <nuxt-link to="/orders/pending">
+        <nuxt-link to="/dashboard/orders/pending">
           <i data-feather="package"></i>
           <span>Pending</span>
+        </nuxt-link>
+      </div>
+      <p>Users</p>
+      <div class="navbar__parent">
+        <nuxt-link to="/dashboard/users/all">
+          <i data-feather="users"></i>
+          <span>All</span>
         </nuxt-link>
       </div>
       <p>Templates</p>
