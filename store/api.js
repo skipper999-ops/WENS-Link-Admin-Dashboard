@@ -12,10 +12,10 @@ if(process.env.NODE_ENV == "development"){
 
 }else{
 
-    var url = "/backend/api/";
-
+    
 }
 
+var url = "/backend/api/";
 console.log(url)
 
 
