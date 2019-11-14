@@ -51,6 +51,12 @@
           <span>Catalogue</span>
         </nuxt-link>
       </div>
+      <div class="navbar__parent">
+        <nuxt-link to="/dashboard/products/requests">
+          <i data-feather="package"></i>
+          <span>Approval</span>
+        </nuxt-link>
+      </div>
       <p>Orders</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/orders/all">

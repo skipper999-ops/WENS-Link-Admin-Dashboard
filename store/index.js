@@ -637,6 +637,32 @@ export const actions = {
 
 
 
+    allProductsRequests({ commit, state }, payload) {
+
+
+        return new Promise((resolve, reject) => {
+
+            axios({
+                method: 'GET',
+                url: state.api.allProductsRequests,
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+
+
+
 
 
 

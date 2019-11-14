@@ -1,7 +1,9 @@
 <template>
   <div>
+    <client-only>
      <NavBar v-if="$nuxt.$route.name != 'index'" />
     <nuxt />
+    </client-only>
   </div>
 </template>
 

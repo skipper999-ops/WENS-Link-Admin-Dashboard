@@ -13,7 +13,7 @@ if(process.env.NODE_ENV == "development"){
 }else{
 
     var url = "/backend/api/";
-
+    
 }
 
 console.log(url)
@@ -60,6 +60,8 @@ export const state = () => ({
     deleteBrand : url + "products/product/brand/delete/",
 
     getsubCategoryDetails : url + "products/product/subcategory/single/", //id
+
+    allProductsRequests : url + "products/allProductsRequests", //id
 
 
 
