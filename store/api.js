@@ -23,7 +23,7 @@ export const state = () => ({
 
 
 
-    login: url + "login/",
+    login: url + "login/vendors",
 
     imageUpload: url + "products/upload/image",
 
