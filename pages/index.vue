@@ -130,6 +130,8 @@ export default {
 
           if(res.data.status == 200){
 
+          this.$cookies.removeAll()
+
           this.$cookies.set("access_token", res.data.access, {
             path: "/",
             // httpOnly : true,
