@@ -20,7 +20,7 @@
                 <img
                   style="width: 40px; height: 40px; object-fit:contain"
                   :src="
-                    'http://127.0.0.1:8000/media/products/' +
+                    '/media/products/' +
                       props.row.images[0]
                   "
                 />
