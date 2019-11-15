@@ -138,7 +138,7 @@ h3 {
   border-radius: 5px;
   box-shadow: 0px 4px 6px 0px #00000014;
   margin: 0 auto;
-  max-width: 1280px;
+  /* max-width: 1280px; */
 }
 
 @media only screen and (max-width: 600px) {

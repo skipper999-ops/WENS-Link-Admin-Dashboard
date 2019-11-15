@@ -105,7 +105,7 @@
               </div>
             </div>
           </div>
-      <button class="btn" @click="saveSpecs">Save</button>
+            <button class="btn" @click="saveSpecs">Save</button>
         </div>
       </div>
     </div>
@@ -196,6 +196,7 @@ export default {
       this.$store.dispatch('saveSpecs', payload ).then(res => {
           console.log(res);
           console.log("response");
+           this.$router.push("/dashboard/templates/specification");
         })
         .catch(err => {
           console.log("error in request", err);

@@ -134,7 +134,7 @@ export default {
       },
       {
         label: "Category",
-        field: "category_id"
+        field: "name"
       },
       {
         label: "Action",
@@ -147,7 +147,7 @@ export default {
   mounted() {
     this.getCategory();
     this.getSubcategories();
-    this.getBrand();
+    // this.getBrand();
   },
   methods: {
     getCategory: function() {
@@ -157,8 +157,8 @@ export default {
       });
     },
     addCategory: function() {
-      this.closeDropdownPanel();
-
+      
+      
       var payload = new FormData();
 
       payload.append("name", this.newCategory);
@@ -166,6 +166,8 @@ export default {
       this.$store.dispatch("addCategory", payload).then(res => {
         console.log(res);
         this.getCategory();
+        this.newCategory = ""
+        this.closeDropdownPanel();
         // this.category = JSON.parse(JSON.stringify(res.data));
       });
     },
@@ -190,11 +192,10 @@ export default {
           console.log(res);
           this.subcategory = res.data;
 
-          for (var i = 0; i < this.subcategory.length; i++) {
-            this.subcategory[i].category_id = this.category.filter(
-              v => v.id === this.subcategory[i].category
-            )[0]["name"];
-          }
+          // for (var i = 0; i < this.subcategory.length; i++) {
+          //   this.subcategory[i].category_id = this.category.filter(
+          //     v => v.id === this.subcategory[i].category     )["name"];
+          // }
         });
     },
     getBrand: function() {
@@ -231,7 +232,8 @@ export default {
       this.showDropdown1 = true;
     },
     closeDropdownPanel: function() {
-      this.showDropdown = false;
+      this.showDropdown = false
+      this.newCategory = ""
     },
     closeSubCatModel: function() {
       this.showDropdown1 = false;

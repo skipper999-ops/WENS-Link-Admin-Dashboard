@@ -63,6 +63,10 @@ export const state = () => ({
 
     allProductsRequests : url + "products/allProductsRequests", //id
 
+    changeProductStatus : url + "products/product/changeProductStatus/", //id
+
+    getAllSeller : url + "users/", //id
+
 
 
 

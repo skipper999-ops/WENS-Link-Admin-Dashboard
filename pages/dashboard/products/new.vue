@@ -363,8 +363,7 @@ export default {
       acceptedFiles: ".png, .jpeg, .jpg",
       url: vm.$store.state.api.imageUpload,
       headers: {
-        // remove Cache-Control and X-Requested-With
-        // to be sent along with the request
+        'Authorization': "Bearer " + vm.$cookies.get('access_token'),
         "Cache-Control": null,
         "X-Requested-With": null
       }

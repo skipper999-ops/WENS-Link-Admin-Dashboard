@@ -33,11 +33,12 @@
 
     <perfect-scrollbar id="mySidenav" class="sidenav hidden-xs hidden-sm padding-bottom-30">
       <div class="flex align-item">
-        <img src="" class="sideNav__Logo" />
-        <div style="cursor:pointer" class="hidden-lg" @click="toggleSidenav">
+        <img src="~static/files/logo.png" class="sideNav__Logo" />
+        <div style="cursor:pointer" class="hide-on-med-and-up" @click="toggleSidenav">
           <i data-feather="x"></i>
         </div>
       </div>
+      <p style="font-family:bold">WENSLink Admin Dashboard</p>
       <p>Product</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/products/new">
@@ -72,9 +73,9 @@
       </div>
       <p>Users</p>
       <div class="navbar__parent">
-        <nuxt-link to="/dashboard/users/all">
+        <nuxt-link to="/dashboard/users/sellers">
           <i data-feather="users"></i>
-          <span>All</span>
+          <span>Sellers</span>
         </nuxt-link>
       </div>
       <p>Templates</p>

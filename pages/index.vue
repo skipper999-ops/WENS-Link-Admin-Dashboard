@@ -128,6 +128,8 @@ export default {
           console.log("res", res);
           console.log("response");
 
+          if(res.data.status == 200){
+
           this.$cookies.set("access_token", res.data.access, {
             path: "/",
             // httpOnly : true,
@@ -143,6 +145,9 @@ export default {
           });
 
           this.$router.push("/dashboard/products/all");
+          }else{
+            alert(res.data.message)
+          }
         })
         .catch(err => {
           console.log(err);

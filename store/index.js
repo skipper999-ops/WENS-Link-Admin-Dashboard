@@ -137,9 +137,9 @@ export const actions = {
                 method: 'GET',
                 url: state.api.getCategory,
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                    'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -164,6 +164,9 @@ export const actions = {
                 url: state.api.getCategory,
                 data: payload,
                 contentType: 'application/json',
+                headers: {
+                    'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -193,9 +196,9 @@ export const actions = {
                 method: 'GET',
                 url: state.api.getsubCategory + "/" + payload,
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                    'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -224,9 +227,9 @@ export const actions = {
                 url: state.api.getsubCategory + "/" + payload.category,
                 data: bodyFormData,
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -249,9 +252,9 @@ export const actions = {
                 method: 'GET',
                 url: state.api.getsubCategoryDetails + payload,
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res)
@@ -281,10 +284,10 @@ export const actions = {
                 method: 'PUT',
                 url: state.api.getsubCategoryDetails + payload.id,
                 contentType: 'application/json',
-                data: bodyFormData
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                data: bodyFormData,
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -313,9 +316,9 @@ export const actions = {
                 method: 'GET',
                 url: state.api.getBrand + "/" + payload,
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -338,9 +341,9 @@ export const actions = {
                 method: 'GET',
                 url: state.api.allProducts,
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -363,9 +366,9 @@ export const actions = {
                 method: 'GET',
                 url: state.api.getAllOrder,
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -388,9 +391,9 @@ export const actions = {
                 method: 'GET',
                 url: state.api.getAllAuction,
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -413,9 +416,9 @@ export const actions = {
                 method: 'GET',
                 url: state.api.getAllCompletedAuction + localStorage.getItem("currentUserID"),
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -438,9 +441,9 @@ export const actions = {
                 method: 'GET',
                 url: state.api.getAllOngoingAuction + localStorage.getItem("currentUserID"),
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -463,9 +466,9 @@ export const actions = {
                 method: 'GET',
                 url: state.api.singleProduct + localStorage.getItem("auction_item"),
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -491,9 +494,9 @@ export const actions = {
                 data: payload,
                 url: state.api.addProduct,
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -517,9 +520,9 @@ export const actions = {
                 data: payload,
                 url: state.api.addAuction,
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -542,9 +545,9 @@ export const actions = {
                 data: payload,
                 url: state.api.deleteProduct + payload + "/",
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -568,9 +571,9 @@ export const actions = {
                 data: payload,
                 url: state.api.deleteCategory + payload ,
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -594,9 +597,9 @@ export const actions = {
                 data: payload,
                 url: state.api.deleteSubCategory + payload ,
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -620,9 +623,9 @@ export const actions = {
                 data: payload,
                 url: state.api.deleteBrand + payload ,
                 contentType: 'application/json',
-                // headers: {
-                //     'Authorization': "Bearer " + this.$cookies.get('access_token')
-                // }
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
             })
                 .then(res => {
                     console.log(res.data)
@@ -645,6 +648,62 @@ export const actions = {
             axios({
                 method: 'GET',
                 url: state.api.allProductsRequests,
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+
+
+    changeProductStatus({ commit, state }, payload) {
+
+
+        return new Promise((resolve, reject) => {
+
+            var bodyFormData = new FormData()
+
+            bodyFormData.append('status' , payload.status)
+
+            axios({
+                method: 'PUT',
+                data: bodyFormData,
+                url: state.api.changeProductStatus + payload.id,
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+
+    getAllSeller({ commit, state }) {
+
+
+        return new Promise((resolve, reject) => {
+
+
+
+            axios({
+                method: 'GET',
+                url: state.api.getAllSeller,
                 contentType: 'application/json',
                 headers: {
                     'Authorization': "Bearer " + this.$cookies.get('access_token')
