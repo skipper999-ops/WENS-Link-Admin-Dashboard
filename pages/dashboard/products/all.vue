@@ -28,6 +28,13 @@
               <span v-if="props.column.field === 'details'">
                 <button
                   type="button"
+                  @click="editProduct(props.row.id)"
+                  class="btn btn-primary"
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
                   @click="deleteProduct(props.row.id)"
                   class="btn btn-primary"
                 >
@@ -100,7 +107,14 @@ export default {
         console.log(res);
         this.getAllProducts();
       });
-    }
+    },
+    editProduct: function(id) {
+      console.log(id)
+      this.$router.push('/dashboard/products/edit/' + id)
+      //  this.$store.dispatch("getSingleProduct", id).then(res => {
+      //   console.log(res);
+      // });
+    },
   }
 };
 </script>

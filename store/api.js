@@ -67,6 +67,8 @@ export const state = () => ({
 
     getAllSeller : url + "users/", //id
 
+    getSingleProducts : url + "products/single/", //id
+
 
 
 
