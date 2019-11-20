@@ -24,7 +24,7 @@
                 <img
                   class="product-image"
                   :src="
-                    'http://127.0.0.1:8000/media/products/' + images[0]
+                    '/media/products/' + images[0]
                   "
                 />
               </div>
@@ -548,7 +548,7 @@ export default {
           this.myDropzone.options.thumbnail.call(
             this.myDropzone,
             mockFile,
-            "http://127.0.0.1:8000/media/products/" + this.images[i]
+            "/media/products/" + this.images[i]
           );
           mockFile.previewElement.classList.add("dz-complete");
         }
