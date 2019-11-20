@@ -222,7 +222,7 @@
                     <label>{{q.name}}</label>
 
                     <div v-if="q.type == 1">
-                      <input type="text" />
+                      <input type="text" v-model="q.value" />
                     </div>
 
                     <div style="display: flex;" v-if="q.type == 2">

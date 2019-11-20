@@ -585,6 +585,31 @@ export const actions = {
         })
     },
 
+    updateProduct({ commit, state },  { payload, id }) {
+
+
+        return new Promise((resolve, reject) => {
+
+            axios({
+                method: 'PUT',
+                data: payload,
+                url: state.api.getSingleProducts + id + "/",
+                contentType: 'application/json',
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+
 
     deleteCategory({ commit, state }, payload) {
 
