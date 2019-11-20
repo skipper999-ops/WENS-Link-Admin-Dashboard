@@ -548,7 +548,7 @@ export default {
           this.myDropzone.options.thumbnail.call(
             this.myDropzone,
             mockFile,
-            "/media/products/" + this.images[i]
+            "https://www.wenslink.com/media/products/" + this.images[i]
           );
           mockFile.previewElement.classList.add("dz-complete");
         }
@@ -685,4 +685,5 @@ export default {
   padding: 2rem 1rem;
   object-fit: cover;
 }
+
 </style>

@@ -16,8 +16,15 @@
         <div class="row">
           <vue-good-table :columns="columns" :rows="allproducts">
             <template slot="table-row" slot-scope="props">
-              <span v-if="props.column.field === 'details1'">
-                <button type="button" @click="deleteProduct(props.row.id)" class="btn btn-primary">Delete</button>
+              <span v-if="props.column.field === 'details'">
+                <button v-if="props.row.status != 0" type="button" @click="changeStatus(props.row.id , 0)" class="btn btn-primary">Delete</button>
+                <button v-if="props.row.status != 1" type="button" @click="changeStatus(props.row.id , 1)" class="btn btn-primary">Active</button>
+                <button v-if="props.row.status != 2" type="button" @click="changeStatus(props.row.id , 2)" class="btn btn-primary">Suspend</button>
+              </span>
+              <span v-if="props.column.field === 'status'">
+                <p v-if="props.row.status == 0">Deleted</p>
+                <p v-if="props.row.status == 1">Active</p>
+                <p v-if="props.row.status == 2">Suspended</p>
               </span>
               <span v-else>{{ props.formattedRow[props.column.field] }}</span>
             </template>
@@ -47,8 +54,8 @@ export default {
           field: "email"
         },
         {
-          label: "Verified",
-          field: "isVerified"
+          label: "Status",
+          field: "status"
         },
         {
           label: "Action",
@@ -77,8 +84,11 @@ export default {
         this.allproducts = JSON.parse(JSON.stringify(res.data));
       });
     },
-    deleteProduct: function(id) {
-      this.$store.dispatch("deleteProduct", id).then(res => {
+    changeStatus: function(id, status) {
+      this.$store.dispatch("changeUserStatus", {
+        id: id,
+        status: status
+      }).then(res => {
         console.log(res);
         this.getAllProducts();
       });

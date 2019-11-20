@@ -159,4 +159,13 @@ h3 {
     border-bottom: 1px dashed #d4d4d4;
     margin: 45px 0;
 }
+
+
+
+.dropzone .dz-preview .dz-image img{
+  height: 120px;
+  width:120px;
+  object-fit: cover;
+
+}
 </style>

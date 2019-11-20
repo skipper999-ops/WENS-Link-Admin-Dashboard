@@ -743,6 +743,34 @@ export const actions = {
                 })
         })
     },
+    changeUserStatus({ commit, state }, { id, status}) {
+
+
+        return new Promise((resolve, reject) => {
+
+            var bodyFormData = new FormData()
+
+            bodyFormData.append('status' , status)
+
+            axios({
+                method: 'PUT',
+                data: bodyFormData,
+                url: state.api.changeUserStatus + id,
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
 
     getAllSeller({ commit, state }) {
 
