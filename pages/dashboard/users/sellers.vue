@@ -14,7 +14,7 @@
         </div>
 
         <div class="row">
-          <vue-good-table :columns="columns" :rows="allproducts">
+          <vue-good-table :columns="columns" :rows="allproducts" :line-numbers="true">
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field === 'details'">
                 <button v-if="props.row.status != 0" type="button" @click="changeStatus(props.row.id , 0)" class="btn btn-primary">Delete</button>
