@@ -70,6 +70,10 @@ html, body{
     background-color: #f9f9f9
 }
 
+.overflow{
+  overflow: hidden;
+}
+
 table.vgt-table{
   font-size: 13px!important
 }
@@ -81,6 +85,10 @@ table.vgt-table{
   color: #3b8070;
   text-decoration: none;
   padding: 10px 30px;
+}
+
+.vgt-inner-wrap{
+  padding: 0 10px
 }
 
 .button--green:hover {

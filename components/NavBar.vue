@@ -3,40 +3,27 @@
 
     <div class="padding-top-20">
       <nav class="topnav box-shadow padding-left-10 padding-right-10 row">
-        <!-- <div class="flex align-item col" style="height:100%">
+        <div class="flex align-item col" style="height:100%">
           <div class="visible-xs visible-sm">
-            <a @click="toggleSidenav">
+            <a @click="toggleSidenav" class="pointer">
               <i data-feather="menu"></i>
             </a>
           </div>
-          <div class="hidden-xs">
-            <div class="tooltip_custom">
-              <nuxt-link to="/dashboard/parcels/pending">
-                <i data-feather="package"></i>
-              </nuxt-link>
-              <span class="tooltiptext">All Products</span>
-            </div>
+          <div class="visible-xs visible-sm">
+              <p class="white-text" style="line-height:64px;font-family:'Bold'; font-size: 17px">WENSLink Admin Dashboard</p>
           </div>
         </div>
-
-        <div class="flex align-item col right" style="height:100%; justify-content:flex-end">
-          <div class="flex align-item">
-            <div style="padding-right:10px" class="hidden-xs">
-              <p class="font-30">{{currentUserEmail}}</p>
-            </div>
-          </div>
-        </div> -->
       </nav>
     </div>
 
 
 
     <perfect-scrollbar id="mySidenav" class="sidenav hidden-xs hidden-sm padding-bottom-30">
-      <div class="flex align-item">
-        <img src="~static/files/logo.png" class="sideNav__Logo" />
-        <div style="cursor:pointer" class="hide-on-med-and-up" @click="toggleSidenav">
+        <div style="cursor:pointer; text-align:right;padding-right:20px" class="hide-on-large-only" @click="toggleSidenav">
           <i data-feather="x"></i>
         </div>
+      <div class="flex align-item">
+        <img src="~static/files/logo.png" class="sideNav__Logo" />
       </div>
       <p style="font-family:bold">WENSLink Admin Dashboard</p>
       <p>Product</p>
@@ -221,12 +208,22 @@ export default {
   mounted() {
     feather.replace({ color: 'white' })
 
+    var vm = this
+
     this.currentUserEmail = localStorage.getItem('currentUserEmail')
+
+      $('.navbar__parent').click(function(){
+
+        vm.toggleSidenav()
+
+      })
+
 
   },
   methods: {
     toggleSidenav: function() {
-      $('#mySidenav').toggleClass('hidden-xs hidden-sm')
+      $('#mySidenav').toggleClass('open')
+      $('body').toggleClass('overflow')
     },
     logout: function() {
       document.cookie.split(';').forEach(function(c) {
@@ -247,7 +244,7 @@ export default {
 }
 
 .sideNav__Logo {
-  width: 85%;
+  width: 100%;
   object-fit: contain;
   height: 80px;
 }
@@ -321,6 +318,9 @@ p {
   .sidenav {
     transform: translate3d(-260px,0,0);
   }
+  .sidenav.open {
+    transform: translate3d(0,0,0);
+  }
 }
 
 .breadcrumb {
@@ -340,9 +340,10 @@ p {
   float: left;
   color: #f2f2f2;
   text-align: center;
-  padding: 14px 10px;
+  padding: 20px 10px;
   text-decoration: none;
   font-size: 17px;
+  height: 62px
 }
 
 .topnav a:hover {
@@ -380,5 +381,12 @@ p {
 svg{
   width: 20px;
 }
+
+
+.flex{
+  display: flex
+}
+
+
 </style>
 

@@ -25,8 +25,9 @@
                   "
                 />
               </span>
-              <span v-if="props.column.field === 'details'">
+              <span v-if="props.column.field === 'details'" style="display: flex;">
                 <button
+                style="margin-right: 10px"
                   type="button"
                   @click="editProduct(props.row.id)"
                   class="btn btn-primary"
