@@ -5,7 +5,7 @@
       <nav class="topnav box-shadow padding-left-10 padding-right-10 row">
         <div class="flex align-item col" style="height:100%">
           <div class="visible-xs visible-sm">
-            <a @click="toggleSidenav" class="pointer">
+            <a @click="openSidenav" class="pointer">
               <i data-feather="menu"></i>
             </a>
           </div>
@@ -19,7 +19,7 @@
 
 
     <perfect-scrollbar id="mySidenav" class="sidenav hidden-xs hidden-sm padding-bottom-30">
-        <div style="cursor:pointer; text-align:right;padding-right:20px" class="hide-on-large-only" @click="toggleSidenav">
+        <div style="cursor:pointer; text-align:right;padding-right:20px" class="hide-on-large-only" @click="closeSidenav">
           <i data-feather="x"></i>
         </div>
       <div class="flex align-item">
@@ -214,16 +214,20 @@ export default {
 
       $('.navbar__parent').click(function(){
 
-        vm.toggleSidenav()
+        vm.closeSidenav()
 
       })
 
 
   },
   methods: {
-    toggleSidenav: function() {
-      $('#mySidenav').toggleClass('open')
-      $('body').toggleClass('overflow')
+    openSidenav: function() {
+      $('#mySidenav').addClass('open')
+      $('body').addClass('overflow')
+    },
+    closeSidenav: function() {
+      $('#mySidenav').removeClass('open')
+      $('body').removeClass('overflow')
     },
     logout: function() {
       document.cookie.split(';').forEach(function(c) {
