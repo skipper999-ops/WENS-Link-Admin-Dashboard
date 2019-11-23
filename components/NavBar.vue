@@ -10,7 +10,7 @@
             </a>
           </div>
           <div class="visible-xs visible-sm">
-              <p class="white-text" style="line-height:64px;font-family:'Bold'; font-size: 17px">WENSLink Admin Dashboard</p>
+              <p class="white-text hide-on-large-only" style="line-height:64px;font-family:'Bold'; font-size: 17px">WENSLink Admin Dashboard</p>
           </div>
         </div>
       </nav>
