@@ -338,94 +338,7 @@
         </div>
       </div>
 
-      <div class="holder" v-if="not_similar == 1">
-        <h3>Specifications has been updated</h3>
-        <div v-if="specs == ''">
-          <p style="padding-left: 19px;padding-bottom: 10px;">
-            Specifications not added. Go to
-            <nuxt-link
-              :to="
-                '/dashboard/templates/specification/' +
-                  this.subcategory_selected
-              "
-              >Specifications
-            </nuxt-link>
-            and add them
-          </p>
-        </div>
-        <div v-if="specs != ''">
-          <p style="padding-left: 19px;padding-bottom: 10px;">
-            You can edit
-            <nuxt-link
-              :to="
-                '/dashboard/templates/specification/' +
-                  this.subcategory_selected
-              "
-              >Specifications</nuxt-link
-            >
-            here
-          </p>
-        </div>
-        <!-- <p>Please Complete the specification section</p> -->
-        <div v-if="specs != ''">
-          <div
-            v-for="(p, index) in specs"
-            :key="p.id"
-            class="input_fields_wrap drag-list"
-            id="h"
-          >
-            <h3>{{ p.name }}</h3>
-            <div class="row">
-              <div class="col s12">
-                <div
-                  class="col s24"
-                  v-for="(q, index1) in p['sub']"
-                  :key="q.id"
-                >
-                  <div class="form-group">
-                    <label>{{ q.name }}</label>
 
-                    <div v-if="q.type == 1">
-                      <input type="text" v-model="q.value" />
-                    </div>
-
-                    <div style="display: flex;" v-if="q.type == 2">
-                      <select
-                        v-model="q.value"
-                        style="display: inline-block; width: 100% "
-                      >
-                        >
-                        <option
-                          v-for="r in q.dropdown_items"
-                          :key="r.id"
-                          :value="r.name"
-                          >{{ r.name }}</option
-                        >
-                      </select>
-                    </div>
-
-                    <div style="display: flex;" v-if="q.type == 3">
-                      <input type="text" v-model="q.value" />
-                      <select
-                        v-model="q.dropdown"
-                        style="display: inline-block; width: 30% "
-                      >
-                        >
-                        <option
-                          v-for="r in q.dropdown_items"
-                          :key="r.id"
-                          :value="r.name"
-                          >{{ r.name }}</option
-                        >
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div class="holder" v-if="selected.slug != ''">
         <h3 class>Submit Product</h3>
@@ -556,30 +469,40 @@ export default {
         }
 
 
-      for (let key1 in this.selected.specs){
-            var specs = this.selected.specs;
+
+
+          setTimeout(function() {
+            for (let key1 in vm.selected.specs){
+              var specs = vm.selected.specs;
 
             console.log(specs);
 
                for (let key2 in specs[key1].sub){
+                 
+                 vm.$set(vm.specs[key1].sub[key2], 'value', specs[key1].sub[key2].value)
 
+                 console.log(vm.specs)
                  
                  
                  if (specs[key1].sub[key2].type == 3) {
                    
-                   
-                   this.specs[key1].sub[key2].dropdown = specs[key1].sub[key2].dropdown;
-                this.specs[key1].sub[key2].value = specs[key1].sub[key2].value;
+
+                vm.$set(vm.specs[key1].sub[key2], 'dropdown', specs[key1].sub[key2].dropdown)
+                vm.$set(vm.specs[key1].sub[key2], 'value', specs[key1].sub[key2].value)
 
                 } else {
                   
-                  console.log("ssss" , specs[key1].sub[key2].value)
-                  this.$set(this.specs[key1].sub[key2], 'value', specs[key1].sub[key2].value)
+                  vm.$set(vm.specs[key1].sub[key2], 'value', specs[key1].sub[key2].value)
+                  console.log(this.specs)
                 }
 
 
             }
           }
+        }, 100);
+
+
+
       });
   },
   methods: {
