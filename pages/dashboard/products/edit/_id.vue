@@ -540,7 +540,7 @@ export default {
         this.bullet_points = JSON.parse(this.selected.bullet_points);
         this.selected.specs = JSON.parse(this.selected.specs);
 
-        // this.getsubCategoryDetails();
+        this.getsubCategoryDetails();
 
         this.specs = JSON.parse(this.selected.subcategory.specs);
 
@@ -574,25 +574,6 @@ export default {
               }
             }
           }
-
-        // setTimeout(function() {
-        //   for (var i = 0; i < vm.selected.specs.length; i++) {
-        //     var specs = vm.selected.specs;
-
-        //     console.log(specs);
-
-        //     for (var j = 0; j < specs[i].sub.length; j++) {
-        //       if (specs[i].sub[j].type == 3) {
-        //         console.log("select." + specs[i].sub[j].id)
-        //         console.log(specs[i].sub[j].dropdown)
-        //         $("select." + specs[i].sub[j].id).val(specs[i].sub[j].dropdown);
-        //         $("input." + specs[i].sub[j].id).val(specs[i].sub[j].value);
-        //       } else {
-        //         $("#" + specs[i].sub[j].id).val(specs[i].sub[j].value);
-        //       }
-        //     }
-        //   }
-        // }, 100);
       });
   },
   methods: {
