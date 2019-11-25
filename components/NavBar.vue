@@ -73,6 +73,12 @@
         </nuxt-link>
       </div>
       <div class="navbar__parent">
+        <nuxt-link to="/dashboard/templates/subcategory">
+          <i data-feather="hash"></i>
+          <span>Sub Category</span>
+        </nuxt-link>
+      </div>
+      <div class="navbar__parent">
         <nuxt-link to="/dashboard/templates/specification">
           <i data-feather="hash"></i>
           <span>Specification</span>

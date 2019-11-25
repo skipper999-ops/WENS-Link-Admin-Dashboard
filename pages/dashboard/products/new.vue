@@ -222,12 +222,11 @@
                     <label>{{q.name}}</label>
 
                     <div v-if="q.type == 1">
-                      <input type="text" v-model="q.value" />
+                      <input class="specs-value" :data-id="q.id" type="text" v-model="q.value" />
                     </div>
 
                     <div style="display: flex;" v-if="q.type == 2">
-                      <select v-model="q.value" style="display: inline-block; width: 100% ">
-                        >
+                      <select class="specs-value" :data-id="q.id" v-model="q.value" style="display: inline-block; width: 100% ">
                         <option
                           v-for="r in q.dropdown_items"
                           :key="r.id"
@@ -237,9 +236,8 @@
                     </div>
 
                     <div style="display: flex;" v-if="q.type == 3">
-                      <input type="text" v-model="q.value" />
-                      <select v-model="q.dropdown" style="display: inline-block; width: 30% ">
-                        >
+                      <input class="specs-value" type="text" :data-id="q.id" v-model="q.value" />
+                      <select class="specs-value" :data-id="q.id" v-model="q.dropdown" style="display: inline-block; width: 30% ">
                         <option
                           v-for="r in q.dropdown_items"
                           :key="r.id"

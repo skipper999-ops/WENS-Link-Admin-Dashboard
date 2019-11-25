@@ -1,21 +1,5 @@
 <template>
   <div class="navbar-spacing padding-top-30">
-    <div v-if="showDropdown" class="popup">
-      <div class="popup-main">
-        <div class="popup-title">
-          <h3>Add Category</h3>
-        </div>
-        <div class="popup-body">
-          <div>
-            <input v-model="newCategory" type="text" style="width:70%" />
-          </div>
-        </div>
-        <div class="popup-action">
-          <div class="pointer" @click="addCategory">Save</div>
-          <div class="pointer" @click="closeDropdownPanel">Cancel</div>
-        </div>
-      </div>
-    </div>
     <div v-if="showDropdown1" class="popup">
       <div class="popup-main">
         <div class="popup-title">
@@ -42,9 +26,9 @@
         class="column-padding header-bottom"
         style="display: flex; justify-content: space-between"
       >
-        <h3 style="display: flex;align-items: center;">All Categories</h3>
+        <h3 style="display: flex;align-items: center;">All Sub Categories</h3>
         <button
-          @click="openDropdownPanel"
+          @click="openSubCatModel"
           class="btn btn-red"
           style="display: flex;align-items: center;"
         >
@@ -53,12 +37,12 @@
       </div>
 
       <div class="row">
-        <vue-good-table :columns="columns" :rows="category">
+        <vue-good-table :columns="sub_columns" :rows="subcategory">
           <template slot="table-row" slot-scope="props">
             <span v-if="props.column.field === 'details'">
               <button
                 type="button"
-                @click="deleteCategory(props.row.id)"
+                @click="deleteSubCategory(props.row.id)"
                 class="btn btn-primary"
               >Delete</button>
             </span>
@@ -67,7 +51,6 @@
         </vue-good-table>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -104,7 +87,7 @@ export default {
       },
       {
         label: "Category",
-        field: "name"
+        field: "category.name"
       },
       {
         label: "Action",

@@ -23,9 +23,7 @@
               <div class="column-left">
                 <img
                   class="product-image"
-                  :src="
-                    '/media/products/' + images[0]
-                  "
+                  :src="'/media/products/' + images[0]"
                 />
               </div>
               <div class="column-right">
@@ -280,7 +278,7 @@
         <!-- <p>Please Complete the specification section</p> -->
         <div v-if="selected.specs != ''">
           <div
-            v-for="(p, index) in selected.specs"
+            v-for="(p, index) in specs"
             :key="p.id"
             class="input_fields_wrap drag-list"
             id="h"
@@ -297,12 +295,13 @@
                     <label>{{ q.name }}</label>
 
                     <div v-if="q.type == 1">
-                      <input type="text" v-model="q.value" />
+                      <input type="text" :id="q.id" v-model="q.value" />
                     </div>
 
                     <div style="display: flex;" v-if="q.type == 2">
                       <select
                         v-model="q.value"
+                        :id="q.id"
                         style="display: inline-block; width: 100% "
                       >
                         >
@@ -316,9 +315,10 @@
                     </div>
 
                     <div style="display: flex;" v-if="q.type == 3">
-                      <input type="text" v-model="q.value" />
+                      <input type="text" :class="q.id" v-model="q.value" />
                       <select
                         v-model="q.dropdown"
+                        :class="q.id"
                         style="display: inline-block; width: 30% "
                       >
                         >
@@ -472,7 +472,7 @@ export default {
         }
       ],
       specs: [],
-      subcategory_selected: undefined
+      subcategory_selected: []
     };
   },
 
@@ -536,11 +536,13 @@ export default {
         console.log(res);
         this.selected = res.data;
         this.images = JSON.parse(this.selected.images);
-        this.subcategory_selected = this.selected.subcategory.id;
+        this.subcategory_selected = this.selected.subcategory;
         this.bullet_points = JSON.parse(this.selected.bullet_points);
         this.selected.specs = JSON.parse(this.selected.specs);
 
-        this.getsubCategoryDetails();
+        // this.getsubCategoryDetails();
+
+        this.specs = JSON.parse(this.selected.subcategory.specs);
 
         for (var i = 0; i < this.images.length; i++) {
           var mockFile = { name: this.images[i] };
@@ -552,6 +554,45 @@ export default {
           );
           mockFile.previewElement.classList.add("dz-complete");
         }
+
+
+        for (var i = 0; i < this.selected.specs.length; i++) {
+            var specs = this.selected.specs;
+
+            console.log(specs);
+
+            for (var j = 0; j < specs[i].sub.length; j++) {
+              if (this.specs[i].length != 0) {
+              if (specs[i].sub[j].type == 3) {
+
+                this.specs[i].sub[j].dropdown = specs[i].sub[j].dropdown;
+               this.specs[i].sub[j].value = specs[i].sub[j].value;
+
+              } else {
+                this.specs[i].sub[j].value = specs[i].sub[j].value;
+              }
+              }
+            }
+          }
+
+        // setTimeout(function() {
+        //   for (var i = 0; i < vm.selected.specs.length; i++) {
+        //     var specs = vm.selected.specs;
+
+        //     console.log(specs);
+
+        //     for (var j = 0; j < specs[i].sub.length; j++) {
+        //       if (specs[i].sub[j].type == 3) {
+        //         console.log("select." + specs[i].sub[j].id)
+        //         console.log(specs[i].sub[j].dropdown)
+        //         $("select." + specs[i].sub[j].id).val(specs[i].sub[j].dropdown);
+        //         $("input." + specs[i].sub[j].id).val(specs[i].sub[j].value);
+        //       } else {
+        //         $("#" + specs[i].sub[j].id).val(specs[i].sub[j].value);
+        //       }
+        //     }
+        //   }
+        // }, 100);
       });
   },
   methods: {
@@ -570,7 +611,7 @@ export default {
       payload.append("manufacturer", this.selected.manufacturer);
       payload.append("seo", this.selected.seo);
       payload.append("bullet_points", JSON.stringify(this.bullet_points));
-      payload.append("specs", JSON.stringify(this.selected.specs));
+      payload.append("specs", JSON.stringify(this.specs));
 
       this.$store
         .dispatch("updateProduct", {
@@ -601,7 +642,7 @@ export default {
     getsubCategoryDetails: function() {
       if (this.subcategory_selected != undefined) {
         this.$store
-          .dispatch("getsubCategoryDetails", this.subcategory_selected)
+          .dispatch("getsubCategoryDetails", this.subcategory_selected.id)
           .then(res => {
             console.log(res);
             console.log("response");
@@ -685,5 +726,4 @@ export default {
   padding: 2rem 1rem;
   object-fit: cover;
 }
-
 </style>

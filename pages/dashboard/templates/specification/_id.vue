@@ -7,13 +7,15 @@
           <div class="add_dropdown pointer" @click="addInput">+</div>
         </div>
         <div class="popup-body">
-          <div v-for="(p,index) in input" :key="p.id">
+          <div v-for="(p, index) in input" :key="p.id">
             <input v-model="p.name" type="text" style="width:70%" />
             <div
               @click="remove_input(index)"
               class="remove_field right"
               style="display: inline-block;  font-size:12px"
-            >Remove</div>
+            >
+              Remove
+            </div>
           </div>
         </div>
         <div class="popup-action">
@@ -25,7 +27,7 @@
 
     <div class="specification">
       <div class="holder">
-        <h3>{{subCat}}</h3>
+        <h3>{{ subCat }}</h3>
         <div>
           <div
             class="white"
@@ -35,8 +37,13 @@
               class="section toolbar"
               style="display: flex;justify-content: space-between;border-bottom: 1px solid #e6e6e6"
             >
-              <div class="container" style="display: flex;justify-content: space-between;">
-                <div class="add-section" @click="add_section">+ Add Section</div>
+              <div
+                class="container"
+                style="display: flex;justify-content: space-between;"
+              >
+                <div class="add-section" @click="add_section">
+                  + Add Section
+                </div>
                 <!-- <div class="add-section grey">Reset to Default</div> -->
               </div>
             </div>
@@ -49,8 +56,12 @@
                   id="h"
                 >
                   <div style="display:flex;justify-content:space-between">
-                    <div class="add_field_button" @click="add_field(index)">Add More Fields</div>
-                    <div class="remove-section" @click="remove_section(index)">Remove Section</div>
+                    <div class="add_field_button" @click="add_field(index)">
+                      Add More Fields
+                    </div>
+                    <div class="remove-section" @click="remove_section(index)">
+                      Remove Section
+                    </div>
                   </div>
                   <br />
                   <input
@@ -61,7 +72,11 @@
                     style="display: inline-block;"
                   />
                   <div class="row">
-                    <div v-for="(q, index1) in p['sub']" :key="q.id" class="col l24">
+                    <div
+                      v-for="(q, index1) in p['sub']"
+                      :key="q.id"
+                      class="col s24"
+                    >
                       <input
                         class="input' + id + '"
                         placeholder="Field"
@@ -70,7 +85,10 @@
                         type="text"
                         style="display: inline-block; width: 35%"
                       />
-                      <select v-model="q.type" style="display: inline-block; width: 15% ">
+                      <select
+                        v-model="q.type"
+                        style="display: inline-block; width: 15% "
+                      >
                         <option value="1">Text</option>
                         <option value="2">Dropdown</option>
                         <option value="3">Mixed</option>
@@ -84,7 +102,8 @@
                           v-for="r in q.dropdown_items"
                           :key="r.id"
                           :value="r.type"
-                        >{{r.name}}</option>
+                          >{{ r.name }}</option
+                        >
                       </select>
 
                       <div
@@ -92,26 +111,29 @@
                         @click="openDropdownPanel(index, index1)"
                         class="right add_field_button"
                         style="display: inline-block; text-decoration:none; font-size:12px"
-                      >+ Add</div>
+                      >
+                        + Add
+                      </div>
 
                       <div
                         @click="remove_field(index, index1)"
                         class="remove_field right"
                         style="display: inline-block;  font-size:12px"
-                      >Remove</div>
+                      >
+                        Remove
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-            <button class="btn" @click="saveSpecs">Save</button>
+          <button class="btn" @click="saveSpecs">Save</button>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -122,31 +144,45 @@ export default {
       input: [{ name: "" }],
       dropdown_title: "false",
       category: this.$route.params.id,
-      data: [
-        {
-          name: "",
-          sub: [
-            { name: "", type: 1, dropdown_items: [{ name: "", type: 1 }] }
-          ]
-        }
-      ]
+      data: []
     };
   },
 
   methods: {
+    makeid: function(length) {
+      var result = "";
+      var characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      var charactersLength = characters.length;
+      for (var i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      return new Date().getTime() + result;
+    },
     add_field: function(index) {
       // this.field += 1;
       console.log(index);
       this.data[index].sub.push({
         name: "",
-        type: 1,
+        type: "1",
+        id: this.makeid(5),
         dropdown_items: [{ name: "", type: 1 }]
       });
     },
     add_section: function() {
       var a = {
         name: "",
-        sub: [{ name: "", type: 1, dropdown_items: [{ name: "", type: 1 }] }]
+        id: this.makeid(5),
+        sub: [
+          {
+            name: "",
+            id: this.makeid(5),
+            type: "1",
+            dropdown_items: [{ name: "", type: 1 }]
+          }
+        ]
       };
       this.data.push(a);
     },
@@ -177,8 +213,8 @@ export default {
         .then(res => {
           console.log(res);
           console.log("response");
-          if(res.data.specs.length != 0){
-            this.data = JSON.parse(res.data.specs)
+          if (res.data.specs.length != 0) {
+            this.data = JSON.parse(res.data.specs);
           }
           this.subCat = res.data.name;
         })
@@ -186,23 +222,22 @@ export default {
           console.log("error in request", err);
         });
     },
-    saveSpecs: function(){
-
+    saveSpecs: function() {
       var payload = {
         id: this.category,
         specs: JSON.stringify(this.data)
-      }
+      };
 
-      this.$store.dispatch('saveSpecs', payload ).then(res => {
+      this.$store
+        .dispatch("saveSpecs", payload)
+        .then(res => {
           console.log(res);
           console.log("response");
-           this.$router.push("/dashboard/templates/specification");
+          this.$router.push("/dashboard/templates/specification");
         })
         .catch(err => {
           console.log("error in request", err);
         });
-
-
     }
   },
 
