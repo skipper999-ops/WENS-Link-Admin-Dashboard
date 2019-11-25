@@ -562,15 +562,17 @@ export default {
             console.log(specs);
 
             for (var j = 0; j < specs[i].sub.length; j++) {
+              
               if (this.specs[i].length != 0) {
-              if (specs[i].sub[j].type == 3) {
 
-                this.specs[i].sub[j].dropdown = specs[i].sub[j].dropdown;
-               this.specs[i].sub[j].value = specs[i].sub[j].value;
+                if (specs[i].sub[j].type == 3) {
 
-              } else {
+                  this.specs[i].sub[j].dropdown = specs[i].sub[j].dropdown;
                 this.specs[i].sub[j].value = specs[i].sub[j].value;
-              }
+
+                } else {
+                  this.specs[i].sub[j].value = specs[i].sub[j].value;
+                }
               }
             }
           }

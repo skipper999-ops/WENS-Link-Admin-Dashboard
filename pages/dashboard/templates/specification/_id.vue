@@ -67,7 +67,7 @@
                   <input
                     type="text"
                     v-model="p.name"
-                    class="header-data input' + id + '"
+                    class="header-data input"
                     placeholder="Header"
                     style="display: inline-block;"
                   />
@@ -78,7 +78,7 @@
                       class="col s24"
                     >
                       <input
-                        class="input' + id + '"
+                        class="input"
                         placeholder="Field"
                         id="data"
                         v-model="q.name"
@@ -136,6 +136,9 @@
 </template>
 
 <script>
+
+import Vue from 'vue'
+
 export default {
   data() {
     return {
@@ -144,7 +147,7 @@ export default {
       input: [{ name: "" }],
       dropdown_title: "false",
       category: this.$route.params.id,
-      data: []
+      data: {}
     };
   },
 
@@ -162,29 +165,30 @@ export default {
       return new Date().getTime() + result;
     },
     add_field: function(index) {
+      console.log(index)
       // this.field += 1;
       console.log(index);
-      this.data[index].sub.push({
+      var a = {
         name: "",
         type: "1",
         id: this.makeid(5),
-        dropdown_items: [{ name: "", type: 1 }]
-      });
+        dropdown_items: [{ name: "" }]
+      }
+
+      this.$set(this.data[index].sub, this.makeid(5), a)
     },
     add_section: function() {
       var a = {
         name: "",
         id: this.makeid(5),
-        sub: [
-          {
-            name: "",
-            id: this.makeid(5),
-            type: "1",
-            dropdown_items: [{ name: "", type: 1 }]
-          }
-        ]
+        sub: {}
       };
-      this.data.push(a);
+       console.log(this.data)
+      // this.data.push(a);
+      this.$set(this.data, this.makeid(5), a)
+
+
+      // this.data[this.makeid(5)] = a
     },
     remove_field: function(section, index) {
       // this.field += 1;
