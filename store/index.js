@@ -219,7 +219,7 @@ export const actions = {
             console.log(payload)
             var bodyFormData = new FormData();
             bodyFormData.append("name", payload.name);
-            bodyFormData.append("category_id", payload.category);
+            bodyFormData.append("category", payload.category);
       
 
             axios({
