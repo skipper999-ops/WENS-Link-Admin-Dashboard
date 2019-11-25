@@ -556,24 +556,28 @@ export default {
         }
 
 
-        for (var i = 0; i < this.selected.specs.length; i++) {
+      for (let key1 in this.selected.specs){
             var specs = this.selected.specs;
 
             console.log(specs);
 
-            for (var j = 0; j < specs[i].sub.length; j++) {
-              
-              if (this.specs[i].length != 0) {
+               for (let key2 in specs[key1].sub){
 
-                if (specs[i].sub[j].type == 3) {
-
-                  this.specs[i].sub[j].dropdown = specs[i].sub[j].dropdown;
-                this.specs[i].sub[j].value = specs[i].sub[j].value;
+                 
+                 
+                 if (specs[key1].sub[key2].type == 3) {
+                   
+                   
+                   this.specs[key1].sub[key2].dropdown = specs[key1].sub[key2].dropdown;
+                this.specs[key1].sub[key2].value = specs[key1].sub[key2].value;
 
                 } else {
-                  this.specs[i].sub[j].value = specs[i].sub[j].value;
+                  
+                  console.log("ssss" , specs[key1].sub[key2].value)
+                  this.$set(this.specs[key1].sub[key2], 'value', specs[key1].sub[key2].value)
                 }
-              }
+
+
             }
           }
       });

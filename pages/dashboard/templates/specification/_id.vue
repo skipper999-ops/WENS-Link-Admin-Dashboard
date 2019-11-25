@@ -178,25 +178,28 @@ export default {
       this.$set(this.data[index].sub, this.makeid(5), a)
     },
     add_section: function() {
+
+      var id = this.makeid(5)
       var a = {
         name: "",
-        id: this.makeid(5),
+        id:  this.makeid(5),
         sub: {}
       };
        console.log(this.data)
       // this.data.push(a);
-      this.$set(this.data, this.makeid(5), a)
-
+      this.$set(this.data,id, a)
+      this.add_field(id)
 
       // this.data[this.makeid(5)] = a
     },
     remove_field: function(section, index) {
       // this.field += 1;
-      console.log(index);
-      this.data[section]["sub"].splice(index, 1);
+      console.log(section, index);
+      // this.data[section]["sub"].splice(index, 1);
+      this.$delete(this.data[section].sub, index)
     },
     remove_section: function(index) {
-      this.data.splice(index, 1);
+       this.$delete(this.data, index)
     },
     openDropdownPanel: function(section, index) {
       this.input = this.data[section]["sub"][index]["dropdown_items"];
