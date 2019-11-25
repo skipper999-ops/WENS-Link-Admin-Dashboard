@@ -338,8 +338,6 @@
         </div>
       </div>
 
-
-
       <div class="holder" v-if="selected.slug != ''">
         <h3 class>Submit Product</h3>
         <div style="padding-left: 19px;padding-bottom: 10px;" class>
@@ -468,41 +466,51 @@ export default {
           mockFile.previewElement.classList.add("dz-complete");
         }
 
+        setTimeout(function() {
+          for (let key1 in vm.selected.specs) {
 
 
+            var specs = vm.selected.specs;
 
-          setTimeout(function() {
-            for (let key1 in vm.selected.specs){
-              var specs = vm.selected.specs;
+            var template_specs = vm.specs;
+
+            if(template_specs.hasOwnProperty(key1)){
 
             console.log(specs);
 
-               for (let key2 in specs[key1].sub){
-                 
-                 vm.$set(vm.specs[key1].sub[key2], 'value', specs[key1].sub[key2].value)
+            for (let key2 in specs[key1].sub) {
+              
+            console.log(key1)
+            var sub = vm.specs[key1].sub
 
-                 console.log(vm.specs)
-                 
-                 
-                 if (specs[key1].sub[key2].type == 3) {
-                   
-
-                vm.$set(vm.specs[key1].sub[key2], 'dropdown', specs[key1].sub[key2].dropdown)
-                vm.$set(vm.specs[key1].sub[key2], 'value', specs[key1].sub[key2].value)
-
-                } else {
-                  
-                  vm.$set(vm.specs[key1].sub[key2], 'value', specs[key1].sub[key2].value)
-                  console.log(this.specs)
-                }
+            
+            if(sub.hasOwnProperty(key2)){
 
 
+              if (specs[key1].sub[key2].type == 3) {
+                vm.$set(
+                  vm.specs[key1].sub[key2],
+                  "dropdown",
+                  specs[key1].sub[key2].dropdown
+                );
+                vm.$set(
+                  vm.specs[key1].sub[key2],
+                  "value",
+                  specs[key1].sub[key2].value
+                );
+              } else {
+                vm.$set(
+                  vm.specs[key1].sub[key2],
+                  "value",
+                  specs[key1].sub[key2].value
+                );
+                console.log(this.specs);
+              }
+            }
+            }
             }
           }
         }, 100);
-
-
-
       });
   },
   methods: {
