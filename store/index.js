@@ -211,6 +211,32 @@ export const actions = {
                 })
         })
     },
+
+    invoice_success({ commit, state }, payload) {
+
+
+        return new Promise((resolve, reject) => {
+
+
+            axios({
+                method: 'GET',
+                url: state.api.invoice_success + payload,
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    commit('getCategory', res.data);
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
     addSubCategory({ commit, state }, payload) {
 
 

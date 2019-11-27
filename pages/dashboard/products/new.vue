@@ -364,7 +364,12 @@ export default {
         'Authorization': "Bearer " + vm.$cookies.get('access_token'),
         "Cache-Control": null,
         "X-Requested-With": null
-      }
+      },
+       renameFilename: function (filename) {
+          console.log(filename)
+          console.log("zzzzzzzzzzzzzzz")
+            return new Date().getTime() + '_' + filename;
+        }
     });
     this.myDropzone.on("sending", function(file, xhr, formData) {
       var filenames = [];
@@ -379,10 +384,13 @@ export default {
       formData.append("filenames", filenames);
     });
     /* Add Files Script*/
-    this.myDropzone.on("success", function(file, message) {
+    this.myDropzone.on("successmultiple", function(file, message) {
       console.log("success");
-      console.log(message);
-      vm.images.push(message.filename);
+      console.log(file, message);
+      message.filenames.forEach((file, index) => {
+        console.log(file)
+        vm.images.push(file.filename);
+      });
     });
     this.myDropzone.on("error", function(data) {
       $("#msg").html(

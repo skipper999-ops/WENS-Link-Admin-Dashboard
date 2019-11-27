@@ -71,6 +71,8 @@ export const state = () => ({
 
     getSingleProducts : url + "products/single/", //id
 
+    invoice_success : "https://wenslink.com/backend/api/payments/admin-invoice/", //id
+
 
 
 

@@ -14,7 +14,7 @@
         </div>
 
         <div class="row">
-          <vue-good-table :columns="columns" :rows="allproducts">
+          <vue-good-table :columns="columns" :rows="allproducts"  :line-numbers="true" >
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field === 'image'">
                 <img
@@ -25,7 +25,7 @@
                   "
                 />
               </span>
-              <span v-if="props.column.field === 'details'" style="display: flex;">
+              <span v-else-if="props.column.field === 'details'" style="display: flex;">
                 <button
                 style="margin-right: 10px"
                   type="button"
