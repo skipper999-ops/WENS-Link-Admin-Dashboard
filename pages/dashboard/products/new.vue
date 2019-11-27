@@ -387,8 +387,8 @@ export default {
     this.myDropzone.on("successmultiple", function(file, message) {
       console.log("success");
       console.log(file, message);
-      message.filenames.forEach((file, index) => {
         console.log(file)
+         message.filenames.forEach((file, index) => {
         vm.images.push(file.filename);
       });
     });
@@ -407,6 +407,11 @@ export default {
     });
     this.myDropzone.on("addedfile", function(file) {
       console.log("added file");
+      console.log(this.files.length )
+      console.log(this.options.maxFiles )
+       while (this.files.length > this.options.maxFiles) {
+            this.removeFile(this.files[10]);
+        }
     });
     $("#add_file").on("click", function() {
       console.log("success");

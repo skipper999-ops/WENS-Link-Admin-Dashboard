@@ -119,8 +119,10 @@ export default {
     },
     openInvoice: function(id){
       console.log(id)
+
+        localStorage.setItem('invoice_id' , id)
         
-        window.open('/admin/dashboard/invoices/' + id ,'popUpWindow','height=800,width=800,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+        window.open('/admin/dashboard/invoices/' ,'popUpWindow','height=800,width=800,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
     }
   }
 };

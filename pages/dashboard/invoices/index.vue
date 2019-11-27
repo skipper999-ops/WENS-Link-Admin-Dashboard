@@ -158,13 +158,18 @@ export default {
     return{
       invoice: [],
       date: "",
-      user_id: this.$route.params.user_id,
     }
   },
   mounted(){
     document.title = 'WENSLink Seller Registration Invoice'
+
+
+    window.onbeforeunload = function () {
+      console.log("sdsdsdsd")
+      localStorage.setItem('invoice_id', '0')
+    };
     
-    this.$store.dispatch('invoice_success' , this.user_id).then( res => {
+    this.$store.dispatch('invoice_success' , localStorage.getItem('invoice_id')).then( res => {
       // console.log(res)
       this.invoice = res.data
       this.date = this.invoice['created_date'].split('T')[0].split('-').reverse().join('-')
