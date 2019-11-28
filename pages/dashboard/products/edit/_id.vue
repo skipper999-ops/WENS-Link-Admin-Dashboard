@@ -23,7 +23,7 @@
               <div class="column-left">
                 <img
                   class="product-image"
-                  :src="'/media/products/' + images[0]"
+                  :src="baseurl +  '/media/products/' + images[0]"
                 />
               </div>
               <div class="column-right">
@@ -276,7 +276,7 @@
           </p>
         </div>
         <!-- <p>Please Complete the specification section</p> -->
-        <div v-if="selected.specs != ''">
+        <div v-if="specs != '{}'">
           <div
             v-for="(p, index) in specs"
             :key="p.id"
@@ -383,7 +383,8 @@ export default {
         }
       ],
       specs: [],
-      subcategory_selected: []
+      subcategory_selected: [],
+      baseurl: process.env.baseUrl
     };
   },
 
@@ -483,7 +484,7 @@ export default {
           this.myDropzone.options.thumbnail.call(
             this.myDropzone,
             mockFile,
-            "https://www.wenslink.com/media/products/" + this.images[i]
+            this.baseurl + "/media/products/" + this.images[i]
           );
           this.myDropzone.files.push( mockFile);
           mockFile.previewElement.classList.add("dz-complete");

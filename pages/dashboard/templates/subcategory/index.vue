@@ -120,6 +120,7 @@ export default {
         console.log(res);
         this.getCategory();
         this.newCategory = ""
+        this.selected_category = ""
         this.closeDropdownPanel();
         // this.category = JSON.parse(JSON.stringify(res.data));
       });
@@ -134,6 +135,7 @@ export default {
 
       this.$store.dispatch("addSubCategory", payload).then(res => {
         console.log(res);
+        this.sub_Category = ""
         this.getSubcategories();
         // this.category = JSON.parse(JSON.stringify(res.data));
       });
@@ -180,6 +182,8 @@ export default {
     },
     openDropdownPanel: function() {
       this.showDropdown = true;
+      this.sub_Category = ""
+      this.selected_category = 0
     },
     openSubCatModel: function() {
       this.showDropdown1 = true;

@@ -19,8 +19,7 @@
               <span v-if="props.column.field === 'image'">
                 <img
                   style="width: 40px; height: 40px; object-fit:contain"
-                  :src="
-                    '/media/products/' +
+                  :src="baseurl +  '/media/products/' +
                       props.row.images[0]
                   "
                 />
@@ -87,7 +86,8 @@ export default {
           details: "<p>asa</p>"
         }
       ],
-      allproducts: []
+      allproducts: [],
+      baseurl: process.env.baseUrl
     };
   },
   mounted() {

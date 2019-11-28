@@ -24,7 +24,7 @@
                 <img
                   style="width: 40px; height: 40px; object-fit:contain"
                   :src="
-                    '/media/products/' +
+                    baseurl +  '/media/products/' +
                       props.row.product_id['images'][0]
                   "
                 />
@@ -106,7 +106,8 @@ export default {
           details: "<p>asa</p>"
         }
       ],
-      allproducts: []
+      allproducts: [],
+      baseurl: process.env.baseUrl
     };
   },
   mounted() {

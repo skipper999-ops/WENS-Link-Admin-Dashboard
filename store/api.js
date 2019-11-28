@@ -53,7 +53,7 @@ export const state = () => ({
 
     deleteProduct : url + "products/delete/",
 
-    deleteCategory : url + "products/product/category/delete/",
+    categoryFunctions : url + "products/product/category/",
 
     deleteSubCategory : url + "products/product/subcategory/delete/",
 
@@ -71,7 +71,7 @@ export const state = () => ({
 
     getSingleProducts : url + "products/single/", //id
 
-    invoice_success : "https://wenslink.com/backend/api/payments/admin-invoice/", //id
+    invoice_success : "payments/admin-invoice/", //id
 
 
 

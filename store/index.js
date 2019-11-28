@@ -645,7 +645,38 @@ export const actions = {
             axios({
                 method: 'DELETE',
                 data: payload,
-                url: state.api.deleteCategory + payload ,
+                url: state.api.categoryFunctions + payload ,
+                contentType: 'application/json',
+                headers: {
+                 'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+
+    editCategory({ commit, state }, {id , payload}) {
+
+
+        console.log(id)
+        console.log(payload)
+
+        console.log(state.api.categoryFunctions)
+
+
+        return new Promise((resolve, reject) => {
+
+            axios({
+                method: 'PUT',
+                data: payload,
+                url: state.api.categoryFunctions + id,
                 contentType: 'application/json',
                 headers: {
                  'Authorization': "Bearer " + this.$cookies.get('access_token')
