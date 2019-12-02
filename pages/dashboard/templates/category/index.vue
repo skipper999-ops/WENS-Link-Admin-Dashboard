@@ -16,6 +16,22 @@
         </div>
       </div>
     </div>
+    <div v-if="showEditDropdown" class="popup">
+      <div class="popup-main">
+        <div class="popup-title">
+          <h3>Edit Category</h3>
+        </div>
+        <div class="popup-body">
+          <div>
+            <input v-model="editingCategory" type="text" style="width:70%" />
+          </div>
+        </div>
+        <div class="popup-action">
+          <div class="pointer" @click="editCategory">Save</div>
+          <div class="pointer" @click="closeDropdownPanel">Cancel</div>
+        </div>
+      </div>
+    </div>
     <div v-if="showDropdown1" class="popup">
       <div class="popup-main">
         <div class="popup-title">
@@ -58,6 +74,11 @@
             <span v-if="props.column.field === 'details'">
               <button
                 type="button"
+                @click="openEditCategory(props.row.id)"
+                class="btn btn-primary"
+              >Edit</button>
+              <button
+                type="button"
                 @click="deleteCategory(props.row.id)"
                 class="btn btn-primary"
               >Delete</button>
@@ -80,11 +101,14 @@ export default {
     selected_category: 0,
     sub_Category: "",
     category: [],
+    editingCategoryID: 0,
     category_selected: 0,
     subcategory: [],
     showDropdown: false,
     subcategory_selected: 0,
     brand: [],
+    editingCategory: "",
+    showEditDropdown: false,
     brand_selected: 0,
     showDropdown1: false,
     columns: [
@@ -124,6 +148,7 @@ export default {
       this.$store.dispatch("getCategory").then(res => {
         console.log(res);
         this.category = JSON.parse(JSON.stringify(res.data));
+        this.closeDropdownPanel()
       });
     },
     addCategory: function() {
@@ -182,6 +207,19 @@ export default {
         this.getBrand();
       });
     },
+    editCategory: function() {
+      this.$store.dispatch("editCategory", {
+        id: this.editingCategoryID,
+        payload: {
+          name: this.editingCategory
+        }
+      }).then(res => {
+        console.log(res);
+        this.getCategory();
+        this.getSubcategories();
+        this.getBrand();
+      });
+    },
     deleteSubCategory: function(id) {
       this.$store.dispatch("deleteSubCategory", id).then(res => {
         console.log(res);
@@ -195,6 +233,10 @@ export default {
         this.getBrand();
       });
     },
+    openEditCategory: function(id){
+      this.editingCategoryID = id
+      this.showEditDropdown = true;
+    },
     openDropdownPanel: function() {
       this.showDropdown = true;
     },
@@ -203,7 +245,9 @@ export default {
     },
     closeDropdownPanel: function() {
       this.showDropdown = false
+      this.showEditDropdown = false
       this.newCategory = ""
+      this.editingCategory = ""
     },
     closeSubCatModel: function() {
       this.showDropdown1 = false;

@@ -1,7 +1,7 @@
 <template>
   <div>
     <client-only>
-     <NavBar v-if="$nuxt.$route.name != 'index'" />
+     <NavBar v-if="$nuxt.$route.name != 'index' && $nuxt.$route.name != 'dashboard-invoices'" />
     <nuxt />
     </client-only>
   </div>
@@ -16,6 +16,7 @@ export default {
     NavBar,
   },
   mounted() {
+    console.log($nuxt.$route.name)
     // document.body.classList.add('theme-dark')
   }
 }

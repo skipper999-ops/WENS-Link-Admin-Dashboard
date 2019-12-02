@@ -14,18 +14,17 @@
         </div>
 
         <div class="row">
-          <vue-good-table :columns="columns" :rows="allproducts">
+          <vue-good-table :columns="columns" :rows="allproducts"  :line-numbers="true" >
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field === 'image'">
                 <img
                   style="width: 40px; height: 40px; object-fit:contain"
-                  :src="
-                    '/media/products/' +
+                  :src="baseurl +  '/media/products/' +
                       props.row.images[0]
                   "
                 />
               </span>
-              <span v-if="props.column.field === 'details'" style="display: flex;">
+              <span v-else-if="props.column.field === 'details'" style="display: flex;">
                 <button
                 style="margin-right: 10px"
                   type="button"
@@ -87,7 +86,8 @@ export default {
           details: "<p>asa</p>"
         }
       ],
-      allproducts: []
+      allproducts: [],
+      baseurl: process.env.baseUrl
     };
   },
   mounted() {

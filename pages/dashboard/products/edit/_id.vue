@@ -23,7 +23,7 @@
               <div class="column-left">
                 <img
                   class="product-image"
-                  :src="'/media/products/' + images[0]"
+                  :src="baseurl +  '/media/products/' + images[0]"
                 />
               </div>
               <div class="column-right">
@@ -276,7 +276,7 @@
           </p>
         </div>
         <!-- <p>Please Complete the specification section</p> -->
-        <div v-if="selected.specs != ''">
+        <div v-if="specs != '{}'">
           <div
             v-for="(p, index) in specs"
             :key="p.id"
@@ -383,7 +383,8 @@ export default {
         }
       ],
       specs: [],
-      subcategory_selected: []
+      subcategory_selected: [],
+      baseurl: process.env.baseUrl
     };
   },
 
@@ -404,6 +405,11 @@ export default {
         Authorization: "Bearer " + vm.$cookies.get("access_token"),
         "Cache-Control": null,
         "X-Requested-With": null
+      },
+      renameFilename: function(filename) {
+        console.log(filename);
+        console.log("zzzzzzzzzzzzzzz");
+        return new Date().getTime() + "_" + filename;
       }
     });
     this.myDropzone.on("sending", function(file, xhr, formData) {
@@ -419,10 +425,13 @@ export default {
       formData.append("filenames", filenames);
     });
     /* Add Files Script*/
-    this.myDropzone.on("success", function(file, message) {
+    this.myDropzone.on("successmultiple", function(file, message) {
       console.log("success");
-      console.log(message);
-      vm.images.push(message.filename);
+      console.log(file, message);
+      console.log(file);
+      message.filenames.forEach((file, index) => {
+        vm.images.push(file.filename);
+      });
     });
     this.myDropzone.on("error", function(data) {
       $("#msg").html(
@@ -435,10 +444,21 @@ export default {
     this.myDropzone.on("removedfile", function(file) {
       //   myDropzone.removeFile(file)
       console.log(file);
-      vm.images = vm.images.filter(v => v != "static/products/" + file.name);
+      if(!file.upload){
+        vm.images = vm.images.filter(v => v != file.name);
+
+      }else{
+
+        vm.images = vm.images.filter(v => v != file.upload.filename);
+      }
     });
     this.myDropzone.on("addedfile", function(file) {
       console.log("added file");
+      console.log(this.files.length )
+      console.log(this.options.maxFiles )
+       while (this.files.length > this.options.maxFiles) {
+            this.removeFile(this.files[10]);
+        }
     });
 
     this.$store
@@ -455,59 +475,59 @@ export default {
 
         this.specs = JSON.parse(this.selected.subcategory.specs);
 
+
+
         for (var i = 0; i < this.images.length; i++) {
+          // this.myDropzone.emit("addedfile", "https://www.wenslink.com/media/products/" + this.images[i]);
           var mockFile = { name: this.images[i] };
           this.myDropzone.options.addedfile.call(this.myDropzone, mockFile);
           this.myDropzone.options.thumbnail.call(
             this.myDropzone,
             mockFile,
-            "https://www.wenslink.com/media/products/" + this.images[i]
+            this.baseurl + "/media/products/" + this.images[i]
           );
+          this.myDropzone.files.push( mockFile);
           mockFile.previewElement.classList.add("dz-complete");
         }
 
+
+        console.log(this.myDropzone.getAcceptedFiles())
+
         setTimeout(function() {
           for (let key1 in vm.selected.specs) {
-
-
             var specs = vm.selected.specs;
 
             var template_specs = vm.specs;
 
-            if(template_specs.hasOwnProperty(key1)){
+            if (template_specs.hasOwnProperty(key1)) {
+              console.log(specs);
 
-            console.log(specs);
+              for (let key2 in specs[key1].sub) {
+                console.log(key1);
+                var sub = vm.specs[key1].sub;
 
-            for (let key2 in specs[key1].sub) {
-              
-            console.log(key1)
-            var sub = vm.specs[key1].sub
-
-            
-            if(sub.hasOwnProperty(key2)){
-
-
-              if (specs[key1].sub[key2].type == 3) {
-                vm.$set(
-                  vm.specs[key1].sub[key2],
-                  "dropdown",
-                  specs[key1].sub[key2].dropdown
-                );
-                vm.$set(
-                  vm.specs[key1].sub[key2],
-                  "value",
-                  specs[key1].sub[key2].value
-                );
-              } else {
-                vm.$set(
-                  vm.specs[key1].sub[key2],
-                  "value",
-                  specs[key1].sub[key2].value
-                );
-                console.log(this.specs);
+                if (sub.hasOwnProperty(key2)) {
+                  if (specs[key1].sub[key2].type == 3) {
+                    vm.$set(
+                      vm.specs[key1].sub[key2],
+                      "dropdown",
+                      specs[key1].sub[key2].dropdown
+                    );
+                    vm.$set(
+                      vm.specs[key1].sub[key2],
+                      "value",
+                      specs[key1].sub[key2].value
+                    );
+                  } else {
+                    vm.$set(
+                      vm.specs[key1].sub[key2],
+                      "value",
+                      specs[key1].sub[key2].value
+                    );
+                    console.log(this.specs);
+                  }
+                }
               }
-            }
-            }
             }
           }
         }, 100);
