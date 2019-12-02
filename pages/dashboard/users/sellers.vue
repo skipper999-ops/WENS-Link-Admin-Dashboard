@@ -81,7 +81,7 @@ export default {
     getAllProducts: function() {
       this.$store.dispatch("getAllSeller").then(res => {
         console.log(res);
-        this.allproducts = JSON.parse(JSON.stringify(res.data));
+        this.allproducts = JSON.parse(JSON.stringify(res.data.users));
       });
     },
     changeStatus: function(id, status) {

@@ -31,7 +31,7 @@ export const state = () => ({
 
     singleProduct : url + "products/single/",
 
-    getCategory : url + "products/product/category",
+    getCategory : url + "products/product/home/category",
 
     getsubCategory : url + "products/product/subcategory",
 

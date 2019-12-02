@@ -84,6 +84,12 @@
           <span>Specification</span>
         </nuxt-link>
       </div>
+      <div class="navbar__parent">
+        <div @click="logout" class="logout">
+          <i data-feather="log-out"></i>
+          <span>Logout</span>
+        </div>
+      </div>
     </perfect-scrollbar>
   </div>
 
@@ -236,11 +242,7 @@ export default {
       $('body').removeClass('overflow')
     },
     logout: function() {
-      document.cookie.split(';').forEach(function(c) {
-        document.cookie = c
-          .replace(/^ +/, '')
-          .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/')
-      })
+      this.$cookies.removeAll()
 
       this.$router.push('/')
     }
@@ -397,6 +399,20 @@ svg{
   display: flex
 }
 
-
+.logout{
+  padding: 10px 15px 10px 15px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 13px;
+    color: rgb(194, 205, 220);
+    display: block;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    width: 100%;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+}
 </style>
 

@@ -384,7 +384,7 @@ input.material-input:focus::-webkit-input-placeholder {
 */
 input.material-input:not(:placeholder-shown) + label.material-input,
 input.material-input:focus + label.material-input {
-  transform: translateY(7px);
+  transform: translateY(8px);
   font-size: 10px;
   font-family: 'Bold';
 }
