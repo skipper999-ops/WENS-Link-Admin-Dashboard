@@ -99,10 +99,10 @@
             <span v-if="props.column.field === 'details'">
               <button
                 type="button"
-                @click="deleteSubCategory(props.row.id)"
+                @click="EditCommission(props.row.id)"
                 class="btn btn-primary"
               >
-                Delete
+                Edit
               </button>
             </span>
             <span v-else>{{ props.formattedRow[props.column.field] }}</span>
@@ -129,11 +129,11 @@ export default {
     market_commission: 0,
     gst_commission: 0,
     payment_fee: 0,
-    gst_payment_fee: 0,
+    gst_payment_fee: 1.8,
     gst_item: 153,
     shipping: 55,
     brand_selected: 0,
-    showDropdown1: true,
+    showDropdown1: false,
     sub_columns: [
       {
         label: "Sub Category",
@@ -191,19 +191,10 @@ export default {
         this.category = JSON.parse(JSON.stringify(res.data));
       });
     },
-    addCategory: function() {
-      var payload = new FormData();
-
-      payload.append("name", this.newCategory);
-
-      this.$store.dispatch("addCategory", payload).then(res => {
-        console.log(res);
-        this.getCategory();
-        this.newCategory = "";
-        this.selected_category = "";
-        this.closeDropdownPanel();
-        // this.category = JSON.parse(JSON.stringify(res.data));
-      });
+    EditCommission: function(id) {
+      this.openSubCatModel()
+      this.selected_category = id
+        this.sub_select()
     },
     addSubCategory: function() {
       this.closeSubCatModel();

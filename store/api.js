@@ -39,11 +39,11 @@ export const state = () => ({
 
     getBrand : url + "products/product/brand",
 
-    commissionList : url + "products/commissionList",
+    commissionList : url + "products/admin/commissionList",
 
-    commissionListtask : url + "products/commissionListtask",
+    commissionListtask : url + "products/admin/commissionListtask",
 
-    commissionListtaskEdit : url + "products/commissionListtaskEdit/", //id 
+    commissionListtaskEdit : url + "products/admin/commissionListtaskEdit/", //id 
 
     getAllOrder : url + "orders",
 
