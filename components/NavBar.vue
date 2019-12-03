@@ -85,6 +85,13 @@
         </nuxt-link>
       </div>
       <div class="navbar__parent">
+        <nuxt-link to="/dashboard/templates/commission">
+          <i data-feather="hash"></i>
+          <span>Commission Rate</span>
+        </nuxt-link>
+      </div>
+      <p></p>
+      <div class="navbar__parent">
         <div @click="logout" class="logout">
           <i data-feather="log-out"></i>
           <span>Logout</span>

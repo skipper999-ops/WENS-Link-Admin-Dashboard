@@ -185,12 +185,9 @@ export const actions = {
 
         return new Promise((resolve, reject) => {
 
-
             if(payload == 0){
                 payload = "all"
             }
-
-
 
             axios({
                 method: 'GET',
@@ -839,6 +836,86 @@ export const actions = {
             axios({
                 method: 'GET',
                 url: state.api.getAllSeller,
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+
+
+    commissionList({ commit, state }) {
+
+
+        return new Promise((resolve, reject) => {
+
+
+
+            axios({
+                method: 'GET',
+                url: state.api.commissionList,
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+
+
+    commissionListtask({ commit, state }, {id , payload}) {
+
+
+        return new Promise((resolve, reject) => {
+
+
+
+            axios({
+                method: 'POST',
+                data: payload,
+                url: state.api.commissionListtask,
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+
+    commissionListtaskEdit({ commit, state }, {id , payload}) {
+
+
+        return new Promise((resolve, reject) => {
+
+            axios({
+                method: 'PUT',
+                data: payload,
+                url: state.api.commissionListtaskEdit + id,
                 contentType: 'application/json',
                 headers: {
                     'Authorization': "Bearer " + this.$cookies.get('access_token')

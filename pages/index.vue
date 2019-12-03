@@ -34,6 +34,8 @@
                   maxlength="25"
                   placeholder="Password"
                   v-model="password"
+                  
+                  v-on:keyup.enter="login"
                 />
                 <label class="control-label noselect material-input">Password</label>
                 <p class="white-text padding-top-15">Forgot Password</p>
@@ -47,7 +49,6 @@
                   style="border: 1px solid grey"
                 >Join</button>-->
               </div>
-
               <div class="col s12 right">
                 <button
                   @click="login"
@@ -84,6 +85,15 @@ export default {
   },
 
   mounted() {
+
+    var vm = this
+
+      $(document).keydown(function(event) {
+    // enter has keyCode = 13, change it if you want to use another button
+    if (event.keyCode == 13) {
+      vm.login()
+    }
+  });
     // feather.replace({ color: 'black' })
   },
   watch: {},
