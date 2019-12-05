@@ -27,6 +27,9 @@
                 <p v-if="props.row.status == 1">Active</p>
                 <p v-if="props.row.status == 2">Suspended</p>
               </span>
+              <span v-else-if="props.column.field === 'password'">
+                <button v-if="props.row.status != 2" type="button" @click="passwordChange(props.row.id)" class="btn btn-primary">Send SMS</button>
+              </span>
               <span v-else-if="props.column.field === 'addressline1'">
                 <p>{{props.row.addressline1}}</p>
                 <p>{{props.row.addressline2}}</p>
@@ -84,7 +87,11 @@ export default {
         {
           label: "Action",
           field: "details"
-        }
+        },
+        // {
+        //   label: "Reset Password",
+        //   field: "password"
+        // }
       ],
       rows: [
         {
@@ -123,6 +130,12 @@ export default {
         localStorage.setItem('invoice_id' , id)
         
         window.open('/admin/dashboard/invoices/' ,'popUpWindow','height=800,width=800,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+    },
+    passwordChange : function(id){
+
+
+
+
     }
   }
 };
