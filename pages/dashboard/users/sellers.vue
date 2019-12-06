@@ -29,7 +29,7 @@
               <span v-else-if="props.column.field === 'payment_mode'">
                 <p v-if="props.row.payment_mode == 'Test'">Test</p>
                 <button type="button" class="btn btn-success" v-if="props.row.payment_mode == 'Live'">Live</button>
-                <p v-if="props.row.payment_mode == 'Free'">Free</p>
+                <p v-if="props.row.payment_mode == 'free'">Free</p>
               </span>
               <span v-else-if="props.column.field === 'password'">
                 <button v-if="props.row.status != 2" type="button" @click="passwordChange(props.row.id)" class="btn btn-primary">Send SMS</button>
