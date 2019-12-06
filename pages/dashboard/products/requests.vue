@@ -47,7 +47,7 @@
                 <button
                   type="button"
                   v-if="props.row.status == 0 || props.row.status == 2"
-                  @click="changeProductStatus(props.row.id, 1)"
+                  @click="changeProductStatus(props.row.id, props.row.product_id.product_name, props.row.seller_id.phone_number, props.row.sku, 1)"
                   class="btn btn-primary"
                 >
                   APPROVE
@@ -55,7 +55,7 @@
                 <button
                   type="button"
                   v-if="props.row.status == 0 || props.row.status == 1"
-                  @click="changeProductStatus(props.row.id, 2)"
+                  @click="changeProductStatus(props.row.id, props.row.product_id.product_name, props.row.seller_id.phone_number, props.row.sku, 2)"
                   class="btn btn-primary"
                 >
                   REJECT
@@ -132,9 +132,14 @@ export default {
         this.getAllProducts();
       });
     },
-    changeProductStatus: function(id, status) {
+    changeProductStatus: function(id, product_name, number, sku, status) {
+      console.log("product_name")
+      console.log(product_name)
       var payload = {
         id: id,
+        product_name: product_name,
+        sku: sku,
+        number: number,
         status: status
       };
       this.$store.dispatch("changeProductStatus", payload).then(res => {

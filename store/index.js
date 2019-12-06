@@ -585,12 +585,10 @@ export const actions = {
 
     getSingleProduct({ commit, state }, payload) {
 
-
         return new Promise((resolve, reject) => {
 
             axios({
                 method: 'GET',
-                data: payload,
                 url: state.api.getSingleProducts + payload + "/",
                 contentType: 'application/json',
                 headers: {
@@ -616,7 +614,7 @@ export const actions = {
             axios({
                 method: 'PUT',
                 data: payload,
-                url: state.api.getSingleProducts + id + "/",
+                url: state.api.singleupdate + id + "/",
                 contentType: 'application/json',
                 headers: {
                  'Authorization': "Bearer " + this.$cookies.get('access_token')
@@ -777,6 +775,9 @@ export const actions = {
             var bodyFormData = new FormData()
 
             bodyFormData.append('status' , payload.status)
+            bodyFormData.append('product_name' , payload.product_name)
+            bodyFormData.append('sku' , payload.sku)
+            bodyFormData.append('number' , payload.number)
 
             axios({
                 method: 'PUT',

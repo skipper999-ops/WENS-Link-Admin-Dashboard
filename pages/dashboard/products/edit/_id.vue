@@ -3,9 +3,7 @@
     <div class="specification">
       <div class="holder">
         <div class="column-padding header-bottom">
-          <h3 style="display: flex;align-items: center;">
-            Add a Product to your catalogue
-          </h3>
+          <h3 style="display: flex;align-items: center;">Add a Product to your catalogue</h3>
           <p style="padding-left: 19px;padding-bottom: 10px;">
             Product added here will be added to a common database and vendors
             can use these as templates when adding their products
@@ -21,10 +19,7 @@
             <div class="header-row">{{ selected.product_name }}</div>
             <div class="detail-row">
               <div class="column-left">
-                <img
-                  class="product-image"
-                  :src="baseurl +  '/media/products/' + images[0]"
-                />
+                <img class="product-image" :src="baseurl +  '/media/products/' + images[0]" />
               </div>
               <div class="column-right">
                 <span>
@@ -50,10 +45,34 @@
 
       <div class="holder">
         <div class="column-padding">
+          <h3 style="display: flex;align-items: center;">Product Category</h3>
+          <p
+            style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
+          >These informations cannot be changed by the Vendors</p>
+        </div>
+
+        <div class="row">
+          <div class="col s24">
+            <div class="col s24 m8 l6">
+              <label>Category</label>
+              <select @change="getSubcategories" v-model="category_selected">
+                <option v-for="p in category" :key="p.id" :value="p.id">{{p.name}}</option>
+              </select>
+            </div>
+            <div class="col s24 m8 l6">
+              <label>SubCategory</label>
+              <select v-model="subcategory_selected">
+                <option v-for="p in subcategory" :key="p.id" :value="p.id">{{p.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="column-padding">
           <h3 style="display: flex;align-items: center;">Basic Details</h3>
-          <p style="padding-left: 19px;padding-bottom: 10px;color:#E91E63">
-            These informations cannot be changed by the Vendors
-          </p>
+          <p
+            style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
+          >These informations cannot be changed by the Vendors</p>
         </div>
 
         <div class="row">
@@ -74,12 +93,7 @@
               <div class="form-group">
                 <label for="exampleInputEmail1">Product ID Type</label>
                 <select v-model="selected.product_id_type">
-                  <option
-                    v-for="p in product_id_list"
-                    :key="p.id"
-                    :value="p.id"
-                    >{{ p.name }}</option
-                  >
+                  <option v-for="p in product_id_list" :key="p.id" :value="p.id">{{ p.name }}</option>
                 </select>
               </div>
             </div>
@@ -97,26 +111,10 @@
             </div>
             <div class="col s24">
               <div class="form-group">
-                <div
-                  style="display: flex;justify-content: space-between;align-items: center;"
-                >
-                  <label style="display:flex" for="exampleInputEmail1"
-                    >Product Slug</label
-                  >
-                  <div
-                    v-if="!editSlug"
-                    @click="allowSlugField(1)"
-                    class="link_tag"
-                  >
-                    Edit
-                  </div>
-                  <div
-                    v-if="editSlug"
-                    @click="allowSlugField(0)"
-                    class="link_tag"
-                  >
-                    Save
-                  </div>
+                <div style="display: flex;justify-content: space-between;align-items: center;">
+                  <label style="display:flex" for="exampleInputEmail1">Product Slug</label>
+                  <div v-if="!editSlug" @click="allowSlugField(1)" class="link_tag">Edit</div>
+                  <div v-if="editSlug" @click="allowSlugField(0)" class="link_tag">Save</div>
                 </div>
                 <input
                   v-model="selected.slug"
@@ -165,49 +163,32 @@
         <hr class="break" />
 
         <div class="column-padding">
-          <h3 style="display: flex;align-items: center;">
-            Descriptions & Bullet Points
-          </h3>
-          <p style="padding-left: 19px;padding-bottom: 10px;color:#E91E63">
-            These informations cannot be changed by the Vendors
-          </p>
+          <h3 style="display: flex;align-items: center;">Descriptions & Bullet Points</h3>
+          <p
+            style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
+          >These informations cannot be changed by the Vendors</p>
         </div>
 
         <div class="row">
           <div class="col s24">
             <div class="col s24">
               <div class="form-group">
-                <label for="exampleInputEmail1"
-                  >Write a Short Description about the product</label
-                >
-                <textarea
-                  v-model="selected.description"
-                  style="height:160px"
-                ></textarea>
+                <label for="exampleInputEmail1">Write a Short Description about the product</label>
+                <textarea v-model="selected.description" style="height:160px"></textarea>
               </div>
             </div>
             <div class="col s24">
               <div class="form-group">
-                <label for="exampleInputEmail1"
-                  >Add Bullet Points (Upto 9)</label
-                >
+                <label for="exampleInputEmail1">Add Bullet Points (Upto 9)</label>
                 <div
                   style="display: flex; align-items:center"
                   v-for="(p, index) in bullet_points"
                   :key="p.length"
                 >
                   <input type="text" class="form-control" v-model="p.value" />
-                  <div
-                    style="color: red"
-                    class="pointer"
-                    @click="removeBullets(index)"
-                  >
-                    Remove
-                  </div>
+                  <div style="color: red" class="pointer" @click="removeBullets(index)">Remove</div>
                 </div>
-                <div class="link_tag" @click="addMoreBullets">
-                  + Add More points
-                </div>
+                <div class="link_tag" @click="addMoreBullets">+ Add More points</div>
               </div>
             </div>
           </div>
@@ -249,9 +230,7 @@
       </div>
       <div class="holder" v-show="subcategory_selected != undefined">
         <h3 class>Images</h3>
-        <p style="padding-left: 19px;padding-bottom: 10px;">
-          Upload Images. (Max 10)
-        </p>
+        <p style="padding-left: 19px;padding-bottom: 10px;">Upload Images. (Max 10)</p>
         <div style="padding-left: 19px;padding-bottom: 10px;" class>
           <div class="dropzone dz-clickable" id="myDrop">
             <div class="dz-default dz-message" data-dz-message>
@@ -270,27 +249,16 @@
                 '/dashboard/templates/specification/' +
                   this.subcategory_selected
               "
-              >Specifications
-            </nuxt-link>
-            and add them
+            >Specifications</nuxt-link>and add them
           </p>
         </div>
         <!-- <p>Please Complete the specification section</p> -->
         <div v-if="specs != '{}'">
-          <div
-            v-for="(p, index) in specs"
-            :key="p.id"
-            class="input_fields_wrap drag-list"
-            id="h"
-          >
+          <div v-for="(p, index) in specs" :key="p.id" class="input_fields_wrap drag-list" id="h">
             <h3>{{ p.name }}</h3>
             <div class="row">
               <div class="col s12">
-                <div
-                  class="col s24"
-                  v-for="(q, index1) in p['sub']"
-                  :key="q.id"
-                >
+                <div class="col s24" v-for="(q, index1) in p['sub']" :key="q.id">
                   <div class="form-group">
                     <label>{{ q.name }}</label>
 
@@ -309,8 +277,7 @@
                           v-for="r in q.dropdown_items"
                           :key="r.id"
                           :value="r.name"
-                          >{{ r.name }}</option
-                        >
+                        >{{ r.name }}</option>
                       </select>
                     </div>
 
@@ -326,8 +293,7 @@
                           v-for="r in q.dropdown_items"
                           :key="r.id"
                           :value="r.name"
-                          >{{ r.name }}</option
-                        >
+                        >{{ r.name }}</option>
                       </select>
                     </div>
                   </div>
@@ -352,9 +318,12 @@
 export default {
   data() {
     return {
+      category: [],
+      subcategory: [],
       product_id: this.$route.params.id,
       selected: [],
-
+      subcategory_selected: 0,
+      category_selected: 0,
       images: [],
       bullet_points: [],
       slugify: "",
@@ -383,7 +352,6 @@ export default {
         }
       ],
       specs: [],
-      subcategory_selected: [],
       baseurl: process.env.baseUrl
     };
   },
@@ -444,22 +412,22 @@ export default {
     this.myDropzone.on("removedfile", function(file) {
       //   myDropzone.removeFile(file)
       console.log(file);
-      if(!file.upload){
+      if (!file.upload) {
         vm.images = vm.images.filter(v => v != file.name);
-
-      }else{
-
+      } else {
         vm.images = vm.images.filter(v => v != file.upload.filename);
       }
     });
     this.myDropzone.on("addedfile", function(file) {
       console.log("added file");
-      console.log(this.files.length )
-      console.log(this.options.maxFiles )
-       while (this.files.length > this.options.maxFiles) {
-            this.removeFile(this.files[10]);
-        }
+      console.log(this.files.length);
+      console.log(this.options.maxFiles);
+      while (this.files.length > this.options.maxFiles) {
+        this.removeFile(this.files[10]);
+      }
     });
+
+    console.log(this.$route.params.id);
 
     this.$store
       .dispatch("getSingleProduct", this.$route.params.id)
@@ -467,15 +435,12 @@ export default {
         console.log(res);
         this.selected = res.data;
         this.images = JSON.parse(this.selected.images);
-        this.subcategory_selected = this.selected.subcategory;
+        this.subcategory_selected = this.selected.subcategory.id;
+        this.category_selected = this.selected.category.id;
         this.bullet_points = JSON.parse(this.selected.bullet_points);
         this.selected.specs = JSON.parse(this.selected.specs);
 
-        this.getsubCategoryDetails();
-
         this.specs = JSON.parse(this.selected.subcategory.specs);
-
-
 
         for (var i = 0; i < this.images.length; i++) {
           // this.myDropzone.emit("addedfile", "https://www.wenslink.com/media/products/" + this.images[i]);
@@ -486,12 +451,17 @@ export default {
             mockFile,
             this.baseurl + "/media/products/" + this.images[i]
           );
-          this.myDropzone.files.push( mockFile);
+          this.myDropzone.files.push(mockFile);
           mockFile.previewElement.classList.add("dz-complete");
         }
 
+        console.log(this.myDropzone.getAcceptedFiles());
 
-        console.log(this.myDropzone.getAcceptedFiles())
+        this.$store.dispatch("getCategory").then(res => {
+          console.log(res);
+          this.category = res.data;
+          this.getSubcategories()
+        });
 
         setTimeout(function() {
           for (let key1 in vm.selected.specs) {
@@ -540,11 +510,11 @@ export default {
       payload.append("product_name", this.selected.product_name);
       payload.append("product_id", this.selected.product_id);
       payload.append("product_id_type", this.selected.product_id_type);
-      payload.append("slug", this.selected.slugify);
+      payload.append("slug", this.selected.slug);
       payload.append("description", this.selected.description);
       payload.append("images", JSON.stringify(this.images));
-      payload.append("category", this.selected.category_selected);
-      payload.append("subcategory", this.vsubcategory_selected);
+      payload.append("category", this.category_selected);
+      payload.append("subcategory", this.subcategory_selected);
       payload.append("brand", this.selected.brand);
       payload.append("manufacturer", this.selected.manufacturer);
       payload.append("seo", this.selected.seo);
@@ -577,24 +547,16 @@ export default {
     removeBullets: function(index) {
       this.bullet_points.splice(index, 1);
     },
-    getsubCategoryDetails: function() {
-      if (this.subcategory_selected != undefined) {
-        this.$store
-          .dispatch("getsubCategoryDetails", this.subcategory_selected.id)
-          .then(res => {
-            console.log(res);
-            console.log("response");
-            this.specs = [];
-
-            if (res.data.specs.length != 0) {
-              this.specs = JSON.parse(res.data.specs);
-            }
-          })
-          .catch(err => {
-            console.log("error in request", err);
-          });
-      }
+    getSubcategories: function() {
+      this.$store
+        .dispatch("getsubCategory", this.category_selected)
+        .then(res => {
+          console.log(res);
+          console.log("________________");
+          this.subcategory = res.data;
+        });
     },
+
     allowSlugField: function(val) {
       console.log(val);
 

@@ -15,7 +15,7 @@
 
         <div class="row">
           <div class="col s24">
-            <div class="col col s24 m8 l6">
+            <div class="col s24 m8 l6">
               <label>Category</label>
               <select @change="getSubcategories" v-model="category_selected">
                 <option v-for="p in category" :key="p.id" :value="p.id">{{p.name}}</option>
@@ -269,9 +269,9 @@ export default {
   data() {
     return {
       category: [],
+      subcategory: [],
       images: [],
       category_selected: 0,
-      subcategory: [],
       editSlug: 0,
       product_name: "",
       subcategory_selected: undefined,

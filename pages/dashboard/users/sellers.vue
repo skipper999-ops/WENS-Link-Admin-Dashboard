@@ -20,15 +20,22 @@
                 <button v-if="props.row.status != 0" type="button" @click="changeStatus(props.row.id , 0)" class="btn btn-primary">Delete</button>
                 <button v-if="props.row.status != 1" type="button" @click="changeStatus(props.row.id , 1)" class="btn btn-primary">Active</button>
                 <button v-if="props.row.status != 2" type="button" @click="changeStatus(props.row.id , 2)" class="btn btn-primary">Suspend</button>
-                <button type="button" @click="openInvoice(props.row.id)" class="btn btn-primary">Invoice</button>
               </span>
               <span v-else-if="props.column.field === 'status'">
                 <p v-if="props.row.status == 0">Deleted</p>
                 <p v-if="props.row.status == 1">Active</p>
                 <p v-if="props.row.status == 2">Suspended</p>
               </span>
+              <span v-else-if="props.column.field === 'payment_mode'">
+                <p v-if="props.row.payment_mode == 'Test'">Test</p>
+                <button type="button" class="btn btn-success" v-if="props.row.payment_mode == 'Live'">Live</button>
+                <p v-if="props.row.payment_mode == 'Free'">Free</p>
+              </span>
               <span v-else-if="props.column.field === 'password'">
                 <button v-if="props.row.status != 2" type="button" @click="passwordChange(props.row.id)" class="btn btn-primary">Send SMS</button>
+              </span>
+              <span v-else-if="props.column.field === 'invoice'">
+                <button type="button" @click="openInvoice(props.row.id)" class="btn btn-primary">Invoice</button>
               </span>
               <span v-else-if="props.column.field === 'addressline1'">
                 <p>{{props.row.addressline1}}</p>
@@ -65,7 +72,7 @@ export default {
           field: "email"
         },
         {
-          label: "company_name",
+          label: "Company Name",
           field: "company_name"
         },
         {
@@ -73,12 +80,24 @@ export default {
           field: "gstin"
         },
         {
+          label: "Total Number of Item/ Product",
+          field: "product_count"
+        },
+        {
           label: "Address",
           field: "addressline1"
         },
         {
-          label: "payment_mode",
+          label: "Payment Mode",
           field: "payment_mode"
+        },
+        {
+          label: "View Invoice",
+          field: "invoice"
+        },
+        {
+          label: "Verified",
+          field: "isVerified"
         },
         {
           label: "Status",
@@ -143,4 +162,10 @@ export default {
 
 
 <style>
+
+.btn-success{
+  background-color: #4caf50;
+  color: white
+}
+
 </style>

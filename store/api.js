@@ -77,7 +77,10 @@ export const state = () => ({
 
     getSingleProducts : url + "products/single/", //id
 
-    invoice_success : "payments/admin-invoice/", //id
+    singleupdate : url + "products/singleupdate/", //id
+
+
+    invoice_success : url +"payments/admin-invoice/", //id
 
 
 
