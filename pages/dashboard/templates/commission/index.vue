@@ -31,43 +31,29 @@
               </div>
 
               <div style="display: flex;flex-direction: column;">
-                <label>GST on Commission</label>
-                <input v-model="gst_commission" type="text" style="width:70%" />
+                <label>GST on Commission (%)</label>
+                <input max="100" min="0" v-model="gst_commission" type="number" style="width:70%" />
               </div>
 
               <div style="display: flex;flex-direction: column;">
-                <label>Marketplace Payment Fee</label>
-                <input v-model="payment_fee" type="text" style="width:70%" />
+                <label>Marketplace Payment Fee (%)</label>
+                <input max="100" min="0"  v-model="payment_fee" type="number" style="width:70%" />
               </div>
 
               <div style="display: flex;flex-direction: column;">
-                <label>GST on Payment Fee</label>
-                <input
+                <label>GST on Payment Fee (%)</label>
+                <input max="100" min="0" 
                   v-model="gst_payment_fee"
-                  type="text"
+                  type="number"
                   style="width:70%"
                 />
               </div>
 
               <div style="display: flex;flex-direction: column;">
                 <label>GST on Item</label>
-                <input
-                  v-model="gst_item"
-                  value="153"
-                  type="text"
-                  style="width:70%"
-                />
+                <p style="width:70%">{{ 1000 * (gst_commission / 100) }}</p>
               </div>
 
-              <div style="display: flex;flex-direction: column;">
-                <label>Shipping Charges</label>
-                <input
-                  v-model="shipping"
-                  value="55"
-                  type="text"
-                  style="width:70%"
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -104,6 +90,9 @@
               >
                 Edit
               </button>
+            </span>
+            <span v-if="props.column.field === 'gst_item'">
+              <p style="width:70%">{{ 1000 * (props.row.gst_commission / 100) }}</p>
             </span>
             <span v-else>{{ props.formattedRow[props.column.field] }}</span>
           </template>
@@ -148,28 +137,20 @@ export default {
         field: "market_commission"
       },
       {
-        label: "Gst on Commission",
+        label: "Gst on Commission (%)",
         field: "gst_commission"
       },
       {
-        label: "Marketplace Payment Fee",
+        label: "Marketplace Payment Fee (%)",
         field: "payment_fee"
       },
       {
-        label: "GST on Payment Fee",
+        label: "GST on Payment Fee (%)",
         field: "gst_payment_fee"
       },
       {
-        label: "GST on Payment Fee",
-        field: "gst_payment_fee"
-      },
-      {
-        label: "Gst on Item",
+        label: "Gst on Item (₹)",
         field: "gst_item"
-      },
-      {
-        label: "Shipping Charges",
-        field: "shipping"
       },
       {
         label: "Action",
@@ -222,14 +203,14 @@ export default {
         this.gst_commission = a[0].gst_commission;
         this.payment_fee = a[0].payment_fee;
         this.gst_payment_fee = a[0].gst_payment_fee;
-        this.gst_item = a[0].gst_item;
+        this.gst_item = 1000 * (this.gst_commission / 100);
         this.shipping = a[0].shipping;
       } else {
         this.market_commission = 0;
         this.gst_commission = 0;
         this.payment_fee = 0;
         this.gst_payment_fee = 0;
-        this.gst_item = 153;
+        this.gst_item = 1000 * (this.gst_commission / 100);
         this.shipping = 55;
       }
     },
