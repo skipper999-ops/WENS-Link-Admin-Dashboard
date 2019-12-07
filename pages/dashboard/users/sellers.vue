@@ -20,6 +20,7 @@
                 <button v-if="props.row.status != 0" type="button" @click="changeStatus(props.row.id , 0)" class="btn btn-primary">Delete</button>
                 <button v-if="props.row.status != 1" type="button" @click="changeStatus(props.row.id , 1)" class="btn btn-primary">Active</button>
                 <button v-if="props.row.status != 2" type="button" @click="changeStatus(props.row.id , 2)" class="btn btn-primary">Suspend</button>
+                <button type="button" @click="loginAsVendor(props.row.phone_number)" class="btn btn-primary">Login</button>
               </span>
               <span v-else-if="props.column.field === 'status'">
                 <p v-if="props.row.status == 0">Deleted</p>
@@ -27,8 +28,8 @@
                 <p v-if="props.row.status == 2">Suspended</p>
               </span>
               <span v-else-if="props.column.field === 'payment_mode'">
-                <p v-if="props.row.payment_mode == 'Test'">Test</p>
-                <button type="button" class="btn btn-success" v-if="props.row.payment_mode == 'Live'">Live</button>
+                <p v-if="props.row.payment_mode == 'Test'">Inactive</p>
+                <button type="button" class="btn btn-success" v-if="props.row.payment_mode == 'Live'">Active</button>
                 <p v-if="props.row.payment_mode == 'free'">Free</p>
               </span>
               <span v-else-if="props.column.field === 'password'">
@@ -150,9 +151,28 @@ export default {
         
         window.open('/admin/dashboard/invoices/' ,'popUpWindow','height=800,width=800,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
     },
-    passwordChange : function(id){
+    loginAsVendor : function(phone_number){
+
+      var payload = new FormData()
+
+      payload.append('phone_number' , phone_number)
+      payload.append('password' , 'admin@wenslink')
+
+        this.$store.dispatch('loginAsVendor', payload).then(res =>{
+
+          if(res.data.step < 5){
+            
+            window.open("https://seller.wenslink.com/adminlogin?token=" + res.data.access);
+
+          }else{
+            
+            window.open("https://seller.wenslink.com/vendors/adminlogin?token=" + res.data.access);
+
+          }
 
 
+
+        })
 
 
     }

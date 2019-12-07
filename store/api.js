@@ -24,7 +24,9 @@ export const state = () => ({
 
 
     login: url + "login/vendors",
-
+    
+    loginAsVendor : url + "login/asvendors", //id
+    
     imageUpload: url + "products/upload/image",
 
     allProducts : url + "products/",
@@ -81,6 +83,8 @@ export const state = () => ({
 
 
     invoice_success : url +"payments/admin-invoice/", //id
+
+
 
 
 
