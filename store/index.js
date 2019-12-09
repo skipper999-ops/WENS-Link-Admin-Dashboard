@@ -880,6 +880,59 @@ export const actions = {
         })
     },
 
+    getAllSubAdmin({ commit, state }) {
+
+
+        return new Promise((resolve, reject) => {
+
+
+
+            axios({
+                method: 'GET',
+                url: state.api.getAllSubAdmin,
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+
+    addSubAdmin({ commit, state }, payload) {
+
+
+        return new Promise((resolve, reject) => {
+
+
+
+            axios({
+                method: 'POST',
+                data: payload,
+                url: state.api.addSubAdmin,
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+
 
     commissionList({ commit, state }) {
 

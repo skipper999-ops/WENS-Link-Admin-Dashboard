@@ -75,7 +75,11 @@ export const state = () => ({
 
     changeUserStatus : url + "users/changeStatus/", //id
 
-    getAllSeller : url + "users/", //id
+    getAllSeller : url + "users/getAllSellers", //id
+    
+    getAllSubAdmin : url + "users/getallsubadmin", //id
+
+    addSubAdmin : url + "users/create/subadmin", //id
 
     getSingleProducts : url + "products/single/", //id
 

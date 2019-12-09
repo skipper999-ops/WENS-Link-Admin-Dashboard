@@ -60,6 +60,12 @@
       </div>
       <p>Users</p>
       <div class="navbar__parent">
+        <nuxt-link to="/dashboard/users/subadmins">
+          <i data-feather="users"></i>
+          <span>Sub Admins</span>
+        </nuxt-link>
+      </div>
+      <div class="navbar__parent">
         <nuxt-link to="/dashboard/users/sellers">
           <i data-feather="users"></i>
           <span>Sellers</span>
