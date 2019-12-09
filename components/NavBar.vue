@@ -1,27 +1,63 @@
 <template>
   <div>
-
     <div class="padding-top-20">
       <nav class="topnav box-shadow padding-left-10 padding-right-10 row">
-        <div class="flex align-item col" style="height:100%">
+        <div
+          class="flex align-item col"
+          style="width:100%; justify-content: space-between;"
+        >
           <div class="visible-xs visible-sm">
             <a @click="openSidenav" class="pointer">
               <i data-feather="menu"></i>
             </a>
           </div>
           <div class="visible-xs visible-sm">
-              <p class="white-text hide-on-large-only" style="line-height:64px;font-family:'Bold'; font-size: 17px">WENSLink Admin Dashboard</p>
+            <p
+              class="white-text hide-on-large-only"
+              style="line-height:64px;font-family:'Bold'; font-size: 17px"
+            >
+              WENSLink Admin Dashboard
+            </p>
+          </div>
+          <div
+            class="flex align-item col right"
+            style="height:100%; justify-content:flex-end"
+          >
+            <div style="position:relative;margin-right:15px">
+              <span
+                class="feather-icon-badge bg-primary text-white h-5 w-5 absolute rounded-full text-xs flex items-center justify-center"
+                style="top: 5px; right: 0px;position:absolute;border-radius:50px;width:20px;height:20px"
+                >5</span
+              >
+            </div>
+            <div class="flex align-item">
+              <div style="padding-right:10px;line-height: 20px;">
+                <p class="font-12 white-text">{{ username }}</p>
+                <p class="font-10 white-text">{{ company_name }}</p>
+              </div>
+              <div>
+                 <img
+                  src="~static/files/user.svg"
+                  style="border-radius: 50px;width: 45px;height: 100%;"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </nav>
     </div>
 
-
-
-    <perfect-scrollbar id="mySidenav" class="sidenav hidden-xs hidden-sm padding-bottom-30">
-        <div style="cursor:pointer; text-align:right;padding-right:20px" class="hide-on-large-only" @click="closeSidenav">
-          <i data-feather="x"></i>
-        </div>
+    <perfect-scrollbar
+      id="mySidenav"
+      class="sidenav hidden-xs hidden-sm padding-bottom-30"
+    >
+      <div
+        style="cursor:pointer; text-align:right;padding-right:20px"
+        class="hide-on-large-only"
+        @click="closeSidenav"
+      >
+        <i data-feather="x"></i>
+      </div>
       <div class="flex align-item">
         <img src="~static/files/logo.png" class="sideNav__Logo" />
       </div>
@@ -214,53 +250,66 @@
   </div>-->
 </template>
 
-
 <script>
 // import feather from 'feather-icons'
 
 export default {
   data: () => ({
     active: false,
-    currentUserEmail: '',
+    currentUserEmail: "",
     pickup_count: 0,
     message_count: 0
   }),
 
   computed: {
     // active : $store.state.sidenavStatus
+        username() {
+      return this.$store.state.username;
+    },
+    company_name() {
+      return this.$store.state.company_name;
+    }
   },
 
   mounted() {
-    feather.replace({ color: 'white' })
+    feather.replace({ color: "white" });
 
-    var vm = this
+    var vm = this;
 
-    this.currentUserEmail = localStorage.getItem('currentUserEmail')
+    this.currentUserEmail = localStorage.getItem("currentUserEmail");
 
-      $('.navbar__parent').click(function(){
+    $(".navbar__parent").click(function() {
+      vm.closeSidenav();
+    });
 
-        vm.closeSidenav()
+    
+    if (this.$cookies.get("username") != undefined) {
 
-      })
+      this.$store.commit("username", this.$cookies.get("username"));
+      this.$store.commit("company_name", this.$cookies.get("company_name"));
 
-
+    } else {
+      console.log("cookieNot");
+      this.$store.commit("username", 0);
+      this.$store.commit("company_name", 0);
+    }
   },
   methods: {
     openSidenav: function() {
-      $('#mySidenav').addClass('open')
-      $('body').addClass('overflow')
+      $("#mySidenav").addClass("open");
+      $("body").addClass("overflow");
     },
     closeSidenav: function() {
-      $('#mySidenav').removeClass('open')
-      $('body').removeClass('overflow')
+      $("#mySidenav").removeClass("open");
+      $("body").removeClass("overflow");
     },
     logout: function() {
-      this.$cookies.removeAll()
+      this.$cookies.removeAll();
 
-      this.$router.push('/')
+      this.$router.push("/");
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -290,6 +339,7 @@ p {
   padding-top: 10px;
   /* box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); */
   overflow: auto;
+  padding-bottom: 60px;
 }
 
 .sidenav p {
@@ -318,7 +368,7 @@ p {
 }
 
 .sidenav a:hover {
-  color: #4CAF50;
+  color: #4caf50;
 }
 
 .sidenav .closebtn {
@@ -338,13 +388,12 @@ p {
   }
 }
 
-
 @media screen and (max-width: 991px) {
   .sidenav {
-    transform: translate3d(-260px,0,0);
+    transform: translate3d(-260px, 0, 0);
   }
   .sidenav.open {
-    transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -368,7 +417,7 @@ p {
   padding: 20px 10px;
   text-decoration: none;
   font-size: 17px;
-  height: 62px
+  height: 62px;
 }
 
 .topnav a:hover {
@@ -402,30 +451,31 @@ p {
   border-radius: 4px;
 }
 
-
-svg{
+svg {
   width: 20px;
 }
 
-
-.flex{
-  display: flex
+.flex {
+  display: flex;
 }
 
-.logout{
+.align-item {
+  align-items: center;
+}
+
+.logout {
   padding: 10px 15px 10px 15px;
-    cursor: pointer;
-    text-decoration: none;
-    font-size: 13px;
-    color: rgb(194, 205, 220);
-    display: block;
-    -webkit-transition: 0.3s;
-    transition: 0.3s;
-    width: 100%;
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 13px;
+  color: rgb(194, 205, 220);
+  display: block;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  width: 100%;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
 }
 </style>
-

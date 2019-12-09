@@ -46,7 +46,8 @@ export const state = () => ({
     getAllCompletedAuction: [],
     getAllOngoingAuction: [],
     singleProduct: [],
-
+    company_name: "",
+    username: ""
 })
 
 
@@ -78,6 +79,14 @@ export const mutations = {
     singleProduct(state, singleProduct) {
         console.log('selecting exercise mutation, ' + singleProduct)
         state.singleProduct = singleProduct
+    },
+    company_name(state, company_name) {
+        console.log('selecting exercise mutation, ' + company_name)
+        state.company_name = company_name
+    },
+    username(state, username) {
+        console.log('selecting exercise mutation, ' + username)
+        state.username = username
     },
 }
 

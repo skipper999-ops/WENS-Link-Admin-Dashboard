@@ -156,6 +156,20 @@ export default {
             maxAge: 60 * 60 * 24 * 7
           });
 
+          this.$cookies.set("username", res.data.user_info.name, {
+            path: "/",
+            // httpOnly : true,
+            // secure: true,
+            maxAge: 60 * 60 * 24 * 7
+          });
+
+          this.$cookies.set("company_name", res.data.user_info.company_name, {
+            path: "/",
+            // httpOnly : true,
+            // secure: true,
+            maxAge: 60 * 60 * 24 * 7
+          });
+
           this.$router.push("/dashboard/products/all");
           }else{
             alert(res.data.message)
