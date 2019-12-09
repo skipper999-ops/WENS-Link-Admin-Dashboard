@@ -270,8 +270,8 @@ h3 {
   }
 
   .login-col {
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 0;
+    padding-right: 0;
     padding-bottom: 40px;
     padding-top: 20px;
   }
@@ -285,7 +285,7 @@ h3 {
 
   .loginButton {
     width: 100%;
-    height: 50px;
+    height: 40px;
   }
 }
 
@@ -321,15 +321,17 @@ h3 {
   height: 50px;
   line-height: 50px;
 }
+
 label.material-input {
   order: -1;
   padding-left: 20px;
   transition: all 0.1s ease-in;
-  transform: translateY(15px);
+  transform: translateY(18px);
   pointer-events: none;
   position: absolute;
   top: 0;
 }
+
 label.added {
   transform: translateY(10px);
   font-size: 10px;
@@ -362,6 +364,7 @@ label.material-input,
 input.material-input {
   transition: all 0.2s;
   touch-action: manipulation;
+  outline: none;
 }
 
 /**

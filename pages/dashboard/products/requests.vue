@@ -18,7 +18,7 @@
         </div>
 
         <div class="row">
-          <vue-good-table :columns="columns" :rows="allproducts">
+          <vue-good-table :columns="columns" :rows="allproducts.slice().reverse()"  :line-numbers="true">
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field === 'image'">
                 <img
