@@ -6,6 +6,7 @@
           class="flex align-item col"
           style="width:100%; justify-content: space-between;"
         >
+          <div>
           <div class="visible-xs visible-sm">
             <a @click="openSidenav" class="pointer">
               <i data-feather="menu"></i>
@@ -19,8 +20,9 @@
               WENSLink Admin Dashboard
             </p>
           </div>
+          </div>
           <div
-            class="flex align-item col right"
+            class="flex align-item col right hide-on-med-and-down"
             style="height:100%; justify-content:flex-end"
           >
             <div style="position:relative;margin-right:15px">
