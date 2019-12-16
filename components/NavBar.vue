@@ -15,7 +15,7 @@
           <div class="visible-xs visible-sm">
             <p
               class="white-text hide-on-large-only"
-              style="line-height:64px;font-family:'Bold'; font-size: 17px"
+              style="line-height:64px;font-family:'Bold'; font-size: 17px;white-space: nowrap;"
             >
               WENSLink Admin Dashboard
             </p>
@@ -83,17 +83,11 @@
           <span>Approval</span>
         </nuxt-link>
       </div>
-      <p>Orders</p>
+      <p>Sales</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/orders/all">
           <i data-feather="plus-square"></i>
-          <span>All</span>
-        </nuxt-link>
-      </div>
-      <div class="navbar__parent">
-        <nuxt-link to="/dashboard/orders/pending">
-          <i data-feather="package"></i>
-          <span>Pending</span>
+          <span>Orders</span>
         </nuxt-link>
       </div>
       <p>Users</p>
