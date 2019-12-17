@@ -24,20 +24,14 @@ export default {
     script:[
       {
         src: "/admin/jquery.min.js",
-        // src: "https://code.jquery.com/jquery-3.4.1.min.js",
         type: "text/javascript"
       },
       {
         src: "/admin/feather.min.js",
-        // src: "https://code.jquery.com/jquery-3.4.1.min.js",
-        type: "text/javascript"
-      },
-      {
-        // src: "https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js",
         type: "text/javascript"
       }, 
       {
-        src: "/admin/dropzone.js",
+        src: "https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js",
         type: "text/javascript"
       }
     ]

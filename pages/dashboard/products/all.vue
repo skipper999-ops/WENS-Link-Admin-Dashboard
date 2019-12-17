@@ -36,7 +36,7 @@
                 <button
                   type="button"
                   @click="deleteProduct(props.row.id)"
-                  class="btn btn-primary"
+                  class="btn btn-red white-text"
                 >
                   Delete
                 </button>
@@ -44,6 +44,28 @@
               <span v-else>{{ props.formattedRow[props.column.field] }}</span>
             </template>
           </vue-good-table>
+          <div class="pagination_buttons">
+              <div class="limit">
+                <select v-model="limit" @change="change_limit">
+                  <option>10</option>
+                  <option>25</option>
+                  <option>50</option>
+                  <option>100</option>
+                </select>
+                <p>Page {{ offset / limit + 1 }}</p>
+              </div>
+              <div class="pagin">
+                <div class="btn btn-success" @click="prev_page" v-if="offset != 0">
+                  Prev
+                </div>
+                <!-- <div class="btn btn-success" v-for="p in center_buttons" :key="p">
+                  {{p}}
+                </div> -->
+                <div class="btn btn-success" @click="next_page" v-if="offset != max_count_value">
+                  Next
+                </div>
+              </div>
+          </div>
         </div>
       </div>
     </div>
@@ -51,8 +73,11 @@
 </template>
 
 <script>
+
+import { mapState } from 'vuex'
+
 export default {
-  name: "my-component",
+  name: "Catalogue",
   data() {
     return {
       columns: [
@@ -87,26 +112,57 @@ export default {
         }
       ],
       allproducts: [],
-      baseurl: process.env.baseUrl
+      baseurl: process.env.baseUrl,
+      next: "",
+      prev: "",
+      limit: 10,
+      offset: 0,
+      pagination_buttons: 0,
+      center_buttons: [],
+      max_count: 0,
+      max_count_value: 0
     };
   },
   mounted() {
-    this.getAllProducts();
+    this.offset_count();
   },
+  computed: {
+    ...mapState(['getAllProducts'])
+  },
+
   methods: {
-    getAllProducts: function() {
-      this.$store.dispatch("allProducts").then(res => {
+    offset_count: function() {
+      var limit = this.limit
+      var offset = this.offset
+      this.getAllCatalogueProducts()
+    },
+    getAllCatalogueProducts: function() {
+      var limit = this.limit
+      var offset = this.offset
+      this.$store.dispatch("allProducts", { limit , offset }).then(res => {
         console.log(res);
-        this.allproducts = JSON.parse(JSON.stringify(res.data));
+        this.allproducts = JSON.parse(JSON.stringify(res.data.results));
+        this.max_count = res.data.count;
           for(var i = 0; i < this.allproducts.length; i++){
           this.allproducts[i].images = JSON.parse(this.allproducts[i].images)
         }
+
+        this.pagination_buttons = Math.ceil((res.data.count - this.offset) / this.limit)
+
+        this.center_buttons = []
+
+        this.center_buttons.push(Math.ceil(this.pagination_buttons / 2) - 1)
+        this.center_buttons.push(Math.ceil(this.pagination_buttons / 2))
+        this.center_buttons.push(Math.ceil(this.pagination_buttons / 2) + 1)
+
+        this.max_count_value = parseInt(this.max_count / this.limit) * this.limit
+
       });
     },
     deleteProduct: function(id) {
       this.$store.dispatch("deleteProduct", id).then(res => {
         console.log(res);
-        this.getAllProducts();
+        this.getAllCatalogueProducts();
       });
     },
     editProduct: function(id) {
@@ -116,8 +172,46 @@ export default {
       //   console.log(res);
       // });
     },
+    next_page: function() {
+      this.offset = this.offset + this.limit 
+      if(this.offset > this.max_count){
+          this.offset = parseInt(this.max_count / this.limit) * this.limit
+        }
+      var limit = this.limit
+      var offset = this.offset
+      this.getAllCatalogueProducts()
+    },
+    prev_page: function() {
+      this.offset = this.offset - this.limit 
+        if(this.offset < 0){
+          this.offset = 0
+        }
+      var limit = this.limit
+      var offset = this.offset
+      this.getAllCatalogueProducts()
+    },
+    change_limit: function() {
+      this.offset = 0
+      this.limit = parseInt(this.limit)
+      var limit = parseInt(this.limit)
+      var offset = this.offset
+      this.getAllCatalogueProducts()
+    },
   }
 };
 </script>
 
-<style></style>
+<style>
+
+.pagination_buttons{
+  display: flex;
+  padding: 10px;
+  justify-content: space-between
+}
+
+.btn{
+  padding: 9px 12px
+}
+
+
+</style>

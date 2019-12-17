@@ -10,39 +10,86 @@
         </div>
 
         <div class="row">
-          <vue-good-table :columns="columns" :rows="allOrder" :line-numbers="true">
+          <vue-good-table
+            :columns="columns"
+            :rows="allOrder"
+            :line-numbers="true"
+          >
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field === 'action'">
                 <!-- <button type="button" @click="deleteProduct(props.row.id)" class="btn btn-primary">Delete</button> -->
               </span>
               <span v-else-if="props.column.field === 'payment_method'">
                 <p v-if="props.row.payment_method == 0">Placed</p>
-                <p v-else-if="props.row.payment_method == 1">Credit / Debit Card</p>
+                <p v-else-if="props.row.payment_method == 1">
+                  Credit / Debit Card
+                </p>
                 <p v-else-if="props.row.payment_method == 2">Net Banking</p>
                 <p v-else-if="props.row.payment_method == 3">Wallet</p>
-                <p v-else-if="props.row.payment_method == 4">Cash on Delivery</p>
-                <p v-else style="color:red">Order Error. Please contact admin</p>
+                <p v-else-if="props.row.payment_method == 4">
+                  Cash on Delivery
+                </p>
+                <p v-else style="color:red">
+                  Order Error. Please contact admin
+                </p>
               </span>
               <span v-else-if="props.column.field === 'delivery_status'">
                 <p v-if="props.row.delivery_status == 0">Placed</p>
                 <p v-else-if="props.row.delivery_status == 1">Delivered</p>
-                <p v-else-if="props.row.delivery_status == 2">Cancelled By Seller</p>
-                <p v-else-if="props.row.delivery_status == 3">Cancelled By Buyer</p>
-                <p v-else style="color:red">Order Error. Please contact admin</p>
+                <p v-else-if="props.row.delivery_status == 2">
+                  Cancelled By Seller
+                </p>
+                <p v-else-if="props.row.delivery_status == 3">
+                  Cancelled By Buyer
+                </p>
+                <p v-else style="color:red">
+                  Order Error. Please contact admin
+                </p>
               </span>
               <span v-else-if="props.column.field === 'created_date'">
-                <p>{{props.row.created_date.split('T')[0]}} {{props.row.created_date.split('T')[1].split('.')[0]}}</p>
+                <p>
+                  {{ props.row.created_date.split("T")[0] }}
+                  {{ props.row.created_date.split("T")[1].split(".")[0] }}
+                </p>
               </span>
               <span v-else>{{ props.formattedRow[props.column.field] }}</span>
             </template>
           </vue-good-table>
+          <div class="pagination_buttons">
+            <div class="limit">
+              <select v-model="limit" @change="change_limit">
+                <option>10</option>
+                <option>25</option>
+                <option>50</option>
+                <option>100</option>
+              </select>
+              <p>Page {{ offset / limit + 1 }}</p>
+            </div>
+            <div class="pagin">
+              <div
+                class="btn btn-success"
+                @click="prev_page"
+                v-if="offset != 0"
+              >
+                Prev
+              </div>
+              <!-- <div class="btn btn-success" v-for="p in center_buttons" :key="p">
+                  {{p}}
+                </div> -->
+              <div
+                class="btn btn-success"
+                @click="next_page"
+                v-if="offset != max_count_value"
+              >
+                Next
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-
 
 <script>
 export default {
@@ -111,20 +158,58 @@ export default {
       {
         label: "Action",
         field: "action"
-      },
-    ]
+      }
+    ],
+      next: "",
+      prev: "",
+      limit: 10,
+      offset: 0,
+      pagination_buttons: 0,
+      center_buttons: [],
+      max_count: 0,
+      max_count_value: 0
   }),
 
   mounted() {
-    this.getAllOrder();
+    this.offset_count();
   },
   methods: {
+    offset_count: function() {
+      var limit = this.limit;
+      var offset = this.offset;
+      this.getAllOrder();
+    },
     getAllOrder: function() {
       this.$store.dispatch("getAllOrder").then(res => {
         console.log(res);
         this.allOrder = JSON.parse(JSON.stringify(res.data));
       });
-    }
+    },
+        next_page: function() {
+      this.offset = this.offset + this.limit 
+      if(this.offset > this.max_count){
+          this.offset = parseInt(this.max_count / this.limit) * this.limit
+        }
+      var limit = this.limit
+      var offset = this.offset
+      this.getAllProducts()
+    },
+    prev_page: function() {
+      this.offset = this.offset - this.limit 
+        if(this.offset < 0){
+          this.offset = 0
+        }
+      var limit = this.limit
+      var offset = this.offset
+      this.getAllProducts()
+    },
+    change_limit: function() {
+      this.offset = 0
+      this.limit = parseInt(this.limit)
+      var limit = parseInt(this.limit)
+      var offset = this.offset
+      this.getAllProducts()
+    },
   }
 };
 </script>

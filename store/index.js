@@ -391,14 +391,14 @@ export const actions = {
         })
     },
 
-    allProducts({ commit, state }, payload) {
+    allProducts({ commit, state }, {limit, offset}) {
 
 
         return new Promise((resolve, reject) => {
 
             axios({
                 method: 'GET',
-                url: state.api.allProducts,
+                url: state.api.allProducts + '?limit=' + limit + '&offset=' + offset,
                 contentType: 'application/json',
                 headers: {
                  'Authorization': "Bearer " + this.$cookies.get('access_token')
@@ -407,7 +407,7 @@ export const actions = {
                 .then(res => {
                     console.log(res.data)
                     console.log('response')
-                    commit('getAllProducts', res.data);
+                    commit('getAllProducts', res.data.result);
                     resolve(res)
                 })
                 .catch(err => {
@@ -778,14 +778,14 @@ export const actions = {
 
 
 
-    allProductsRequests({ commit, state }, payload) {
+    allProductsRequests({ commit, state }, {limit, offset}) {
 
 
         return new Promise((resolve, reject) => {
 
             axios({
                 method: 'GET',
-                url: state.api.allProductsRequests,
+                url: state.api.allProductsRequests + '?limit=' + limit + '&offset=' + offset,
                 contentType: 'application/json',
                 headers: {
                     'Authorization': "Bearer " + this.$cookies.get('access_token')

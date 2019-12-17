@@ -7,19 +7,19 @@
           style="width:100%; justify-content: space-between;"
         >
           <div>
-          <div class="visible-xs visible-sm">
-            <a @click="openSidenav" class="pointer">
-              <i data-feather="menu"></i>
-            </a>
-          </div>
-          <div class="visible-xs visible-sm">
-            <p
-              class="white-text hide-on-large-only"
-              style="line-height:64px;font-family:'Bold'; font-size: 17px;white-space: nowrap;"
-            >
-              WENSLink Admin Dashboard
-            </p>
-          </div>
+            <div class="visible-xs visible-sm">
+              <a @click="openSidenav" class="pointer">
+                <i data-feather="menu"></i>
+              </a>
+            </div>
+            <div class="visible-xs visible-sm">
+              <p
+                class="white-text hide-on-large-only"
+                style="line-height:64px;font-family:'Bold'; font-size: 17px;white-space: nowrap;"
+              >
+                WENSLink Admin Dashboard
+              </p>
+            </div>
           </div>
           <div
             class="flex align-item col right hide-on-med-and-down"
@@ -38,7 +38,7 @@
                 <p class="font-10 white-text">{{ company_name }}</p>
               </div>
               <div>
-                 <img
+                <img
                   src="~static/files/user.svg"
                   style="border-radius: 50px;width: 45px;height: 100%;"
                 />
@@ -64,10 +64,17 @@
         <img src="~static/files/logo.png" class="sideNav__Logo" />
       </div>
       <p style="font-family:bold">WENSLink Admin Dashboard</p>
+      <p></p>
+      <div class="navbar__parent">
+        <nuxt-link to="/dashboard/index">
+          <i data-feather="grid"></i>
+          <span>Dashboard</span>
+        </nuxt-link>
+      </div>
       <p>Product</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/products/new">
-          <i data-feather="video"></i>
+          <i data-feather="plus-square"></i>
           <span>New</span>
         </nuxt-link>
       </div>
@@ -86,8 +93,14 @@
       <p>Sales</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/orders/all">
-          <i data-feather="plus-square"></i>
+          <i data-feather="package"></i>
           <span>Orders</span>
+        </nuxt-link>
+      </div>
+      <div class="navbar__parent">
+        <nuxt-link to="/dashboard/shipping/all">
+          <i data-feather="truck"></i>
+          <span>Shipping</span>
         </nuxt-link>
       </div>
       <p>Users</p>
@@ -259,7 +272,7 @@ export default {
 
   computed: {
     // active : $store.state.sidenavStatus
-        username() {
+    username() {
       return this.$store.state.username;
     },
     company_name() {
@@ -278,12 +291,9 @@ export default {
       vm.closeSidenav();
     });
 
-    
     if (this.$cookies.get("username") != undefined) {
-
       this.$store.commit("username", this.$cookies.get("username"));
       this.$store.commit("company_name", this.$cookies.get("company_name"));
-
     } else {
       console.log("cookieNot");
       this.$store.commit("username", 0);

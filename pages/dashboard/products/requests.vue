@@ -18,52 +18,113 @@
         </div>
 
         <div class="row">
-          <vue-good-table :columns="columns" :rows="allproducts.slice().reverse()"  :line-numbers="true">
+          <vue-good-table
+            :columns="columns"
+            :rows="allproducts.slice().reverse()"
+            :line-numbers="true"
+          >
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field === 'image'">
                 <img
                   style="width: 40px; height: 40px; object-fit:contain"
                   :src="
-                    baseurl +  '/media/products/' +
+                    baseurl +
+                      '/media/products/' +
                       props.row.product_id['images'][0]
                   "
                 />
               </span>
-              <span v-if="props.column.field === 'status'">
+              <span v-else-if="props.column.field === 'status'">
                 <p
-                  type="button"
                   v-if="props.row.status == 1"
+                  style="color: #009688; font-weight: bold;"
                   class="btn btn-primary"
                 >
                   APPROVED
                 </p>
                 <p
-                  type="button"
                   v-if="props.row.status == 2"
+                  style="color: #F44336; font-weight: bold;"
                   class="btn btn-primary"
                 >
                   REJECTED
                 </p>
-                <button
-                  type="button"
-                  v-if="props.row.status == 0 || props.row.status == 2"
-                  @click="changeProductStatus(props.row.id, props.row.product_id.product_name, props.row.seller_id.phone_number, props.row.sku, 1)"
-                  class="btn btn-primary"
-                >
-                  APPROVE
-                </button>
-                <button
-                  type="button"
-                  v-if="props.row.status == 0 || props.row.status == 1"
-                  @click="changeProductStatus(props.row.id, props.row.product_id.product_name, props.row.seller_id.phone_number, props.row.sku, 2)"
-                  class="btn btn-primary"
-                >
-                  REJECT
-                </button>
+                <p v-if="props.row.status == 0" class="btn btn-primary">
+                  PENDING
+                </p>
+              </span>
+              <span v-else-if="props.column.field === 'action'">
+                <div v-if="props.row.seller_id != null">
+                  <button
+                    type="button"
+                    v-if="props.row.status == 0 || props.row.status == 2"
+                    @click="
+                      changeProductStatus(
+                        props.row.id,
+                        props.row.product_id.product_name,
+                        props.row.seller_id.phone_number,
+                        props.row.sku,
+                        1
+                      )
+                    "
+                    class="btn btn-success white-text"
+                  >
+                    APPROVE
+                  </button>
+                  <button
+                    type="button"
+                    v-if="props.row.status == 0 || props.row.status == 1"
+                    @click="
+                      changeProductStatus(
+                        props.row.id,
+                        props.row.product_id.product_name,
+                        props.row.seller_id.phone_number,
+                        props.row.sku,
+                        2
+                      )
+                    "
+                    class="btn btn-red white-text"
+                  >
+                    REJECT
+                  </button>
+                </div>
+                <div v-else>
+                  <p>Seller Not Available</p>
+                </div>
               </span>
               <span v-else>{{ props.formattedRow[props.column.field] }}</span>
             </template>
           </vue-good-table>
+          <div class="pagination_buttons">
+            <div class="limit">
+              <select v-model="limit" @change="change_limit">
+                <option>10</option>
+                <option>25</option>
+                <option>50</option>
+                <option>100</option>
+              </select>
+              <p>Page {{ offset / limit + 1 }}</p>
+            </div>
+            <div class="pagin">
+              <div
+                class="btn btn-success"
+                @click="prev_page"
+                v-if="offset != 0"
+              >
+                Prev
+              </div>
+              <!-- <div class="btn btn-success" v-for="p in center_buttons" :key="p">
+                  {{p}}
+                </div> -->
+              <div
+                class="btn btn-success"
+                @click="next_page"
+                v-if="offset != max_count_value"
+              >
+                Next
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -95,6 +156,10 @@ export default {
         {
           label: "Status",
           field: "status"
+        },
+        {
+          label: "Action",
+          field: "action"
         }
       ],
       rows: [
@@ -107,24 +172,41 @@ export default {
         }
       ],
       allproducts: [],
-      baseurl: process.env.baseUrl
+      baseurl: process.env.baseUrl,
+      next: "",
+      prev: "",
+      limit: 10,
+      offset: 0,
+      pagination_buttons: 0,
+      center_buttons: [],
+      max_count: 0,
+      max_count_value: 0
     };
   },
   mounted() {
-    this.getAllProducts();
+    this.offset_count();
   },
   methods: {
+    offset_count: function() {
+      var limit = this.limit;
+      var offset = this.offset;
+      this.getAllProducts();
+    },
     getAllProducts: function() {
-      this.$store.dispatch("allProductsRequests").then(res => {
-        console.log(res);
-        this.allproducts = JSON.parse(JSON.stringify(res.data));
+      var limit = this.limit;
+      var offset = this.offset;
+      this.$store
+        .dispatch("allProductsRequests", { limit, offset })
+        .then(res => {
+          console.log(res);
+          this.allproducts = JSON.parse(JSON.stringify(res.data.results));
 
-        for (var i = 0; i < this.allproducts.length; i++) {
-          this.allproducts[i]["product_id"].images = JSON.parse(
-            this.allproducts[i]["product_id"].images
-          );
-        }
-      });
+          for (var i = 0; i < this.allproducts.length; i++) {
+            this.allproducts[i]["product_id"].images = JSON.parse(
+              this.allproducts[i]["product_id"].images
+            );
+          }
+        });
     },
     deleteProduct: function(id) {
       this.$store.dispatch("deleteProduct", id).then(res => {
@@ -133,8 +215,8 @@ export default {
       });
     },
     changeProductStatus: function(id, product_name, number, sku, status) {
-      console.log("product_name")
-      console.log(product_name)
+      console.log("product_name");
+      console.log(product_name);
       var payload = {
         id: id,
         product_name: product_name,
@@ -146,7 +228,32 @@ export default {
         console.log(res);
         this.getAllProducts();
       });
-    }
+    },
+        next_page: function() {
+      this.offset = this.offset + this.limit 
+      if(this.offset > this.max_count){
+          this.offset = parseInt(this.max_count / this.limit) * this.limit
+        }
+      var limit = this.limit
+      var offset = this.offset
+      this.getAllProducts()
+    },
+    prev_page: function() {
+      this.offset = this.offset - this.limit 
+        if(this.offset < 0){
+          this.offset = 0
+        }
+      var limit = this.limit
+      var offset = this.offset
+      this.getAllProducts()
+    },
+    change_limit: function() {
+      this.offset = 0
+      this.limit = parseInt(this.limit)
+      var limit = parseInt(this.limit)
+      var offset = this.offset
+      this.getAllProducts()
+    },
   }
 };
 </script>
