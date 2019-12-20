@@ -71,6 +71,19 @@
           <span>Dashboard</span>
         </nuxt-link>
       </div>
+      <p>Homepage</p>
+      <div class="navbar__parent">
+        <nuxt-link to="/dashboard/homepage/slider">
+          <i data-feather="code"></i>
+          <span>Main Slider</span>
+        </nuxt-link>
+      </div>
+      <div class="navbar__parent">
+        <nuxt-link to="/dashboard/homepage/carousel">
+          <i data-feather="layers"></i>
+          <span>Carousel</span>
+        </nuxt-link>
+      </div>
       <p>Product</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/products/new">
