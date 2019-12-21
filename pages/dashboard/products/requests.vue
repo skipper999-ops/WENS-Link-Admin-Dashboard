@@ -138,6 +138,14 @@ export default {
     return {
       columns: [
         {
+          label: "Seller Name",
+          field: "seller_id.name"
+        },
+        {
+          label: "Seller Phone",
+          field: "seller_id.phone_number"
+        },
+        {
           label: "Image",
           field: "image"
         },
