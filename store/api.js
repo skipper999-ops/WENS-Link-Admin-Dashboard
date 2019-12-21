@@ -89,6 +89,15 @@ export const state = () => ({
     invoice_success : url +"payments/admin-invoice/", //id
 
 
+    getallbanner : url + "admin_app/mainslider/all",
+
+    addBanner : url + "admin_app/mainslider/create",
+
+    editDeleteBanner : url + "admin_app/mainslider/", //id,
+
+    bannerImageUpload : url + "admin_app/upload/image",
+
+
 
 
 

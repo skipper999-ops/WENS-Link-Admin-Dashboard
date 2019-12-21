@@ -89,7 +89,7 @@ table.vgt-table{
 }
 
 .vgt-inner-wrap{
-  padding: 0 10px
+  /* padding: 0 10px */
 }
 
 .button--green:hover {

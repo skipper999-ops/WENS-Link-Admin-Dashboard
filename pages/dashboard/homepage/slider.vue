@@ -1,90 +1,88 @@
 <template>
   <div class="navbar-spacing padding-top-30">
+    <div v-show="showDropdown" class="popup">
+      <div class="popup-main">
+        <div class="popup-title">
+          <h3>Upload Banner</h3>
+        </div>
+        <div class="popup-body">
+          <div class="form-control">
+            <label>Banner Name</label>
+            <input v-model="name" type="text" style="width:70%" />
+          </div>
+
+          <div class="form-control">
+            <label>Banner Description (Optional)</label>
+            <input v-model="description" type="text" style="width:70%" />
+          </div>
+          
+          <div style="margin: 0 10px 10px 0">
+            <label>Banner Image</label>
+              <div class="dropzone dz-clickable" id="myDrop">
+                <div class="dz-default dz-message" data-dz-message>
+                  <span>Drop files here to upload</span>
+                </div>
+            </div>
+          </div>
+
+          <!-- <div class="form-control">
+            <label>URL</label>
+            <input type="text" style="width:70%" />
+          </div> -->
+
+          <!-- <div class="form-control">
+            <label>Status</label>
+            <select v-model="status" style="width:70%">
+              <option value="0">Inactive</option>
+              <option value="1">Active</option>
+            </select>
+          </div> -->
+        </div>
+        <div class="popup-action">
+          <div class="pointer" @click="addBanner">Save</div>
+          <div class="pointer" @click="closeDropdownPanel">Cancel</div>
+        </div>
+      </div>
+    </div>
+
     <div class="specification">
       <div class="holder">
         <div
           class="column-padding header-bottom"
           style="display: flex; justify-content: space-between"
         >
-          <h3>Main Slider Images</h3>
+          <h3>Main Banner Images</h3>
+          <button class="btn btn-red white-text" @click="openDropdownPanel">
+            Add Banner
+          </button>
         </div>
 
         <div class="row">
           <vue-good-table
             :columns="columns"
-            :rows="allOrder"
+            :rows="allBanners"
             :line-numbers="true"
           >
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field === 'action'">
-                <!-- <button type="button" @click="deleteProduct(props.row.id)" class="btn btn-primary">Delete</button> -->
-              </span>
-              <span v-else-if="props.column.field === 'payment_method'">
-                <p v-if="props.row.payment_method == 0">Placed</p>
-                <p v-else-if="props.row.payment_method == 1">
-                  Credit / Debit Card
-                </p>
-                <p v-else-if="props.row.payment_method == 2">Net Banking</p>
-                <p v-else-if="props.row.payment_method == 3">Wallet</p>
-                <p v-else-if="props.row.payment_method == 4">
-                  Cash on Delivery
-                </p>
-                <p v-else style="color:red">
-                  Order Error. Please contact admin
-                </p>
-              </span>
-              <span v-else-if="props.column.field === 'delivery_status'">
-                <p v-if="props.row.delivery_status == 0">Placed</p>
-                <p v-else-if="props.row.delivery_status == 1">Delivered</p>
-                <p v-else-if="props.row.delivery_status == 2">
-                  Cancelled By Seller
-                </p>
-                <p v-else-if="props.row.delivery_status == 3">
-                  Cancelled By Buyer
-                </p>
-                <p v-else style="color:red">
-                  Order Error. Please contact admin
-                </p>
-              </span>
-              <span v-else-if="props.column.field === 'created_date'">
-                <p>
-                  {{ props.row.created_date.split("T")[0] }}
-                  {{ props.row.created_date.split("T")[1].split(".")[0] }}
-                </p>
+                <button
+                  type="button"
+                  @click="viewBanner(props.row.image)"
+                  class="btn btn-primary"
+                >
+                  View Banner
+                </button>
+                <button
+                  type="button"
+                  @click="deleteBanner(props.row.id)"
+                  class="btn btn-primary"
+                >
+                  Delete
+                </button>
               </span>
               <span v-else>{{ props.formattedRow[props.column.field] }}</span>
             </template>
           </vue-good-table>
-          <div class="pagination_buttons">
-            <div class="limit">
-              <select v-model="limit" @change="change_limit">
-                <option>10</option>
-                <option>25</option>
-                <option>50</option>
-                <option>100</option>
-              </select>
-              <p>Page {{ offset / limit + 1 }}</p>
-            </div>
-            <div class="pagin">
-              <div
-                class="btn btn-success"
-                @click="prev_page"
-                v-if="offset != 0"
-              >
-                Prev
-              </div>
-              <!-- <div class="btn btn-success" v-for="p in center_buttons" :key="p">
-                  {{p}}
-                </div> -->
-              <div
-                class="btn btn-success"
-                @click="next_page"
-                v-if="offset != max_count_value"
-              >
-                Next
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -94,122 +92,220 @@
 <script>
 export default {
   data: () => ({
-    allOrder: [],
+    allBanners: [],
+    showDropdown: false,
     columns: [
       {
-        label: "Order Id",
-        field: "order_id"
+        label: "Title",
+        field: "name"
       },
       {
-        label: "Invoice Id",
-        field: "invoice_id"
+        label: "Description",
+        field: "description"
       },
-      {
-        label: "Product Name",
-        field: "product_name",
-        width: "300px"
-      },
-      {
-        label: "Price",
-        field: "product_price"
-      },
-      {
-        label: "Delivery Status",
-        field: "delivery_status"
-      },
-      {
-        label: "Payment Details",
-        field: "payment_detail"
-      },
-      {
-        label: "Payment Method",
-        field: "payment_method",
-        width: "150px"
-      },
-      {
-        label: "RazorPay Order Id",
-        field: "razor_order_id"
-      },
-      {
-        label: "RazorPay Payment Id",
-        field: "razorpay_payment_id"
-      },
-      {
-        label: "RazorPay Order Id",
-        field: "razorpay_payment_id"
-      },
-      {
-        label: "RazorPay Signature",
-        field: "razorpay_signature"
-      },
-      {
-        label: "RazorPay Signature",
-        field: "razorpay_signature"
-      },
-      {
-        label: "Delivery Status",
-        field: "razor_order_id"
-      },
-      {
-        label: "Created Date",
-        field: "created_date",
-        width: "150px"
-      },
+      // {
+      //   label: "Banner",
+      //   field: "image"
+      // },
+      // {
+      //   label: "Path",
+      //   field: "url"
+      // },
+      // {
+      //   label: "Status",
+      //   field: "status"
+      // },
       {
         label: "Action",
         field: "action"
       }
     ],
-      next: "",
-      prev: "",
-      limit: 10,
-      offset: 0,
-      pagination_buttons: 0,
-      center_buttons: [],
-      max_count: 0,
-      max_count_value: 0
+    name: "",
+    description: "",
+    status: 1,
+    image: ""
   }),
 
   mounted() {
-    this.offset_count();
+    this.getAllBanner();
+
+    var vm = this;
+    Dropzone.autoDiscover = false;
+    this.myDropzone = new Dropzone("div#myDrop", {
+      paramName: "file",
+      autoProcessQueue: true,
+      parallelUploads: 1,
+      maxFiles: 1,
+      maxFilesize: 5, // MB
+      acceptedFiles: ".png, .jpeg, .jpg",
+      url: vm.$store.state.api.bannerImageUpload,
+      headers: {
+        "Cache-Control": null,
+        "X-Requested-With": null
+      },
+      renameFilename: function(filename) {
+        console.log(filename);
+        console.log("zzzzzzzzzzzzzzz");
+        return new Date().getTime() + "_" + filename;
+      }
+    });
+    this.myDropzone.on("sending", function(file, xhr, formData) {
+      var filenames = [];
+      console.log("success");
+      $(".dz-preview .dz-filename").each(function() {
+        filenames.push(
+          $(this)
+            .find("span")
+            .text()
+        );
+      });
+      formData.append("filenames", filenames);
+    });
+    /* Add Files Script*/
+    this.myDropzone.on("success", function(file, message) {
+      console.log("success");
+      console.log(file, message);
+      console.log(file);
+      message.filenames.forEach((file, index) => {
+        vm.image = file.filename;
+      });
+    });
+    this.myDropzone.on("error", function(data) {
+      $("#msg").html(
+        '<div class="alert alert-danger">There is some thing wrong, Please try again!</div>'
+      );
+    });
+    this.myDropzone.on("complete", function(file) {
+      //   myDropzone.removeFile(file)
+    });
+    this.myDropzone.on("removedfile", function(file) {
+      //   myDropzone.removeFile(file)
+      console.log(file);
+      vm.image = ""
+    });
+    this.myDropzone.on("addedfile", function(file) {
+      console.log("added file");
+      console.log(this.files.length);
+      console.log(this.options.maxFiles);
+      while (this.files.length > this.options.maxFiles) {
+        this.removeFile(this.files[0]);
+      }
+    });
+    $("#add_file").on("click", function() {
+      console.log("success");
+      this.myDropzone.processQueue();
+    });
   },
   methods: {
-    offset_count: function() {
-      var limit = this.limit;
-      var offset = this.offset;
-      this.getAllOrder();
-    },
-    getAllOrder: function() {
-      this.$store.dispatch("getAllOrder").then(res => {
+    getAllBanner: function() {
+      this.$store.dispatch("getAllBanner").then(res => {
         console.log(res);
-        this.allOrder = JSON.parse(JSON.stringify(res.data));
+        this.allBanners = JSON.parse(JSON.stringify(res.data));
       });
     },
-        next_page: function() {
-      this.offset = this.offset + this.limit 
-      if(this.offset > this.max_count){
-          this.offset = parseInt(this.max_count / this.limit) * this.limit
-        }
-      var limit = this.limit
-      var offset = this.offset
-      this.getAllProducts()
+    addBanner: function() {
+
+      var payload = {
+        name: this.name,
+        description: this.description,
+        status: this.status,
+        image: this.image
+      }
+
+      this.$store.dispatch("addBanner", payload).then(res => {
+        console.log(res);
+        this.getAllBanner();
+        this.closeDropdownPanel()
+      });
     },
-    prev_page: function() {
-      this.offset = this.offset - this.limit 
-        if(this.offset < 0){
-          this.offset = 0
-        }
-      var limit = this.limit
-      var offset = this.offset
-      this.getAllProducts()
+    viewBanner: function(id) {
+      window.open(process.env.baseUrl + "/media/banners" + id)
     },
-    change_limit: function() {
-      this.offset = 0
-      this.limit = parseInt(this.limit)
-      var limit = parseInt(this.limit)
-      var offset = this.offset
-      this.getAllProducts()
+    deleteBanner: function(id){
+       this.$store.dispatch("editDeleteBanner", id).then(res => {
+        console.log(res);
+        this.getAllBanner();
+      });
     },
+    openDropdownPanel: function() {
+      this.showDropdown = true;
+    },
+    closeDropdownPanel: function() {
+      this.showDropdown = false;
+       this.name = ""
+      this.description = ""
+      this.status = ""
+      this.myDropzone.removeAllFiles()
+    }
   }
 };
 </script>
+
+<style scoped>
+.popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+}
+
+.popup-main {
+  background-color: white;
+  margin: auto;
+  position: absolute;
+  max-width: 400px;
+  height: 460px;
+  left: 260px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.popup-body {
+  height: 300px;
+  overflow: auto;
+  padding: 30px;
+}
+
+.popup-title {
+  padding: 30px 30px 16px;
+  border-bottom: 1px solid #00000024;
+}
+.popup-action {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 25px;
+  box-shadow: 0px -7px 10px 0px #0000000d;
+}
+
+.popup:after {
+  background-color: rgba(0, 0, 0, 0.83);
+  margin: auto;
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+input,
+select {
+  height: 35px;
+  margin: 0 10px 10px 0;
+  border-radius: 0;
+  outline: none;
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  box-shadow: none;
+  transition: all 0.3s;
+}
+</style>

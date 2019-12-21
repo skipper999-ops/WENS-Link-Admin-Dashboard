@@ -1021,6 +1021,73 @@ export const actions = {
                 })
         })
     },
+    getAllBanner({ commit, state }) {
+
+
+        return new Promise((resolve, reject) => {
+
+            axios({
+                method: 'GET',
+                url: state.api.getallbanner,
+                contentType: 'application/json'
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+    addBanner({ commit, state }, payload) {
+
+
+        return new Promise((resolve, reject) => {
+
+            axios({
+                method: 'POST',
+                data: payload,
+                url: state.api.addBanner,
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+    editDeleteBanner({ commit, state }, payload) {
+
+
+        return new Promise((resolve, reject) => {
+
+            axios({
+                method: 'DELETE',
+                url: state.api.editDeleteBanner + payload,
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': "Bearer " + this.$cookies.get('access_token')
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
 
 
 
