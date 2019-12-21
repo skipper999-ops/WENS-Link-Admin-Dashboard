@@ -51,7 +51,8 @@ export default {
   */
   plugins: [
     { src: '~/plugins/PerfectScrollbar', lang: 'js' },
-    { src: '~/plugins/goodtable', lang: 'js' }
+    { src: '~/plugins/goodtable', lang: 'js' },
+    { src: '~/plugins/draggable', lang: 'js' },
   ],
   /*
   ** Nuxt.js dev-modules
