@@ -167,6 +167,12 @@
           <span>Logout</span>
         </div>
       </div>
+      <p></p>
+      <div class="navbar__parent">
+        <div class="">
+          <span style="color:#c2cddc5c">Dashboard Version 0.0.1</span>
+        </div>
+      </div>
     </perfect-scrollbar>
   </div>
 
