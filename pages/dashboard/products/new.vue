@@ -339,7 +339,8 @@ export default {
           createdAt: "2011-10-31",
           details: "<p>asa</p>"
         }
-      ]
+      ],
+      vs: this
     };
   },
   mounted() {
@@ -367,8 +368,8 @@ export default {
       },
        renameFilename: function (filename) {
           console.log(filename)
-          console.log("zzzzzzzzzzzzzzz")
-            return new Date().getTime() + '_' + filename;
+          console.log(vm.product_name + "_" + new Date().getTime() + "_" + filename)
+            return vm.product_name + "_" + new Date().getTime() + "_" + filename;
         }
     });
     this.myDropzone.on("sending", function(file, xhr, formData) {
@@ -417,7 +418,18 @@ export default {
       console.log("success");
       this.myDropzone.processQueue();
     });
+    this.vs.myDropzone.disable()
   },
+   watch: { 
+      	product_name: function(newVal, oldVal) { // watch it
+          console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+          if(newVal != ""){
+            this.vs.myDropzone.enable()
+          }else{
+            this.vs.myDropzone.disable()
+          }
+        }
+      },
   methods: {
     getSubcategories: function() {
       this.$store
