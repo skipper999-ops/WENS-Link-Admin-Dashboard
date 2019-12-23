@@ -1089,6 +1089,26 @@ export const actions = {
         })
     },
 
+    navbarOrder({ commit, state }) {
+
+
+        return new Promise((resolve, reject) => {
+
+            axios({
+                method: 'GET',
+                url: state.api.navbarOrder,
+                contentType: 'application/json'
+            })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
 
 
 

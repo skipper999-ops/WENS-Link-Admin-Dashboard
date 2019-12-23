@@ -73,6 +73,12 @@
       </div>
       <p>Homepage</p>
       <div class="navbar__parent">
+        <nuxt-link to="/dashboard/homepage/navigation">
+          <i data-feather="menu"></i>
+          <span>Navigation Menu</span>
+        </nuxt-link>
+      </div>
+      <div class="navbar__parent">
         <nuxt-link to="/dashboard/homepage/slider">
           <i data-feather="code"></i>
           <span>Main Slider</span>

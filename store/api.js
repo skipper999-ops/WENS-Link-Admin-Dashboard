@@ -97,6 +97,10 @@ export const state = () => ({
 
     bannerImageUpload : url + "admin_app/upload/image",
 
+    navbarOrder : url + "admin_app/navbar-order",
+
+    navbarOrderUpdate : url + "admin_app/navbar-order/update", //key
+
 
 
 

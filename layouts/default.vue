@@ -152,7 +152,7 @@ h3 {
 
 @media only screen and (max-width: 600px) {
 .holder {
- padding: 20px 0;
+ padding: 20px;
 }
 .navbar-spacing{
   width: 100%;
