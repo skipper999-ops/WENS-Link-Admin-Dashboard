@@ -325,6 +325,7 @@ export default {
       subcategory_selected: 0,
       category_selected: 0,
       images: [],
+      product_name: "",
       bullet_points: [],
       slugify: "",
       editSlug: 0,
@@ -352,6 +353,7 @@ export default {
         }
       ],
       specs: [],
+      vs: this,
       baseurl: process.env.baseUrl
     };
   },
@@ -376,8 +378,8 @@ export default {
       },
       renameFilename: function(filename) {
         console.log(filename);
-        console.log("zzzzzzzzzzzzzzz");
-        return new Date().getTime() + "_" + filename;
+          console.log(vm.product_name + "_" + new Date().getTime() + "_" + filename)
+            return vm.product_name + "_" + new Date().getTime() + "_" + filename;
       }
     });
     this.myDropzone.on("sending", function(file, xhr, formData) {
@@ -436,6 +438,7 @@ export default {
         this.selected = res.data;
         this.images = JSON.parse(this.selected.images);
         this.subcategory_selected = this.selected.subcategory.id;
+        this.product_name = this.selected.product_name;
         this.category_selected = this.selected.category.id;
         this.bullet_points = JSON.parse(this.selected.bullet_points);
         this.selected.specs = JSON.parse(this.selected.specs);
@@ -503,11 +506,21 @@ export default {
         }, 100);
       });
   },
+     watch: { 
+      	product_name: function(newVal, oldVal) { // watch it
+          console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+          if(newVal != ""){
+            this.vs.myDropzone.enable()
+          }else{
+            this.vs.myDropzone.disable()
+          }
+        }
+      },
   methods: {
     updateProduct: function() {
       var payload = new FormData();
       payload.append("id", this.$route.params.id);
-      payload.append("product_name", this.selected.product_name);
+      payload.append("product_name", this.product_name);
       payload.append("product_id", this.selected.product_id);
       payload.append("product_id_type", this.selected.product_id_type);
       payload.append("slug", this.selected.slug);
