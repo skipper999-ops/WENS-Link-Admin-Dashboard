@@ -52,18 +52,26 @@
               class="list-group-item"
               v-for="element in final_category"
               :key="element.id"
-            >{{ element.name }}</div>
+            >
+              {{ element.name }}
+            </div>
           </draggable>
         </div>
 
         <div class="col s24 m12">
           <h3>All Categories</h3>
-          <draggable class="dragArea list-group" :list="category" group="people">
+          <draggable
+            class="dragArea list-group"
+            :list="category"
+            group="people"
+          >
             <div
               class="list-group-item"
               v-for="element in category"
               :key="element.id"
-            >{{ element.name }}</div>
+            >
+              {{ element.name }}
+            </div>
           </draggable>
         </div>
       </div>
@@ -128,24 +136,10 @@ export default {
       this.$store.dispatch("navbarOrder").then(res => {
         console.log(JSON.parse(res.data[0].value));
         this.final_category = JSON.parse(res.data[0].value);
-        var uniqueArray = removeDuplicates(arrayWithDuplicates, "licenseNum");
-        console.log("uniqueArray is: " + JSON.stringify(uniqueArray));
+
+        this.category = this.category.filter(v => !this.containsObject(v, this.final_category));
       });
     },
-    removeDuplicates: function(originalArray, prop) {
-      var newArray = [];
-      var lookupObject = {};
-
-      for (var i in originalArray) {
-        lookupObject[originalArray[i][prop]] = originalArray[i];
-      }
-
-      for (i in lookupObject) {
-        newArray.push(lookupObject[i]);
-      }
-      return newArray;
-    },
-
     navbarOrderUpdate: function() {
       var payload = {
         key: "ActiveCategory",
@@ -155,6 +149,17 @@ export default {
         console.log(res.data);
         this.navbarOrder();
       });
+    },
+    containsObject: function(obj, list) {
+      var i;
+      for (i = 0; i < list.length; i++) {
+          console.log(JSON.stringify(obj))
+          console.log(JSON.stringify(list[i]))
+        if (JSON.stringify(list[i]) === JSON.stringify(obj)) {
+          return true;
+        }
+      }
+      return false;
     },
     removeAt(idx) {
       this.list.splice(idx, 1);
