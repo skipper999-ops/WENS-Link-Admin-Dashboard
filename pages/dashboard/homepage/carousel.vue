@@ -18,12 +18,12 @@
           class="list-group-item"
           v-for="(element, idx) in list"
           :key="element.name"
-        > -->
+      >-->
       <!-- <div class="handler" style="background-color: red">
           
            <i data-feather="menu" class="handle"></i>
 
-        </div> -->
+      </div>-->
 
       <!-- <span class="text">{{ element.name }} </span> -->
 
@@ -31,9 +31,15 @@
       <!-- </li>
         </transition-group>
       </draggable>
-      </div> -->
+      </div>-->
       <div class="row">
-        <div class="col s24 m6 s4">
+        <div class="col s24">
+          <div style="display: flex;justify-content: space-between;">
+            <h3>Homepage Carousel Ordering</h3>
+            <div class="btn btn-success" @click="navbarOrderUpdate">Save</div>
+          </div>
+        </div>
+        <div class="col s24 m12">
           <h3>Active Menus</h3>
           <draggable
             class="dragArea list-group"
@@ -46,32 +52,19 @@
               class="list-group-item"
               v-for="element in final_category"
               :key="element.id"
-            >
-              {{ element.name }}
-            </div>
+            >{{ element.name }}</div>
           </draggable>
         </div>
 
-        <div class="col  s24 m6 s4">
+        <div class="col s24 m12">
           <h3>All Categories</h3>
-          <draggable
-            class="dragArea list-group"
-            :list="category"
-            group="people"
-          >
+          <draggable class="dragArea list-group" :list="category" group="people">
             <div
               class="list-group-item"
               v-for="element in category"
               :key="element.id"
-            >
-              {{ element.name }}
-            </div>
+            >{{ element.name }}</div>
           </draggable>
-        </div>
-        <div class="col s24">
-          <div class="btn btn-success">
-            Save
-          </div>
         </div>
       </div>
     </div>
@@ -135,6 +128,32 @@ export default {
       this.$store.dispatch("navbarOrder").then(res => {
         console.log(JSON.parse(res.data[0].value));
         this.final_category = JSON.parse(res.data[0].value);
+        var uniqueArray = removeDuplicates(arrayWithDuplicates, "licenseNum");
+        console.log("uniqueArray is: " + JSON.stringify(uniqueArray));
+      });
+    },
+    removeDuplicates: function(originalArray, prop) {
+      var newArray = [];
+      var lookupObject = {};
+
+      for (var i in originalArray) {
+        lookupObject[originalArray[i][prop]] = originalArray[i];
+      }
+
+      for (i in lookupObject) {
+        newArray.push(lookupObject[i]);
+      }
+      return newArray;
+    },
+
+    navbarOrderUpdate: function() {
+      var payload = {
+        key: "ActiveCategory",
+        value: JSON.stringify(this.final_category)
+      };
+      this.$store.dispatch("navbarOrderUpdate", payload).then(res => {
+        console.log(res.data);
+        this.navbarOrder();
       });
     },
     removeAt(idx) {

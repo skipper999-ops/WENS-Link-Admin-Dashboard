@@ -200,7 +200,7 @@
             Specifications not added. Go to
             <nuxt-link
               :to="'/dashboard/templates/specification/' + this.subcategory_selected"
-            >Specifications </nuxt-link> and add them
+            >Specifications</nuxt-link>and add them
           </p>
         </div>
         <div v-if="specs != ''">
@@ -208,7 +208,7 @@
             You can edit
             <nuxt-link
               :to="'/dashboard/templates/specification/' + this.subcategory_selected"
-            >Specifications</nuxt-link> here
+            >Specifications</nuxt-link>here
           </p>
         </div>
         <!-- <p>Please Complete the specification section</p> -->
@@ -226,23 +226,25 @@
                     </div>
 
                     <div style="display: flex;" v-if="q.type == 2">
-                      <select class="specs-value" :data-id="q.id" v-model="q.value" style="display: inline-block; width: 100% ">
-                        <option
-                          v-for="r in q.dropdown_items"
-                          :key="r.id"
-                          :value="r.name"
-                        >{{r.name}}</option>
+                      <select
+                        class="specs-value"
+                        :data-id="q.id"
+                        v-model="q.value"
+                        style="display: inline-block; width: 100% "
+                      >
+                        <option v-for="r in q.dropdown_items" :key="r.id" :value="r.name">{{r.name}}</option>
                       </select>
                     </div>
 
                     <div style="display: flex;" v-if="q.type == 3">
                       <input class="specs-value" type="text" :data-id="q.id" v-model="q.value" />
-                      <select class="specs-value" :data-id="q.id" v-model="q.dropdown" style="display: inline-block; width: 30% ">
-                        <option
-                          v-for="r in q.dropdown_items"
-                          :key="r.id"
-                          :value="r.name"
-                        >{{r.name}}</option>
+                      <select
+                        class="specs-value"
+                        :data-id="q.id"
+                        v-model="q.dropdown"
+                        style="display: inline-block; width: 30% "
+                      >
+                        <option v-for="r in q.dropdown_items" :key="r.id" :value="r.name">{{r.name}}</option>
                       </select>
                     </div>
                   </div>
@@ -362,15 +364,17 @@ export default {
       acceptedFiles: ".png, .jpeg, .jpg",
       url: vm.$store.state.api.imageUpload,
       headers: {
-        'Authorization': "Bearer " + vm.$cookies.get('access_token'),
+        Authorization: "Bearer " + vm.$cookies.get("access_token"),
         "Cache-Control": null,
         "X-Requested-With": null
       },
-       renameFilename: function (filename) {
-          console.log(filename)
-          console.log(vm.product_name + "_" + new Date().getTime() + "_" + filename)
-            return vm.product_name + "_" + new Date().getTime() + "_" + filename;
-        }
+      renameFilename: function(filename) {
+        console.log(filename);
+        console.log(
+          vm.product_name + "_" + new Date().getTime() + "_" + filename
+        );
+        return vm.product_name + "_" + new Date().getTime() + "_" + filename;
+      }
     });
     this.myDropzone.on("sending", function(file, xhr, formData) {
       var filenames = [];
@@ -388,8 +392,8 @@ export default {
     this.myDropzone.on("successmultiple", function(file, message) {
       console.log("success");
       console.log(file, message);
-        console.log(file)
-         message.filenames.forEach((file, index) => {
+      console.log(file);
+      message.filenames.forEach((file, index) => {
         vm.images.push(file.filename);
       });
     });
@@ -408,28 +412,29 @@ export default {
     });
     this.myDropzone.on("addedfile", function(file) {
       console.log("added file");
-      console.log(this.files.length )
-      console.log(this.options.maxFiles )
-       while (this.files.length > this.options.maxFiles) {
-            this.removeFile(this.files[10]);
-        }
+      console.log(this.files.length);
+      console.log(this.options.maxFiles);
+      while (this.files.length > this.options.maxFiles) {
+        this.removeFile(this.files[10]);
+      }
     });
     $("#add_file").on("click", function() {
       console.log("success");
       this.myDropzone.processQueue();
     });
-    this.vs.myDropzone.disable()
+    this.vs.myDropzone.disable();
   },
-   watch: { 
-      	product_name: function(newVal, oldVal) { // watch it
-          console.log('Prop changed: ', newVal, ' | was: ', oldVal)
-          if(newVal != ""){
-            this.vs.myDropzone.enable()
-          }else{
-            this.vs.myDropzone.disable()
-          }
-        }
-      },
+  watch: {
+    product_name: function(newVal, oldVal) {
+      // watch it
+      console.log("Prop changed: ", newVal, " | was: ", oldVal);
+      if (newVal != "") {
+        this.vs.myDropzone.enable();
+      } else {
+        this.vs.myDropzone.disable();
+      }
+    }
+  },
   methods: {
     getSubcategories: function() {
       this.$store
@@ -504,7 +509,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 select,
 input,
 textarea {
