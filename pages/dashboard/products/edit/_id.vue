@@ -1,9 +1,34 @@
 <template>
   <div class="navbar-spacing padding-top-30">
+
+
+  <div v-if="showDropdown" class="popup">
+      <div class="popup-main">
+        <div class="popup-title">
+          <h3>Error</h3>
+        </div>
+        <div class="popup-body">
+          <div>
+            <div v-for="(p, index) in error" :key="p.id">
+              <p style="font-size:15px;font-weight: bold">{{index}}</p>
+              <p style="margin-bottom: 15px">{{p[0]}}</p>
+              </div>
+          </div>
+        </div>
+        <div class="popup-action">
+          <div class="pointer" @click="closeSubCatModel">Cancel</div>
+        </div>
+      </div>
+    </div>
+
+
+
     <div class="specification">
       <div class="holder">
         <div class="column-padding header-bottom">
-          <h3 style="display: flex;align-items: center;">Add a Product to your catalogue</h3>
+          <h3 style="display: flex;align-items: center;">
+            Add a Product to your catalogue
+          </h3>
           <p style="padding-left: 19px;padding-bottom: 10px;">
             Product added here will be added to a common database and vendors
             can use these as templates when adding their products
@@ -19,7 +44,10 @@
             <div class="header-row">{{ selected.product_name }}</div>
             <div class="detail-row">
               <div class="column-left">
-                <img class="product-image" :src="baseurl +  '/media/products/' + images[0]" />
+                <img
+                  class="product-image"
+                  :src="baseurl + '/media/products/' + images[0]"
+                />
               </div>
               <div class="column-right">
                 <span>
@@ -46,9 +74,9 @@
       <div class="holder">
         <div class="column-padding">
           <h3 style="display: flex;align-items: center;">Product Category</h3>
-          <p
-            style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
-          >These informations cannot be changed by the Vendors</p>
+          <p style="padding-left: 19px;padding-bottom: 10px;color:#E91E63">
+            These informations cannot be changed by the Vendors
+          </p>
         </div>
 
         <div class="row">
@@ -56,13 +84,17 @@
             <div class="col s24 m8 l6">
               <label>Category</label>
               <select @change="getSubcategories" v-model="category_selected">
-                <option v-for="p in category" :key="p.id" :value="p.id">{{p.name}}</option>
+                <option v-for="p in category" :key="p.id" :value="p.id">{{
+                  p.name
+                }}</option>
               </select>
             </div>
             <div class="col s24 m8 l6">
               <label>SubCategory</label>
               <select v-model="subcategory_selected">
-                <option v-for="p in subcategory" :key="p.id" :value="p.id">{{p.name}}</option>
+                <option v-for="p in subcategory" :key="p.id" :value="p.id">{{
+                  p.name
+                }}</option>
               </select>
             </div>
           </div>
@@ -70,9 +102,9 @@
 
         <div class="column-padding">
           <h3 style="display: flex;align-items: center;">Basic Details</h3>
-          <p
-            style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
-          >These informations cannot be changed by the Vendors</p>
+          <p style="padding-left: 19px;padding-bottom: 10px;color:#E91E63">
+            These informations cannot be changed by the Vendors
+          </p>
         </div>
 
         <div class="row">
@@ -93,7 +125,12 @@
               <div class="form-group">
                 <label for="exampleInputEmail1">Product ID Type</label>
                 <select v-model="selected.product_id_type">
-                  <option v-for="p in product_id_list" :key="p.id" :value="p.id">{{ p.name }}</option>
+                  <option
+                    v-for="p in product_id_list"
+                    :key="p.id"
+                    :value="p.id"
+                    >{{ p.name }}</option
+                  >
                 </select>
               </div>
             </div>
@@ -111,10 +148,26 @@
             </div>
             <div class="col s24">
               <div class="form-group">
-                <div style="display: flex;justify-content: space-between;align-items: center;">
-                  <label style="display:flex" for="exampleInputEmail1">Product Slug</label>
-                  <div v-if="!editSlug" @click="allowSlugField(1)" class="link_tag">Edit</div>
-                  <div v-if="editSlug" @click="allowSlugField(0)" class="link_tag">Save</div>
+                <div
+                  style="display: flex;justify-content: space-between;align-items: center;"
+                >
+                  <label style="display:flex" for="exampleInputEmail1"
+                    >Product Slug</label
+                  >
+                  <div
+                    v-if="!editSlug"
+                    @click="allowSlugField(1)"
+                    class="link_tag"
+                  >
+                    Edit
+                  </div>
+                  <div
+                    v-if="editSlug"
+                    @click="allowSlugField(0)"
+                    class="link_tag"
+                  >
+                    Save
+                  </div>
                 </div>
                 <input
                   v-model="selected.slug"
@@ -163,32 +216,49 @@
         <hr class="break" />
 
         <div class="column-padding">
-          <h3 style="display: flex;align-items: center;">Descriptions & Bullet Points</h3>
-          <p
-            style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
-          >These informations cannot be changed by the Vendors</p>
+          <h3 style="display: flex;align-items: center;">
+            Descriptions & Bullet Points
+          </h3>
+          <p style="padding-left: 19px;padding-bottom: 10px;color:#E91E63">
+            These informations cannot be changed by the Vendors
+          </p>
         </div>
 
         <div class="row">
           <div class="col s24">
             <div class="col s24">
               <div class="form-group">
-                <label for="exampleInputEmail1">Write a Short Description about the product</label>
-                <textarea v-model="selected.description" style="height:160px"></textarea>
+                <label for="exampleInputEmail1"
+                  >Write a Short Description about the product</label
+                >
+                <textarea
+                  v-model="selected.description"
+                  style="height:160px"
+                ></textarea>
               </div>
             </div>
             <div class="col s24">
               <div class="form-group">
-                <label for="exampleInputEmail1">Add Bullet Points (Upto 9)</label>
+                <label for="exampleInputEmail1"
+                  >Add Bullet Points (Upto 9)</label
+                >
                 <div
                   style="display: flex; align-items:center"
                   v-for="(p, index) in bullet_points"
                   :key="p.length"
                 >
                   <input type="text" class="form-control" v-model="p.value" />
-                  <div style="color: red" class="pointer" @click="removeBullets(index)">Remove</div>
+                  <div
+                    style="color: red"
+                    class="pointer"
+                    @click="removeBullets(index)"
+                  >
+                    Remove
+                  </div>
                 </div>
-                <div class="link_tag" @click="addMoreBullets">+ Add More points</div>
+                <div class="link_tag" @click="addMoreBullets">
+                  + Add More points
+                </div>
               </div>
             </div>
           </div>
@@ -230,7 +300,9 @@
       </div>
       <div class="holder" v-show="subcategory_selected != undefined">
         <h3 class>Images</h3>
-        <p style="padding-left: 19px;padding-bottom: 10px;">Upload Images. (Max 10)</p>
+        <p style="padding-left: 19px;padding-bottom: 10px;">
+          Upload Images. (Max 10)
+        </p>
         <div style="padding-left: 19px;padding-bottom: 10px;" class>
           <div class="dropzone dz-clickable" id="myDrop">
             <div class="dz-default dz-message" data-dz-message>
@@ -249,16 +321,26 @@
                 '/dashboard/templates/specification/' +
                   this.subcategory_selected
               "
-            >Specifications</nuxt-link>and add them
+              >Specifications</nuxt-link
+            >and add them
           </p>
         </div>
         <!-- <p>Please Complete the specification section</p> -->
         <div v-if="specs != '{}'">
-          <div v-for="(p, index) in specs" :key="p.id" class="input_fields_wrap drag-list" id="h">
+          <div
+            v-for="(p, index) in specs"
+            :key="p.id"
+            class="input_fields_wrap drag-list"
+            id="h"
+          >
             <h3>{{ p.name }}</h3>
             <div class="row">
               <div class="col s12">
-                <div class="col s24" v-for="(q, index1) in p['sub']" :key="q.id">
+                <div
+                  class="col s24"
+                  v-for="(q, index1) in p['sub']"
+                  :key="q.id"
+                >
                   <div class="form-group">
                     <label>{{ q.name }}</label>
 
@@ -277,7 +359,8 @@
                           v-for="r in q.dropdown_items"
                           :key="r.id"
                           :value="r.name"
-                        >{{ r.name }}</option>
+                          >{{ r.name }}</option
+                        >
                       </select>
                     </div>
 
@@ -293,7 +376,8 @@
                           v-for="r in q.dropdown_items"
                           :key="r.id"
                           :value="r.name"
-                        >{{ r.name }}</option>
+                          >{{ r.name }}</option
+                        >
                       </select>
                     </div>
                   </div>
@@ -327,6 +411,8 @@ export default {
       images: [],
       product_name: "",
       bullet_points: [],
+      error: {},
+      showDropdown: false,
       slugify: "",
       editSlug: 0,
       not_similar: 0,
@@ -378,8 +464,10 @@ export default {
       },
       renameFilename: function(filename) {
         console.log(filename);
-          console.log(vm.product_name + "_" + new Date().getTime() + "_" + filename)
-            return vm.product_name + "_" + new Date().getTime() + "_" + filename;
+        console.log(
+          vm.product_name + "_" + new Date().getTime() + "_" + filename
+        );
+        return vm.product_name + "_" + new Date().getTime() + "_" + filename;
       }
     });
     this.myDropzone.on("sending", function(file, xhr, formData) {
@@ -463,7 +551,7 @@ export default {
         this.$store.dispatch("getCategory").then(res => {
           console.log(res);
           this.category = res.data;
-          this.getSubcategories()
+          this.getSubcategories();
         });
 
         setTimeout(function() {
@@ -506,16 +594,17 @@ export default {
         }, 100);
       });
   },
-     watch: { 
-      	product_name: function(newVal, oldVal) { // watch it
-          console.log('Prop changed: ', newVal, ' | was: ', oldVal)
-          if(newVal != ""){
-            this.vs.myDropzone.enable()
-          }else{
-            this.vs.myDropzone.disable()
-          }
-        }
-      },
+  watch: {
+    product_name: function(newVal, oldVal) {
+      // watch it
+      console.log("Prop changed: ", newVal, " | was: ", oldVal);
+      if (newVal != "") {
+        this.vs.myDropzone.enable();
+      } else {
+        this.vs.myDropzone.disable();
+      }
+    }
+  },
   methods: {
     updateProduct: function() {
       var payload = new FormData();
@@ -542,6 +631,10 @@ export default {
         .then(res => {
           console.log(res);
           this.$router.push("/dashboard/products/all");
+        })
+        .catch(error => {
+          this.error = error.response.data
+          this.openDropdownPanel()
         });
     },
 
@@ -574,6 +667,12 @@ export default {
       console.log(val);
 
       this.editSlug = val;
+    },
+    openDropdownPanel: function() {
+      this.showDropdown = true;
+    },
+    closeSubCatModel: function() {
+      this.showDropdown = false;
     }
   }
 };
@@ -639,4 +738,131 @@ export default {
   padding: 2rem 1rem;
   object-fit: cover;
 }
+
+select,
+input,
+textarea {
+  height: 35px;
+  font-family: "Regular";
+  margin: 0 10px 10px 0;
+  border-radius: 0;
+  outline: none;
+  width: 100%;
+  resize: vertical;
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  box-shadow: none;
+  border: 1px solid rgb(169, 169, 169);
+  transition: all 0.3s;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+h4 {
+  font-size: 25px;
+
+  padding-left: 19px;
+  padding-bottom: 10px;
+}
+
+.holder {
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 30px;
+  font-family: "Bold";
+}
+
+/* .form-group{
+  display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+} */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+::-webkit-input-placeholder {
+  /* Edge */
+  color: #afafaf;
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #afafaf;
+}
+
+::placeholder {
+  color: #afafaf;
+}
+
+.link_tag {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+
+
+.popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+}
+
+.popup-main {
+  background-color: white;
+  margin: auto;
+  position: absolute;
+  max-width: 400px;
+  height: 290px;
+  left: 260px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.popup-body {
+  height: 300px;
+  overflow: auto;
+  padding: 30px;
+}
+
+.popup-title {
+  padding: 30px 30px 16px;
+  border-bottom: 1px solid #00000024;
+}
+.popup-action {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 25px;
+  box-shadow: 0px -7px 10px 0px #0000000d;
+}
+
+.popup:after {
+  background-color: rgba(0, 0, 0, 0.83);
+  margin: auto;
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
 </style>

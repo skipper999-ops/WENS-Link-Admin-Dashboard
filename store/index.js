@@ -495,9 +495,10 @@ export const actions = {
           console.log("response");
           resolve(res);
         })
-        .catch(err => {
-          console.log("error in request", err);
-        });
+        .catch((error) => {
+          console.log(error.response)
+          reject(error);
+        })
     });
   },
 
@@ -581,10 +582,10 @@ export const actions = {
           console.log(res.data);
           console.log("response");
           resolve(res);
+        }).catch((error) => {
+          console.log(error.response)
+          reject(error);
         })
-        .catch(err => {
-          console.log("error in request", err);
-        });
     });
   },
 

@@ -1,5 +1,26 @@
 <template>
   <div class="navbar-spacing padding-top-30">
+
+
+<div v-if="showDropdown" class="popup">
+      <div class="popup-main">
+        <div class="popup-title">
+          <h3>Error</h3>
+        </div>
+        <div class="popup-body">
+          <div>
+            <div v-for="(p, index) in error" :key="p.id">
+              <p style="font-size:15px;font-weight: bold">{{index}}</p>
+              <p style="margin-bottom: 15px">{{p[0]}}</p>
+              </div>
+          </div>
+        </div>
+        <div class="popup-action">
+          <div class="pointer" @click="closeSubCatModel">Cancel</div>
+        </div>
+      </div>
+    </div>
+
     <div class="specification">
       <div class="holder">
         <div class="column-padding header-bottom">
@@ -281,6 +302,8 @@ export default {
       product_id: "",
       product_id_type: "",
       slugify: "",
+      error: {},
+      showDropdown: false,
       brand: "",
       manufacturer: "",
       seo: "",
@@ -466,7 +489,10 @@ export default {
       this.$store.dispatch("addProduct", payload).then(res => {
         console.log(res);
         this.$router.push("/dashboard/products/all");
-      });
+      }).catch(error => {
+          this.error = error.response.data
+          this.openDropdownPanel()
+        });;
     },
     getsubCategoryDetails: function() {
       if (this.subcategory_selected != undefined) {
@@ -503,6 +529,12 @@ export default {
       console.log(val);
 
       this.editSlug = val;
+    },
+    openDropdownPanel: function() {
+      this.showDropdown = true;
+    },
+    closeSubCatModel: function() {
+      this.showDropdown = false;
     }
   }
 };
