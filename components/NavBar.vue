@@ -155,6 +155,18 @@
         </nuxt-link>
       </div>
       <div class="navbar__parent">
+        <nuxt-link to="/dashboard/templates/filters">
+          <i data-feather="hash"></i>
+          <span>Filters</span>
+        </nuxt-link>
+      </div>
+      <div class="navbar__parent">
+        <nuxt-link to="/dashboard/templates/navmenu">
+          <i data-feather="hash"></i>
+          <span>Nav Menu</span>
+        </nuxt-link>
+      </div>
+      <div class="navbar__parent">
         <nuxt-link to="/dashboard/templates/commission">
           <i data-feather="hash"></i>
           <span>Commission Rate</span>
