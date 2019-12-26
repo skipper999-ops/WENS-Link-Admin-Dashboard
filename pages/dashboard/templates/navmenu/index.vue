@@ -1,5 +1,37 @@
 <template>
   <div class="navbar-spacing padding-top-30">
+    <div v-if="showDropdown" class="popup">
+      <div class="popup-main">
+        <div class="popup-title">
+          <h3>Add Category</h3>
+        </div>
+        <div class="popup-body">
+          <div>
+            <input v-model="newCategory" type="text" style="width:70%" />
+          </div>
+        </div>
+        <div class="popup-action">
+          <div class="pointer" @click="addCategory">Save</div>
+          <div class="pointer" @click="closeDropdownPanel">Cancel</div>
+        </div>
+      </div>
+    </div>
+    <div v-if="showEditDropdown" class="popup">
+      <div class="popup-main">
+        <div class="popup-title">
+          <h3>Edit Category</h3>
+        </div>
+        <div class="popup-body">
+          <div>
+            <input v-model="editingCategory" type="text" style="width:70%" />
+          </div>
+        </div>
+        <div class="popup-action">
+          <div class="pointer" @click="editCategory">Save</div>
+          <div class="pointer" @click="closeDropdownPanel">Cancel</div>
+        </div>
+      </div>
+    </div>
     <div v-if="showDropdown1" class="popup">
       <div class="popup-main">
         <div class="popup-title">
@@ -26,9 +58,9 @@
         class="column-padding header-bottom"
         style="display: flex; justify-content: space-between"
       >
-        <h3 style="display: flex;align-items: center;">All Filters</h3>
+        <h3 style="display: flex;align-items: center;">Navigation Menu</h3>
         <button
-          @click="openSubCatModel"
+          @click="openDropdownPanel"
           class="btn btn-red"
           style="display: flex;align-items: center;"
         >
@@ -37,7 +69,7 @@
       </div>
 
       <div class="row">
-        <vue-good-table :columns="sub_columns" :rows="subcategory">
+        <vue-good-table :columns="columns" :rows="category">
           <template slot="table-row" slot-scope="props">
             <span v-if="props.column.field === 'details'">
               <button
@@ -47,7 +79,7 @@
               >Edit</button>
               <button
                 type="button"
-                @click="deleteSubCategory(props.row.id)"
+                @click="deleteCategory(props.row.id)"
                 class="btn btn-primary"
               >Delete</button>
             </span>
@@ -56,6 +88,7 @@
         </vue-good-table>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -68,11 +101,14 @@ export default {
     selected_category: 0,
     sub_Category: "",
     category: [],
+    editingCategoryID: 0,
     category_selected: 0,
     subcategory: [],
     showDropdown: false,
     subcategory_selected: 0,
     brand: [],
+    editingCategory: "",
+    showEditDropdown: false,
     brand_selected: 0,
     showDropdown1: false,
     columns: [
@@ -92,7 +128,7 @@ export default {
       },
       {
         label: "Category",
-        field: "category.name"
+        field: "name"
       },
       {
         label: "Action",
@@ -104,27 +140,24 @@ export default {
 
   mounted() {
     this.getCategory();
-    this.getSubcategories();
     // this.getBrand();
   },
   methods: {
     editFilter: function(id) {
-
-       this.$cookies.set("filter_edit", id, {
+       this.$cookies.set("submenu_edit", id, {
             path: "/",
             // httpOnly : true,
             // secure: true,
             maxAge: 60 * 60 * 24 * 7
           });
-      
+    
       this.$router.push("/dashboard/templates/navmenu/edit");
-
-
     },
     getCategory: function() {
       this.$store.dispatch("getCategory").then(res => {
         console.log(res);
         this.category = JSON.parse(JSON.stringify(res.data));
+        this.closeDropdownPanel()
       });
     },
     addCategory: function() {
@@ -138,7 +171,6 @@ export default {
         console.log(res);
         this.getCategory();
         this.newCategory = ""
-        this.selected_category = ""
         this.closeDropdownPanel();
         // this.category = JSON.parse(JSON.stringify(res.data));
       });
@@ -153,7 +185,6 @@ export default {
 
       this.$store.dispatch("addSubCategory", payload).then(res => {
         console.log(res);
-        this.sub_Category = ""
         this.getSubcategories();
         // this.category = JSON.parse(JSON.stringify(res.data));
       });
@@ -185,6 +216,19 @@ export default {
         this.getBrand();
       });
     },
+    editCategory: function() {
+      this.$store.dispatch("editCategory", {
+        id: this.editingCategoryID,
+        payload: {
+          name: this.editingCategory
+        }
+      }).then(res => {
+        console.log(res);
+        this.getCategory();
+        this.getSubcategories();
+        this.getBrand();
+      });
+    },
     deleteSubCategory: function(id) {
       this.$store.dispatch("deleteSubCategory", id).then(res => {
         console.log(res);
@@ -198,17 +242,21 @@ export default {
         this.getBrand();
       });
     },
+    openEditCategory: function(id){
+      this.editingCategoryID = id
+      this.showEditDropdown = true;
+    },
     openDropdownPanel: function() {
       this.showDropdown = true;
-      this.sub_Category = ""
-      this.selected_category = 0
     },
     openSubCatModel: function() {
       this.showDropdown1 = true;
     },
     closeDropdownPanel: function() {
       this.showDropdown = false
+      this.showEditDropdown = false
       this.newCategory = ""
+      this.editingCategory = ""
     },
     closeSubCatModel: function() {
       this.showDropdown1 = false;

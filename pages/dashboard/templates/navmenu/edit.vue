@@ -28,9 +28,17 @@
     <div class="specification">
       <div class="holder">
         <h3>{{ subCat }}</h3>
-        <div class="add-section" @click="add_menu()" style="width: 100px">
+        <div style="display: flex;justify-content: space-between">
+          <div class="add-section" @click="add_menu" style="width: 100px">
           + Add Section
         </div>
+
+          <div class="add-section" @click="saveSubmenu" style="width: 50">
+          Save
+        </div>
+
+        </div>
+       
         <div class="row" v-for="(i, index) in data" :key="i.title">
           <h3>Column {{ index + 1 }}</h3>
           <div
@@ -76,7 +84,7 @@
                   <br />
                   <input
                     type="text"
-                    v-model="p.name"
+                    v-model="p.title"
                     class="header-data input"
                     placeholder="Header"
                     style="display: inline-block;"
@@ -100,8 +108,6 @@
               </div>
             </div>
           </div>
-
-          <button class="btn" @click="saveSpecs">Save</button>
         </div>
       </div>
     </div>
@@ -118,7 +124,7 @@ export default {
       subCat: "",
       input: [{ name: "" }],
       dropdown_title: "false",
-      category: this.$cookies.get("filter_edit"),
+      category: this.$cookies.get("submenu_edit"),
       data: []
     };
   },
@@ -179,14 +185,14 @@ export default {
     remove_input: function(index) {
       this.input.splice(index, 1);
     },
-    getsubCategoryDetails: function() {
+    getCategory: function() {
       this.$store
-        .dispatch("getsubCategoryDetails", this.category)
+        .dispatch("getCategoryDetails", this.category)
         .then(res => {
-          console.log(res);
           console.log("response");
-          if (res.data.filters.length != 0) {
-            this.data = JSON.parse(res.data.filters);
+          console.log(res);
+          if (res.data.submenu.length != 0) {
+            this.data = JSON.parse(res.data.submenu);
           }
           this.subCat = res.data.name;
         })
@@ -194,18 +200,21 @@ export default {
           console.log("error in request", err);
         });
     },
-    saveSpecs: function() {
+    saveSubmenu: function() {
+
+        console.log(JSON.stringify(this.data))
+
       var payload = {
         id: this.category,
-        specs: JSON.stringify(this.data)
+        submenu: JSON.stringify(this.data)
       };
 
       this.$store
-        .dispatch("saveSpecs", payload)
+        .dispatch("saveSubmenu", payload)
         .then(res => {
           console.log(res);
           console.log("response");
-          this.$router.push("/dashboard/templates/specification");
+          this.$router.push("/dashboard/templates/navmenu");
         })
         .catch(err => {
           console.log("error in request", err);
@@ -214,9 +223,8 @@ export default {
   },
 
   mounted() {
-    console.log(this.$route.params.id);
 
-    this.getsubCategoryDetails();
+    this.getCategory();
   }
 };
 </script>

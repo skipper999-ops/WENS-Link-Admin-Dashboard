@@ -229,7 +229,7 @@ export default {
         .then(res => {
           console.log(res);
           console.log("response");
-          this.$router.push("/dashboard/templates/specification");
+          this.$router.push("/dashboard/templates/filters");
         })
         .catch(err => {
           console.log("error in request", err);

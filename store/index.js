@@ -288,6 +288,27 @@ export const actions = {
     });
   },
 
+  getCategoryDetails({  commit,  state }, payload) {
+    return new Promise((resolve, reject) => {
+      axios({
+        method: "GET",
+        url: state.api.getCategory + "/" + payload,
+        contentType: "application/json",
+        headers: {
+          Authorization: "Bearer " + this.$cookies.get("access_token")
+        }
+      })
+        .then(res => {
+          console.log(res);
+          console.log("response");
+          resolve(res);
+        })
+        .catch(err => {
+          console.log("error in request", err);
+        });
+    });
+  },
+
   saveSpecs({ commit, state }, payload) {
     var bodyFormData = new FormData();
 
@@ -299,6 +320,35 @@ export const actions = {
       axios({
         method: "PUT",
         url: state.api.getsubCategoryDetails + payload.id,
+        contentType: "application/json",
+        data: bodyFormData,
+        headers: {
+          Authorization: "Bearer " + this.$cookies.get("access_token")
+        }
+      })
+        .then(res => {
+          console.log(res.data);
+          console.log("response");
+          commit("getCategory", res.data);
+          resolve(res);
+        })
+        .catch(err => {
+          console.log("error in request", err);
+        });
+    });
+  },
+
+  saveSubmenu({ commit, state  }, payload) {
+    var bodyFormData = new FormData();
+
+    bodyFormData.append("id", payload.id);
+
+    bodyFormData.append("submenu", payload.submenu);
+
+    return new Promise((resolve, reject) => {
+      axios({
+        method: "PUT",
+        url: state.api.getCategory + "/" + payload.id,
         contentType: "application/json",
         data: bodyFormData,
         headers: {
