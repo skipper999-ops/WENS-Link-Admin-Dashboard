@@ -253,6 +253,7 @@
                         v-model="q.value"
                         style="display: inline-block; width: 100% "
                       >
+                        <option :value="undefined">Not Selected</option>
                         <option v-for="r in q.dropdown_items" :key="r.id" :value="r.name">{{r.name}}</option>
                       </select>
                     </div>
@@ -265,6 +266,7 @@
                         v-model="q.dropdown"
                         style="display: inline-block; width: 30% "
                       >
+                        <option :value="undefined">Not Selected</option>
                         <option v-for="r in q.dropdown_items" :key="r.id" :value="r.name">{{r.name}}</option>
                       </select>
                     </div>

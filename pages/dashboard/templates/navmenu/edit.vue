@@ -3,7 +3,7 @@
     <div v-if="showDropdown" class="popup">
       <div class="popup-main">
         <div class="popup-title">
-          <h3>Sub Section</h3>
+          <h3>URL Builder</h3>
           <div class="add_dropdown pointer" @click="addInput">+</div>
         </div>
         <div class="popup-body">
@@ -89,6 +89,7 @@
                     placeholder="Header"
                     style="display: inline-block;"
                   />
+                  <div>
                   <input
                     class="input"
                     v-model="p.url"
@@ -97,6 +98,7 @@
                     type="text"
                     style="display: inline-block; width: 100%"
                   />
+                  <div @click="url_builder" class="add-section" style="width: 100px">+ URL Builder</div>
                   <select
                     v-model="p.type"
                     style="display: inline-block; width: 50%;min-width: 100px "
@@ -142,7 +144,9 @@ export default {
       }
       return new Date().getTime() + result;
     },
-
+    url_builder: function(){
+      this.showDropdown = true
+    },
     add_section: function(id) {
       var a = {
         title: "",

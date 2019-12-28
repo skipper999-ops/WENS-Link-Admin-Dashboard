@@ -167,7 +167,14 @@ export default {
     },
     editProduct: function(id) {
       console.log(id)
-      this.$router.push('/dashboard/products/edit/' + id)
+
+      this.$cookies.set("product_edit", id, {
+            path: "/",
+            // httpOnly : true,
+            // secure: true,
+            maxAge: 60 * 60 * 24 * 7
+      });
+      this.$router.push('/dashboard/products/edit/')
       //  this.$store.dispatch("getSingleProduct", id).then(res => {
       //   console.log(res);
       // });

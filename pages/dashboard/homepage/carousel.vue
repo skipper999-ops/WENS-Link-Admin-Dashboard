@@ -134,10 +134,11 @@ export default {
     },
     navbarOrder: function() {
       this.$store.dispatch("navbarOrder").then(res => {
-        console.log(JSON.parse(res.data[0].value));
-        this.final_category = JSON.parse(res.data[0].value);
+        if(res.data.length != 0){
+          this.final_category = JSON.parse(res.data[0].value);
+          this.category = this.category.filter(v => !this.containsObject(v, this.final_category));
+        }
 
-        this.category = this.category.filter(v => !this.containsObject(v, this.final_category));
       });
     },
     navbarOrderUpdate: function() {

@@ -1,8 +1,6 @@
 <template>
   <div class="navbar-spacing padding-top-30">
-
-
-  <div v-if="showDropdown" class="popup">
+    <div v-if="showDropdown" class="popup">
       <div class="popup-main">
         <div class="popup-title">
           <h3>Error</h3>
@@ -10,9 +8,9 @@
         <div class="popup-body">
           <div>
             <div v-for="(p, index) in error" :key="p.id">
-              <p style="font-size:15px;font-weight: bold">{{index}}</p>
-              <p style="margin-bottom: 15px">{{p[0]}}</p>
-              </div>
+              <p style="font-size:15px;font-weight: bold">{{ index }}</p>
+              <p style="margin-bottom: 15px">{{ p[0] }}</p>
+            </div>
           </div>
         </div>
         <div class="popup-action">
@@ -20,8 +18,6 @@
         </div>
       </div>
     </div>
-
-
 
     <div class="specification">
       <div class="holder">
@@ -354,7 +350,8 @@
                         :id="q.id"
                         style="display: inline-block; width: 100% "
                       >
-                        >
+                        <option :value="undefined">Not Selected</option>
+
                         <option
                           v-for="r in q.dropdown_items"
                           :key="r.id"
@@ -369,9 +366,9 @@
                       <select
                         v-model="q.dropdown"
                         :class="q.id"
-                        style="display: inline-block; width: 30% "
+                        style="display: inline-block; width: 40%"
                       >
-                        >
+                        <option :value="undefined">Not Selected</option>
                         <option
                           v-for="r in q.dropdown_items"
                           :key="r.id"
@@ -404,7 +401,7 @@ export default {
     return {
       category: [],
       subcategory: [],
-      product_id: this.$route.params.id,
+      product_id: this.$cookies.get("product_edit"),
       selected: [],
       subcategory_selected: 0,
       category_selected: 0,
@@ -517,82 +514,78 @@ export default {
       }
     });
 
-    console.log(this.$route.params.id);
+    this.$store.dispatch("getSingleProduct", this.product_id).then(res => {
+      console.log(res);
+      this.selected = res.data;
+      this.images = JSON.parse(this.selected.images);
+      this.subcategory_selected = this.selected.subcategory.id;
+      this.product_name = this.selected.product_name;
+      this.category_selected = this.selected.category.id;
+      this.bullet_points = JSON.parse(this.selected.bullet_points);
+      this.selected.specs = JSON.parse(this.selected.specs);
 
-    this.$store
-      .dispatch("getSingleProduct", this.$route.params.id)
-      .then(res => {
+      this.specs = JSON.parse(this.selected.subcategory.specs);
+
+      for (var i = 0; i < this.images.length; i++) {
+        // this.myDropzone.emit("addedfile", "https://www.wenslink.com/media/products/" + this.images[i]);
+        var mockFile = { name: this.images[i] };
+        this.myDropzone.options.addedfile.call(this.myDropzone, mockFile);
+        this.myDropzone.options.thumbnail.call(
+          this.myDropzone,
+          mockFile,
+          this.baseurl + "/media/products/" + this.images[i]
+        );
+        this.myDropzone.files.push(mockFile);
+        mockFile.previewElement.classList.add("dz-complete");
+      }
+
+      console.log(this.myDropzone.getAcceptedFiles());
+
+      this.$store.dispatch("getCategory").then(res => {
         console.log(res);
-        this.selected = res.data;
-        this.images = JSON.parse(this.selected.images);
-        this.subcategory_selected = this.selected.subcategory.id;
-        this.product_name = this.selected.product_name;
-        this.category_selected = this.selected.category.id;
-        this.bullet_points = JSON.parse(this.selected.bullet_points);
-        this.selected.specs = JSON.parse(this.selected.specs);
+        this.category = res.data;
+        this.getSubcategories();
+      });
 
-        this.specs = JSON.parse(this.selected.subcategory.specs);
+      setTimeout(function() {
+        for (let key1 in vm.selected.specs) {
+          var specs = vm.selected.specs;
 
-        for (var i = 0; i < this.images.length; i++) {
-          // this.myDropzone.emit("addedfile", "https://www.wenslink.com/media/products/" + this.images[i]);
-          var mockFile = { name: this.images[i] };
-          this.myDropzone.options.addedfile.call(this.myDropzone, mockFile);
-          this.myDropzone.options.thumbnail.call(
-            this.myDropzone,
-            mockFile,
-            this.baseurl + "/media/products/" + this.images[i]
-          );
-          this.myDropzone.files.push(mockFile);
-          mockFile.previewElement.classList.add("dz-complete");
-        }
+          var template_specs = vm.specs;
 
-        console.log(this.myDropzone.getAcceptedFiles());
+          if (template_specs.hasOwnProperty(key1)) {
+            console.log(specs);
 
-        this.$store.dispatch("getCategory").then(res => {
-          console.log(res);
-          this.category = res.data;
-          this.getSubcategories();
-        });
+            for (let key2 in specs[key1].sub) {
+              console.log(key1);
+              var sub = vm.specs[key1].sub;
 
-        setTimeout(function() {
-          for (let key1 in vm.selected.specs) {
-            var specs = vm.selected.specs;
-
-            var template_specs = vm.specs;
-
-            if (template_specs.hasOwnProperty(key1)) {
-              console.log(specs);
-
-              for (let key2 in specs[key1].sub) {
-                console.log(key1);
-                var sub = vm.specs[key1].sub;
-
-                if (sub.hasOwnProperty(key2)) {
-                  if (specs[key1].sub[key2].type == 3) {
-                    vm.$set(
-                      vm.specs[key1].sub[key2],
-                      "dropdown",
-                      specs[key1].sub[key2].dropdown
-                    );
-                    vm.$set(
-                      vm.specs[key1].sub[key2],
-                      "value",
-                      specs[key1].sub[key2].value
-                    );
-                  } else {
-                    vm.$set(
-                      vm.specs[key1].sub[key2],
-                      "value",
-                      specs[key1].sub[key2].value
-                    );
-                    console.log(this.specs);
-                  }
+              if (sub.hasOwnProperty(key2)) {
+                if (specs[key1].sub[key2].type == 3) {
+                  vm.$set(
+                    vm.specs[key1].sub[key2],
+                    "dropdown",
+                    specs[key1].sub[key2].dropdown
+                  );
+                  vm.$set(
+                    vm.specs[key1].sub[key2],
+                    "value",
+                    specs[key1].sub[key2].value
+                  );
+                } else {
+                  vm.$set(
+                    vm.specs[key1].sub[key2],
+                    "value",
+                    specs[key1].sub[key2].value
+                  );
+                  console.log(this.specs);
                 }
               }
             }
           }
-        }, 100);
-      });
+        }
+      }, 100);
+    });
   },
   watch: {
     product_name: function(newVal, oldVal) {
@@ -608,7 +601,7 @@ export default {
   methods: {
     updateProduct: function() {
       var payload = new FormData();
-      payload.append("id", this.$route.params.id);
+      payload.append("id", this.product_id);
       payload.append("product_name", this.product_name);
       payload.append("product_id", this.selected.product_id);
       payload.append("product_id_type", this.selected.product_id_type);
@@ -626,15 +619,15 @@ export default {
       this.$store
         .dispatch("updateProduct", {
           payload: payload,
-          id: this.$route.params.id
+          id: this.product_id
         })
         .then(res => {
           console.log(res);
           this.$router.push("/dashboard/products/all");
         })
         .catch(error => {
-          this.error = error.response.data
-          this.openDropdownPanel()
+          this.error = error.response.data;
+          this.openDropdownPanel();
         });
     },
 
@@ -809,8 +802,6 @@ label {
   text-decoration: underline;
 }
 
-
-
 .popup {
   position: fixed;
   left: 0;
@@ -864,5 +855,4 @@ label {
   top: 0;
   bottom: 0;
 }
-
 </style>

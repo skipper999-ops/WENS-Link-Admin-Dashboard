@@ -234,7 +234,6 @@ export default {
       this.showDropdown = false;
        this.name = ""
       this.description = ""
-      this.status = ""
       this.myDropzone.removeAllFiles()
     }
   }
