@@ -150,6 +150,15 @@ h3 {
   /* max-width: 1280px; */
 }
 
+@media only screen and (max-width: 991px){
+
+  .popup-main{
+    left: 20px!important;
+    right: 20px!important;
+  }
+
+}
+
 @media only screen and (max-width: 600px) {
 .holder {
  padding: 20px;
@@ -193,4 +202,6 @@ select, input[type="text"], textarea {
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
 }
+
+
 </style>
