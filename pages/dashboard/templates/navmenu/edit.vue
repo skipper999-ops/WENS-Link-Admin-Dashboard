@@ -403,7 +403,7 @@ export default {
         console.log(t);
 
         for (var i = 0; i < t.length; i++) {
-          searchParams.append("filters", k + "=" + t[i]);
+          searchParams.append("filters", k.replace(/^\s+|\s+$/g,'') + "=" + t[i]);
         }
 
         this.created_url_1 =
