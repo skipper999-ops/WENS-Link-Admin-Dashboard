@@ -143,12 +143,8 @@ export default {
         field: "razorpay_signature"
       },
       {
-        label: "RazorPay Signature",
-        field: "razorpay_signature"
-      },
-      {
         label: "Delivery Status",
-        field: "razor_order_id"
+        field: "delivery_status"
       },
       {
         label: "Created Date",
