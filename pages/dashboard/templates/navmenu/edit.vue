@@ -405,15 +405,15 @@ export default {
         for (var i = 0; i < t.length; i++) {
           searchParams.append("filters", k.replace(/^\s+|\s+$/g,'') + "=" + t[i]);
         }
+        }
 
-        this.created_url_1 =
+                var temp =
           "/" +
           this.subcategory_selected_name
             .replace(/[\s.;,?&%0-9]/g, "-")
             .toLowerCase() +
           "?"
-        }
-      this.created_url_1 =  "?" + decodeURIComponent(searchParams.toString());
+      this.created_url_1 = temp  + decodeURIComponent(searchParams.toString());
     },
     searchString: function() {
       // console.log(this.searchQuery)
@@ -468,12 +468,12 @@ export default {
     remove_input: function(index) {
       this.input.splice(index, 1);
     },
-    getCategory: function() {
+    getCategoryDetails: function() {
       this.$store
-        .dispatch("getCategory")
+        .dispatch("getCategoryDetails", this.category)
         .then(res => {
           console.log("response");
-          this.allCategories = res.data;
+          this.data = JSON.parse(res.data.submenu);
         })
         .catch(err => {
           console.log("error in request", err);
@@ -493,6 +493,17 @@ export default {
           console.log(res);
           console.log("response");
           this.$router.push("/dashboard/templates/navmenu");
+        })
+        .catch(err => {
+          console.log("error in request", err);
+        });
+    },
+    getCategory: function() {
+      this.$store
+        .dispatch("getCategory")
+        .then(res => {
+          console.log("response");
+          this.allCategories = res.data;
         })
         .catch(err => {
           console.log("error in request", err);
@@ -524,6 +535,7 @@ export default {
 
             console.log(res.data.name);
             this.subcategory_selected_name = res.data.name.toLowerCase();
+            this.created_url_1 = ""
             this.createURL()
           })
           .catch(err => {
@@ -535,6 +547,7 @@ export default {
 
   mounted() {
     this.getCategory();
+    this.getCategoryDetails();
   }
 };
 </script>

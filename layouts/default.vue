@@ -68,7 +68,7 @@ html {
 }
 
 html, body{
-    background-color: #f9f9f9
+    background-color: #f1f2f7
 }
 
 .overflow{
