@@ -1,88 +1,78 @@
 <template>
   <div class="navbar-spacing padding-top-30">
-    <div v-show="showDropdown" class="popup">
-      <div class="popup-main">
-        <div class="popup-title">
-          <h3>Upload Banner</h3>
-        </div>
-        <div class="popup-body">
-          <div class="form-control">
-            <label>Banner Name</label>
-            <input v-model="name" type="text" style="width:70%" />
-          </div>
-
-          <div class="form-control">
-            <label>Banner Description (Optional)</label>
-            <input v-model="description" type="text" style="width:70%" />
-          </div>
+    <div class="holder">
+      <!-- <div>
+        <h2>Category Order</h2>
+        <draggable
+        class="list-group"
+        style="padding-left: 0;padding-top: 20px"
+        tag="ul"
+        :disabled="!enabled"
+        v-model="list"
+        v-bind="dragOptions"
+        @start="drag = true"
+        @end="drag = false"
+      >
+        <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+          <li
+          class="list-group-item"
+          v-for="(element, idx) in list"
+          :key="element.name"
+      >-->
+      <!-- <div class="handler" style="background-color: red">
           
-          <div style="margin: 0 10px 10px 0">
-            <label>Banner Image</label>
-              <div class="dropzone dz-clickable" id="myDrop">
-                <div class="dz-default dz-message" data-dz-message>
-                  <span>Drop files here to upload</span>
-                </div>
-            </div>
+           <i data-feather="menu" class="handle"></i>
+
+      </div>-->
+
+      <!-- <span class="text">{{ element.name }} </span> -->
+
+      <!-- <i class="fa fa-times close" @click="removeAt(idx)">x</i> -->
+      <!-- </li>
+        </transition-group>
+      </draggable>
+      </div>-->
+      <div class="row">
+        <div class="col s24">
+          <div style="display: flex;justify-content: space-between;">
+            <h3>Navigation Menu Ordering</h3>
+            <div class="btn btn-success" @click="navbarOrderUpdate">Save</div>
           </div>
-
-          <!-- <div class="form-control">
-            <label>URL</label>
-            <input type="text" style="width:70%" />
-          </div> -->
-
-          <!-- <div class="form-control">
-            <label>Status</label>
-            <select v-model="status" style="width:70%">
-              <option value="0">Inactive</option>
-              <option value="1">Active</option>
-            </select>
-          </div> -->
         </div>
-        <div class="popup-action">
-          <div class="pointer" @click="addBanner">Save</div>
-          <div class="pointer" @click="closeDropdownPanel">Cancel</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="specification">
-      <div class="holder">
-        <div
-          class="column-padding header-bottom"
-          style="display: flex; justify-content: space-between"
-        >
-          <h3>Main Banner Images</h3>
-          <button class="btn btn-red white-text" @click="openDropdownPanel">
-            Add Banner
-          </button>
-        </div>
-
-        <div class="row">
-          <vue-good-table
-            :columns="columns"
-            :rows="allBanners"
-            :line-numbers="true"
+        <div class="col s24 m12">
+          <h3>Active Menus</h3>
+          <draggable
+            class="dragArea list-group"
+            :list="final_category"
+            :clone="clone"
+            :group="{ name: 'people', pull: pullFunction }"
+            @start="start"
           >
-            <template slot="table-row" slot-scope="props">
-              <span v-if="props.column.field === 'action'">
-                <button
-                  type="button"
-                  @click="viewBanner(props.row.image)"
-                  class="btn btn-primary"
-                >
-                  View Banner
-                </button>
-                <button
-                  type="button"
-                  @click="deleteBanner(props.row.id)"
-                  class="btn btn-primary"
-                >
-                  Delete
-                </button>
-              </span>
-              <span v-else>{{ props.formattedRow[props.column.field] }}</span>
-            </template>
-          </vue-good-table>
+            <div
+              class="list-group-item"
+              v-for="element in final_category"
+              :key="element.id"
+            >
+              {{ element.name }}
+            </div>
+          </draggable>
+        </div>
+
+        <div class="col s24 m12">
+          <h3>All Categories</h3>
+          <draggable
+            class="dragArea list-group"
+            :list="category"
+            group="people"
+          >
+            <div
+              class="list-group-item"
+              v-for="element in category"
+              :key="element.id"
+            >
+              {{ element.name }}
+            </div>
+          </draggable>
         </div>
       </div>
     </div>
@@ -90,221 +80,164 @@
 </template>
 
 <script>
+const message = [
+  "vue.draggable",
+  "draggable",
+  "component",
+  "for",
+  "vue.js 2.0",
+  "based",
+  "on",
+  "Sortablejs"
+];
+
+import draggable from "vuedraggable";
+let idGlobal = 8;
 export default {
-  data: () => ({
-    allBanners: [],
-    showDropdown: false,
-    columns: [
-      {
-        label: "Title",
-        field: "name"
-      },
-      {
-        label: "Description",
-        field: "description"
-      },
-      // {
-      //   label: "Banner",
-      //   field: "image"
-      // },
-      // {
-      //   label: "Path",
-      //   field: "url"
-      // },
-      // {
-      //   label: "Status",
-      //   field: "status"
-      // },
-      {
-        label: "Action",
-        field: "action"
-      }
-    ],
-    name: "",
-    description: "",
-    status: 1,
-    image: ""
-  }),
-
   mounted() {
-    this.getAllBanner();
-
-    var vm = this;
-    Dropzone.autoDiscover = false;
-    this.myDropzone = new Dropzone("div#myDrop", {
-      paramName: "file",
-      autoProcessQueue: true,
-      parallelUploads: 1,
-      maxFiles: 1,
-      maxFilesize: 5, // MB
-      acceptedFiles: ".png, .jpeg, .jpg",
-      url: vm.$store.state.api.bannerImageUpload,
-      headers: {
-        "Cache-Control": null,
-        "X-Requested-With": null
-      },
-      renameFilename: function(filename) {
-        console.log(filename);
-        console.log("zzzzzzzzzzzzzzz");
-        return new Date().getTime() + "_" + filename;
-      }
-    });
-    this.myDropzone.on("sending", function(file, xhr, formData) {
-      var filenames = [];
-      console.log("success");
-      $(".dz-preview .dz-filename").each(function() {
-        filenames.push(
-          $(this)
-            .find("span")
-            .text()
-        );
-      });
-      formData.append("filenames", filenames);
-    });
-    /* Add Files Script*/
-    this.myDropzone.on("success", function(file, message) {
-      console.log("success");
-      console.log(file, message);
-      console.log(file);
-      message.filenames.forEach((file, index) => {
-        vm.image = file.filename;
-      });
-    });
-    this.myDropzone.on("error", function(data) {
-      $("#msg").html(
-        '<div class="alert alert-danger">There is some thing wrong, Please try again!</div>'
-      );
-    });
-    this.myDropzone.on("complete", function(file) {
-      //   myDropzone.removeFile(file)
-    });
-    this.myDropzone.on("removedfile", function(file) {
-      //   myDropzone.removeFile(file)
-      console.log(file);
-      vm.image = ""
-    });
-    this.myDropzone.on("addedfile", function(file) {
-      console.log("added file");
-      console.log(this.files.length);
-      console.log(this.options.maxFiles);
-      while (this.files.length > this.options.maxFiles) {
-        this.removeFile(this.files[0]);
-      }
-    });
-    $("#add_file").on("click", function() {
-      console.log("success");
-      this.myDropzone.processQueue();
-    });
+    feather.replace({ color: "black" });
+    this.getCategory();
+    this.navbarOrder();
+  },
+  computed: {
+    dragOptions() {
+      return {
+        animation: 200,
+        group: "description",
+        disabled: false,
+        ghostClass: "ghost"
+      };
+    }
+  },
+  components: {
+    draggable
+  },
+  layout: "empty",
+  data() {
+    return {
+      enabled: true,
+      exampleList: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
+      list: message.map((name, index) => {
+        return { name, order: index + 1 };
+      }),
+      drag: false,
+      final_category: [],
+      category: []
+    };
   },
   methods: {
-    getAllBanner: function() {
-      this.$store.dispatch("getAllBanner").then(res => {
+    getCategory: function() {
+      this.$store.dispatch("getCategory").then(res => {
         console.log(res);
-        this.allBanners = JSON.parse(JSON.stringify(res.data));
+        this.category = JSON.parse(JSON.stringify(res.data));
       });
     },
-    addBanner: function() {
+    navbarOrder: function() {
+      this.$store.dispatch("navbarOrder").then(res => {
+        if(res.data.length != 0){
+          this.final_category = JSON.parse(res.data[0].value);
+          this.category = this.category.filter(v => !this.containsObject(v, this.final_category));
+        }
 
+      });
+    },
+    navbarOrderUpdate: function() {
       var payload = {
-        name: this.name,
-        description: this.description,
-        status: this.status,
-        image: this.image
+        key: "ActiveCategory",
+        value: JSON.stringify(this.final_category)
+      };
+      this.$store.dispatch("navbarOrderUpdate", payload).then(res => {
+        console.log(res.data);
+        this.navbarOrder();
+      });
+    },
+    containsObject: function(obj, list) {
+      var i;
+      for (i = 0; i < list.length; i++) {
+          console.log(JSON.stringify(obj))
+          console.log(JSON.stringify(list[i]))
+        if (JSON.stringify(list[i]) === JSON.stringify(obj)) {
+          return true;
+        }
       }
-
-      this.$store.dispatch("addBanner", payload).then(res => {
-        console.log(res);
-        this.getAllBanner();
-        this.closeDropdownPanel()
-      });
+      return false;
     },
-    viewBanner: function(id) {
-      window.open(process.env.baseUrl + "/media/banners/" + id)
+    removeAt(idx) {
+      this.list.splice(idx, 1);
     },
-    deleteBanner: function(id){
-       this.$store.dispatch("editDeleteBanner", id).then(res => {
-        console.log(res);
-        this.getAllBanner();
-      });
+    add: function() {
+      id++;
+      this.list.push({ name: "Juan " + id, id, text: "" });
     },
-    openDropdownPanel: function() {
-      this.showDropdown = true;
+    clone({ name }) {
+      return { name, id: idGlobal++ };
     },
-    closeDropdownPanel: function() {
-      this.showDropdown = false;
-       this.name = ""
-      this.description = ""
-      this.myDropzone.removeAllFiles()
+    pullFunction() {
+      return this.controlOnStart ? "clone" : true;
+    },
+    start({ originalEvent }) {
+      this.controlOnStart = originalEvent.ctrlKey;
     }
   }
 };
 </script>
-
 <style scoped>
-.popup {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 99;
+.button {
+  margin-top: 35px;
+}
+.handle {
+  float: left;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.close {
+  float: right;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+input {
+  display: inline-block;
+  width: 50%;
+}
+.text {
+  margin: 20px;
+}
+.button {
+  margin-top: 35px;
+}
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+.list-group {
+  min-height: 39px;
+  padding-bottom: 1px;
+  border: 1px dashed #d2d2d2;
+}
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  cursor: move !important;
+}
+.handle {
+  cursor: move !important;
+}
+.list-group-item i {
+  cursor: pointer;
 }
 
-.popup-main {
-  background-color: white;
-  margin: auto;
-  position: absolute;
-  max-width: 400px;
-  height: 460px;
-  left: 260px;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-  border-radius: 5px;
-}
-
-.popup-body {
-  height: 300px;
-  overflow: auto;
-  padding: 30px;
-}
-
-.popup-title {
-  padding: 30px 30px 16px;
-  border-bottom: 1px solid #00000024;
-}
-.popup-action {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  padding: 25px;
-  box-shadow: 0px -7px 10px 0px #0000000d;
-}
-
-.popup:after {
-  background-color: rgba(0, 0, 0, 0.83);
-  margin: auto;
-  position: absolute;
-  content: "";
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-}
-
-input,
-select {
-  height: 35px;
-  margin: 0 10px 10px 0;
-  border-radius: 0;
-  outline: none;
-  width: 100%;
-  font-size: 1rem;
-  padding: 0.6rem 1rem;
-  box-shadow: none;
-  transition: all 0.3s;
+.sortable-chosen {
+  background-color: #4caf50;
+  color: white;
 }
 </style>

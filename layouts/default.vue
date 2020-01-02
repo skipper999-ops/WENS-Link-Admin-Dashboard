@@ -68,7 +68,7 @@ html {
 }
 
 html, body{
-    background-color: #f9f9f9
+    background-color: #f1f2f7
 }
 
 .overflow{
@@ -150,6 +150,15 @@ h3 {
   /* max-width: 1280px; */
 }
 
+@media only screen and (max-width: 991px){
+
+  .popup-main{
+    left: 20px!important;
+    right: 20px!important;
+  }
+
+}
+
 @media only screen and (max-width: 600px) {
 .holder {
  padding: 20px;
@@ -177,4 +186,22 @@ h3 {
   object-fit: cover;
 
 }
+
+select, input[type="text"], textarea {
+    height: 35px;
+    font-family: "Regular";
+    margin: 0 10px 10px 0;
+    border-radius: 0;
+    outline: none;
+    width: 100%;
+    resize: vertical;
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+    box-shadow: none;
+    border: 1px solid rgb(169, 169, 169);
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+
 </style>

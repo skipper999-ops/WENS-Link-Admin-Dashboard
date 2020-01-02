@@ -26,16 +26,16 @@
             style="height:100%; justify-content:flex-end"
           >
             <div style="position:relative;margin-right:15px">
-              <span
+              <!-- <span
                 class="feather-icon-badge bg-primary text-white h-5 w-5 absolute rounded-full text-xs flex items-center justify-center"
                 style="top: 5px; right: 0px;position:absolute;border-radius:50px;width:20px;height:20px"
                 >5</span
-              >
+              > -->
             </div>
             <div class="flex align-item">
               <div style="padding-right:10px;line-height: 20px;">
-                <p class="font-12 white-text">{{ username }}</p>
-                <p class="font-10 white-text">{{ company_name }}</p>
+                <p class="font-12">{{ username }}</p>
+                <p class="font-10">{{ company_name }}</p>
               </div>
               <div>
                 <img
@@ -60,10 +60,10 @@
       >
         <i data-feather="x"></i>
       </div>
-      <div class="flex align-item">
+      <div class="dashboard-logo">
         <img src="~static/files/logo.png" class="sideNav__Logo" />
+        <h1 style="font-family:bold">WENSLink Admin Dashboard</h1>
       </div>
-      <p style="font-family:bold">WENSLink Admin Dashboard</p>
       <p></p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/index">
@@ -361,9 +361,9 @@ export default {
 }
 
 .sideNav__Logo {
-  width: 100%;
+  width: 40px;
   object-fit: contain;
-  height: 80px;
+  height: 100%;
 }
 
 p {
@@ -379,7 +379,7 @@ p {
   left: 0;
   background-color: #0c1013;
   transition: all 0.5s;
-  padding-top: 10px;
+  padding-top: 0;
   /* box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); */
   overflow: auto;
   padding-bottom: 60px;
@@ -449,8 +449,27 @@ p {
 }
 
 .topnav {
-  height: 62px;
-  background-color: #0c1013;
+  height: 69px;
+  background-color: #ffffff;
+  box-shadow: 0 3px 10px rgba(62,85,120,.07)
+}
+
+.topnav > div {
+  height: 69px;
+}
+
+.dashboard-logo{
+  padding: 0 15px;
+  display: flex;
+  height: 69px;
+  align-items: center;
+}
+
+.dashboard-logo h1{
+  font-size: 15px;
+  line-height: 23px;
+  text-align: center;  
+  color: white;
 }
 
 .topnav a {
