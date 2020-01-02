@@ -17,7 +17,9 @@
                   placeholder="Email"
                   autocomplete="anyrandomstring"
                 />
-                <label class="control-label noselect material-input">Phone Number</label>
+                <label class="control-label noselect material-input"
+                  >Phone Number</label
+                >
               </div>
 
               <div class="form-group">
@@ -34,10 +36,11 @@
                   maxlength="25"
                   placeholder="Password"
                   v-model="password"
-                  
                   v-on:keyup.enter="login"
                 />
-                <label class="control-label noselect material-input">Password</label>
+                <label class="control-label noselect material-input"
+                  >Password</label
+                >
                 <p class="white-text padding-top-15">Forgot Password</p>
               </div>
             </form>
@@ -54,7 +57,9 @@
                   @click="login"
                   type="submit"
                   class="btn btn-red white-text loginButton"
-                >Login</button>
+                >
+                  Login
+                </button>
               </div>
             </div>
           </div>
@@ -85,15 +90,14 @@ export default {
   },
 
   mounted() {
+    var vm = this;
 
-    var vm = this
-
-      $(document).keydown(function(event) {
-    // enter has keyCode = 13, change it if you want to use another button
-    if (event.keyCode == 13) {
-      vm.login()
-    }
-  });
+    $(document).keydown(function(event) {
+      // enter has keyCode = 13, change it if you want to use another button
+      if (event.keyCode == 13) {
+        vm.login();
+      }
+    });
     // feather.replace({ color: 'black' })
   },
   watch: {},
@@ -121,10 +125,7 @@ export default {
       var bodyFormData = new FormData();
 
       bodyFormData.append("phone_number", this.email);
-      bodyFormData.append(
-        "password",
-        this.password
-      );
+      bodyFormData.append("password", this.password);
 
       axios({
         method: "POST",
@@ -138,41 +139,40 @@ export default {
           console.log("res", res);
           console.log("response");
 
-          if(res.data.status == 200){
+          if (res.data.status == 200) {
+            this.$cookies.removeAll();
 
-          this.$cookies.removeAll()
+            this.$cookies.set("access_token", res.data.access, {
+              path: "/",
+              // httpOnly : true,
+              // secure: true,
+              maxAge: 60 * 60 * 24 * 7
+            });
 
-          this.$cookies.set("access_token", res.data.access, {
-            path: "/",
-            // httpOnly : true,
-            // secure: true,
-            maxAge: 60 * 60 * 24 * 7
-          });
+            this.$cookies.set("refresh_token", res.data.refresh, {
+              path: "/",
+              // httpOnly : true,
+              // secure: true,
+              maxAge: 60 * 60 * 24 * 7
+            });
 
-          this.$cookies.set("refresh_token", res.data.refresh, {
-            path: "/",
-            // httpOnly : true,
-            // secure: true,
-            maxAge: 60 * 60 * 24 * 7
-          });
+            this.$cookies.set("username", res.data.user_info.name, {
+              path: "/",
+              // httpOnly : true,
+              // secure: true,
+              maxAge: 60 * 60 * 24 * 7
+            });
 
-          this.$cookies.set("username", res.data.user_info.name, {
-            path: "/",
-            // httpOnly : true,
-            // secure: true,
-            maxAge: 60 * 60 * 24 * 7
-          });
+            this.$cookies.set("company_name", res.data.user_info.company_name, {
+              path: "/",
+              // httpOnly : true,
+              // secure: true,
+              maxAge: 60 * 60 * 24 * 7
+            });
 
-          this.$cookies.set("company_name", res.data.user_info.company_name, {
-            path: "/",
-            // httpOnly : true,
-            // secure: true,
-            maxAge: 60 * 60 * 24 * 7
-          });
-
-          this.$router.push("/dashboard/products/all");
-          }else{
-            alert(res.data.message)
+            this.$router.push("/dashboard/products/all");
+          } else {
+            alert(res.data.message);
           }
         })
         .catch(err => {
@@ -183,7 +183,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .loginButton {
@@ -413,7 +412,7 @@ input.material-input:not(:placeholder-shown) + label.material-input,
 input.material-input:focus + label.material-input {
   transform: translateY(8px);
   font-size: 10px;
-  font-family: 'Bold';
+  font-family: "Bold";
 }
 
 .form-label-group input.material-input:-webkit-autofill ~ label.material-input {
@@ -432,4 +431,3 @@ input.material-input:focus + label.material-input {
                                   supported by Chrome, Opera and Firefox */
 }
 </style>
-

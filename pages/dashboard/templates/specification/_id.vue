@@ -172,7 +172,7 @@ export default {
         name: "",
         type: "1",
         id: this.makeid(5),
-        dropdown_items: [{ name: "" }]
+        dropdown_items: []
       }
 
       this.$set(this.data[index].sub, this.makeid(5), a)
