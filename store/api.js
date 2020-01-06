@@ -87,7 +87,11 @@ export const state = () => ({
 
   navbarOrder: url + "admin_app/navbar-order",
 
-  navbarOrderUpdate: url + "admin_app/navbar-order/" //key
+  navbarOrderUpdate: url + "admin_app/navbar-order/", //key
+
+  WebsiteNav: url + "admin_app/websitenavbar-order",
+
+  WebsiteNavUpdate: url + "admin_app/websitenavbar-order/" //key
 });
 
 export const getters = {
