@@ -25,10 +25,10 @@
             </div>
           </div>
 
-          <!-- <div class="form-control">
+          <div class="form-control">
             <label>URL</label>
-            <input type="text" style="width:70%" />
-          </div> -->
+            <input type="text" v-model="url" style="width:70%" />
+          </div>
 
           <!-- <div class="form-control">
             <label>Status</label>
@@ -80,6 +80,9 @@
                   Delete
                 </button>
               </span>
+              <span v-if="props.column.field === 'url'">
+                <a target="_blank" :href="origin + props.row.url">{{origin}}{{props.row.url}}</a>
+              </span>
               <span v-else>{{ props.formattedRow[props.column.field] }}</span>
             </template>
           </vue-good-table>
@@ -93,6 +96,7 @@
 export default {
   data: () => ({
     allBanners: [],
+    origin: window.location.origin + "/",
     showDropdown: false,
     columns: [
       {
@@ -107,10 +111,10 @@ export default {
       //   label: "Banner",
       //   field: "image"
       // },
-      // {
-      //   label: "Path",
-      //   field: "url"
-      // },
+      {
+        label: "URL",
+        field: "url"
+      },
       // {
       //   label: "Status",
       //   field: "status"
@@ -123,7 +127,8 @@ export default {
     name: "",
     description: "",
     status: 1,
-    image: ""
+    image: "",
+    url: ""
   }),
 
   mounted() {
@@ -200,7 +205,11 @@ export default {
     getAllBanner: function() {
       this.$store.dispatch("getAllBanner").then(res => {
         console.log(res);
-        this.allBanners = JSON.parse(JSON.stringify(res.data));
+        try{
+          this.allBanners = JSON.parse(JSON.stringify(res.data.body));
+        }catch{
+
+        }
       });
     },
     addBanner: function() {
@@ -209,7 +218,8 @@ export default {
         name: this.name,
         description: this.description,
         status: this.status,
-        image: this.image
+        image: this.image,
+        url: this.url
       }
 
       this.$store.dispatch("addBanner", payload).then(res => {

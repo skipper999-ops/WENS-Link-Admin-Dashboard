@@ -87,7 +87,7 @@
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/homepage/carousel">
           <i data-feather="layers"></i>
-          <span>Carousels</span>
+          <span>Carousel</span>
         </nuxt-link>
       </div>
       <p>Product</p>

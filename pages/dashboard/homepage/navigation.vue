@@ -133,7 +133,7 @@ export default {
       });
     },
     navbarOrder: function() {
-      this.$store.dispatch("navbarOrder").then(res => {
+      this.$store.dispatch("WebsiteNav").then(res => {
         if(res.data.length != 0){
           this.final_category = JSON.parse(res.data[0].value);
           this.category = this.category.filter(v => !this.containsObject(v, this.final_category));
@@ -143,10 +143,10 @@ export default {
     },
     navbarOrderUpdate: function() {
       var payload = {
-        key: "ActiveCategory",
+        key: "WebsiteNav",
         value: JSON.stringify(this.final_category)
       };
-      this.$store.dispatch("navbarOrderUpdate", payload).then(res => {
+      this.$store.dispatch("WebsiteNavUpdate", payload).then(res => {
         console.log(res.data);
         this.navbarOrder();
       });
