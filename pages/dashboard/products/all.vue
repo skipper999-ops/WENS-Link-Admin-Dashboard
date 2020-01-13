@@ -140,6 +140,7 @@ export default {
       var limit = this.limit
       var offset = this.offset
       this.$store.dispatch("allProducts", { limit , offset }).then(res => {
+        try{
         console.log(res);
         this.allproducts = JSON.parse(JSON.stringify(res.data.results));
         this.max_count = res.data.count;
@@ -156,7 +157,9 @@ export default {
         this.center_buttons.push(Math.ceil(this.pagination_buttons / 2) + 1)
 
         this.max_count_value = parseInt(this.max_count / this.limit) * this.limit
-
+        }catch{
+          
+        }
       });
     },
     deleteProduct: function(id) {
