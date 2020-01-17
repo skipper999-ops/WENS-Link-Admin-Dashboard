@@ -53,6 +53,7 @@ export default {
     { src: '~/plugins/PerfectScrollbar', lang: 'js' },
     { src: '~/plugins/goodtable', lang: 'js' },
     { src: '~/plugins/draggable', lang: 'js' },
+    { src : '~/plugins/apexcharts', ssr : false },
   ],
   /*
   ** Nuxt.js dev-modules

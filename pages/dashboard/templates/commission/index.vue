@@ -22,6 +22,10 @@
 
             <div v-if="selected_category">
               <div style="display: flex;flex-direction: column;">
+                <label>GST On Product (%)</label>
+                <input v-model="product_gst" type="text" style="width:70%" />
+              </div>
+              <div style="display: flex;flex-direction: column;">
                 <label>Market place Commission (%)</label>
                 <input
                   v-model="market_commission"
@@ -32,17 +36,31 @@
 
               <div style="display: flex;flex-direction: column;">
                 <label>GST on Commission (%)</label>
-                <input max="100" min="0" v-model="gst_commission" type="number" style="width:70%" />
+                <input
+                  max="100"
+                  min="0"
+                  v-model="gst_commission"
+                  type="number"
+                  style="width:70%"
+                />
               </div>
 
               <div style="display: flex;flex-direction: column;">
                 <label>Marketplace Payment Fee (%)</label>
-                <input max="100" min="0"  v-model="payment_fee" type="number" style="width:70%" />
+                <input
+                  max="100"
+                  min="0"
+                  v-model="payment_fee"
+                  type="number"
+                  style="width:70%"
+                />
               </div>
 
               <div style="display: flex;flex-direction: column;">
                 <label>GST on Payment Fee (%)</label>
-                <input max="100" min="0" 
+                <input
+                  max="100"
+                  min="0"
                   v-model="gst_payment_fee"
                   type="number"
                   style="width:70%"
@@ -53,7 +71,6 @@
                 <label>GST on Item</label>
                 <p style="width:70%">{{ 1000 * (gst_commission / 100) }}</p>
               </div>
-
             </div>
           </div>
         </div>
@@ -79,7 +96,13 @@
         </button>
       </div>
 
-      <div class="row">
+      <div class="row" style="display: flex; flex-direction:column">
+        <label>Base Amount</label>
+        <input
+          v-model="base_amount"
+          type="text"
+          style="width:70%;max-width:200px"
+        />
         <vue-good-table :columns="sub_columns" :rows="subcategory">
           <template slot="table-row" slot-scope="props">
             <span v-if="props.column.field === 'details'">
@@ -91,8 +114,64 @@
                 Edit
               </button>
             </span>
-            <span v-if="props.column.field === 'gst_item'">
-              <p style="width:70%">{{ 1000 * (props.row.gst_commission / 100) }}</p>
+            <span v-else-if="props.column.field === 'totalgst'">
+              <!-- <p style="width:70%">{{ 1000 * (props.row.gst_commission / 100) }}</p> -->
+              <p style="width:70%">
+                {{
+                  (
+                    per(base_amount, props.row.product_gst) +
+                    per(
+                      per(base_amount, props.row.market_commission),
+                      props.row.gst_commission
+                    ) +
+                    per(base_amount, props.row.payment_fee) +
+                    per(
+                      per(base_amount, props.row.payment_fee),
+                      props.row.gst_payment_fee
+                    )
+                  ).toFixed(2)
+                }}
+              </p>
+            </span>
+            <span v-else-if="props.column.field === 'final_amount'">
+              <!-- <p style="width:70%">{{ 1000 * (props.row.gst_commission / 100) }}</p> -->
+              <p style="width:70%">
+                {{
+                  base_amount - (
+                    per(base_amount, props.row.market_commission) +
+                    per(base_amount, props.row.product_gst) +
+                    per(
+                      per(base_amount, props.row.market_commission),
+                      props.row.gst_commission
+                    ) +
+                    per(base_amount, props.row.payment_fee) +
+                    per(
+                      per(base_amount, props.row.payment_fee),
+                      props.row.gst_payment_fee
+                    )
+                  ).toFixed(2)
+                }}
+              </p>
+            </span>
+            <span v-else-if="props.column.field === 'gst_item'">
+              <!-- <p style="width:70%">{{ 1000 * (props.row.gst_commission / 100) }}</p> -->
+              <p style="width:70%">
+                {{
+                  (
+                    per(base_amount, props.row.market_commission) +
+                    per(base_amount, props.row.product_gst) +
+                    per(
+                      per(base_amount, props.row.market_commission),
+                      props.row.gst_commission
+                    ) +
+                    per(base_amount, props.row.payment_fee) +
+                    per(
+                      per(base_amount, props.row.payment_fee),
+                      props.row.gst_payment_fee
+                    )
+                  ).toFixed(2)
+                }}
+              </p>
             </span>
             <span v-else>{{ props.formattedRow[props.column.field] }}</span>
           </template>
@@ -115,12 +194,14 @@ export default {
     showDropdown: false,
     subcategory_selected: 0,
     brand: [],
+    base_amount: 1000,
     market_commission: 0,
     gst_commission: 0,
     payment_fee: 0,
     gst_payment_fee: 1.8,
     gst_item: 153,
     shipping: 55,
+    product_gst: 0,
     brand_selected: 0,
     showDropdown1: false,
     sub_columns: [
@@ -131,6 +212,10 @@ export default {
       {
         label: "Category",
         field: "category_name"
+      },
+      {
+        label: "Gst on Item (%)",
+        field: "product_gst"
       },
       {
         label: "Market Commission (%)",
@@ -149,8 +234,16 @@ export default {
         field: "gst_payment_fee"
       },
       {
+        label: "Total GST",
+        field: "totalgst"
+      },
+      {
         label: "Gst on Item (₹)",
         field: "gst_item"
+      },
+      {
+        label: "Receivable Amount",
+        field: "final_amount"
       },
       {
         label: "Action",
@@ -173,9 +266,9 @@ export default {
       });
     },
     EditCommission: function(id) {
-      this.openSubCatModel()
-      this.selected_category = id
-        this.sub_select()
+      this.openSubCatModel();
+      this.selected_category = id;
+      this.sub_select();
     },
     addSubCategory: function() {
       this.closeSubCatModel();
@@ -193,8 +286,9 @@ export default {
       });
     },
     sub_select: function() {
-
-      var a = this.subcategory.filter(v => v.subcategory == this.selected_category);
+      var a = this.subcategory.filter(
+        v => v.subcategory == this.selected_category
+      );
 
       console.log(a);
 
@@ -205,9 +299,11 @@ export default {
         this.gst_payment_fee = a[0].gst_payment_fee;
         this.gst_item = 1000 * (this.gst_commission / 100);
         this.shipping = a[0].shipping;
+        this.product_gst = a[0].product_gst;
       } else {
         this.market_commission = 0;
         this.gst_commission = 0;
+        this.product_gst = 0;
         this.payment_fee = 0;
         this.gst_payment_fee = 0;
         this.gst_item = 1000 * (this.gst_commission / 100);
@@ -228,12 +324,11 @@ export default {
         });
     },
     addCommission: function() {
+      var a = this.subcategory.filter(
+        v => v.subcategory == this.selected_category
+      );
 
-      
-      var a = this.subcategory.filter(v => v.subcategory == this.selected_category);
-
-
-      console.log(id)
+      console.log(id);
 
       var payload = {
         subcategory: this.selected_category,
@@ -242,7 +337,8 @@ export default {
         payment_fee: this.payment_fee,
         gst_payment_fee: this.gst_payment_fee,
         gst_item: this.gst_item,
-        shipping: this.shipping
+        shipping: this.shipping,
+        product_gst: this.product_gst
       };
 
       if (a.length == 0) {
@@ -251,8 +347,8 @@ export default {
           .then(res => {
             console.log(res);
             this.getSubcategories();
-            this.closeSubCatModel()
-            this.selected_category = 0
+            this.closeSubCatModel();
+            this.selected_category = 0;
           });
       } else {
         var id = a[0].c_id;
@@ -260,9 +356,9 @@ export default {
           .dispatch("commissionListtaskEdit", { id, payload })
           .then(res => {
             console.log(res);
-            this.getSubcategories()
-            this.closeSubCatModel()
-             this.selected_category = 0
+            this.getSubcategories();
+            this.closeSubCatModel();
+            this.selected_category = 0;
           });
       }
     },
@@ -307,12 +403,33 @@ export default {
     },
     closeSubCatModel: function() {
       this.showDropdown1 = false;
+    },
+    per: function(a, b) {
+      var c = (parseFloat(a) * parseFloat(b)) / 100;
+      return parseFloat(c);
     }
   }
 };
 </script>
 
 <style scoped>
+select,
+input,
+textarea {
+  height: 35px;
+  font-family: "Regular";
+  margin: 0 10px 10px 0;
+  border-radius: 0;
+  outline: none;
+  width: 100%;
+  resize: vertical;
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  box-shadow: none;
+  border: 1px solid rgb(169, 169, 169);
+  transition: all 0.3s;
+}
+
 .popup {
   position: fixed;
   left: 0;

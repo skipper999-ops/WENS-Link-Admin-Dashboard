@@ -52,7 +52,7 @@
         </div>
       </div>
 
-      <div class="holder" v-show="subcategory_selected != undefined">
+      <div class="holder" v-show="subcategory_selected != undefined && subcategory_selected != 0">
         <div class="column-padding">
           <h3 style="display: flex;align-items: center;">Basic Details</h3>
           <p
@@ -203,7 +203,7 @@
           </div>
         </div>-->
       </div>
-      <div class="holder" v-show="subcategory_selected != undefined">
+      <div class="holder" v-show="subcategory_selected != undefined && subcategory_selected != 0">
         <h3 class>Images</h3>
         <p style="padding-left: 19px;padding-bottom: 10px;">Upload Images. (Max 10)</p>
         <div style="padding-left: 19px;padding-bottom: 10px;" class>
@@ -214,7 +214,7 @@
           </div>
         </div>
       </div>
-      <div class="holder" v-if="subcategory_selected != undefined">
+      <div class="holder" v-if="subcategory_selected != undefined && subcategory_selected != 0">
         <h3>Specifications</h3>
         <div v-if="specs == ''">
           <p style="padding-left: 19px;padding-bottom: 10px;">

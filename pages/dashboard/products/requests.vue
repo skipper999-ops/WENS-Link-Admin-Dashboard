@@ -38,18 +38,16 @@
                 <p
                   v-if="props.row.status == 1"
                   style="color: #009688; font-weight: bold;"
-                  class="btn btn-primary"
                 >
                   APPROVED
                 </p>
                 <p
                   v-if="props.row.status == 2"
                   style="color: #F44336; font-weight: bold;"
-                  class="btn btn-primary"
                 >
                   REJECTED
                 </p>
-                <p v-if="props.row.status == 0" class="btn btn-primary">
+                <p v-if="props.row.status == 0">
                   PENDING
                 </p>
               </span>
