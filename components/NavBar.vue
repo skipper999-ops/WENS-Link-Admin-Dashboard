@@ -9,12 +9,12 @@
           <div>
             <div class="visible-xs visible-sm">
               <a @click="openSidenav" class="pointer">
-                <i data-feather="menu"></i>
+                 <menu-icon class="feather-icon black"></menu-icon>
               </a>
             </div>
             <div class="visible-xs visible-sm">
               <p
-                class="white-text hide-on-large-only"
+                class="hide-on-large-only"
                 style="line-height:64px;font-family:'Bold'; font-size: 17px;white-space: nowrap;"
               >
                 WENSLink Admin Dashboard
@@ -34,13 +34,13 @@
             </div>
             <div class="flex align-item">
               <div style="padding-right:10px;line-height: 20px;">
-                <p class="font-12">{{ username }}</p>
+                <p class="bold font-12">{{ username }}</p>
                 <p class="font-10">{{ company_name }}</p>
               </div>
               <div>
                 <img
                   src="~static/files/user.svg"
-                  style="border-radius: 50px;width: 45px;height: 100%;"
+                  style="border-radius: 50px;width: 40px;height: 100%;"
                 />
               </div>
             </div>
@@ -68,9 +68,11 @@
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/index">
           <i data-feather="grid"></i>
-          <span>Dashboard</span>
+          <span>Analytics</span>
         </nuxt-link>
       </div>
+
+      
       <p>Homepage</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/homepage/navigation">
@@ -90,6 +92,8 @@
           <span>Carousel</span>
         </nuxt-link>
       </div>
+
+
       <p>Product</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/products/new">
@@ -109,6 +113,8 @@
           <span>Approval</span>
         </nuxt-link>
       </div>
+
+
       <p>Sales</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/orders/all">
@@ -122,6 +128,8 @@
           <span>Shipping</span>
         </nuxt-link>
       </div>
+
+
       <p>Users</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/users/subadmins">
@@ -135,7 +143,9 @@
           <span>Sellers</span>
         </nuxt-link>
       </div>
-      <p>Templates</p>
+
+
+       <p>Category</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/templates/category">
           <i data-feather="hash"></i>
@@ -154,6 +164,9 @@
           <span>Specification</span>
         </nuxt-link>
       </div>
+
+
+      <p>Templates</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/templates/filters">
           <i data-feather="hash"></i>
@@ -298,6 +311,7 @@
 
 <script>
 // import feather from 'feather-icons'
+import { MenuIcon } from 'vue-feather-icons'
 
 export default {
   data: () => ({
@@ -306,6 +320,12 @@ export default {
     pickup_count: 0,
     message_count: 0
   }),
+
+  components:{
+
+    MenuIcon
+
+  },
 
   computed: {
     // active : $store.state.sidenavStatus

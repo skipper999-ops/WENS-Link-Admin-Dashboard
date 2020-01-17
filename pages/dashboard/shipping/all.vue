@@ -6,7 +6,7 @@
           class="column-padding header-bottom"
           style="display: flex; justify-content: space-between"
         >
-          <h3>Orders</h3>
+          <h3>Shipping</h3>
         </div>
 
         <div class="row">

@@ -38,7 +38,7 @@ html, body{
 }
 
 .header-bottom{
-  padding-bottom: 25px!important
+  padding-bottom: 15px!important
 }
 
 @media screen and (max-width: 991px) {

@@ -1,55 +1,64 @@
 <template>
   <div>
     <client-only>
-     <NavBar v-if="$nuxt.$route.name != 'index' && $nuxt.$route.name != 'dashboard-invoices'" />
-    <nuxt />
+      <NavBar
+        v-if="
+          $nuxt.$route.name != 'index' &&
+            $nuxt.$route.name != 'dashboard-invoices'
+        "
+      />
+      <nuxt />
     </client-only>
   </div>
 </template>
 
 <script>
 // import TopNav from '@/components/TopNav'
-import NavBar from '@/components/NavBar'
+import NavBar from "@/components/NavBar";
 
 export default {
   components: {
-    NavBar,
+    NavBar
   },
   mounted() {
-    console.log($nuxt.$route.name)
+    console.log($nuxt.$route.name);
     // document.body.classList.add('theme-dark')
   }
-}
+};
 </script>
 
-
 <style>
+@font-face {
+  font-family: "Regular";
+  src: url("~static/files/fonts/regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
 @font-face {
-font-family: 'Regular';
-src: url('~static/files/fonts/Gilroy-Regular.ttf') format('truetype');
+  font-family: "Light";
+  src: url("~static/files/fonts/light.woff") format("woff");
+  font-weight: lighter;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Bold";
+  src: url("~static/files/fonts/bold.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+/* 
+@font-face {
+font-family: 'Semi';
+src: url('~static/files/fonts/semi-bold.otf') format('opentype');
 font-weight: normal;
 font-style: normal;
-}
-
-@font-face {
-font-family: 'Light';
-src: url('~static/files/fonts/Gilroy-Light.ttf') format('truetype');
-font-weight: lighter;
-font-style: normal;
-}
-
-@font-face {
-font-family: 'Bold';
-src: url('~static/files/fonts/Gilroy-Bold.ttf') format('truetype');
-font-weight: bold;
-font-style: normal;
-}
-
+} */
 
 html {
-  font-family: 'Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Regular", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
@@ -57,7 +66,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
-  font-size: 13px
+  font-size: 13px;
 }
 
 *,
@@ -67,16 +76,29 @@ html {
   margin: 0;
 }
 
-html, body{
-    background-color: #f1f2f7
+html,
+body {
+  background-color: #f1f2f7;
+  /* background-color: #ffffff; */
 }
 
-.overflow{
+.neu {
+  box-shadow: 9px 9px 16px rgb(163, 177, 198, 0.6),
+    -9px -9px 16px rgba(255, 255, 255, 0.5) !important;
+  background-color: #e0e5ec !important;
+}
+
+.overflow {
   overflow: hidden;
 }
 
-table.vgt-table{
-  font-size: 13px!important
+table.vgt-table {
+  font-size: 13px !important;
+}
+
+.btn-primary{
+  background-color: #009688;
+  color: white
 }
 
 .button--green {
@@ -88,8 +110,16 @@ table.vgt-table{
   padding: 10px 30px;
 }
 
-.vgt-inner-wrap{
+.pagination_buttons{
+  padding: 10px 0!important
+}
+
+.vgt-inner-wrap {
   /* padding: 0 10px */
+}
+
+.apexcharts-svg {
+  border-radius: 0 0 5px 5px;
 }
 
 .button--green:hover {
@@ -112,24 +142,40 @@ table.vgt-table{
   background-color: #35495e;
 }
 
-h3{
-  font-family: 'bold'
+.feather-icon.black {
+  color: black;
 }
 
-.btn{
-  font-family: 'Regular'
+
+.vgt-table.bordered td, .vgt-table.bordered th{
+  border-top: none!important;
+  border-left: none!important;
+  border-right: none!important;
+}
+
+.feather-icon.white {
+  color: black;
+}
+/* 
+.white-text{
+  color:white
+} */
+
+.btn {
+  font-family: "Regular";
 }
 
 h3 {
-    font-size: 24px;
+  font-family: "regular";
+  font-size: 18px;
 }
 
-.padding-bottom-10{
-    padding-bottom: 10px;
+.padding-bottom-10 {
+  padding-bottom: 10px;
 }
 
-
-::-moz-selection { /* Code for Firefox */
+::-moz-selection {
+  /* Code for Firefox */
   color: #ffffff;
   background: #009688;
 }
@@ -138,7 +184,6 @@ h3 {
   color: #ffffff;
   background: #009688;
 }
-
 
 .holder {
   width: 100%;
@@ -150,58 +195,53 @@ h3 {
   /* max-width: 1280px; */
 }
 
-@media only screen and (max-width: 991px){
-
-  .popup-main{
-    left: 20px!important;
-    right: 20px!important;
+@media only screen and (max-width: 991px) {
+  .popup-main {
+    left: 20px !important;
+    right: 20px !important;
   }
-
 }
 
 @media only screen and (max-width: 600px) {
-.holder {
- padding: 20px;
-}
-.navbar-spacing{
-  width: 100%;
-}
+  .holder {
+    padding: 20px;
+  }
+  .navbar-spacing {
+    width: 100%;
+  }
 }
 
-.pointer{
+.pointer {
   cursor: pointer;
 }
 
-.break{
+.break {
   border: 0;
-    border-bottom: 1px dashed #d4d4d4;
-    margin: 45px 0;
+  border-bottom: 1px dashed #d4d4d4;
+  margin: 45px 0;
 }
 
-
-
-.dropzone .dz-preview .dz-image img{
+.dropzone .dz-preview .dz-image img {
   height: 120px;
-  width:120px;
+  width: 120px;
   object-fit: cover;
-
 }
 
-select, input[type="text"], textarea {
-    height: 35px;
-    font-family: "Regular";
-    margin: 0 10px 10px 0;
-    border-radius: 0;
-    outline: none;
-    width: 100%;
-    resize: vertical;
-    font-size: 1rem;
-    padding: 0.6rem 1rem;
-    box-shadow: none;
-    border: 1px solid rgb(169, 169, 169);
-    -webkit-transition: all 0.3s;
-    transition: all 0.3s;
+select,
+input[type="text"],
+textarea {
+  height: 35px;
+  font-family: "Regular";
+  margin: 0 10px 10px 0;
+  border-radius: 0;
+  outline: none;
+  width: 100%;
+  resize: vertical;
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  box-shadow: none;
+  border: 1px solid rgb(169, 169, 169);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
 }
-
-
 </style>
