@@ -1034,5 +1034,43 @@ export const actions = {
           console.log("error in request", err);
         });
     });
+  },
+
+  WebsiteNav({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      axios({
+        method: "GET",
+        url: state.api.WebsiteNav,
+        contentType: "application/json"
+      })
+        .then(res => {
+          console.log(res.data);
+          console.log("response");
+          resolve(res);
+        })
+        .catch(err => {
+          console.log("error in request", err);
+        });
+    });
+  },
+
+
+  WebsiteNavUpdate({ commit, state }, payload) {
+    return new Promise((resolve, reject) => {
+      axios({
+        method: "PATCH",
+        data: payload,
+        url: state.api.WebsiteNavUpdate + "WebsiteNav",
+        contentType: "application/json"
+      })
+        .then(res => {
+          console.log(res.data);
+          console.log("response");
+          resolve(res);
+        })
+        .catch(err => {
+          console.log("error in request", err);
+        });
+    });
   }
 };
