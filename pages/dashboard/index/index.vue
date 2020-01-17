@@ -138,7 +138,6 @@ export default {
           enabled: false
         },
         stroke: {
-          curve: "smooth"
         },
         xaxis: {
           type: "numeric",
@@ -156,7 +155,6 @@ export default {
         stroke: {
           show: true,
           width: 0,
-          curve: "smooth",
           colors: ["#9188f1"]
         },
         yaxis: [
@@ -207,7 +205,6 @@ export default {
           enabled: false
         },
         stroke: {
-          curve: "smooth"
         },
         xaxis: {
           type: "numeric",
@@ -225,7 +222,6 @@ export default {
         stroke: {
           show: true,
           width: 0,
-          curve: "smooth",
           colors: ["#4caf50"]
         },
         yaxis: [
@@ -275,9 +271,6 @@ export default {
         dataLabels: {
           enabled: false
         },
-        stroke: {
-          curve: "smooth"
-        },
         fontFamily: "Regular",
         xaxis: {
           type: "numeric",
@@ -295,7 +288,6 @@ export default {
         stroke: {
           show: true,
           width: 0,
-          curve: "smooth",
           colors: ["#ff9800"]
         },
         yaxis: [
@@ -345,9 +337,6 @@ export default {
         dataLabels: {
           enabled: false
         },
-        stroke: {
-          curve: "smooth"
-        },
         xaxis: {
           type: "numeric",
           lines: {
@@ -364,7 +353,6 @@ export default {
         stroke: {
           show: true,
           width: 0,
-          curve: "smooth",
           colors: ["#2196f3"]
         },
         yaxis: [
@@ -388,7 +376,7 @@ export default {
       series: [
         {
           name: "Orders",
-          data: [100, 109, 80, 51, 42, 30, 10]
+          data: [30, 20, 50, 40, 60, 30, 10]
         }
       ],
       series1: [
