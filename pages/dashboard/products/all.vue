@@ -14,13 +14,10 @@
         </div>
 
         <div class="row">
-          <vue-good-table
-            :columns="columns"
-            :rows="allproducts"
-          >
+          <vue-good-table :columns="columns" :rows="allproducts">
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field === 'id'">
-               <p>{{offset + props.row['originalIndex'] + 1}}</p>
+                <p>{{ offset + props.row["originalIndex"] + 1 }}</p>
               </span>
               <span v-else-if="props.column.field === 'image'">
                 <img
@@ -111,7 +108,8 @@ export default {
         },
         {
           label: "Product Name",
-          field: "product_name"
+          field: "product_name",
+          width: "400px",
         },
         {
           label: "Brand",
@@ -123,7 +121,8 @@ export default {
         },
         {
           label: "Action",
-          field: "details"
+          field: "details",
+          width: "200px"
         }
       ],
       rows: [
