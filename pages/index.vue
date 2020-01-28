@@ -170,7 +170,7 @@ export default {
               maxAge: 60 * 60 * 24 * 7
             });
 
-            this.$router.push("/dashboard/products/all");
+            this.$router.push("/dashboard/index");
           } else {
             alert(res.data.message);
           }
