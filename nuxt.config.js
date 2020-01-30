@@ -54,6 +54,7 @@ export default {
     { src: '~/plugins/goodtable', lang: 'js' },
     { src: '~/plugins/draggable', lang: 'js' },
     { src : '~/plugins/apexcharts', ssr : false },
+    { src: '~/plugins/carousel', lang: 'js', ssr: false },
   ],
   /*
   ** Nuxt.js dev-modules

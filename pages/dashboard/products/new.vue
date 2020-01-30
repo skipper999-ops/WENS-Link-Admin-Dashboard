@@ -1,8 +1,6 @@
 <template>
   <div class="navbar-spacing padding-top-30">
-
-
-<div v-if="showDropdown" class="popup">
+    <div v-if="showDropdown" class="popup">
       <div class="popup-main">
         <div class="popup-title">
           <h3>Error</h3>
@@ -12,7 +10,7 @@
             <div v-for="(p, index) in error" :key="p.id">
               <p style="font-size:15px;font-weight: bold">{{index}}</p>
               <p style="margin-bottom: 15px">{{p[0]}}</p>
-              </div>
+            </div>
           </div>
         </div>
         <div class="popup-action">
@@ -52,122 +50,352 @@
         </div>
       </div>
 
-      <div class="holder" v-show="subcategory_selected != undefined && subcategory_selected != 0">
-        <div class="column-padding">
-          <h3 style="display: flex;align-items: center;">Basic Details</h3>
-          <p
-            style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
-          >These informations cannot be changed by the Vendors</p>
+      <div class="holder" v-if="slugify != ''">
+        <h3 class>Submit Product</h3>
+        <div style="display:flex;justify-content: space-between;align-items: center;">
+        <div style="padding-left: 19px;padding-bottom: 10px;" class>
+          <button class="btn btn-primary" @click="addProduct">Add Product</button>
         </div>
+        <!-- <div class="toggle-button-cover">
+          <div class="button-cover">
+            <div class="button r" id="button-3">
+              <input type="checkbox" class="checkbox" />
+              <div class="knobs"></div>
+              <div class="layer"></div>
+            </div>
+          </div>
+        </div> -->
+        </div>
+      </div>
 
-        <div class="row">
-          <div class="col s24">
-            <div class="col s24 m16">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Product ID</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="product_id"
-                  aria-describedby="emailHelp"
-                  placeholder="UPC, EAN, GCID, GTIN, ASIN"
-                />
-              </div>
-            </div>
-            <div class="col s24 m8">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Product ID Type</label>
-                <select v-model="product_id_type">
-                  <option v-for="p in product_id_list" :key="p.id" :value="p.id">{{p.name}}</option>
-                </select>
-              </div>
-            </div>
-            <div class="col s24">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Product Name</label>
-                <input
-                  type="text"
-                  @input="slugifyTitle"
-                  v-model="product_name"
-                  class="form-control"
-                  placeholder="Redmi 7A ( 32GB , 2 GB ) Black"
-                />
-              </div>
-            </div>
-            <div class="col s24">
-              <div class="form-group">
-                <div style="display: flex;justify-content: space-between;align-items: center;">
-                  <label style="display:flex" for="exampleInputEmail1">Product Slug</label>
-                  <div v-if="!editSlug" @click="allowSlugField(1)" class="link_tag">Edit</div>
-                  <div v-if="editSlug" @click="allowSlugField(0)" class="link_tag">Save</div>
+      <div
+        class="holder no-pad"
+        v-show="subcategory_selected != undefined && subcategory_selected != 0"
+      >
+        <div class="element-tab-view">
+          <input type="radio" id="tab1" name="tab" checked />
+          <label for="tab1">
+            <i class="fa fa-code"></i> Basic
+          </label>
+          <input type="radio" id="tab2" name="tab" />
+          <label for="tab2">
+            <i class="fa fa-history"></i> Descriptions
+          </label>
+          <input type="radio" id="tab3" name="tab" />
+          <label for="tab3">
+            <i class="fa fa-pencil"></i> Images
+          </label>
+          <input type="radio" id="tab4" name="tab" />
+          <label for="tab4">
+            <i class="fa fa-share-alt"></i> Specifications
+          </label>
+          <input type="radio" id="tab5" name="tab" />
+          <label for="tab5">
+            <i class="fa fa-share-alt"></i> Shipping
+          </label>
+          <div class="line"></div>
+          <div class="content-container">
+            <div class="content basic" id="c1">
+              <div class="bg-white">
+                <div class="column-padding">
+                  <!-- <h3 style="display: flex;align-items: center;">Basic Details</h3> -->
+                  <p
+                    style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
+                  >These informations cannot be changed by the Vendors</p>
                 </div>
-                <input
-                  v-model="slugify"
-                  :disabled="editSlug == 0"
-                  class="form-control"
-                  placeholder="redmi-7a-32gb-2-gb-black"
-                />
+
+                <div class="row">
+                  <div class="col s24">
+                    <div class="col s24 m16">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Product Name</label>
+                        <input
+                          type="text"
+                          @input="slugifyTitle"
+                          v-model="product_name"
+                          class="form-control"
+                          placeholder="Redmi 7A ( 32GB , 2 GB ) Black"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24 m16">
+                      <div class="form-group">
+                        <div
+                          style="display: flex;justify-content: space-between;align-items: center;"
+                        >
+                          <label style="display:flex" for="exampleInputEmail1">Product Slug</label>
+                          <div v-if="!editSlug" @click="allowSlugField(1)" class="link_tag">Edit</div>
+                          <div v-if="editSlug" @click="allowSlugField(0)" class="link_tag">Save</div>
+                        </div>
+                        <input
+                          v-model="slugify"
+                          :disabled="editSlug == 0"
+                          class="form-control"
+                          placeholder="redmi-7a-32gb-2-gb-black"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24 m16">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Brand</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="brand"
+                          placeholder="Xiaomi"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24 m16">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Manufacturer</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="manufacturer"
+                          placeholder="Xiaomi"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24 m16">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Search Terms (SEO)</label>
+                        <input
+                          type="text"
+                          v-model="seo"
+                          class="form-control"
+                          placeholder="Terms that will describe this product"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24 m16">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Product ID</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="product_id"
+                          aria-describedby="emailHelp"
+                          placeholder="UPC, EAN, GCID, GTIN, ASIN"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24 m16">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Product ID Type</label>
+                        <select v-model="product_id_type">
+                          <option v-for="p in product_id_list" :key="p.id" :value="p.id">{{p.name}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col s24 m12">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Brand</label>
-                <input type="text" class="form-control" v-model="brand" placeholder="Xiaomi" />
+            <div class="content description" id="c2">
+              <div class="bg-white">
+                <div class="column-padding">
+                  <!-- <h3 style="display: flex;align-items: center;">Descriptions & Bullet Points</h3> -->
+                  <p
+                    style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
+                  >These informations cannot be changed by the Vendors</p>
+                </div>
+
+                <div class="row">
+                  <div class="col s24">
+                    <div class="col s24">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Write a Short Description about the product</label>
+                        <textarea v-model="desc" style="height:160px"></textarea>
+                      </div>
+                    </div>
+                    <div class="col s24">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Add Bullet Points (Upto 9)</label>
+                        <div
+                          style="display: flex; align-items:center"
+                          v-for="(p, index) in bullet_points"
+                          :key="p.length"
+                        >
+                          <input type="text" class="form-control" v-model="p.value" />
+                          <div
+                            style="color: red"
+                            class="pointer"
+                            @click="removeBullets(index)"
+                          >Remove</div>
+                        </div>
+                        <div class="link_tag" @click="addMoreBullets">+ Add More points</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col s24 m12">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Manufacturer</label>
-                <input type="text" class="form-control" v-model="manufacturer" placeholder="Xiaomi" />
+            <div class="content images" id="c3">
+              <div class="bg-white">
+                <!-- <h3 class>Images</h3> -->
+                <p style="padding-left: 19px;padding-bottom: 10px;">Upload Images. (Max 10)</p>
+                <div style="padding-left: 19px;padding-bottom: 10px;" class>
+                  <div class="dropzone dz-clickable" id="myDrop">
+                    <div class="dz-default dz-message" data-dz-message>
+                      <span>Drop files here to upload</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col s24">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Search Terms (SEO)</label>
-                <input
-                  type="text"
-                  v-model="seo"
-                  class="form-control"
-                  placeholder="Terms that will describe this product"
-                />
+            <div class="content" id="c4">
+              <div class="bg-white">
+                <!-- <h3>Specifications</h3> -->
+                <div v-if="specs == ''">
+                  <p style="padding-left: 19px;padding-bottom: 10px;">
+                    Specifications not added. Go to
+                    <nuxt-link
+                      :to="'/dashboard/templates/specification/' + this.subcategory_selected"
+                    >Specifications</nuxt-link>and add them
+                  </p>
+                </div>
+                <div v-if="specs != ''">
+                  <p style="padding-left: 19px;padding-bottom: 10px;">
+                    You can edit
+                    <nuxt-link
+                      :to="'/dashboard/templates/specification/' + this.subcategory_selected"
+                    >Specifications</nuxt-link>here
+                  </p>
+                </div>
+                <!-- <p>Please Complete the specification section</p> -->
+                <div v-if="specs != ''">
+                  <div
+                    v-for="(p, index) in specs"
+                    :key="p.id"
+                    class="input_fields_wrap drag-list"
+                    id="h"
+                  >
+                    <h3>{{p.name}}</h3>
+                    <div class="row">
+                      <div class="col s12">
+                        <div class="col s24" v-for="(q, index1) in p['sub']" :key="q.id">
+                          <div class="form-group">
+                            <label>{{q.name}}</label>
+
+                            <div v-if="q.type == 1">
+                              <input
+                                class="specs-value"
+                                :data-id="q.id"
+                                type="text"
+                                v-model="q.value"
+                              />
+                            </div>
+
+                            <div style="display: flex;" v-if="q.type == 2">
+                              <select
+                                class="specs-value"
+                                :data-id="q.id"
+                                v-model="q.value"
+                                style="display: inline-block; width: 100% "
+                              >
+                                <option :value="undefined">Not Selected</option>
+                                <option
+                                  v-for="r in q.dropdown_items"
+                                  :key="r.id"
+                                  :value="r.name"
+                                >{{r.name}}</option>
+                              </select>
+                            </div>
+
+                            <div style="display: flex;" v-if="q.type == 3">
+                              <input
+                                class="specs-value"
+                                type="text"
+                                :data-id="q.id"
+                                v-model="q.value"
+                              />
+                              <select
+                                class="specs-value"
+                                :data-id="q.id"
+                                v-model="q.dropdown"
+                                style="display: inline-block; width: 30% "
+                              >
+                                <option :value="undefined">Not Selected</option>
+                                <option
+                                  v-for="r in q.dropdown_items"
+                                  :key="r.id"
+                                  :value="r.name"
+                                >{{r.name}}</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="content shipping" id="c5">
+              <div class="bg-white">
+                <!-- <h3>Shipping Details</h3> -->
+                <p
+                  style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
+                >Shipping Information Based on ShipRocket</p>
+                <div class="row">
+                  <div class="col s24">
+                    <div class="col s24 m16">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Length</label>
+                        <input
+                          type="text"
+                          @input="slugifyTitle"
+                          v-model="product_name"
+                          class="form-control"
+                          placeholder="Redmi 7A ( 32GB , 2 GB ) Black"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24 m16">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Breadth</label>
+                        <input
+                          type="text"
+                          @input="slugifyTitle"
+                          v-model="product_name"
+                          class="form-control"
+                          placeholder="Redmi 7A ( 32GB , 2 GB ) Black"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24 m16">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Height</label>
+                        <input
+                          type="text"
+                          @input="slugifyTitle"
+                          v-model="product_name"
+                          class="form-control"
+                          placeholder="Redmi 7A ( 32GB , 2 GB ) Black"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24 m16">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Weight</label>
+                        <input
+                          type="text"
+                          @input="slugifyTitle"
+                          v-model="product_name"
+                          class="form-control"
+                          placeholder="Redmi 7A ( 32GB , 2 GB ) Black"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <hr class="break" />
-
-        <div class="column-padding">
-          <h3 style="display: flex;align-items: center;">Descriptions & Bullet Points</h3>
-          <p
-            style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
-          >These informations cannot be changed by the Vendors</p>
-        </div>
-
-        <div class="row">
-          <div class="col s24">
-            <div class="col s24">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Write a Short Description about the product</label>
-                <textarea v-model="desc" style="height:160px"></textarea>
-              </div>
-            </div>
-            <div class="col s24">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Add Bullet Points (Upto 9)</label>
-                <div
-                  style="display: flex; align-items:center"
-                  v-for="(p, index) in bullet_points"
-                  :key="p.length"
-                >
-                  <input type="text" class="form-control" v-model="p.value" />
-                  <div style="color: red" class="pointer" @click="removeBullets(index)">Remove</div>
-                </div>
-                <div class="link_tag" @click="addMoreBullets">+ Add More points</div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- <hr class="break" /> -->
 
         <!-- <hr class="break">
 
@@ -203,87 +431,12 @@
           </div>
         </div>-->
       </div>
-      <div class="holder" v-show="subcategory_selected != undefined && subcategory_selected != 0">
-        <h3 class>Images</h3>
-        <p style="padding-left: 19px;padding-bottom: 10px;">Upload Images. (Max 10)</p>
-        <div style="padding-left: 19px;padding-bottom: 10px;" class>
-          <div class="dropzone dz-clickable" id="myDrop">
-            <div class="dz-default dz-message" data-dz-message>
-              <span>Drop files here to upload</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="holder" v-if="subcategory_selected != undefined && subcategory_selected != 0">
-        <h3>Specifications</h3>
-        <div v-if="specs == ''">
-          <p style="padding-left: 19px;padding-bottom: 10px;">
-            Specifications not added. Go to
-            <nuxt-link
-              :to="'/dashboard/templates/specification/' + this.subcategory_selected"
-            >Specifications</nuxt-link>and add them
-          </p>
-        </div>
-        <div v-if="specs != ''">
-          <p style="padding-left: 19px;padding-bottom: 10px;">
-            You can edit
-            <nuxt-link
-              :to="'/dashboard/templates/specification/' + this.subcategory_selected"
-            >Specifications</nuxt-link>here
-          </p>
-        </div>
-        <!-- <p>Please Complete the specification section</p> -->
-        <div v-if="specs != ''">
-          <div v-for="(p, index) in specs" :key="p.id" class="input_fields_wrap drag-list" id="h">
-            <h3>{{p.name}}</h3>
-            <div class="row">
-              <div class="col s12">
-                <div class="col s24" v-for="(q, index1) in p['sub']" :key="q.id">
-                  <div class="form-group">
-                    <label>{{q.name}}</label>
+      <!-- <div class="holder" v-show="subcategory_selected != undefined && subcategory_selected != 0">
 
-                    <div v-if="q.type == 1">
-                      <input class="specs-value" :data-id="q.id" type="text" v-model="q.value" />
-                    </div>
-
-                    <div style="display: flex;" v-if="q.type == 2">
-                      <select
-                        class="specs-value"
-                        :data-id="q.id"
-                        v-model="q.value"
-                        style="display: inline-block; width: 100% "
-                      >
-                        <option :value="undefined">Not Selected</option>
-                        <option v-for="r in q.dropdown_items" :key="r.id" :value="r.name">{{r.name}}</option>
-                      </select>
-                    </div>
-
-                    <div style="display: flex;" v-if="q.type == 3">
-                      <input class="specs-value" type="text" :data-id="q.id" v-model="q.value" />
-                      <select
-                        class="specs-value"
-                        :data-id="q.id"
-                        v-model="q.dropdown"
-                        style="display: inline-block; width: 30% "
-                      >
-                        <option :value="undefined">Not Selected</option>
-                        <option v-for="r in q.dropdown_items" :key="r.id" :value="r.name">{{r.name}}</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="holder" v-if="slugify != ''">
-        <h3 class>Submit Product</h3>
-        <div style="padding-left: 19px;padding-bottom: 10px;" class>
-          <button class="btn" @click="addProduct">Add Product</button>
-        </div>
-      </div>
+      </div>-->
+      <!-- <div class="holder" v-if="subcategory_selected != undefined && subcategory_selected != 0">
+        
+      </div>-->
     </div>
   </div>
 </template>
@@ -488,13 +641,16 @@ export default {
       payload.append("bullet_points", JSON.stringify(this.bullet_points));
       payload.append("specs", JSON.stringify(this.specs));
 
-      this.$store.dispatch("addProduct", payload).then(res => {
-        console.log(res);
-        this.$router.push("/dashboard/products/all");
-      }).catch(error => {
-          this.error = error.response.data
-          this.openDropdownPanel()
-        });;
+      this.$store
+        .dispatch("addProduct", payload)
+        .then(res => {
+          console.log(res);
+          this.$router.push("/dashboard/products/all");
+        })
+        .catch(error => {
+          this.error = error.response.data;
+          this.openDropdownPanel();
+        });
     },
     getsubCategoryDetails: function() {
       if (this.subcategory_selected != undefined) {
@@ -579,7 +735,7 @@ h4 {
 }
 
 label {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 30px;
   font-family: "Bold";
@@ -614,5 +770,239 @@ label {
   color: blue;
   cursor: pointer;
   text-decoration: underline;
+}
+
+.element-tab-view {
+  position: relative;
+}
+
+.element-tab-view > input {
+  display: none;
+}
+.element-tab-view > input:checked + label {
+  background: #fff;
+  color: #4caf50;
+}
+.element-tab-view > input#tab1:checked ~ .line {
+  left: 0%;
+}
+.element-tab-view > input#tab1:checked ~ .content-container #c1 {
+  opacity: 1;
+  z-index: 999;
+}
+.element-tab-view > input#tab2:checked ~ .line {
+  left: 136.146px;
+}
+.element-tab-view > input#tab2:checked ~ .content-container #c2 {
+  opacity: 1;
+  z-index: 999;
+}
+.element-tab-view > input#tab3:checked ~ .line {
+  left: 270.646px;
+}
+.element-tab-view > input#tab3:checked ~ .content-container #c3 {
+  opacity: 1;
+  z-index: 999;
+}
+.element-tab-view > input#tab4:checked ~ .line {
+  left: 406.802px;
+}
+.element-tab-view > input#tab4:checked ~ .content-container #c4 {
+  opacity: 1;
+  z-index: 999;
+}
+.element-tab-view > input#tab5:checked ~ .line {
+  left: 542.948px;
+}
+.element-tab-view > input#tab5:checked ~ .content-container #c5 {
+  opacity: 1;
+  z-index: 999;
+}
+.element-tab-view > label {
+  display: inline-block;
+  font-size: 14px;
+  height: 60px;
+  line-height: 60px;
+  width: 130px;
+  text-align: center;
+  background: #fff;
+  color: #555;
+  position: relative;
+  -webkit-transition: 0.25s background ease;
+  transition: 0.25s background ease;
+  cursor: pointer;
+  font-family: "Regular";
+}
+.element-tab-view > label::after {
+  content: "";
+  height: 2px;
+  width: 100%;
+  position: absolute;
+  display: block;
+  background: #fff;
+  bottom: 0;
+  opacity: 0;
+  left: 0;
+  -webkit-transition: 0.25s ease;
+  transition: 0.25s ease;
+}
+.element-tab-view > label:hover::after {
+  opacity: 1;
+}
+.element-tab-view > .line {
+  position: absolute;
+  background: #4caf50;
+  width: 130px;
+  top: 56px;
+  left: 0;
+  -webkit-transition: 0.25s ease;
+  transition: 0.25s ease;
+  height: 3px;
+  top: 57px;
+  z-index: 99;
+}
+.element-tab-view > .content-container {
+  background: #fff;
+  position: relative;
+  /* height: 100px; */
+  font-size: 16px;
+  border-top: 1px solid #dbdbdb;
+}
+.element-tab-view > .content-container .content {
+  position: absolute;
+  /* padding: 10px; */
+  width: 100%;
+  top: 0;
+  opacity: 0;
+  -webkit-transition: 0.25s ease;
+  transition: 0.25s ease;
+  color: #333;
+}
+.element-tab-view > .content-container .content h3 {
+  font-weight: 200;
+  margin: 10px 0;
+}
+.element-tab-view > .content-container .content p {
+  margin: 10px 0;
+}
+.element-tab-view > .content-container .content p,
+.element-tab-view > .content-container .content i {
+  font-size: 13px;
+}
+
+.toggle-button-cover {
+  display: table-cell;
+  position: relative;
+  width: 200px;
+  /* height: 140px; */
+  box-sizing: border-box;
+}
+
+.button-cover {
+  /* height: 100px; */
+  margin: 20px;
+  background-color: #fff;
+  /* box-shadow: 0 10px 20px -8px #c5d6d6; */
+  border-radius: 4px;
+}
+
+/* .button-cover:before {
+  counter-increment: button-counter;
+  content: counter(button-counter);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: #d7e3e3;
+  font-size: 12px;
+  line-height: 1;
+  padding: 5px;
+} */
+
+.button-cover,
+.knobs,
+.layer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.button {
+  position: relative;
+  top: 50%;
+  width: 74px;
+  height: 36px;
+  margin: -20px auto 0 auto;
+  overflow: hidden;
+}
+
+.button.r,
+.button.r .layer {
+  border-radius: 100px;
+}
+
+.button.b2 {
+  border-radius: 2px;
+}
+
+.checkbox {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.knobs {
+  z-index: 2;
+}
+
+.layer {
+  width: 100%;
+  background-color: #efefef;
+  transition: 0.3s ease all;
+  z-index: 1;
+}
+
+/* Button 3 */
+#button-3 .knobs:before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 30px;
+  height: 30px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1;
+  padding: 11px 4px;
+  background-color: #b5b5b5;
+  border-radius: 50%;
+  transition: 0.3s ease all, left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
+}
+
+#button-3 .checkbox:active + .knobs:before {
+  width: 46px;
+  border-radius: 100px;
+}
+
+#button-3 .checkbox:checked:active + .knobs:before {
+  margin-left: -26px;
+}
+
+#button-3 .checkbox:checked + .knobs:before {
+  content: "";
+  left: 42px;
+  background-color: #2196f3;
+}
+
+#button-3 .checkbox:checked ~ .layer {
+  background-color: #d4ecff;
 }
 </style>

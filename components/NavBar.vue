@@ -81,6 +81,12 @@
         </nuxt-link>
       </div>
       <div class="navbar__parent">
+        <nuxt-link to="/dashboard/homepage/new">
+          <i data-feather="code"></i>
+          <span>New Carousel</span>
+        </nuxt-link>
+      </div>
+      <div class="navbar__parent">
         <nuxt-link to="/dashboard/homepage/slider">
           <i data-feather="code"></i>
           <span>Main Slider</span>

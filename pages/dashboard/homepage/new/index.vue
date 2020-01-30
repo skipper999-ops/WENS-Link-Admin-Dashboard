@@ -1,46 +1,59 @@
 <template>
   <div class="navbar-spacing padding-top-30">
+    <div v-show="showDropdown" class="popup">
+      <div class="popup-main">
+        <div class="popup-title">
+          <h3>Upload Banner</h3>
+        </div>
+        <div class="popup-body">
+          <div class="form-control">
+            <label>Banner Name</label>
+            <input v-model="name" type="text" style="width:70%" />
+          </div>
+
+          <div class="form-control">
+            <label>Banner Description (Optional)</label>
+            <input v-model="description" type="text" style="width:70%" />
+          </div>
+
+          <div style="margin: 0 10px 10px 0">
+            <label>Banner Image</label>
+            <div class="dropzone dz-clickable" id="myDrop">
+              <div class="dz-default dz-message" data-dz-message>
+                <span>Drop files here to upload</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-control">
+            <label>URL</label>
+            <input type="text" v-model="url" style="width:70%" />
+          </div>
+
+          <!-- <div class="form-control">
+            <label>Status</label>
+            <select v-model="status" style="width:70%">
+              <option value="0">Inactive</option>
+              <option value="1">Active</option>
+            </select>
+          </div>-->
+        </div>
+        <div class="popup-action">
+          <!-- <div class="pointer" @click="addBanner">Save</div>
+          <div class="pointer" @click="closeDropdownPanel">Cancel</div> -->
+        </div>
+      </div>
+    </div>
     <div class="holder">
-      <!-- <div>
-        <h2>Category Order</h2>
-        <draggable
-        class="list-group"
-        style="padding-left: 0;padding-top: 20px"
-        tag="ul"
-        :disabled="!enabled"
-        v-model="list"
-        v-bind="dragOptions"
-        @start="drag = true"
-        @end="drag = false"
-      >
-        <transition-group type="transition" :name="!drag ? 'flip-list' : null">
-          <li
-          class="list-group-item"
-          v-for="(element, idx) in list"
-          :key="element.name"
-      >-->
-      <!-- <div class="handler" style="background-color: red">
-          
-           <i data-feather="menu" class="handle"></i>
-
-      </div>-->
-
-      <!-- <span class="text">{{ element.name }} </span> -->
-
-      <!-- <i class="fa fa-times close" @click="removeAt(idx)">x</i> -->
-      <!-- </li>
-        </transition-group>
-      </draggable>
-      </div>-->
       <div class="row">
         <div class="col s24">
-          <div style="display: flex;justify-content: space-between;">
-            <h3>Navigation Menu Ordering</h3>
-            <div class="btn btn-success" @click="navbarOrderUpdate">Save</div>
+          <div class="padding-bottom-15" style="display: flex;justify-content: space-between;">
+            <h3>Homepage Carousels</h3>
+            <!-- <div class="btn btn-success" @click="navbarOrderUpdate">Save</div> -->
+            <button class="btn btn-red white-text" @click="createCarousel">Add Carousel</button>
           </div>
         </div>
-        <div class="col s24 m12">
-          <h3>Active Menus</h3>
+        <div class="col s24">
           <draggable
             class="dragArea list-group"
             :list="final_category"
@@ -51,17 +64,6 @@
             <div
               class="list-group-item"
               v-for="element in final_category"
-              :key="element.id"
-            >{{ element.name }}</div>
-          </draggable>
-        </div>
-
-        <div class="col s24 m12">
-          <h3>All Categories</h3>
-          <draggable class="dragArea list-group" :list="category" group="people">
-            <div
-              class="list-group-item"
-              v-for="element in category"
               :key="element.id"
             >{{ element.name }}</div>
           </draggable>
@@ -107,16 +109,25 @@ export default {
   data() {
     return {
       enabled: true,
+      showDropdown: false,
       exampleList: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
       list: message.map((name, index) => {
         return { name, order: index + 1 };
       }),
       drag: false,
       final_category: [],
-      category: []
+      category: [],
+      name: "",
+      description: "",
+      status: 1,
+      image: "",
+      url: ""
     };
   },
   methods: {
+    createCarousel: function() {
+      this.$router.push("/dashboard/homepage/new/create");
+    },
     getCategory: function() {
       this.$store.dispatch("getCategory").then(res => {
         console.log(res);
@@ -171,6 +182,15 @@ export default {
     },
     start({ originalEvent }) {
       this.controlOnStart = originalEvent.ctrlKey;
+    },
+    openDropdownPanel: function() {
+      this.showDropdown = true;
+    },
+    closeDropdownPanel: function() {
+      this.showDropdown = false;
+      this.name = "";
+      this.description = "";
+      this.myDropzone.removeAllFiles();
     }
   }
 };
@@ -233,5 +253,59 @@ input {
 .sortable-chosen {
   background-color: #4caf50;
   color: white;
+}
+
+.popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+}
+
+.popup-main {
+  background-color: white;
+  margin: auto;
+  position: absolute;
+  max-width: 400px;
+  height: 460px;
+  left: 260px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.popup-body {
+  height: 300px;
+  overflow: auto;
+  padding: 30px;
+}
+
+.popup-title {
+  padding: 30px 30px 16px;
+  border-bottom: 1px solid #00000024;
+}
+.popup-action {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 25px;
+  box-shadow: 0px -7px 10px 0px #0000000d;
+}
+
+.popup:after {
+  background-color: rgba(0, 0, 0, 0.83);
+  margin: auto;
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 </style>

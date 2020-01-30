@@ -96,9 +96,9 @@ table.vgt-table {
   font-size: 13px !important;
 }
 
-.btn-primary{
+.btn-primary {
   background-color: #009688;
-  color: white
+  color: white;
 }
 
 .button--green {
@@ -110,8 +110,8 @@ table.vgt-table {
   padding: 10px 30px;
 }
 
-.pagination_buttons{
-  padding: 10px 0!important
+.pagination_buttons {
+  padding: 10px 0 !important;
 }
 
 .vgt-inner-wrap {
@@ -146,11 +146,11 @@ table.vgt-table {
   color: black;
 }
 
-
-.vgt-table.bordered td, .vgt-table.bordered th{
-  border-top: none!important;
-  border-left: none!important;
-  border-right: none!important;
+.vgt-table.bordered td,
+.vgt-table.bordered th {
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
 }
 
 .feather-icon.white {
@@ -190,7 +190,7 @@ h3 {
   padding: 20px;
   background-color: white;
   border-radius: 5px;
-  box-shadow: 0px 4px 6px 0px #00000014;
+  box-shadow: 0 3px 10px rgba(62, 85, 120, 0.07);
   margin: 0 auto;
   /* max-width: 1280px; */
 }

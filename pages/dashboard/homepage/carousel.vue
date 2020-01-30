@@ -52,27 +52,44 @@
               class="list-group-item"
               v-for="element in final_category"
               :key="element.id"
-            >
-              {{ element.name }}
-            </div>
+            >{{ element.name }}</div>
           </draggable>
         </div>
 
         <div class="col s24 m12">
           <h3>All Categories</h3>
-          <draggable
-            class="dragArea list-group"
-            :list="category"
-            group="people"
-          >
+          <draggable class="dragArea list-group" :list="category" group="people">
             <div
               class="list-group-item"
               v-for="element in category"
               :key="element.id"
-            >
-              {{ element.name }}
-            </div>
+            >{{ element.name }}</div>
           </draggable>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s24">
+          <div style="display: flex;justify-content: space-between;">
+            <h3>Homepage Carousel Ordering</h3>
+            <div class="container-small p-0" style="background-color:#ededed">
+              <client-only>
+                <carousel
+                  class="header-carousel"
+                  :per-page="1"
+                  :autoplay="true"
+                  :mouse-drag="true"
+                  :loop="true"
+                  paginationColor="#e91e63"
+                  paginationActiveColor="#ffffff"
+                >
+                  <slide v-for="p in 4" :key="p.id">
+                    <p>asa</p>
+                  </slide>
+                </carousel>
+              </client-only>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -134,11 +151,12 @@ export default {
     },
     navbarOrder: function() {
       this.$store.dispatch("navbarOrder").then(res => {
-        if(res.data.length != 0){
+        if (res.data.length != 0) {
           this.final_category = JSON.parse(res.data[0].value);
-          this.category = this.category.filter(v => !this.containsObject(v, this.final_category));
+          this.category = this.category.filter(
+            v => !this.containsObject(v, this.final_category)
+          );
         }
-
       });
     },
     navbarOrderUpdate: function() {
@@ -154,8 +172,8 @@ export default {
     containsObject: function(obj, list) {
       var i;
       for (i = 0; i < list.length; i++) {
-          console.log(JSON.stringify(obj))
-          console.log(JSON.stringify(list[i]))
+        console.log(JSON.stringify(obj));
+        console.log(JSON.stringify(list[i]));
         if (JSON.stringify(list[i]) === JSON.stringify(obj)) {
           return true;
         }
