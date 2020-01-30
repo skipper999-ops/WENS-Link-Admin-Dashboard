@@ -3,70 +3,78 @@
     <div v-show="showDropdown" class="popup">
       <div class="popup-main">
         <div class="popup-title">
-          <h3>Upload Banner</h3>
+          <h3>Add Carousel</h3>
         </div>
         <div class="popup-body">
           <div class="form-control">
-            <label>Banner Name</label>
-            <input v-model="name" type="text" style="width:70%" />
+            <label>Title</label>
+            <input v-model="title" type="text" style="width:70%" />
           </div>
 
           <div class="form-control">
-            <label>Banner Description (Optional)</label>
-            <input v-model="description" type="text" style="width:70%" />
-          </div>
-
-          <div style="margin: 0 10px 10px 0">
-            <label>Banner Image</label>
-            <div class="dropzone dz-clickable" id="myDrop">
-              <div class="dz-default dz-message" data-dz-message>
-                <span>Drop files here to upload</span>
-              </div>
-            </div>
+            <label>Carousel Type</label>
+            <select v-model="carousel_type" style="width:70%">
+              <option value="1">Single Category</option>
+              <option value="2">Multiple Products</option>
+            </select>
           </div>
 
           <div class="form-control">
+            <label>Sub-Title</label>
+            <input v-model="subtitle" type="text" style="width:70%" />
+          </div>
+
+          <div class="form-control" v-if="carousel_type == 1">
             <label>URL</label>
             <input type="text" v-model="url" style="width:70%" />
           </div>
-
-          <!-- <div class="form-control">
-            <label>Status</label>
-            <select v-model="status" style="width:70%">
-              <option value="0">Inactive</option>
-              <option value="1">Active</option>
-            </select>
-          </div>-->
         </div>
         <div class="popup-action">
-          <!-- <div class="pointer" @click="addBanner">Save</div>
-          <div class="pointer" @click="closeDropdownPanel">Cancel</div> -->
+          <div class="pointer" @click="addCarousels">Save</div>
+          <div class="pointer" @click="closeDropdownPanel">Cancel</div>
         </div>
       </div>
     </div>
-    <div class="holder">
-      <div class="row">
-        <div class="col s24">
-          <div class="padding-bottom-15" style="display: flex;justify-content: space-between;">
-            <h3>Homepage Carousels</h3>
-            <!-- <div class="btn btn-success" @click="navbarOrderUpdate">Save</div> -->
-            <button class="btn btn-red white-text" @click="createCarousel">Add Carousel</button>
-          </div>
+
+    <div class="specification">
+      <div class="holder">
+        <div
+          class="column-padding header-bottom"
+          style="display: flex; justify-content: space-between"
+        >
+          <h3>All Homepage Carousels</h3>
+          <button class="btn btn-red white-text" @click="openDropdownPanel">Add Carousel</button>
         </div>
-        <div class="col s24">
-          <draggable
-            class="dragArea list-group"
-            :list="final_category"
-            :clone="clone"
-            :group="{ name: 'people', pull: pullFunction }"
-            @start="start"
-          >
-            <div
-              class="list-group-item"
-              v-for="element in final_category"
-              :key="element.id"
-            >{{ element.name }}</div>
-          </draggable>
+
+        <div class="row">
+          <vue-good-table :columns="columns" :rows="allCarousels" :line-numbers="true">
+            <template slot="table-row" slot-scope="props">
+              <span v-if="props.column.field === 'action'">
+                <button
+                  type="button"
+                  v-if="props.row.carousel_type == 2"
+                  @click="customizeCarousel(props.row.id)"
+                  class="btn btn-primary"
+                >Customize</button>
+                <!-- <button
+                  type="button"
+                  @click="deleteBanner(props.row.id)"
+                  class="btn btn-primary"
+                >
+                  Delete
+                </button>-->
+              </span>
+              <span v-else-if="props.column.field === 'url'">
+                <a
+                  v-if="props.row.carousel_type == 1"
+                  target="_blank"
+                  :href="origin + props.row.url"
+                >{{origin}}{{props.row.url}}</a>
+                <p v-else>Not Applicable</p>
+              </span>
+              <span v-else>{{ props.formattedRow[props.column.field] }}</span>
+            </template>
+          </vue-good-table>
         </div>
       </div>
     </div>
@@ -74,187 +82,101 @@
 </template>
 
 <script>
-const message = [
-  "vue.draggable",
-  "draggable",
-  "component",
-  "for",
-  "vue.js 2.0",
-  "based",
-  "on",
-  "Sortablejs"
-];
-
-import draggable from "vuedraggable";
-let idGlobal = 8;
 export default {
+  data: () => ({
+    allCarousels: [],
+    origin: window.location.origin + "/",
+    showDropdown: false,
+    columns: [
+      {
+        label: "Title",
+        field: "title",
+        width: "250px"
+      },
+      {
+        label: "Subtitle",
+        field: "subtitle",
+        width: "200px"
+      },
+      {
+        label: "Type",
+        field: "carousel_type"
+      },
+      {
+        label: "URL",
+        field: "url",
+        width: "200px"
+      },
+      {
+        label: "Action",
+        field: "action",
+        width: "250px"
+      }
+    ],
+    title: "",
+    carousel_type: 1,
+    subtitle: "",
+    url: ""
+  }),
+
   mounted() {
-    feather.replace({ color: "black" });
-    this.getCategory();
-  },
-  computed: {
-    dragOptions() {
-      return {
-        animation: 200,
-        group: "description",
-        disabled: false,
-        ghostClass: "ghost"
-      };
-    }
-  },
-  components: {
-    draggable
-  },
-  layout: "empty",
-  data() {
-    return {
-      enabled: true,
-      showDropdown: false,
-      exampleList: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
-      list: message.map((name, index) => {
-        return { name, order: index + 1 };
-      }),
-      drag: false,
-      final_category: [],
-      category: [],
-      name: "",
-      description: "",
-      status: 1,
-      image: "",
-      url: ""
-    };
+    this.GetAllCarousels();
   },
   methods: {
-    createCarousel: function() {
+    GetAllCarousels: function() {
+      this.$store.dispatch("GetAllCarousels").then(res => {
+        console.log(res);
+        this.allCarousels = JSON.parse(JSON.stringify(res.data));
+      });
+    },
+    addCarousels: function() {
+      var payload = {
+        title: this.title,
+        url: this.url,
+        subtitle: this.subtitle,
+        carousel_type: this.carousel_type
+      };
+
+      this.$store.dispatch("createcarousel", payload).then(res => {
+        console.log(res);
+        this.GetAllCarousels();
+        this.closeDropdownPanel();
+      });
+    },
+    customizeCarousel: function(id) {
+
+      console.log(id)
+
+      this.$cookies.set("customizeCarousel", id, {
+        path: "/",
+        // httpOnly : true,
+        // secure: true,
+        maxAge: 60 * 60 * 24 * 7
+      });
+
       this.$router.push("/dashboard/homepage/new/create");
     },
-    getCategory: function() {
-      this.$store.dispatch("getCategory").then(res => {
+    deleteBanner: function(id) {
+      this.$store.dispatch("editDeleteBanner", id).then(res => {
         console.log(res);
-        this.category = JSON.parse(JSON.stringify(res.data));
-
-        this.navbarOrder();
+        this.getAllBanner();
       });
-    },
-    navbarOrder: function() {
-      this.$store.dispatch("WebsiteNav").then(res => {
-        if (res.data.length != 0) {
-          this.final_category = JSON.parse(res.data[0].value);
-          this.category = this.category.filter(
-            v => !this.containsObject(v, this.final_category)
-          );
-        }
-      });
-    },
-    navbarOrderUpdate: function() {
-      var payload = {
-        key: "WebsiteNav",
-        value: JSON.stringify(this.final_category)
-      };
-      this.$store.dispatch("WebsiteNavUpdate", payload).then(res => {
-        console.log(res.data);
-        this.navbarOrder();
-      });
-    },
-    containsObject: function(obj, list) {
-      var i;
-      for (i = 0; i < list.length; i++) {
-        console.log(JSON.stringify(obj));
-        console.log(JSON.stringify(list[i]));
-        if (JSON.stringify(list[i]) === JSON.stringify(obj)) {
-          return true;
-        }
-      }
-      return false;
-    },
-    removeAt(idx) {
-      this.list.splice(idx, 1);
-    },
-    add: function() {
-      id++;
-      this.list.push({ name: "Juan " + id, id, text: "" });
-    },
-    clone({ name }) {
-      return { name, id: idGlobal++ };
-    },
-    pullFunction() {
-      return this.controlOnStart ? "clone" : true;
-    },
-    start({ originalEvent }) {
-      this.controlOnStart = originalEvent.ctrlKey;
     },
     openDropdownPanel: function() {
       this.showDropdown = true;
     },
     closeDropdownPanel: function() {
       this.showDropdown = false;
-      this.name = "";
-      this.description = "";
-      this.myDropzone.removeAllFiles();
+      this.title = "";
+      this.subtitle = "";
+      this.url = "";
+      this.carousel_type = 1;
     }
   }
 };
 </script>
+
 <style scoped>
-.button {
-  margin-top: 35px;
-}
-.handle {
-  float: left;
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-.close {
-  float: right;
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-input {
-  display: inline-block;
-  width: 50%;
-}
-.text {
-  margin: 20px;
-}
-.button {
-  margin-top: 35px;
-}
-.flip-list-move {
-  transition: transform 0.5s;
-}
-.no-move {
-  transition: transform 0s;
-}
-.ghost {
-  opacity: 0.5;
-  background: #c8ebfb;
-}
-.list-group {
-  min-height: 39px;
-  padding-bottom: 1px;
-  border: 1px dashed #d2d2d2;
-}
-.list-group-item {
-  position: relative;
-  display: block;
-  padding: 0.75rem 1.25rem;
-  margin-bottom: -1px;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  cursor: move !important;
-}
-.handle {
-  cursor: move !important;
-}
-.list-group-item i {
-  cursor: pointer;
-}
-
-.sortable-chosen {
-  background-color: #4caf50;
-  color: white;
-}
-
 .popup {
   position: fixed;
   left: 0;
@@ -307,5 +229,18 @@ input {
   right: 0;
   top: 0;
   bottom: 0;
+}
+
+input,
+select {
+  height: 35px;
+  margin: 0 10px 10px 0;
+  border-radius: 0;
+  outline: none;
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  box-shadow: none;
+  transition: all 0.3s;
 }
 </style>

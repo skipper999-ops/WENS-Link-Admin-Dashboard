@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="col s24 m12">
-          <h3>Active Menus</h3>
+          <h3>Active Carousels</h3>
           <draggable
             class="dragArea list-group"
             :list="final_category"
@@ -52,23 +52,23 @@
               class="list-group-item"
               v-for="element in final_category"
               :key="element.id"
-            >{{ element.name }}</div>
+            >{{ element.title }}</div>
           </draggable>
         </div>
 
         <div class="col s24 m12">
-          <h3>Available Categories</h3>
+          <h3>Available Carousels</h3>
           <draggable class="dragArea list-group" :list="category" group="people">
             <div
               class="list-group-item"
               v-for="element in category"
               :key="element.id"
-            >{{ element.name }}</div>
+            >{{ element.title }}</div>
           </draggable>
         </div>
       </div>
 
-      <div class="row">
+      <!-- <div class="row">
         <div class="col s24">
           <div style="display: flex;justify-content: space-between;">
             <h3>Homepage Carousel Ordering</h3>
@@ -91,7 +91,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -113,7 +113,7 @@ let idGlobal = 8;
 export default {
   mounted() {
     feather.replace({ color: "black" });
-    this.getCategory();
+    this.GetAllCarousels();
   },
   computed: {
     dragOptions() {
@@ -132,26 +132,21 @@ export default {
   data() {
     return {
       enabled: true,
-      exampleList: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
-      list: message.map((name, index) => {
-        return { name, order: index + 1 };
-      }),
       drag: false,
       final_category: [],
       category: []
     };
   },
   methods: {
-    getCategory: function() {
-      this.$store.dispatch("getCategory").then(res => {
+    GetAllCarousels: function() {
+      this.$store.dispatch("GetAllCarousels").then(res => {
         console.log(res);
         this.category = JSON.parse(JSON.stringify(res.data));
-
         this.navbarOrder();
       });
     },
     navbarOrder: function() {
-      this.$store.dispatch("navbarOrder").then(res => {
+      this.$store.dispatch("HomepageCarousel").then(res => {
         if (res.data.length != 0) {
           this.final_category = JSON.parse(res.data[0].value);
           this.category = this.category.filter(
@@ -162,10 +157,10 @@ export default {
     },
     navbarOrderUpdate: function() {
       var payload = {
-        key: "ActiveCategory",
+        key: "HomepageCarousel",
         value: JSON.stringify(this.final_category)
       };
-      this.$store.dispatch("navbarOrderUpdate", payload).then(res => {
+      this.$store.dispatch("HomepageCarouselUpdate", payload).then(res => {
         console.log(res.data);
         this.navbarOrder();
       });
@@ -181,15 +176,8 @@ export default {
       }
       return false;
     },
-    removeAt(idx) {
-      this.list.splice(idx, 1);
-    },
-    add: function() {
-      id++;
-      this.list.push({ name: "Juan " + id, id, text: "" });
-    },
-    clone({ name }) {
-      return { name, id: idGlobal++ };
+    clone({ title }) {
+      return { title, id: idGlobal++ };
     },
     pullFunction() {
       return this.controlOnStart ? "clone" : true;

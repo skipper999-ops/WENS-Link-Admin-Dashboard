@@ -174,6 +174,12 @@
 
       <p>Templates</p>
       <div class="navbar__parent">
+        <nuxt-link to="/dashboard/templates/home_carousel">
+          <i data-feather="hash"></i>
+          <span>Home Carousel</span>
+        </nuxt-link>
+      </div>
+      <div class="navbar__parent">
         <nuxt-link to="/dashboard/templates/filters">
           <i data-feather="hash"></i>
           <span>Filters</span>

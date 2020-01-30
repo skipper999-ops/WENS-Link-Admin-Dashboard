@@ -5,97 +5,105 @@ console.log(process.env.NODE_ENV);
 var url;
 
 if (process.env.NODE_ENV == "development") {
-  var url = "http://127.0.0.1:8000/backend/api/";
+    var url = "http://127.0.0.1:8000/backend/api/";
 } else {
-  var url = "/backend/api/";
+    var url = "/backend/api/";
 }
 
 console.log(url);
 
 export const state = () => ({
-  login: url + "login/admin",
+    login: url + "login/admin",
 
-  loginAsVendor: url + "login/asvendors", //id
+    loginAsVendor: url + "login/asvendors", //id
 
-  imageUpload: url + "products/upload/image",
+    imageUpload: url + "products/upload/image",
 
-  allProducts: url + "products/",
+    allProducts: url + "products/",
 
-  singleProduct: url + "products/single/",
+    singleProduct: url + "products/single/",
 
-  getCategory: url + "products/product/category",
+    getCategory: url + "products/product/category",
 
-  getsubCategory: url + "products/product/subcategory",
+    getsubCategory: url + "products/product/subcategory",
 
-  getAllSubCategory: url + "products/product/subcategory/all",
+    getAllSubCategory: url + "products/product/subcategory/all",
 
-  getBrand: url + "products/product/brand",
+    getBrand: url + "products/product/brand",
 
-  commissionList: url + "products/admin/commissionList",
+    commissionList: url + "products/admin/commissionList",
 
-  commissionListtask: url + "products/admin/commissionListtask",
+    commissionListtask: url + "products/admin/commissionListtask",
 
-  commissionListtaskEdit: url + "products/admin/commissionListtaskEdit/", //id
+    commissionListtaskEdit: url + "products/admin/commissionListtaskEdit/", //id
 
-  getAllOrder: url + "orders",
+    getAllOrder: url + "orders",
 
-  getAllAuction: url + "auction",
+    getAllAuction: url + "auction",
 
-  getAllCompletedAuction: url + "auction/completed/",
+    getAllCompletedAuction: url + "auction/completed/",
 
-  getAllOngoingAuction: url + "auction/ongoing/",
+    getAllOngoingAuction: url + "auction/ongoing/",
 
-  addProduct: url + "products/create/product",
+    addProduct: url + "products/create/product",
 
-  addAuction: url + "auction/create",
+    addAuction: url + "auction/create",
 
-  deleteProduct: url + "products/delete/",
+    deleteProduct: url + "products/delete/",
 
-  categoryFunctions: url + "products/product/category/",
+    categoryFunctions: url + "products/product/category/",
 
-  deleteSubCategory: url + "products/product/subcategory/delete/",
+    deleteSubCategory: url + "products/product/subcategory/delete/",
 
-  deleteBrand: url + "products/product/brand/delete/",
+    deleteBrand: url + "products/product/brand/delete/",
 
-  getsubCategoryDetails: url + "products/product/subcategory/single/", //id
+    getsubCategoryDetails: url + "products/product/subcategory/single/", //id
 
-  allProductsRequests: url + "products/allProductsRequests", //id
+    allProductsRequests: url + "products/allProductsRequests", //id
 
-  changeProductStatus: url + "products/product/changeProductStatus/", //id
+    changeProductStatus: url + "products/product/changeProductStatus/", //id
 
-  changeUserStatus: url + "users/changeStatus/", //id
+    changeUserStatus: url + "users/changeStatus/", //id
 
-  getAllSeller: url + "users/getAllSellers", //id
+    getAllSeller: url + "users/getAllSellers", //id
 
-  getAllSubAdmin: url + "users/getallsubadmin", //id
+    getAllSubAdmin: url + "users/getallsubadmin", //id
 
-  addSubAdmin: url + "users/create/subadmin", //id
+    addSubAdmin: url + "users/create/subadmin", //id
 
-  getSingleProducts: url + "products/single/", //id
+    getSingleProducts: url + "products/single/", //id
 
-  singleupdate: url + "products/singleupdate/", //id
+    singleupdate: url + "products/singleupdate/", //id
 
-  invoice_success: url + "payments/admin-invoice/", //id
+    invoice_success: url + "payments/admin-invoice/", //id
 
-  getallbanner: url + "admin_app/mainslider/all",
+    getallbanner: url + "admin_app/mainslider/all",
 
-  addBanner: url + "admin_app/mainslider/create",
+    addBanner: url + "admin_app/mainslider/create",
 
-  editDeleteBanner: url + "admin_app/mainslider/", //id,
+    editDeleteBanner: url + "admin_app/mainslider/", //id,
 
-  bannerImageUpload: url + "admin_app/upload/image",
+    bannerImageUpload: url + "admin_app/upload/image",
 
-  navbarOrder: url + "admin_app/navbar-order",
+    navbarOrder: url + "admin_app/navbar-order",
 
-  navbarOrderUpdate: url + "admin_app/navbar-order/", //key
+    navbarOrderUpdate: url + "admin_app/navbar-order/", //key
 
-  WebsiteNav: url + "admin_app/websitenavbar-order",
+    WebsiteNav: url + "admin_app/websitenavbar-order",
 
-  WebsiteNavUpdate: url + "admin_app/websitenavbar-order/" //key
+    WebsiteNavUpdate: url + "admin_app/websitenavbar-order/", //key
+
+    GetAllCarousels: url + "admin_app/getallcarousel",
+
+    createcarousel: url + "admin_app/createcarousel",
+
+    HomepageCarousel: url + "admin_app/homepagecarousel-order",
+
+    HomepageCarouselUpdate: url + "admin_app/homepagecarousel-order/", //key
+
+    gethomepagecarousel: url + "admin_app/gethomepagecarousel/", //key
+
+    gethomepagecarouseldetails: url + "admin_app/gethomepagecarouseldetails/", //key
+
+    gethomepagecarouseldetailscreate: url + "admin_app/gethomepagecarouseldetailscreate", //key
 });
-
-export const getters = {
-  // getLoginAPI(state) {
-  //     return state.login
-  // }
-};
