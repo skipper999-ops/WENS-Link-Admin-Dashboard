@@ -50,13 +50,13 @@
         </div>
       </div>
 
-      <div class="holder" v-if="slugify != ''">
+      <div class="holder" v-show="subcategory_selected != undefined && subcategory_selected != 0">
         <h3 class>Submit Product</h3>
         <div style="display:flex;justify-content: space-between;align-items: center;">
-        <div style="padding-left: 19px;padding-bottom: 10px;" class>
-          <button class="btn btn-primary" @click="addProduct">Add Product</button>
-        </div>
-        <!-- <div class="toggle-button-cover">
+          <div style="padding-left: 19px;padding-bottom: 10px;" class>
+            <button class="btn btn-primary" @click="addProduct" :disabled="slugify == ''">Add Product</button>
+          </div>
+          <!-- <div class="toggle-button-cover">
           <div class="button-cover">
             <div class="button r" id="button-3">
               <input type="checkbox" class="checkbox" />
@@ -64,7 +64,7 @@
               <div class="layer"></div>
             </div>
           </div>
-        </div> -->
+          </div>-->
         </div>
       </div>
 
@@ -99,16 +99,19 @@
               <div class="bg-white">
                 <div class="column-padding">
                   <!-- <h3 style="display: flex;align-items: center;">Basic Details</h3> -->
-                  <p
+                  <!-- <p
                     style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
-                  >These informations cannot be changed by the Vendors</p>
+                  >These informations cannot be changed by the Vendors</p>-->
                 </div>
 
                 <div class="row">
                   <div class="col s24">
                     <div class="col s24 m16">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Product Name</label>
+                        <label for="exampleInputEmail1">
+                          Product Name
+                          <span class="red-text">*</span>
+                        </label>
                         <input
                           type="text"
                           @input="slugifyTitle"
@@ -123,7 +126,10 @@
                         <div
                           style="display: flex;justify-content: space-between;align-items: center;"
                         >
-                          <label style="display:flex" for="exampleInputEmail1">Product Slug</label>
+                          <label style="display:flex" for="exampleInputEmail1">
+                            Product Slug
+                            <span class="red-text">*</span>
+                          </label>
                           <div v-if="!editSlug" @click="allowSlugField(1)" class="link_tag">Edit</div>
                           <div v-if="editSlug" @click="allowSlugField(0)" class="link_tag">Save</div>
                         </div>
@@ -137,12 +143,26 @@
                     </div>
                     <div class="col s24 m16">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Brand</label>
+                        <label for="exampleInputEmail1">
+                          Brand
+                          <span class="red-text">*</span>
+                        </label>
                         <input
                           type="text"
                           class="form-control"
                           v-model="brand"
                           placeholder="Xiaomi"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24 m16">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Suggested Price</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="suggested_price"
+                          placeholder="0"
                         />
                       </div>
                     </div>
@@ -341,51 +361,51 @@
                 <div class="row">
                   <div class="col s24">
                     <div class="col s24 m16">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Length</label>
+                      <div class="form-group small">
+                        <label for="exampleInputEmail1">Length (Length in cms. More than 0.5 cm)</label>
                         <input
-                          type="text"
-                          @input="slugifyTitle"
-                          v-model="product_name"
+                          type="number"
+                          v-model="length"
                           class="form-control"
-                          placeholder="Redmi 7A ( 32GB , 2 GB ) Black"
+                          placeholder=""
                         />
+                        <span class="input_span_right">cms</span>
                       </div>
                     </div>
                     <div class="col s24 m16">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Breadth</label>
+                      <div class="form-group small">
+                        <label for="exampleInputEmail1">Breadth (Breadth in cms. More than 0.5 cm)</label>
                         <input
-                          type="text"
-                          @input="slugifyTitle"
-                          v-model="product_name"
+                          type="number"
+                          v-model="breadth"
                           class="form-control"
-                          placeholder="Redmi 7A ( 32GB , 2 GB ) Black"
+                          placeholder=""
                         />
+                        <span class="input_span_right">cms</span>
                       </div>
                     </div>
                     <div class="col s24 m16">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Height</label>
+                      <div class="form-group small">
+                        <label for="exampleInputEmail1">Height (Height in cms. More than 0.5 cm)</label>
                         <input
-                          type="text"
-                          @input="slugifyTitle"
-                          v-model="product_name"
+                          type="number"
+                          v-model="height"
                           class="form-control"
-                          placeholder="Redmi 7A ( 32GB , 2 GB ) Black"
+                          placeholder=""
                         />
+                        <span class="input_span_right">cms</span>
                       </div>
                     </div>
                     <div class="col s24 m16">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Weight</label>
+                      <div class="form-group small">
+                        <label for="exampleInputEmail1">Weight (Weight in kgs. More than 0)</label>
                         <input
-                          type="text"
-                          @input="slugifyTitle"
-                          v-model="product_name"
+                          type="number"
+                          v-model="weight"
                           class="form-control"
-                          placeholder="Redmi 7A ( 32GB , 2 GB ) Black"
+                          placeholder=""
                         />
+                        <span class="input_span_right">kgs</span>
                       </div>
                     </div>
                   </div>
@@ -520,7 +540,12 @@ export default {
           details: "<p>asa</p>"
         }
       ],
-      vs: this
+      vs: this,
+      suggested_price: 0,
+      length: 0,
+      breadth: 0,
+      height: 0,
+      weight: 0
     };
   },
   mounted() {
@@ -638,6 +663,11 @@ export default {
       payload.append("brand", this.brand);
       payload.append("manufacturer", this.manufacturer);
       payload.append("seo", this.seo);
+      payload.append("suggested_price", this.suggested_price);
+      payload.append("length", this.length);
+      payload.append("breadth", this.breadth);
+      payload.append("height", this.height);
+      payload.append("weight", this.weight);
       payload.append("bullet_points", JSON.stringify(this.bullet_points));
       payload.append("specs", JSON.stringify(this.specs));
 
@@ -739,6 +769,7 @@ label {
   font-weight: 500;
   line-height: 30px;
   font-family: "Bold";
+  white-space: nowrap;
 }
 
 /* .form-group{
@@ -788,35 +819,35 @@ label {
 }
 .element-tab-view > input#tab1:checked ~ .content-container #c1 {
   opacity: 1;
-  z-index: 999;
+  z-index: 93;
 }
 .element-tab-view > input#tab2:checked ~ .line {
   left: 136.146px;
 }
 .element-tab-view > input#tab2:checked ~ .content-container #c2 {
   opacity: 1;
-  z-index: 999;
+  z-index: 93;
 }
 .element-tab-view > input#tab3:checked ~ .line {
   left: 270.646px;
 }
 .element-tab-view > input#tab3:checked ~ .content-container #c3 {
   opacity: 1;
-  z-index: 999;
+  z-index: 93;
 }
 .element-tab-view > input#tab4:checked ~ .line {
   left: 406.802px;
 }
 .element-tab-view > input#tab4:checked ~ .content-container #c4 {
   opacity: 1;
-  z-index: 999;
+  z-index: 93;
 }
 .element-tab-view > input#tab5:checked ~ .line {
   left: 542.948px;
 }
 .element-tab-view > input#tab5:checked ~ .content-container #c5 {
   opacity: 1;
-  z-index: 999;
+  z-index: 93;
 }
 .element-tab-view > label {
   display: inline-block;
@@ -1004,5 +1035,30 @@ label {
 
 #button-3 .checkbox:checked ~ .layer {
   background-color: #d4ecff;
+}
+
+.red-text {
+  color: red;
+}
+
+@media (min-width: 767.98px) {
+  .form-group.small {
+    width: 180px;
+  }
+}
+
+.input_span_right {
+  position: absolute;
+  right: 0;
+  top: 31px;
+  bottom: 0;
+  /* margin: auto 0; */
+  width: 72px;
+  height: 33px;
+  background-color: #2196f3;
+  line-height: 33px;
+  text-align: center;
+  border-radius: 0;
+  color: white;
 }
 </style>

@@ -24,7 +24,7 @@
                   style="width: 40px; height: 40px; object-fit:contain"
                   :src="
                     baseurl +
-                      '/backend/api/products/image/200/40/' +
+                      '/backend/api/products/image/40/40/' +
                       props.row.images[0]
                   "
                 />

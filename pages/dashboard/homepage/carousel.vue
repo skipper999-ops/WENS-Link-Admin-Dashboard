@@ -68,7 +68,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <!-- <div class="row">
         <div class="col s24">
           <div style="display: flex;justify-content: space-between;">
             <h3>Homepage Carousel Ordering</h3>
@@ -91,7 +91,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
