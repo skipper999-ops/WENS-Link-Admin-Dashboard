@@ -1,14 +1,25 @@
 <template>
-  <div class="navbar-spacing padding-top-30">
+  <div class="navbar-spacing padding-top-30 analytics-spacing">
     <div class="page-header row no-gutters py-4">
       <div class="col s24 text-center text-sm-left mb-0">
-        <span class="text-uppercase page-subtitle">Dashboard</span>
-        <h3 class="page-title">
-          Website Overview
-          <span style="font-size: 13px;font-family:light;font-weight: lighter;"
-            >(Last 7 Days)</span
-          >
-        </h3>
+        <div style="display:flex;justify-content: space-between;align-items:center">
+          <div>
+            <span class="text-uppercase page-subtitle">Dashboard</span>
+            <h3 class="page-title">
+              Website Overview
+              <span
+                style="font-size: 13px;font-family:light;font-weight: lighter;"
+              >(Last {{this.days}} Days)</span>
+            </h3>
+          </div>
+          <div>
+            <ul class="date_options" style="display: flex; list-style:none">
+              <li @click="reloadCharts(7)">7 Days</li>
+              <li @click="reloadCharts(30)">30 Days</li>
+              <li @click="reloadCharts(90)">3 Months</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -17,45 +28,27 @@
         <div class="card">
           <div class="card-content">
             <h3>Orders Placed</h3>
-            <p>18</p>
+            <p>{{orders_placed}}</p>
           </div>
-          <apexchart
-            class="charts"
-            height="80"
-            type="area"
-            :options="options"
-            :series="series"
-          ></apexchart>
+          <apexchart class="charts" height="80" type="area" :options="options" :series="series"></apexchart>
         </div>
       </div>
       <div class="col s24 m8 l6">
         <div class="card">
           <div class="card-content">
             <h3>Customers</h3>
-            <p>4</p>
+            <p>{{new_customers}}</p>
           </div>
-          <apexchart
-            class="charts"
-            height="80"
-            type="area"
-            :options="options_1"
-            :series="series1"
-          ></apexchart>
+          <apexchart class="charts" height="80" type="area" :options="options_1" :series="series1"></apexchart>
         </div>
       </div>
       <div class="col s24 m8 l6">
         <div class="card">
           <div class="card-content">
             <h3>Sales Today</h3>
-            <p>₹ 18</p>
+            <p>₹ {{today_sales}}</p>
           </div>
-          <apexchart
-            class="charts"
-            height="80"
-            type="area"
-            :options="options_2"
-            :series="series"
-          ></apexchart>
+          <apexchart class="charts" height="80" type="area" :options="options_2" :series="series"></apexchart>
         </div>
       </div>
       <div class="col s24 m8 l6">
@@ -64,42 +57,43 @@
             <h3>Orders Placed Today</h3>
             <p>18</p>
           </div>
-          <apexchart
-            class="charts"
-            height="80"
-            type="area"
-            :options="options_3"
-            :series="series"
-          ></apexchart>
+          <apexchart class="charts" height="80" type="area" :options="options_3" :series="series"></apexchart>
         </div>
       </div>
     </div>
 
-    <!-- <div class="analytics">
+    <div class="analytics">
       <div class="row">
-        <div class="col s24">
-          <vue-good-table :columns="columns" :rows="rows" />
-        </div>
-      </div>
-    </div> -->
-
-    <!-- <div class="analytics row">
-      <div class="col s18">
-        <div class="card">
-          <div class="card-content">
-            <h3>Orders Placed Today</h3>
-            <p>18</p>
+        <div class="col s12">
+          <div class="holder">
+            <h3 style="padding-left: .5em!important;">Product Issues</h3>
+            <vue-good-table
+              class="vue-good-table-correction"
+              :columns="columns"
+              :rows="issueproducts"
+            >
+              <template slot="table-row" slot-scope="props">
+                <span v-if="props.column.field === 'images'">
+                  <img
+                    style="width: 40px; height: 40px; object-fit:contain"
+                    :src="
+                    baseurl +
+                      '/backend/api/products/image/40/40/' +
+                      props.row.images[0]
+                  "
+                    @error="setFallbackImageUrl"
+                  />
+                </span>
+                <span v-else-if="props.column.field === 'issue'">
+                  <p class="red-text">Shipping Information Missing</p>
+                </span>
+                <span v-else>{{ props.formattedRow[props.column.field] }}</span>
+              </template>
+            </vue-good-table>
           </div>
-          <apexchart
-            class="charts"
-            height="100"
-            type="area"
-            :options="options_3"
-            :series="series"
-          ></apexchart>
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -108,6 +102,7 @@ export default {
   name: "dashboard",
   data() {
     return {
+      baseurl: process.env.baseUrl,
       options: {
         grid: {
           show: false,
@@ -137,8 +132,7 @@ export default {
         dataLabels: {
           enabled: false
         },
-        stroke: {
-        },
+        stroke: {},
         xaxis: {
           type: "numeric",
           lines: {
@@ -204,8 +198,7 @@ export default {
         dataLabels: {
           enabled: false
         },
-        stroke: {
-        },
+        stroke: {},
         xaxis: {
           type: "numeric",
           lines: {
@@ -376,7 +369,7 @@ export default {
       series: [
         {
           name: "Orders",
-          data: [30, 20, 50, 40, 60, 30, 10]
+          data: [0, 0, 0, 0, 0, 0, 0]
         }
       ],
       series1: [
@@ -388,72 +381,80 @@ export default {
       columns: [
         {
           label: "Name",
-          field: "name"
+          field: "images",
+          sortable: false,
+          thClass: "capitalize"
         },
         {
-          label: "Age",
-          field: "age",
-          type: "number"
+          label: "",
+          field: "product_name",
+          sortable: false,
+          tdClass: "capitalize"
         },
         {
-          label: "Created On",
-          field: "createdAt",
-          type: "date",
-          dateInputFormat: "yyyy-MM-dd",
-          dateOutputFormat: "MMM Do yy"
-        },
-        {
-          label: "Percent",
-          field: "score",
-          type: "percentage"
+          label: "Issue",
+          field: "issue",
+          sortable: false,
+          width: "200px",
+          thClass: "capitalize"
         }
       ],
-      rows: [
-        { id: 1, name: "John", age: 20, createdAt: "", score: 0.03343 },
-        {
-          id: 2,
-          name: "Jane",
-          age: 24,
-          createdAt: "2011-10-31",
-          score: 0.03343
-        },
-        {
-          id: 3,
-          name: "Susan",
-          age: 16,
-          createdAt: "2011-10-30",
-          score: 0.03343
-        },
-        {
-          id: 4,
-          name: "Chris",
-          age: 55,
-          createdAt: "2011-10-11",
-          score: 0.03343
-        },
-        {
-          id: 5,
-          name: "Dan",
-          age: 40,
-          createdAt: "2011-10-21",
-          score: 0.03343
-        },
-        {
-          id: 6,
-          name: "John",
-          age: 20,
-          createdAt: "2011-10-31",
-          score: 0.03343
-        }
-      ]
+      issueproducts: [],
+      days: 7,
+      orders_placed: 0,
+      new_customers: 0,
+      today_sales: 0,
+      admin_counts: []
     };
   },
 
   updated: function() {},
-  mounted() {},
+  mounted() {
+    this.getAnalytics(this.days);
+    this.getProductIssues();
+    this.getAdminCounts();
+  },
   watch: {},
   beforeMount() {},
-  methods: {}
+  methods: {
+    getAnalytics: function(days) {
+      this.$store.dispatch("getAnalytics", days).then(res => {
+        console.log(res);
+        this.orders_placed = res.data.all_orders.reduce(this.func);
+        this.new_customers = res.data.new_customer.reduce(this.func);
+        this.series = [
+          {
+            data: res.data.all_orders
+          }
+        ];
+        this.series1 = [
+          {
+            data: res.data.new_customer
+          }
+        ];
+      });
+    },
+    getProductIssues: function() {
+      this.$store.dispatch("getProductIssues").then(res => {
+        console.log(res);
+        this.issueproducts = res.data.missing_shipping;
+        this.issueproducts.filter(v => (v.images = JSON.parse(v.images)));
+      });
+    },
+    getAdminCounts: function() {
+      this.$store.dispatch("admin_counts").then(res => {
+        console.log(res);
+        this.admin_counts = res.data;
+      });
+    },
+    func: function(a, b) {
+      return a + b;
+    },
+    reloadCharts: function(days) {
+      this.days = days;
+      this.getAnalytics(days);
+    }
+  }
 };
 </script>
 
@@ -477,6 +478,10 @@ export default {
   font-size: 30px;
 }
 
+.analytics.row .col {
+  margin-bottom: 25px;
+}
+
 .analytics .charts {
   position: absolute;
   width: 100%;
@@ -486,5 +491,17 @@ export default {
 
 .page-title {
   padding-top: 5px;
+}
+
+.red-text {
+  color: #f44336;
+}
+
+.analytics-spacing .analytics:not(:nth-child(2)) {
+  margin-top: 40px;
+}
+
+.date_options li {
+  padding: 0 10px;
 }
 </style>

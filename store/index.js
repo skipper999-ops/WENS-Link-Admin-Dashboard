@@ -809,6 +809,27 @@ export const actions = {
         });
     },
 
+    getAllCustomers({ commit, state }) {
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "GET",
+                    url: state.api.getAllCustomers,
+                    contentType: "application/json",
+                    headers: {
+                        Authorization: "Bearer " + this.$cookies.get("access_token")
+                    }
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    resolve(res);
+                })
+                .catch(err => {
+                    console.log("error in request", err);
+                });
+        });
+    },
+
     getAllSeller({ commit, state }) {
         return new Promise((resolve, reject) => {
             axios({
@@ -1169,6 +1190,79 @@ export const actions = {
                     method: "POST",
                     data: payload,
                     url: state.api.gethomepagecarouseldetailscreate,
+                    contentType: "application/json"
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    resolve(res);
+                })
+                .catch(err => {
+                    console.log("error in request", err);
+                });
+        });
+    },
+
+    createcarousel({ commit, state }, payload) {
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "POST",
+                    data: payload,
+                    url: state.api.createcarousel,
+                    contentType: "application/json"
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    resolve(res);
+                })
+                .catch(err => {
+                    console.log("error in request", err);
+                });
+        });
+    },
+
+    getAnalytics({ commit, state }, days) {
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "GET",
+                    url: state.api.getAnalytics + days,
+                    contentType: "application/json"
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    resolve(res);
+                })
+                .catch(err => {
+                    console.log("error in request", err);
+                });
+        });
+    },
+
+    getProductIssues({ commit, state }) {
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "GET",
+                    url: state.api.getProductIssues,
+                    contentType: "application/json"
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    resolve(res);
+                })
+                .catch(err => {
+                    console.log("error in request", err);
+                });
+        });
+    },
+
+    admin_counts({ commit, state }) {
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "GET",
+                    url: state.api.admin_counts,
                     contentType: "application/json"
                 })
                 .then(res => {

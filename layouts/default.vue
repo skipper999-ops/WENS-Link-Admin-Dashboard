@@ -114,8 +114,17 @@ table.vgt-table {
   padding: 10px 0 !important;
 }
 
+.vgt-table thead th{
+  background-color: white!important;
+  background: white!important
+}
+
 .vgt-inner-wrap {
   /* padding: 0 10px */
+}
+
+.vue-good-table-correction tr:last-child td{
+  border-bottom: 0 solid #eaeaea !important;
 }
 
 .apexcharts-svg {
@@ -146,11 +155,25 @@ table.vgt-table {
   color: black;
 }
 
-.vgt-table.bordered td,
+.vgt-table.bordered td {
+  border: none !important;
+  border-bottom: 1px solid #eaeaea !important;
+}
+
 .vgt-table.bordered th {
-  border-top: none !important;
-  border-left: none !important;
-  border-right: none !important;
+  border: none !important;
+}
+
+.vgt-table th{
+  padding: 1.75em 1.5em 0.75em .75em!important
+}
+
+table.vgt-table td{
+  padding: 20px .75em .75em .75em
+}
+
+.analytics table.vgt-table {
+  border: 0 solid #dcdfe6 !important;
 }
 
 .feather-icon.white {
@@ -243,5 +266,9 @@ textarea {
   border: 1px solid rgb(169, 169, 169);
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
+}
+
+.capitalize{
+  text-transform: capitalize
 }
 </style>

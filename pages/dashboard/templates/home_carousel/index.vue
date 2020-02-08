@@ -152,6 +152,7 @@ export default {
           this.category = this.category.filter(
             v => !this.containsObject(v, this.final_category)
           );
+          console.log(this.category)
         }
       });
     },

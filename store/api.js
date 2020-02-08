@@ -69,6 +69,8 @@ export const state = () => ({
 
     getAllSubAdmin: url + "users/getallsubadmin", //id
 
+    getAllCustomers: url + "users/getallcustomers", //id
+
     addSubAdmin: url + "users/create/subadmin", //id
 
     getSingleProducts: url + "products/single/", //id
@@ -106,4 +108,13 @@ export const state = () => ({
     gethomepagecarouseldetails: url + "admin_app/gethomepagecarouseldetails/", //key
 
     gethomepagecarouseldetailscreate: url + "admin_app/gethomepagecarouseldetailscreate", //key
+
+
+    //analytics
+    getAnalytics: url + "admin_app/analytics/", //days
+
+    getProductIssues: url + "admin_app/getproductissues",
+
+    admin_counts: url + "admin_app/admin_counts",
+
 });

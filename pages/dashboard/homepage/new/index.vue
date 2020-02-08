@@ -1,9 +1,18 @@
 <template>
   <div class="navbar-spacing padding-top-30">
+    <!-- <div v-if="showDropdown1" class="popup">
+      <div class="popup-main">
+        <URL></URL>
+        <div class="popup-action">
+          <div class="pointer" @click="showDropdown1 = false">Close</div>
+        </div>
+      </div>
+    </div> -->
     <div v-show="showDropdown" class="popup">
       <div class="popup-main">
         <div class="popup-title">
           <h3>Add Carousel</h3>
+           <!-- <div @click="showDropdown1 = true" class="add-section" style="width: 100px">+ URL Builder</div> -->
         </div>
         <div class="popup-body">
           <div class="form-control">
@@ -82,11 +91,15 @@
 </template>
 
 <script>
+
+import URL from "@/components/Url_Builder";
+
 export default {
   data: () => ({
     allCarousels: [],
     origin: window.location.origin + "/",
     showDropdown: false,
+    showDropdown1: false,
     columns: [
       {
         label: "Title",
@@ -119,6 +132,11 @@ export default {
     url: ""
   }),
 
+    components: {
+    URL
+  },
+
+
   mounted() {
     this.GetAllCarousels();
   },
@@ -136,6 +154,8 @@ export default {
         subtitle: this.subtitle,
         carousel_type: this.carousel_type
       };
+
+      console.log(payload)
 
       this.$store.dispatch("createcarousel", payload).then(res => {
         console.log(res);

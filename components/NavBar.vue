@@ -2,23 +2,18 @@
   <div>
     <div class="padding-top-20">
       <nav class="topnav box-shadow padding-left-10 padding-right-10 row">
-        <div
-          class="flex align-item col"
-          style="width:100%; justify-content: space-between;"
-        >
+        <div class="flex align-item col" style="width:100%; justify-content: space-between;">
           <div>
             <div class="visible-xs visible-sm">
               <a @click="openSidenav" class="pointer">
-                 <menu-icon class="feather-icon black"></menu-icon>
+                <menu-icon class="feather-icon black"></menu-icon>
               </a>
             </div>
             <div class="visible-xs visible-sm">
               <p
                 class="hide-on-large-only"
                 style="line-height:64px;font-family:'Bold'; font-size: 17px;white-space: nowrap;"
-              >
-                WENSLink Admin Dashboard
-              </p>
+              >WENSLink Admin Dashboard</p>
             </div>
           </div>
           <div
@@ -30,7 +25,7 @@
                 class="feather-icon-badge bg-primary text-white h-5 w-5 absolute rounded-full text-xs flex items-center justify-center"
                 style="top: 5px; right: 0px;position:absolute;border-radius:50px;width:20px;height:20px"
                 >5</span
-              > -->
+              >-->
             </div>
             <div class="flex align-item">
               <div style="padding-right:10px;line-height: 20px;">
@@ -49,10 +44,7 @@
       </nav>
     </div>
 
-    <perfect-scrollbar
-      id="mySidenav"
-      class="sidenav hidden-xs hidden-sm padding-bottom-30"
-    >
+    <perfect-scrollbar id="mySidenav" class="sidenav hidden-xs hidden-sm padding-bottom-30">
       <div
         style="cursor:pointer; text-align:right;padding-right:20px"
         class="hide-on-large-only"
@@ -72,7 +64,6 @@
         </nuxt-link>
       </div>
 
-      
       <p>Homepage</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/homepage/navigation">
@@ -99,7 +90,6 @@
         </nuxt-link>
       </div>
 
-
       <p>Product</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/products/new">
@@ -120,7 +110,6 @@
         </nuxt-link>
       </div>
 
-
       <p>Sales</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/orders/all">
@@ -135,8 +124,13 @@
         </nuxt-link>
       </div>
 
-
       <p>Users</p>
+      <div class="navbar__parent">
+        <nuxt-link to="/dashboard/users/customers">
+          <i data-feather="users"></i>
+          <span>Buyers</span>
+        </nuxt-link>
+      </div>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/users/subadmins">
           <i data-feather="users"></i>
@@ -150,8 +144,7 @@
         </nuxt-link>
       </div>
 
-
-       <p>Category</p>
+      <p>Category</p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/templates/category">
           <i data-feather="hash"></i>
@@ -170,7 +163,6 @@
           <span>Specification</span>
         </nuxt-link>
       </div>
-
 
       <p>Templates</p>
       <div class="navbar__parent">
@@ -206,7 +198,7 @@
       </div>
       <p></p>
       <div class="navbar__parent">
-        <div class="">
+        <div class>
           <span style="color:#c2cddc5c">Dashboard Version 0.0.1</span>
         </div>
       </div>
@@ -323,7 +315,7 @@
 
 <script>
 // import feather from 'feather-icons'
-import { MenuIcon } from 'vue-feather-icons'
+import { MenuIcon } from "vue-feather-icons";
 
 export default {
   data: () => ({
@@ -333,10 +325,8 @@ export default {
     message_count: 0
   }),
 
-  components:{
-
+  components: {
     MenuIcon
-
   },
 
   computed: {
@@ -483,24 +473,24 @@ p {
 .topnav {
   height: 69px;
   background-color: #ffffff;
-  box-shadow: 0 3px 10px rgba(62,85,120,.07)
+  box-shadow: 0 3px 10px rgba(62, 85, 120, 0.07);
 }
 
 .topnav > div {
   height: 69px;
 }
 
-.dashboard-logo{
+.dashboard-logo {
   padding: 0 15px;
   display: flex;
   height: 69px;
   align-items: center;
 }
 
-.dashboard-logo h1{
+.dashboard-logo h1 {
   font-size: 15px;
   line-height: 23px;
-  text-align: center;  
+  text-align: center;
   color: white;
 }
 

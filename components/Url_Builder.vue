@@ -1,89 +1,159 @@
 <template>
-  <div class="navbar-spacing padding-top-30">
-    <div v-if="showDropdown" class="popup">
-      <div class="popup-main">
-        <URL></URL>
-        <div class="popup-action">
-          <div class="pointer" @click="closeDropdownPanel">Close</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="specification">
-      <div class="holder">
-        <h3>{{ subCat }}</h3>
-        <div style="display: flex;justify-content: space-between">
-          <div class="add-section" @click="add_menu" style="width: 100px">+ Add Section</div>
-
-          <div @click="url_builder" class="add-section" style="width: 100px">+ URL Builder</div>
-
-          <div class="add-section" @click="saveSubmenu" style="width: 50">Save</div>
-        </div>
-
-        <div class="row" v-for="(i, index) in data" :key="i.title">
-          <h3>Column {{ index + 1 }}</h3>
-          <div
-            class="white col s24"
-            style="margin: 10px 0;border:1px solid #e6e6e6; box-shadow: rgba(0, 0, 0, 0.03) 0px 2px 2px, rgba(0, 0, 0, 0.03) 0px 1px 0px"
-          >
-            <div
-              class="section toolbar"
-              style="display: flex;justify-content: space-between;border-bottom: 1px solid #e6e6e6"
-            >
-              <div class="container" style="display: flex;justify-content: space-between;">
-                <div class="add-section" @click="add_section(index)">+ Add Section</div>
-                <div class="remove-section" @click="remove_section(index)">Remove Section</div>
-                <!-- <div class="add-section grey">Reset to Default</div> -->
-              </div>
+    <div>
+        <div class="popup-title">
+          <h3>URL Builder</h3>
+          <textarea
+            id="myInput"
+            v-model="created_url_1"
+            type="text"
+            style="width:70%">
+          </textarea>
+          <div class="tooltip">
+            <div class="add-section" @click="myFunction" @mouseout="outFunc">
+              <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+              Copy URL
             </div>
-            <div>
-              <div class="spec-section white container" id="templateHolder">
-                <div
-                  v-for="(p, _index) in data[index]"
-                  :key="p.id"
-                  class="input_fields_wrap drag-list"
-                  id="h"
-                >
-                  <div style="display:flex;justify-content:space-between">
-                    <div class>
-                      <!-- Add More Fields -->
-                    </div>
-                    <div class="remove-section" @click="remove_menu(index, _index)">Remove Menu</div>
-                  </div>
-                  <br />
-                  <input
-                    type="text"
-                    v-model="p.title"
-                    class="header-data input"
-                    placeholder="Header"
-                    style="display: inline-block;"
-                  />
-                  <div>
-                    <input
-                      class="input"
-                      v-model="p.url"
-                      placeholder="URL"
-                      id="data"
-                      type="text"
-                      style="display: inline-block; width: 100%"
-                    />
-                    <select
-                      v-model="p.type"
-                      style="display: inline-block; width: 50%;min-width: 100px "
+          </div>
+          <!-- <p @click="createURL">Create URL</p> -->
+          
+          <a  class="add-section" target="_blank" :href="baseurl + created_url_1">View Result</a>
+          <!-- <div class="add_dropdown pointer" @click="addInput">+</div> -->
+        </div>
+        <div class="popup-body">
+          <div>
+            <div class="row">
+              <div class="col s24" style="padding:0">
+                <div class="col s24 m8 l6" style="padding:0">
+                  <label>Category</label>
+                  <select
+                    @change="getSubcategories"
+                    v-model="category_selected"
+                  >
+                    <option
+                      v-for="p in allCategories"
+                      :key="p.id"
+                      :value="p.id"
+                      >{{ p.name }}</option
                     >
-                      <option value="0">Menu</option>
-                      <option value="1">Heading</option>
-                    </select>
-                  </div>
+                  </select>
+                </div>
+                <div class="col s24 m8 l6">
+                  <label>SubCategory</label>
+                  <select
+                    @change="getsubCategoryDetails"
+                    v-model="subcategory_selected"
+                  >
+                    <option
+                      v-for="p in subcategory"
+                      :key="p.id"
+                      :value="p.id"
+                      >{{ p.name }}</option
+                    >
+                  </select>
                 </div>
               </div>
+            </div>
+
+            <div class="tesdt" v-if="subcategory_selected_name != 0">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                  <tr>
+                    <td>
+                      <table
+                        width="100%"
+                        border="0"
+                        cellspacing="2"
+                        cellpadding="0"
+                        class="product-spec"
+                      >
+                        <tbody>
+                          <tr>
+                            <th width="20%" style="text-align:left" colspan="">
+                              General Options
+                            </th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                          <tr>
+                            <td>Limit (Required)</td>
+                            <td>
+                              <input
+                                v-model="limit"
+                                @input="createURL"
+                                required
+                                type="number"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Search Query</td>
+                            <td>
+                              <input
+                                type="text"
+                                v-model="searchQuery"
+                                @input="createURL"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Brand</td>
+                            <td>
+                              <input
+                                v-model="brand"
+                                @input="createURL"
+                                type="text"
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                  <tr v-for="(p, index) in specs" :key="p.id">
+                    <td>
+                      <table
+                        width="100%"
+                        border="0"
+                        cellspacing="2"
+                        cellpadding="0"
+                        class="product-spec"
+                      >
+                        <tbody>
+                          <tr>
+                            <th width="20%" style="text-align:left" colspan="">
+                              {{ p.name }}
+                            </th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                          <tr v-for="(q, index1) in p['sub']" :key="q.id">
+                            <td>{{ q.name }}</td>
+                            <td>
+                              <input
+                                v-model="q.filter_value"
+                                @input="createURL"
+                                type="text"
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 </template>
+
+
 
 <script>
 import Vue from "vue";
@@ -241,20 +311,17 @@ export default {
         console.log(t);
 
         for (var i = 0; i < t.length; i++) {
-          searchParams.append(
-            "filters",
-            k.replace(/^\s+|\s+$/g, "") + "=" + t[i]
-          );
+          searchParams.append("filters", k.replace(/^\s+|\s+$/g,'') + "=" + t[i]);
         }
-      }
+        }
 
-      var temp =
-        "/" +
-        this.subcategory_selected_name
-          .replace(/[\s.;,?&%0-9]/g, "-")
-          .toLowerCase() +
-        "?";
-      this.created_url_1 = temp + decodeURIComponent(searchParams.toString());
+                var temp =
+          "/" +
+          this.subcategory_selected_name
+            .replace(/[\s.;,?&%0-9]/g, "-")
+            .toLowerCase() +
+          "?"
+      this.created_url_1 = temp  + decodeURIComponent(searchParams.toString());
     },
     searchString: function() {
       // console.log(this.searchQuery)
@@ -376,8 +443,8 @@ export default {
 
             console.log(res.data.name);
             this.subcategory_selected_name = res.data.name.toLowerCase();
-            this.created_url_1 = "";
-            this.createURL();
+            this.created_url_1 = ""
+            this.createURL()
           })
           .catch(err => {
             console.log("error in request", err);
@@ -393,7 +460,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .add-section,
 .add_field_button {
   background: #2196f3;
