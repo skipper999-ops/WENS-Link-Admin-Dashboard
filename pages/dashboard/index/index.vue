@@ -39,7 +39,7 @@
             <h3>Customers</h3>
             <p>{{new_customers}}</p>
           </div>
-          <apexchart class="charts" height="80" type="area" :options="options_1" :series="series1"></apexchart>
+          <!-- <apexchart class="charts" height="80" type="area" :options="options_1" :series="series1"></apexchart> -->
         </div>
       </div>
       <div class="col s24 m8 l6">
@@ -48,7 +48,7 @@
             <h3>Sales Today</h3>
             <p>₹ {{today_sales}}</p>
           </div>
-          <apexchart class="charts" height="80" type="area" :options="options_2" :series="series"></apexchart>
+          <!-- <apexchart class="charts" height="80" type="area" :options="options_2" :series="series"></apexchart> -->
         </div>
       </div>
       <div class="col s24 m8 l6">
@@ -57,7 +57,97 @@
             <h3>Orders Placed Today</h3>
             <p>18</p>
           </div>
-          <apexchart class="charts" height="80" type="area" :options="options_3" :series="series"></apexchart>
+          <apexchart class="charts hide" height="80" type="area" :options="options_3" :series="series"></apexchart>
+        </div>
+      </div>
+    </div>
+
+    <div class="analytics row">
+      <div class="col s24">
+        <div>
+          <h3 class="page-title">
+            Summary
+          </h3>
+        </div>
+      </div>
+      <div class="col s24 m8 l6">
+        <div class="card summary-card">
+          <div class="card-content">
+            <h3>Orders Bounce</h3>
+            <p>{{admin_counts.orders_bounce}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s24 m8 l6">
+        <div class="card summary-card">
+          <div class="card-content">
+            <h3>Orders Completed</h3>
+            <p>{{admin_counts.orders_completed}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s24 m8 l6">
+        <div class="card summary-card">
+          <div class="card-content">
+            <h3>Total Customers</h3>
+            <p>{{admin_counts.total_customers}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s24 m8 l6">
+        <div class="card summary-card">
+          <div class="card-content">
+            <h3>Total Sellers</h3>
+            <p>{{admin_counts.total_sellers}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s24 m8 l6">
+        <div class="card summary-card">
+          <div class="card-content">
+            <h3>Total Sale (30 Days)</h3>
+            <p>{{admin_counts.total_sales_in_30_days}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s24 m8 l6">
+        <div class="card summary-card">
+          <div class="card-content">
+            <h3>Total Products Catalogue</h3>
+            <p>{{admin_counts.total_products_catalogue}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s24 m8 l6">
+        <div class="card summary-card">
+          <div class="card-content">
+            <h3>Total Seller Products</h3>
+            <p>{{admin_counts.total_products_sellers}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s24 m8 l6">
+        <div class="card summary-card">
+          <div class="card-content">
+            <h3>Orders Processing</h3>
+            <p>{{admin_counts.orders_processing}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s24 m8 l6">
+        <div class="card summary-card">
+          <div class="card-content">
+            <h3>Orders Delayed</h3>
+            <p>{{admin_counts.orders_delayed}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s24 m8 l6">
+        <div class="card summary-card">
+          <div class="card-content">
+            <h3>Total Sales (30 Days)</h3>
+            <p>{{admin_counts.total_sales_in_30_days}}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -109,6 +199,19 @@ export default {
           padding: {
             left: 0,
             right: 0
+          }
+        },
+        animations: {
+          enabled: true,
+          easing: "easeinout",
+          speed: 800,
+          animateGradually: {
+            enabled: true,
+            delay: 150
+          },
+          dynamicAnimation: {
+            enabled: true,
+            speed: 350
           }
         },
         fill: {
@@ -459,6 +562,10 @@ export default {
 </script>
 
 <style scoped>
+.analytics .card.summary-card {
+  height: inherit;
+}
+
 .analytics .card {
   height: 150px;
   border-radius: 5px;

@@ -1184,6 +1184,62 @@ export const actions = {
         });
     },
 
+    edithomepagecarouseldetails({ commit, state }, { payload, id }) {
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "PUT",
+                    data: payload,
+                    url: state.api.gethomepagecarousel + id,
+                    contentType: "application/json"
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    resolve(res);
+                })
+                .catch(err => {
+                    console.log("error in request", err);
+                });
+        });
+    },
+
+    edithomepagecarousel({ commit, state }, { payload, id }) {
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "PUT",
+                    data: payload,
+                    url: state.api.edithomepagecarousel + id,
+                    contentType: "application/json"
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    resolve(res);
+                })
+                .catch(err => {
+                    console.log("error in request", err);
+                });
+        });
+    },
+
+    deletehomepagecarousel({ commit, state }, id) {
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "DELETE",
+                    url: state.api.edithomepagecarousel + id,
+                    contentType: "application/json"
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    resolve(res);
+                })
+                .catch(err => {
+                    console.log("error in request", err);
+                });
+        });
+    },
+
     gethomepagecarouseldetailscreate({ commit, state }, payload) {
         return new Promise((resolve, reject) => {
             axios({

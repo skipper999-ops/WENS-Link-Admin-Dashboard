@@ -249,6 +249,22 @@ export default {
   z-index: 99;
 }
 
+input{
+  height: 35px;
+    font-family: "Regular";
+    margin: 0 10px 10px 0;
+    border-radius: 0;
+    outline: none;
+    width: 100%;
+    resize: vertical;
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+    box-shadow: none;
+    border: 1px solid rgb(169, 169, 169);
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
 .popup-main {
   background-color: white;
   margin: auto;

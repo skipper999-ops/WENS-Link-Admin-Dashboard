@@ -105,6 +105,8 @@ export const state = () => ({
 
     gethomepagecarousel: url + "admin_app/gethomepagecarousel/", //key
 
+    edithomepagecarousel: url + "admin_app/edithomepagecarousel/", //key
+
     gethomepagecarouseldetails: url + "admin_app/gethomepagecarouseldetails/", //key
 
     gethomepagecarouseldetailscreate: url + "admin_app/gethomepagecarouseldetailscreate", //key

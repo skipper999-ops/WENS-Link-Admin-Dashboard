@@ -149,9 +149,12 @@ export default {
       this.$store.dispatch("HomepageCarousel").then(res => {
         if (res.data.length != 0) {
           this.final_category = JSON.parse(res.data[0].value);
+          console.log("final")
+          console.log(this.final_category)
           this.category = this.category.filter(
-            v => !this.containsObject(v, this.final_category)
+            v => !this.containsObject(v, this.category)
           );
+          console.log("cate")
           console.log(this.category)
         }
       });

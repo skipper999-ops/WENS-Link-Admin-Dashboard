@@ -22,7 +22,7 @@
           </div>
 
           <div class="form-control">
-            <label>Sub-Title</label>
+            <label>Image</label>
             <input type="file" ref="fileInput" style="width:70%" />
           </div>
 
@@ -34,6 +34,44 @@
         <div class="popup-action">
           <div class="pointer" @click="addCarouselDetail">Save</div>
           <div class="pointer" @click="closeDropdownPanel">Cancel</div>
+        </div>
+      </div>
+    </div>
+    <div v-show="editDropdown" class="popup">
+      <div class="popup-main">
+        <div class="popup-title">
+          <h3>Edit Carousel Item</h3>
+        </div>
+        <div class="popup-body">
+          <div class="form-control">
+            <label>Title</label>
+            <input v-model="editingCarouselDetails.title" type="text" style="width:70%" />
+          </div>
+
+          <div class="form-control">
+            <label>offer_text</label>
+            <input v-model="editingCarouselDetails.offer_text" type="text" style="width:70%" />
+          </div>
+
+          <div class="form-control">
+            <label>Sub-Title</label>
+            <input v-model="editingCarouselDetails.subtitle" type="text" style="width:70%" />
+          </div>
+
+          <div class="form-control">
+            <label>Image</label>
+             <img  style="object-fit:contain;height: 100px" :src="editingCarouselDetails.img" @error="setFallbackImageUrl"/>
+            <input type="file" ref="fileInput" style="width:70%" />
+          </div>
+
+          <div class="form-control">
+            <label>url</label>
+            <input v-model="editingCarouselDetails.url" type="text" style="width:70%" />
+          </div>
+        </div>
+        <div class="popup-action">
+          <div class="pointer" @click="saveCarouselDetail">Save</div>
+          <div class="pointer" @click="editDropdown = false">Cancel</div>
         </div>
       </div>
     </div>
@@ -51,13 +89,16 @@
               <div class="col s8 l6" v-for="p in allCarouselDetails" :key="p.id">
                 <div class="carousel-card">
                   <div class="viewed_image">
-                    <img :src="p.img" alt />
+                    <img :src="p.img" @error="setFallbackImageUrl" />
                   </div>
                   <div class="viewed_content text-center">
                     <div class="viewed_name">
                       <p class="offer-title clamp1">{{ p.title }}</p>
                       <p class="offer-text clamp1">{{ p.offer_text }}</p>
                       <p class="offer-subtitle clamp1">{{ p.subtitle }}</p>
+                      <a style="text-decoration: none; color: #3f51b5; margin-bottom: 10px" class="offer-subtitle clamp2" target="_blank" :href="origin + p.url">{{origin}}{{p.url}}</a>
+                      <button type="button" @click="editCarouselDetail(p.id)" class="btn btn-primary">Edit</button>
+                      <button type="button" @click="deleteCarouselDetail(p.id)" class="btn btn-red white-text">Delete</button>
                     </div>
                     <div class="viewed_price">
                       <!-- ₹{{ q.price }}
@@ -84,10 +125,13 @@ export default {
   data() {
     return {
       allCarouselDetails: [],
+      editingCarouselDetails: {},
       title: "",
       baseurl: process.env.baseUrl,
 
       showDropdown: false,
+      editDropdown: false,
+      origin:"https://wenslink.com/search",
       title: "",
       detailtitle: "",
       offer_text: "",
@@ -115,7 +159,7 @@ export default {
 
       var payload = new FormData();
 
-      payload.append("home_carousel", this.$cookies.get('customizeCarousel'));
+      payload.append("home_carousel", this.$cookies.get("customizeCarousel"));
       payload.append("title", this.detailtitle);
       payload.append("offer_text", this.offer_text);
       payload.append("subtitle", this.subtitle);
@@ -145,6 +189,51 @@ export default {
       this.subtitle = "";
       this.img = "";
       this.url = "";
+    },
+    deleteCarouselDetail: function(id){
+
+            
+        this.$store.dispatch('deletehomepagecarousel', id).then(res => {
+
+          this.gethomepagecarouseldetails();
+          this.editDropdown = false
+
+        })
+
+    },
+    editCarouselDetail: function(id){
+        
+        this.editingCarouselDetails = this.allCarouselDetails.filter(v => v.id === id )[0]
+        this.editDropdown = true
+
+        console.log(this.$refs.fileInput.files.length)
+
+    },
+    saveCarouselDetail: function(id){
+
+      var payload = new FormData();
+
+      payload.append("title", this.editingCarouselDetails.title);
+      payload.append("offer_text", this.editingCarouselDetails.offer_text);
+      payload.append("subtitle", this.editingCarouselDetails.subtitle);
+      payload.append("url", this.editingCarouselDetails.url);
+
+      if(this.$refs.fileInput.files.length == 1){
+        payload.append("img", this.$refs.fileInput.files[0]);
+      }
+
+      
+
+      var id =  this.editingCarouselDetails.id
+
+      console.log(payload)
+        
+        this.$store.dispatch('edithomepagecarousel', {payload, id}).then(res => {
+
+          this.gethomepagecarouseldetails();
+          this.editDropdown = false
+
+        })
     }
   }
 };

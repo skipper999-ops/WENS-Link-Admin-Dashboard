@@ -115,8 +115,8 @@ table.vgt-table {
 }
 
 .vgt-table thead th{
-  background-color: white!important;
-  background: white!important
+  background-color: #f7fbff!important;
+  background: #f7fbff!important
 }
 
 .vgt-inner-wrap {
@@ -165,7 +165,7 @@ table.vgt-table {
 }
 
 .vgt-table th{
-  padding: 1.75em 1.5em 0.75em .75em!important
+  padding: 0.75em 1.5em 0.75em .75em!important
 }
 
 table.vgt-table td{
