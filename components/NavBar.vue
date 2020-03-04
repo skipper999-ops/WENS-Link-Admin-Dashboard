@@ -364,14 +364,12 @@ export default {
       vm.closeSidenav();
     });
 
-    // if (this.$cookies.get("username") != undefined) {
-    //   this.$store.commit("username", this.$cookies.get("username"));
-    //   this.$store.commit("company_name", this.$cookies.get("company_name"));
-    // } else {
-    //   console.log("cookieNot");
-    //   this.$store.commit("username", 0);
-    //   this.$store.commit("company_name", 0);
-    // }
+     if (this.$cookies.get("access_token") != undefined) {
+      this.$store.commit("usertype", this.parseJwt(this.$cookies.get("access_token"))['usertype']);
+      this.$store.commit("loggedUserData", this.parseJwt(this.$cookies.get("access_token")));
+    }else{
+      this.$router.push("/")
+    }
   },
   methods: {
     openSidenav: function() {
