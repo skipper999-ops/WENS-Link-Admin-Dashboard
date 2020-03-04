@@ -1,156 +1,129 @@
 <template>
-    <div>
-        <div class="popup-title">
-          <h3>URL Builder</h3>
-          <textarea
-            id="myInput"
-            v-model="created_url_1"
-            type="text"
-            style="width:70%">
-          </textarea>
+  <div>
+    <div class="popup-title">
+      <h3>URL Builder</h3>
+      <div>
+        <textarea id="myInput" disabled v-model="created_url_1" type="text" style="width:100%"></textarea>
+        <div class="flex">
           <div class="tooltip">
-            <div class="add-section" @click="myFunction" @mouseout="outFunc">
-              <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
-              Copy URL
-            </div>
+          <div class="add-section" @click="myFunction" @mouseout="outFunc">
+            <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+            Copy URL
           </div>
-          <!-- <p @click="createURL">Create URL</p> -->
-          
-          <a  class="add-section" target="_blank" :href="baseurl + created_url_1">View Result</a>
-          <!-- <div class="add_dropdown pointer" @click="addInput">+</div> -->
         </div>
-        <div class="popup-body">
-          <div>
-            <div class="row">
-              <div class="col s24" style="padding:0">
-                <div class="col s24 m8 l6" style="padding:0">
-                  <label>Category</label>
-                  <select
-                    @change="getSubcategories"
-                    v-model="category_selected"
-                  >
-                    <option
-                      v-for="p in allCategories"
-                      :key="p.id"
-                      :value="p.id"
-                      >{{ p.name }}</option
-                    >
-                  </select>
-                </div>
-                <div class="col s24 m8 l6">
-                  <label>SubCategory</label>
-                  <select
-                    @change="getsubCategoryDetails"
-                    v-model="subcategory_selected"
-                  >
-                    <option
-                      v-for="p in subcategory"
-                      :key="p.id"
-                      :value="p.id"
-                      >{{ p.name }}</option
-                    >
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="tesdt" v-if="subcategory_selected_name != 0">
-              <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                <tbody>
-                  <tr>
-                    <td>
-                      <table
-                        width="100%"
-                        border="0"
-                        cellspacing="2"
-                        cellpadding="0"
-                        class="product-spec"
-                      >
-                        <tbody>
-                          <tr>
-                            <th width="20%" style="text-align:left" colspan="">
-                              General Options
-                            </th>
-                            <th></th>
-                            <th></th>
-                          </tr>
-                          <tr>
-                            <td>Limit (Required)</td>
-                            <td>
-                              <input
-                                v-model="limit"
-                                @input="createURL"
-                                required
-                                type="number"
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Search Query</td>
-                            <td>
-                              <input
-                                type="text"
-                                v-model="searchQuery"
-                                @input="createURL"
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Brand</td>
-                            <td>
-                              <input
-                                v-model="brand"
-                                @input="createURL"
-                                type="text"
-                              />
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                <tbody>
-                  <tr v-for="(p, index) in specs" :key="p.id">
-                    <td>
-                      <table
-                        width="100%"
-                        border="0"
-                        cellspacing="2"
-                        cellpadding="0"
-                        class="product-spec"
-                      >
-                        <tbody>
-                          <tr>
-                            <th width="20%" style="text-align:left" colspan="">
-                              {{ p.name }}
-                            </th>
-                            <th></th>
-                            <th></th>
-                          </tr>
-                          <tr v-for="(q, index1) in p['sub']" :key="q.id">
-                            <td>{{ q.name }}</td>
-                            <td>
-                              <input
-                                v-model="q.filter_value"
-                                @input="createURL"
-                                type="text"
-                              />
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <a class="add-section" target="_blank" :href="baseurl + created_url_1">View Result</a>
         </div>
       </div>
+
+      <!-- <p @click="createURL">Create URL</p> -->
+
+      <!-- <div class="add_dropdown pointer" @click="addInput">+</div> -->
+    </div>
+    <div class="popup-body">
+      <div>
+        <div class="row">
+          <div class="col s24" style="padding:0">
+            <div class="col s24 m8 l6" style="padding:0">
+              <label>Category</label>
+              <select @change="getSubcategories" v-model="category_selected">
+                <option v-for="p in allCategories" :key="p.id" :value="p.id">{{ p.name }}</option>
+              </select>
+            </div>
+            <div class="col s24 m8 l6">
+              <label>SubCategory</label>
+              <select @change="getsubCategoryDetails" v-model="subcategory_selected">
+                <option v-for="p in subcategory" :key="p.id" :value="p.id">{{ p.name }}</option>
+              </select>
+            </div>
+            <div class="col s24 m8 l12">
+              <label>Clear Categories to get general Search String</label>
+              <br />
+              <button
+                @click="subcategory_selected = 0;category_selected = 0"
+                style="border: 1px solid transparent;color: white;padding: 7px;border-radius: 2px;cursor: pointer;font-size: 12px;"
+                type="button"
+                class="btn-red white-text"
+              >Clear Category</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tesdt">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+              <tr>
+                <td>
+                  <table
+                    width="100%"
+                    border="0"
+                    cellspacing="2"
+                    cellpadding="0"
+                    class="product-spec"
+                  >
+                    <tbody>
+                      <tr>
+                        <th width="20%" style="text-align:left" colspan>General Options</th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                      <tr>
+                        <td>Limit (Required)</td>
+                        <td>
+                          <input v-model="limit" @input="createURL" required type="number" />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Search Query</td>
+                        <td>
+                          <input type="text" v-model="searchQuery" @input="createURL" />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Brand</td>
+                        <td>
+                          <input v-model="brand" @input="createURL" type="text" />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+              <tr v-for="(p, index) in specs" :key="p.id">
+                <td>
+                  <table
+                    width="100%"
+                    border="0"
+                    cellspacing="2"
+                    cellpadding="0"
+                    class="product-spec"
+                  >
+                    <tbody>
+                      <tr>
+                        <th width="20%" style="text-align:left" colspan>{{ p.name }}</th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                      <tr v-for="(q, index1) in p['sub']" :key="q.id">
+                        <td>{{ q.name }}</td>
+                        <td>
+                          <input v-model="q.filter_value" @input="createURL" type="text" />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 
@@ -158,7 +131,7 @@
 <script>
 import Vue from "vue";
 
-import URL from "@/components/Url_Builder";
+// import URL from "@/components/Url_Builder";
 
 export default {
   data() {
@@ -170,8 +143,8 @@ export default {
       category: this.$cookies.get("submenu_edit"),
       data: [],
       specs: {},
-      created_url: process.env.baseUrl + "/backend/api/products/search",
-      baseurl: process.env.baseUrl + "/backend/api/products/search",
+      created_url: process.env.baseUrl + "/backend/api/products/",
+      baseurl: process.env.baseUrl + "/backend/api/products/",
       subcategory: [],
       subcategory_selected: 0,
       subcategory_selected_name: "",
@@ -184,7 +157,14 @@ export default {
     };
   },
   components: {
-    URL
+    // URL
+  },
+  watch: {
+    subcategory_selected() {
+      this.category = "";
+      this.subcategory_selected_name = "";
+      this.createURL();
+    }
   },
 
   methods: {
@@ -302,6 +282,10 @@ export default {
         searchParams.append("limit", this.limit);
       }
 
+      if (this.offset != "") {
+        searchParams.append("offset", 0);
+      }
+
       if (this.brand != "") {
         searchParams.append("brand", this.brand.toLowerCase());
       }
@@ -311,17 +295,25 @@ export default {
         console.log(t);
 
         for (var i = 0; i < t.length; i++) {
-          searchParams.append("filters", k.replace(/^\s+|\s+$/g,'') + "=" + t[i]);
+          searchParams.append(
+            "filters",
+            k.replace(/^\s+|\s+$/g, "") + "=" + t[i]
+          );
         }
-        }
+      }
 
-                var temp =
-          "/" +
-          this.subcategory_selected_name
-            .replace(/[\s.;,?&%0-9]/g, "-")
-            .toLowerCase() +
-          "?"
-      this.created_url_1 = temp  + decodeURIComponent(searchParams.toString());
+      var PRE = this.subcategory_selected > 0 ? "search/" : "search";
+
+      console.log("PRE");
+      console.log(PRE);
+
+      var temp =
+        PRE +
+        this.subcategory_selected_name
+          .replace(/[\s.;,?&%0-9]/g, "-")
+          .toLowerCase() +
+        "?";
+      this.created_url_1 = temp + decodeURIComponent(searchParams.toString());
     },
     searchString: function() {
       // console.log(this.searchQuery)
@@ -443,8 +435,8 @@ export default {
 
             console.log(res.data.name);
             this.subcategory_selected_name = res.data.name.toLowerCase();
-            this.created_url_1 = ""
-            this.createURL()
+            this.created_url_1 = "";
+            this.createURL();
           })
           .catch(err => {
             console.log("error in request", err);

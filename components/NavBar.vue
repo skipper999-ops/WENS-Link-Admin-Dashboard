@@ -1,5 +1,13 @@
 <template>
   <div>
+                <div v-if="isURLBuilderVisible" class="popup">
+              <div class="popup-main">
+                <URL></URL>
+                <div class="popup-action">
+                  <div class="pointer" @click="isURLBuilderVisible = false">Close</div>
+                </div>
+              </div>
+            </div>
     <div class="padding-top-20">
       <nav class="topnav box-shadow padding-left-10 padding-right-10 row">
         <div class="flex align-item col" style="width:100%; justify-content: space-between;">
@@ -21,11 +29,7 @@
             style="height:100%; justify-content:flex-end"
           >
             <div style="position:relative;margin-right:15px">
-              <!-- <span
-                class="feather-icon-badge bg-primary text-white h-5 w-5 absolute rounded-full text-xs flex items-center justify-center"
-                style="top: 5px; right: 0px;position:absolute;border-radius:50px;width:20px;height:20px"
-                >5</span
-              >-->
+              <button type="button" @click="isURLBuilderVisible = true" class="btn btn-primary btn-small">URL Builder</button>
             </div>
             <div class="flex align-item">
               <div style="padding-right:10px;line-height: 20px;">
@@ -322,6 +326,7 @@
 <script>
 // import feather from 'feather-icons'
 import { MenuIcon } from "vue-feather-icons";
+import URL from "@/components/Url_Builder";
 
 export default {
   data: () => ({
@@ -329,11 +334,13 @@ export default {
     currentUserEmail: "",
     pickup_count: 0,
     message_count: 0,
-    isMenuVisible: false
+    isMenuVisible: false,
+    isURLBuilderVisible : false
   }),
 
   components: {
-    MenuIcon
+    MenuIcon,
+    URL
   },
 
   computed: {
@@ -592,6 +599,62 @@ svg {
   -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.2);
   box-shadow: 0 2px 10px rgba(0,0,0,.2);
   border-radius: 5px;
+}
+
+
+
+.popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+}
+
+.popup-main {
+  background-color: white;
+  margin: auto;
+  position: absolute;
+  max-width: 1000px;
+  height: 642px;
+  left: 260px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.popup-body {
+  height: 400px;
+  overflow: auto;
+  padding: 30px;
+}
+
+.popup-title {
+  padding: 30px 30px 16px;
+  border-bottom: 1px solid #00000024;
+}
+.popup-action {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 25px;
+  box-shadow: 0px -7px 10px 0px #0000000d;
+}
+
+.popup:after {
+  background-color: rgba(0, 0, 0, 0.83);
+  margin: auto;
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 
 </style>
