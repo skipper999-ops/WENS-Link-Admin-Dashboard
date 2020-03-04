@@ -13,7 +13,7 @@
               <p
                 class="hide-on-large-only"
                 style="line-height:64px;font-family:'Bold'; font-size: 17px;white-space: nowrap;"
-              >WENSLink Admin Dashboard</p>
+              >WENSLink {{ loggedUserData.access_type }} Dashboard</p>
             </div>
           </div>
           <div
@@ -29,14 +29,20 @@
             </div>
             <div class="flex align-item">
               <div style="padding-right:10px;line-height: 20px;">
-                <p class="bold font-12">{{ username }}</p>
-                <p class="font-10">{{ company_name }}</p>
+                <p class="bold font-12">{{ loggedUserData.name }}</p>
+                <p class="font-10">{{ loggedUserData.access_type }}</p>
               </div>
-              <div>
+              <div class="user-menu" @click="">
                 <img
                   src="~static/files/user.svg"
-                  style="border-radius: 50px;width: 40px;height: 100%;"
+                  style="border-radius: 50px;width: 40px;height: 100%;padding: 3px;"
                 />
+              </div>
+              <div class="user-menu-dropdown" v-show="isMenuVisible">
+                <ul>
+                  <li>sdsdsd</li>
+                  <li>fdfggf</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -54,7 +60,7 @@
       </div>
       <div class="dashboard-logo">
         <img src="~static/files/logo.png" class="sideNav__Logo" />
-        <h1 style="font-family:bold">WENSLink Admin Dashboard</h1>
+        <h1 style="font-family:bold">WENSLink {{ loggedUserData.access_type }} Dashboard</h1>
       </div>
       <p></p>
       <div class="navbar__parent">
@@ -65,25 +71,25 @@
       </div>
 
       <p>Homepage</p>
-      <div class="navbar__parent">
+      <div class="navbar__parent" v-if="loggedUserData.usertype == 0">
         <nuxt-link to="/dashboard/homepage/navigation">
           <i data-feather="menu"></i>
           <span>Navigation Menu</span>
         </nuxt-link>
       </div>
-      <div class="navbar__parent">
+      <div class="navbar__parent" v-if="loggedUserData.usertype == 0">
         <nuxt-link to="/dashboard/homepage/new">
           <i data-feather="code"></i>
           <span>New Carousel</span>
         </nuxt-link>
       </div>
-      <div class="navbar__parent">
+      <div class="navbar__parent" v-if="loggedUserData.usertype == 0">
         <nuxt-link to="/dashboard/homepage/slider">
           <i data-feather="code"></i>
           <span>Main Slider</span>
         </nuxt-link>
       </div>
-      <div class="navbar__parent">
+      <div class="navbar__parent" v-if="loggedUserData.usertype == 0">
         <nuxt-link to="/dashboard/homepage/carousel">
           <i data-feather="layers"></i>
           <span>Carousel</span>
@@ -131,7 +137,7 @@
           <span>Buyers</span>
         </nuxt-link>
       </div>
-      <div class="navbar__parent">
+      <div class="navbar__parent" v-if="loggedUserData.usertype == 0">
         <nuxt-link to="/dashboard/users/subadmins">
           <i data-feather="users"></i>
           <span>Sub Admins</span>
@@ -322,7 +328,8 @@ export default {
     active: false,
     currentUserEmail: "",
     pickup_count: 0,
-    message_count: 0
+    message_count: 0,
+    isMenuVisible: false
   }),
 
   components: {
@@ -334,8 +341,8 @@ export default {
     username() {
       return this.$store.state.username;
     },
-    company_name() {
-      return this.$store.state.company_name;
+    loggedUserData() {
+      return this.$store.state.loggedUserData;
     }
   },
 
@@ -350,14 +357,14 @@ export default {
       vm.closeSidenav();
     });
 
-    if (this.$cookies.get("username") != undefined) {
-      this.$store.commit("username", this.$cookies.get("username"));
-      this.$store.commit("company_name", this.$cookies.get("company_name"));
-    } else {
-      console.log("cookieNot");
-      this.$store.commit("username", 0);
-      this.$store.commit("company_name", 0);
-    }
+    // if (this.$cookies.get("username") != undefined) {
+    //   this.$store.commit("username", this.$cookies.get("username"));
+    //   this.$store.commit("company_name", this.$cookies.get("company_name"));
+    // } else {
+    //   console.log("cookieNot");
+    //   this.$store.commit("username", 0);
+    //   this.$store.commit("company_name", 0);
+    // }
   },
   methods: {
     openSidenav: function() {
@@ -562,4 +569,29 @@ svg {
   -webkit-box-align: center;
   align-items: center;
 }
+
+.user-menu{
+  cursor: pointer;
+}
+
+.user-menu:hover img{
+  
+  background-color: #dcdcdc  
+}
+
+.user-menu-dropdown{
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  background-color: #ffffff;
+  padding: 10px;
+  width: 180px;
+  border: 1px solid #ccc;
+  border-color: rgba(0,0,0,.2);
+  color: #000;
+  -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.2);
+  box-shadow: 0 2px 10px rgba(0,0,0,.2);
+  border-radius: 5px;
+}
+
 </style>

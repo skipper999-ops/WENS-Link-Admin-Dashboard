@@ -13,7 +13,7 @@ if (process.env.NODE_ENV == "development") {
 console.log(url);
 
 export const state = () => ({
-    login: url + "login/admin",
+    login: url + "login/combinedadmin",
 
     loginAsVendor: url + "login/asvendors", //id
 

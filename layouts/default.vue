@@ -23,6 +23,12 @@ export default {
   mounted() {
     console.log($nuxt.$route.name);
     // document.body.classList.add('theme-dark')
+     if (this.$cookies.get("access_token") != undefined) {
+      this.$store.commit("usertype", this.parseJwt(this.$cookies.get("access_token"))['usertype']);
+      this.$store.commit("loggedUserData", this.parseJwt(this.$cookies.get("access_token")));
+    }else{
+      this.$router.push("/")
+    }
   }
 };
 </script>
@@ -99,6 +105,10 @@ table.vgt-table {
 .btn-primary {
   background-color: #009688;
   color: white;
+}
+
+ul li{
+  list-style : none;
 }
 
 .button--green {

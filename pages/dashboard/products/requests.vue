@@ -51,6 +51,11 @@
                   PENDING
                 </p>
               </span>
+              <span v-else-if="props.column.field === 'approved_by'">
+                <p v-if="props.row.approved_by">
+                  {{props.row.approved_by['name']}}
+                </p>
+              </span>
               <span v-else-if="props.column.field === 'action'">
                 <div v-if="props.row.seller_id != null">
                   <button
@@ -162,6 +167,10 @@ export default {
         {
           label: "Status",
           field: "status"
+        },
+        {
+          label: "Approved By",
+          field: "approved_by"
         },
         {
           label: "Action",

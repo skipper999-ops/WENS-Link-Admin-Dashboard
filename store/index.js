@@ -77,6 +77,14 @@ export const mutations = {
         console.log("selecting exercise mutation, " + singleProduct);
         state.singleProduct = singleProduct;
     },
+    loggedUserData(state, loggedUserData) {
+        console.log("selecting exercise mutation, " + loggedUserData);
+        state.loggedUserData = loggedUserData;
+    },
+    usertype(state, usertype) {
+        console.log("selecting exercise mutation, " + usertype);
+        state.usertype = usertype;
+    },
     company_name(state, company_name) {
         console.log("selecting exercise mutation, " + company_name);
         state.company_name = company_name;

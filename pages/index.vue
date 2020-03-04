@@ -142,12 +142,24 @@ export default {
           if (res.data.status == 200) {
             this.$cookies.removeAll();
 
+
+            
+
             this.$cookies.set("access_token", res.data.access, {
               path: "/",
               // httpOnly : true,
               // secure: true,
               maxAge: 60 * 60 * 24 * 7
             });
+
+            this.$cookies.set("usertype", this.parseJwt(res.data.access)['usertype'], {
+              path: "/",
+              // httpOnly : true,
+              // secure: true,
+              maxAge: 60 * 60 * 24 * 7
+            });
+
+            this.$store.commit('usertype', this.parseJwt(res.data.access)['usertype'])
 
             this.$cookies.set("refresh_token", res.data.refresh, {
               path: "/",
