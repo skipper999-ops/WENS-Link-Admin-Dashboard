@@ -773,7 +773,7 @@ export const actions = {
             bodyFormData.append("number", payload.number);
 
             axios({
-                    method: "PUT",
+                    method: "POST",
                     data: bodyFormData,
                     url: state.api.changeProductStatus + payload.id,
                     contentType: "application/json",
