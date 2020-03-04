@@ -27,7 +27,7 @@
       <div class="col s24 m8 l6">
         <div class="card">
           <div class="card-content">
-            <h3>Orders Placed</h3>
+            <h3>Total Orders Placed</h3>
             <p>{{orders_placed}}</p>
           </div>
           <apexchart class="charts" height="80" type="area" :options="options" :series="series"></apexchart>
@@ -55,7 +55,7 @@
         <div class="card">
           <div class="card-content">
             <h3>Orders Placed Today</h3>
-            <p>18</p>
+            <p>{{orders_placed}}</p>
           </div>
           <apexchart class="charts hide" height="80" type="area" :options="options_3" :series="series"></apexchart>
         </div>
