@@ -1,13 +1,13 @@
 <template>
   <div>
-                <div v-if="isURLBuilderVisible" class="popup">
-              <div class="popup-main">
-                <URL></URL>
-                <div class="popup-action">
-                  <div class="pointer" @click="isURLBuilderVisible = false">Close</div>
-                </div>
-              </div>
-            </div>
+    <div v-if="isURLBuilderVisible" class="popup">
+      <div class="popup-main">
+        <URL></URL>
+        <div class="popup-action">
+          <div class="pointer" @click="isURLBuilderVisible = false">Close</div>
+        </div>
+      </div>
+    </div>
     <div class="padding-top-20">
       <nav class="topnav box-shadow padding-left-10 padding-right-10 row">
         <div class="flex align-item col" style="width:100%; justify-content: space-between;">
@@ -21,7 +21,7 @@
               <p
                 class="hide-on-large-only"
                 style="line-height:64px;font-family:'Bold'; font-size: 17px;white-space: nowrap;"
-              >WENSLink {{ loggedUserData.access_type }} Dashboard</p>
+              >WENSLink {{ loggedUserData['access_type'] }} Dashboard</p>
             </div>
           </div>
           <div
@@ -29,14 +29,18 @@
             style="height:100%; justify-content:flex-end"
           >
             <div style="position:relative;margin-right:15px">
-              <button type="button" @click="isURLBuilderVisible = true" class="btn btn-primary btn-small">URL Builder</button>
+              <button
+                type="button"
+                @click="isURLBuilderVisible = true"
+                class="btn btn-primary btn-small"
+              >URL Builder</button>
             </div>
             <div class="flex align-item">
               <div style="padding-right:10px;line-height: 20px;">
                 <p class="bold font-12">{{ loggedUserData.name }}</p>
                 <p class="font-10">{{ loggedUserData.access_type }}</p>
               </div>
-              <div class="user-menu" @click="">
+              <div class="user-menu" @click>
                 <img
                   src="~static/files/user.svg"
                   style="border-radius: 50px;width: 40px;height: 100%;padding: 3px;"
@@ -335,7 +339,7 @@ export default {
     pickup_count: 0,
     message_count: 0,
     isMenuVisible: false,
-    isURLBuilderVisible : false
+    isURLBuilderVisible: false
   }),
 
   components: {
@@ -349,6 +353,22 @@ export default {
       return this.$store.state.username;
     },
     loggedUserData() {
+      console.log("jkhjhjhjhjhjhjhjhj");
+      if (this.$cookies.get("access_token") != undefined) {
+        console.log(
+          this.parseJwt(this.$cookies.get("access_token"))["usertype"]
+        );
+        this.$store.commit(
+          "usertype",
+          this.parseJwt(this.$cookies.get("access_token"))["usertype"]
+        );
+        this.$store.commit(
+          "loggedUserData",
+          this.parseJwt(this.$cookies.get("access_token"))
+        );
+      } else {
+        this.$router.push("/");
+      }
       return this.$store.state.loggedUserData;
     }
   },
@@ -364,11 +384,19 @@ export default {
       vm.closeSidenav();
     });
 
-     if (this.$cookies.get("access_token") != undefined) {
-      this.$store.commit("usertype", this.parseJwt(this.$cookies.get("access_token"))['usertype']);
-      this.$store.commit("loggedUserData", this.parseJwt(this.$cookies.get("access_token")));
-    }else{
-      this.$router.push("/")
+    console.log(this.$cookies.get("access_token"));
+    if (this.$cookies.get("access_token") != undefined) {
+      console.log(this.parseJwt(this.$cookies.get("access_token"))["usertype"]);
+      this.$store.commit(
+        "usertype",
+        this.parseJwt(this.$cookies.get("access_token"))["usertype"]
+      );
+      this.$store.commit(
+        "loggedUserData",
+        this.parseJwt(this.$cookies.get("access_token"))
+      );
+    } else {
+      this.$router.push("/");
     }
   },
   methods: {
@@ -575,16 +603,15 @@ svg {
   align-items: center;
 }
 
-.user-menu{
+.user-menu {
   cursor: pointer;
 }
 
-.user-menu:hover img{
-  
-  background-color: #dcdcdc  
+.user-menu:hover img {
+  background-color: #dcdcdc;
 }
 
-.user-menu-dropdown{
+.user-menu-dropdown {
   position: absolute;
   top: 60px;
   right: 20px;
@@ -592,14 +619,12 @@ svg {
   padding: 10px;
   width: 180px;
   border: 1px solid #ccc;
-  border-color: rgba(0,0,0,.2);
+  border-color: rgba(0, 0, 0, 0.2);
   color: #000;
-  -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.2);
-  box-shadow: 0 2px 10px rgba(0,0,0,.2);
+  -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
 }
-
-
 
 .popup {
   position: fixed;
@@ -654,5 +679,4 @@ svg {
   top: 0;
   bottom: 0;
 }
-
 </style>

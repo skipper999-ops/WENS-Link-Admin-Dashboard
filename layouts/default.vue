@@ -20,10 +20,39 @@ export default {
   components: {
     NavBar
   },
+
+  computed: {
+    // active : $store.state.sidenavStatus
+    username() {
+      return this.$store.state.username;
+    },
+    loggedUserData() {
+      console.log("jkhjhjhjhjhjhjhjhj");
+      if (this.$cookies.get("access_token") != undefined) {
+        console.log(
+          this.parseJwt(this.$cookies.get("access_token"))["usertype"]
+        );
+        this.$store.commit(
+          "usertype",
+          this.parseJwt(this.$cookies.get("access_token"))["usertype"]
+        );
+        this.$store.commit(
+          "loggedUserData",
+          this.parseJwt(this.$cookies.get("access_token"))
+        );
+      } else {
+        this.$router.push("/");
+      }
+      return this.$store.state.loggedUserData;
+    }
+  },
+
   mounted() {
     console.log($nuxt.$route.name);
     // document.body.classList.add('theme-dark')
+    console.log(this.$cookies.get("access_token"))
      if (this.$cookies.get("access_token") != undefined) {
+      console.log(this.parseJwt(this.$cookies.get("access_token"))['usertype']);
       this.$store.commit("usertype", this.parseJwt(this.$cookies.get("access_token"))['usertype']);
       this.$store.commit("loggedUserData", this.parseJwt(this.$cookies.get("access_token")));
     }else{
