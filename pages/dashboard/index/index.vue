@@ -23,7 +23,8 @@
       </div>
     </div>
 
-    <div class="analytics row">
+
+    <div class="analytics row" style="margin-bottom: 0">
       <div class="col s24 m8 l6">
         <div class="card">
           <div class="card-content">
@@ -586,7 +587,11 @@ export default {
 }
 
 .analytics.row .col {
-  margin-bottom: 25px;
+  margin-bottom: 0;
+}
+
+.card.summary-card{
+  margin-bottom: 20px
 }
 
 .analytics .charts {
@@ -605,7 +610,7 @@ export default {
 }
 
 .analytics-spacing .analytics:not(:nth-child(2)) {
-  margin-top: 40px;
+  margin-top: 35px;
 }
 
 .date_options li {

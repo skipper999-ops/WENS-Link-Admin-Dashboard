@@ -98,9 +98,6 @@ body {
   overflow: hidden;
 }
 
-table.vgt-table {
-  font-size: 13px !important;
-}
 
 .btn-primary {
   background-color: #009688;
@@ -124,6 +121,11 @@ ul li{
   padding: 10px 0 !important;
 }
 
+
+table.vgt-table {
+  font-size: 13px !important;
+}
+
 .vgt-table thead th{
   background-color: #f7fbff!important;
   background: #f7fbff!important
@@ -135,6 +137,24 @@ ul li{
 
 .vue-good-table-correction tr:last-child td{
   border-bottom: 0 solid #eaeaea !important;
+}
+
+
+.vgt-table.bordered td {
+  border: none !important;
+  border-bottom: 1px solid #eaeaea !important;
+}
+
+.vgt-table.bordered th {
+  border: none !important;
+}
+
+.vgt-table th{
+  padding: 0.75em 1.5em 0.75em .75em!important
+}
+
+table.vgt-table td{
+  padding: 20px .75em .75em .75em
 }
 
 .apexcharts-svg {
@@ -165,22 +185,6 @@ ul li{
   color: black;
 }
 
-.vgt-table.bordered td {
-  border: none !important;
-  border-bottom: 1px solid #eaeaea !important;
-}
-
-.vgt-table.bordered th {
-  border: none !important;
-}
-
-.vgt-table th{
-  padding: 0.75em 1.5em 0.75em .75em!important
-}
-
-table.vgt-table td{
-  padding: 20px .75em .75em .75em
-}
 
 .analytics table.vgt-table {
   border: 0 solid #dcdfe6 !important;
