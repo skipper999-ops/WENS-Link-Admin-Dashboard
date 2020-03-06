@@ -44,7 +44,6 @@
           <draggable
             class="dragArea list-group"
             :list="final_category"
-            :clone="clone"
             :group="{ name: 'people', pull: pullFunction }"
             @start="start"
           >
@@ -152,7 +151,7 @@ export default {
           console.log("final")
           console.log(this.final_category)
           this.category = this.category.filter(
-            v => !this.containsObject(v, this.final_category)
+            v => !this.containsObject_id(v, this.final_category)
           );
           console.log("cate")
           console.log(this.category)
@@ -172,9 +171,16 @@ export default {
     containsObject: function(obj, list) {
       var i;
       for (i = 0; i < list.length; i++) {
-        console.log(JSON.stringify(obj));
-        console.log(JSON.stringify(list[i]));
         if (JSON.stringify(list[i]) === JSON.stringify(obj)) {
+          return true;
+        }
+      }
+      return false;
+    },
+    containsObject_id: function(obj, list) {
+      var i;
+      for (i = 0; i < list.length; i++) {
+        if (JSON.stringify(list[i].id) === JSON.stringify(obj.id)) {
           return true;
         }
       }
