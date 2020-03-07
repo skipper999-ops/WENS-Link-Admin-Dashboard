@@ -19,7 +19,7 @@
 
       <!-- <div class="add_dropdown pointer" @click="addInput">+</div> -->
     </div>
-    <div class="popup-body">
+    <div class="popup-body__url">
       <div>
         <div class="row">
           <div class="col s24" style="padding:0">
@@ -519,7 +519,7 @@ input[type="number"],
   border-radius: 5px;
 }
 
-.popup-body {
+.popup-body__url {
   height: 400px;
   overflow: auto;
   padding: 30px;

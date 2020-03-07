@@ -14,6 +14,20 @@ Vue.mixin({
             }).join(''));
 
             return JSON.parse(jsonPayload);
+        },
+        close_dropdown(event) {
+            var that = event.target
+            console.log(that.nextElementSibling.style.display)
+            if (that.nextElementSibling.style.display === "none" || that.nextElementSibling.style.display === "") {
+                var x = document.querySelectorAll(".dd-menu")
+                x.forEach(function(item, index) {
+                    item.style.display = "none";
+                });
+                that.nextElementSibling.style.display = "block";
+            } else {
+                that.nextElementSibling.style.display = "none";
+            }
+
         }
     }
 })

@@ -44,7 +44,6 @@
           <draggable
             class="dragArea list-group"
             :list="final_category"
-            :clone="clone"
             :group="{ name: 'people', pull: pullFunction }"
             @start="start"
           >

@@ -172,6 +172,7 @@ table.vgt-table {
 .vgt-table.bordered td {
   border: none !important;
   border-bottom: 1px solid #eaeaea !important;
+  vertical-align: middle;
 }
 
 .vgt-table.bordered th {
@@ -314,4 +315,17 @@ textarea {
 .capitalize{
   text-transform: capitalize
 }
+
+.bold{
+  font-family: 'Bold'
+}
+
+/*
+* COLOR
+*/
+
+.red-text{
+  color: red
+}
+
 </style>

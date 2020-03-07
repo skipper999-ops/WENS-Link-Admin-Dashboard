@@ -1,5 +1,13 @@
 <template>
   <div class="navbar-spacing padding-top-30">
+    <div v-if="isURLBuilderVisible" class="popup">
+      <div class="popup-main">
+        <URL></URL>
+        <div class="popup-action">
+          <div class="pointer" @click="isURLBuilderVisible = false">Close</div>
+        </div>
+      </div>
+    </div>
     <!-- <div v-if="showDropdown1" class="popup">
       <div class="popup-main">
         <URL></URL>
@@ -7,12 +15,18 @@
           <div class="pointer" @click="showDropdown1 = false">Close</div>
         </div>
       </div>
-    </div> -->
+    </div>-->
     <div v-show="showDropdown" class="popup">
       <div class="popup-main">
         <div class="popup-title">
-          <h3>Add Carousel</h3>
-           <!-- <div @click="showDropdown1 = true" class="add-section" style="width: 100px">+ URL Builder</div> -->
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <h3>Add Carousel</h3>
+            <button
+              type="button"
+              @click="isURLBuilderVisible = true"
+              class="btn btn-primary btn-small"
+            >URL Builder</button>
+          </div>
         </div>
         <div class="popup-body">
           <div class="form-control">
@@ -49,7 +63,7 @@
       <div class="popup-main">
         <div class="popup-title">
           <h3>Edit Carousel</h3>
-           <!-- <div @click="showDropdown1 = true" class="add-section" style="width: 100px">+ URL Builder</div> -->
+          <!-- <div @click="showDropdown1 = true" class="add-section" style="width: 100px">+ URL Builder</div> -->
         </div>
         <div class="popup-body">
           <div class="form-control">
@@ -106,9 +120,7 @@
                   type="button"
                   @click="editCarousel(props.row.id)"
                   class="btn btn-primary"
-                >
-                  Edit
-                </button>
+                >Edit</button>
               </span>
               <span v-else-if="props.column.field === 'carousel_type'">
                 <p v-if="props.row.carousel_type == 2">{{props.row.carousel_type}} ( Grouped )</p>
@@ -132,17 +144,17 @@
 </template>
 
 <script>
-
 import URL from "@/components/Url_Builder";
 
 export default {
   data: () => ({
     allCarousels: [],
     editingCarousel: {},
-    origin:"https://wenslink.com/search",
+    origin: "https://wenslink.com/search",
     showDropdown: false,
     showDropdown1: false,
     editDropdown: false,
+    isURLBuilderVisible: false,
     columns: [
       {
         label: "Title",
@@ -176,10 +188,9 @@ export default {
     url: ""
   }),
 
-    components: {
+  components: {
     URL
   },
-
 
   mounted() {
     this.GetAllCarousels();
@@ -199,7 +210,7 @@ export default {
         carousel_type: this.carousel_type
       };
 
-      console.log(payload)
+      console.log(payload);
 
       this.$store.dispatch("createcarousel", payload).then(res => {
         console.log(res);
@@ -215,19 +226,20 @@ export default {
         carousel_type: this.editingCarousel.carousel_type
       };
 
-      var id =  this.editingCarousel.id
+      var id = this.editingCarousel.id;
 
-      console.log(payload)
+      console.log(payload);
 
-      this.$store.dispatch("edithomepagecarouseldetails", {payload , id}).then(res => {
-        console.log(res);
-        this.GetAllCarousels();
-        this.editDropdown = false
-      });
+      this.$store
+        .dispatch("edithomepagecarouseldetails", { payload, id })
+        .then(res => {
+          console.log(res);
+          this.GetAllCarousels();
+          this.editDropdown = false;
+        });
     },
     customizeCarousel: function(id) {
-
-      console.log(id)
+      console.log(id);
 
       this.$cookies.set("customizeCarousel", id, {
         path: "/",
@@ -238,13 +250,10 @@ export default {
 
       this.$router.push("/dashboard/homepage/new/create");
     },
-    editCarousel: function(id){
-
-
-      console.log(id)
-      this.editingCarousel = this.allCarousels.filter(v => v.id === id )[0]
-      this.editDropdown = true
-
+    editCarousel: function(id) {
+      console.log(id);
+      this.editingCarousel = this.allCarousels.filter(v => v.id === id)[0];
+      this.editDropdown = true;
     },
     deleteBanner: function(id) {
       this.$store.dispatch("editDeleteBanner", id).then(res => {
