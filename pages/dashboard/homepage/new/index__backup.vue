@@ -34,17 +34,12 @@
             <input v-model="title" type="text" style="width:70%" />
           </div>
 
-          <!-- <div class="form-control">
+          <div class="form-control">
             <label>Carousel Type</label>
             <select v-model="carousel_type" style="width:70%">
               <option value="1">Single Category</option>
               <option value="2">Multiple Products</option>
             </select>
-          </div>-->
-
-          <div class="form-control">
-            <label>Image</label>
-            <input type="file" ref="fileInputAdd" style="width:70%" />
           </div>
 
           <div class="form-control">
@@ -75,18 +70,13 @@
             <label>Title</label>
             <input v-model="editingCarousel.title" type="text" style="width:70%" />
           </div>
-          <!-- 
+
           <div class="form-control">
             <label>Carousel Type</label>
             <select v-model="editingCarousel.carousel_type" style="width:70%">
               <option value="1">Single Category</option>
               <option value="2">Multiple Products</option>
             </select>
-          </div>-->
-
-          <div class="form-control">
-            <label>Image</label>
-            <input type="file" ref="fileInput" style="width:70%" />
           </div>
 
           <div class="form-control">
@@ -136,14 +126,6 @@
                 <p v-if="props.row.carousel_type == 2">{{props.row.carousel_type}} ( Grouped )</p>
                 <p v-else>{{props.row.carousel_type}} ( Single Category Products )</p>
               </span>
-              <span v-else-if="props.column.field === 'img'">
-                <a
-                  v-if="props.row.img != null"
-                  target="_blank"
-                  :href="props.row.img"
-                >{{props.row.img}}</a>
-                <p v-else>Not Applicable</p>
-              </span>
               <span v-else-if="props.column.field === 'url'">
                 <a
                   v-if="props.row.carousel_type == 1"
@@ -185,8 +167,8 @@ export default {
         width: "200px"
       },
       {
-        label: "Image",
-        field: "img",
+        label: "Type",
+        field: "carousel_type",
         width: "100px"
       },
       {
@@ -203,8 +185,7 @@ export default {
     title: "",
     carousel_type: 1,
     subtitle: "",
-    url: "",
-    img: ""
+    url: ""
   }),
 
   components: {
@@ -215,39 +196,19 @@ export default {
     this.GetAllCarousels();
   },
   methods: {
-    handleFileUpload: function() {
-      this.img = this.$refs.fileInput.files[0];
-    },
     GetAllCarousels: function() {
       this.$store.dispatch("GetAllCarousels").then(res => {
         console.log(res);
-        this.allCarousels = JSON.parse(JSON.stringify(res.data)).filter(
-          v => v.carousel_type == 1
-        );
+        this.allCarousels = JSON.parse(JSON.stringify(res.data));
       });
     },
     addCarousels: function() {
-      // var payload = {
-      //   title: this.title,
-      //   url: this.url,
-      //   subtitle: this.subtitle,
-      //   carousel_type: this.carousel_type
-      // };
-
-      // if (this.$refs.fileInput.files.length == 1) {
-      //   payload.img = this.$refs.fileInput.files[0];
-      // }
-
-      var payload = new FormData();
-
-      payload.append("title", this.title);
-      payload.append("url", this.url);
-      payload.append("subtitle", this.subtitle);
-      payload.append("carousel_type", this.carousel_type);
-
-      if (this.$refs.fileInputAdd.files.length == 1) {
-        payload.append("img", this.$refs.fileInputAdd.files[0]);
-      }
+      var payload = {
+        title: this.title,
+        url: this.url,
+        subtitle: this.subtitle,
+        carousel_type: this.carousel_type
+      };
 
       console.log(payload);
 
@@ -258,23 +219,12 @@ export default {
       });
     },
     saveCarousel: function() {
-      // var payload = {
-      //   title: this.editingCarousel.title,
-      //   url: this.editingCarousel.url,
-      //   subtitle: this.editingCarousel.subtitle,
-      //   carousel_type: this.editingCarousel.carousel_type
-      // };
-
-      var payload = new FormData();
-
-      payload.append("title", this.editingCarousel.title);
-      payload.append("url", this.editingCarousel.url);
-      payload.append("subtitle", this.editingCarousel.subtitle);
-      payload.append("carousel_type", this.editingCarousel.carousel_type);
-
-      if (this.$refs.fileInput.files.length == 1) {
-        payload.append("img", this.$refs.fileInput.files[0]);
-      }
+      var payload = {
+        title: this.editingCarousel.title,
+        url: this.editingCarousel.url,
+        subtitle: this.editingCarousel.subtitle,
+        carousel_type: this.editingCarousel.carousel_type
+      };
 
       var id = this.editingCarousel.id;
 

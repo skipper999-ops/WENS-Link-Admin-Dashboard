@@ -18,12 +18,7 @@
               </div>
               <div style="display: flex;flex-direction: column;">
                 <label>Email</label>
-                <input
-                  autocomplete="off"
-                  v-model="subadmin_email"
-                  type="email"
-                  style="width:70%"
-                />
+                <input autocomplete="off" v-model="subadmin_email" type="email" style="width:70%" />
               </div>
               <div style="display: flex;flex-direction: column;">
                 <label>Password</label>
@@ -49,7 +44,7 @@
         class="column-padding header-bottom"
         style="display: flex; justify-content: space-between"
       >
-        <h3 style="display: flex;align-items: center;">All Sub Admins</h3>
+        <h3 style="display: flex;align-items: center;">Sub Admins</h3>
         <button
           @click="openSubCatModel"
           class="btn btn-red"
@@ -60,36 +55,49 @@
       </div>
 
       <div class="row">
-        <vue-good-table :columns="columns" :rows="subadmins">
+        <vue-good-table :columns="columns" :rows="subadmins" :line-numbers="true">
           <template slot="table-row" slot-scope="props">
             <span v-if="props.column.field === 'details'">
-              <button
+
+
+
+                <div class="dropdown">
+                  <div class="dd-button" @mousedown="close_dropdown">Actions</div>
+                  <!-- <input type="checkbox" class="dd-input" /> -->
+                  <ul class="dd-menu">
+                    <li v-if="props.row.status != 2" @click="changeStatus(props.row.id , 2)">Suspend</li>
+                    <li v-if="props.row.status != 1" @click="changeStatus(props.row.id , 1)">Active</li>
+                    <li v-if="props.row.status != 0" class="btn-danger red-text" @click="changeStatus(props.row.id , 0)">Delete</li>
+                    <!-- <li class="divider"></li>
+                    <li>
+                      <a href="http://rane.io">Link to Rane.io</a>
+                    </li>-->
+                  </ul>
+                </div>
+
+
+
+              <!-- <button
                 v-if="props.row.status != 0"
                 type="button"
                 @click="changeStatus(props.row.id, 0)"
-                class="btn btn-primary"
-              >
-                Delete
-              </button>
+                class="btn btn-red white-text"
+              >Delete</button>
               <button
                 v-if="props.row.status != 1"
                 type="button"
                 @click="changeStatus(props.row.id, 1)"
                 class="btn btn-primary"
-              >
-                Active
-              </button>
+              >Active</button>
               <button
                 v-if="props.row.status != 2"
                 type="button"
                 @click="changeStatus(props.row.id, 2)"
                 class="btn btn-primary"
-              >
-                Suspend
-              </button>
+              >Suspend</button> -->
             </span>
             <span v-else-if="props.column.field === 'status'">
-              <p v-if="props.row.status == 0">Deleted</p>
+              <p v-if="props.row.status == 0" class="btn-danger red-text">Deleted</p>
               <p v-if="props.row.status == 1">Active</p>
               <p v-if="props.row.status == 2">Suspended</p>
             </span>
@@ -138,6 +146,9 @@ export default {
   mounted() {
     this.getAllSubAdmin();
     // this.getBrand();
+
+    this.fitTableToScreen();
+    window.addEventListener("resize", this.onResize);
   },
   methods: {
     getAllSubAdmin: function() {
@@ -177,7 +188,6 @@ export default {
       });
     },
     addsubadmin: function() {
-
       var payload = {
         name: this.subadmin_name,
         email: this.subadmin_email,
@@ -185,10 +195,10 @@ export default {
         phone_number: this.subadmin_phone
       };
 
-      this.$store.dispatch("addSubAdmin", payload ).then(res => {
+      this.$store.dispatch("addSubAdmin", payload).then(res => {
         console.log(res);
-          this.closeSubCatModel();
-          this.getAllSubAdmin();
+        this.closeSubCatModel();
+        this.getAllSubAdmin();
       });
     },
     getBrand: function() {
@@ -234,6 +244,15 @@ export default {
       this.subadmin_email = "";
       this.subadmin_password = "";
       this.showDropdown1 = false;
+    },
+    onResize(event) {
+      this.fitTableToScreen();
+      // console.log("window has been resized", event);
+    },
+    fitTableToScreen: function() {
+      $(".vgt-responsive").height(
+        window.innerHeight - $(".vgt-responsive").offset().top - 126
+      );
     }
   }
 };
@@ -249,20 +268,20 @@ export default {
   z-index: 99;
 }
 
-input{
+input {
   height: 35px;
-    font-family: "Regular";
-    margin: 0 10px 10px 0;
-    border-radius: 0;
-    outline: none;
-    width: 100%;
-    resize: vertical;
-    font-size: 1rem;
-    padding: 0.6rem 1rem;
-    box-shadow: none;
-    border: 1px solid rgb(169, 169, 169);
-    -webkit-transition: all 0.3s;
-    transition: all 0.3s;
+  font-family: "Regular";
+  margin: 0 10px 10px 0;
+  border-radius: 0;
+  outline: none;
+  width: 100%;
+  resize: vertical;
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  box-shadow: none;
+  border: 1px solid rgb(169, 169, 169);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
 }
 
 .popup-main {

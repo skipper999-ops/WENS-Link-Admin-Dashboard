@@ -130,7 +130,7 @@ export default {
         if (res.data.length != 0) {
           this.final_category = JSON.parse(res.data[0].value);
           this.category = this.category.filter(
-            v => !this.containsObject(v, this.final_category)
+            v => !this.containsObject_id(v, this.final_category)
           );
         }
       });
@@ -151,6 +151,19 @@ export default {
         console.log(JSON.stringify(obj));
         console.log(JSON.stringify(list[i]));
         if (JSON.stringify(list[i]) === JSON.stringify(obj)) {
+          return true;
+        }
+      }
+      return false;
+    },
+    containsObject_id: function(obj, list) {
+      var i;
+      for (i = 0; i < list.length; i++) {
+        console.log("----");
+        console.log(list[i].id);
+        console.log(obj.id);
+        if (list[i].id === obj.id) {
+          console.log("Same");
           return true;
         }
       }

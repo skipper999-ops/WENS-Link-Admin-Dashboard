@@ -401,11 +401,11 @@ export const actions = {
         });
     },
 
-    allProducts({ commit, state }, { limit, offset }) {
+    allProducts({ commit, state }, { limit, offset, query }) {
         return new Promise((resolve, reject) => {
             axios({
                     method: "GET",
-                    url: state.api.allProducts + "?limit=" + limit + "&offset=" + offset,
+                    url: state.api.allProducts + "?limit=" + limit + "&offset=" + offset + "&search=" + query,
                     contentType: "application/json",
                     headers: {
                         Authorization: "Bearer " + this.$cookies.get("access_token")

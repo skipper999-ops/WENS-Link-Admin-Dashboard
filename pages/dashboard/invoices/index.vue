@@ -1,87 +1,98 @@
 <template>
   <div>
-
-
-          <div class="container" style="padding-bottom: 60px;">
-    <div class="center-align">
-      <h3 class="tax-invoice">TAX INVOICE</h3>
-      <!-- <p class="logo_name">WENSLink</p> -->
-    </div>
-    <div style="display:flex; justify-content: space-between">
-      <div class="bold-font">
-        <img class="logo" style="width: 90px;" src="~static/files/logo.png" alt="logo">
+    <div class="container" style="padding-bottom: 60px;">
+      <div class="center-align">
+        <h3 class="tax-invoice">TAX INVOICE</h3>
+        <!-- <p class="logo_name">WENSLink</p> -->
       </div>
-      <div class="">
-        <div class="" style="text-align:right">
-          <h6 class="address-para margin-0">WENSLink Pvt. Ltd.</h6>
-          <p class="margin-0">Milan Path, 11 Bylane, House No. 13A</p>
-          <p class=" margin-0">Zoo Road Tiliali</p>
-          <p class="margin-0">Guwahati, Assam, 781024</p>
-          <p class="margin-0">GSTIN:18AACCW4881E1Z4</p>
-          <p class="margin-0">Toll Free: 1800-121-3578</p>
-          <p class="margin-0">Email: sales@wenslink.com</p>
+      <div class="payment_status">
+        <p v-if="payment_status" class="payment_status--paid">Paid</p>
+        <p v-else class="payment_status--unpaid">Unpaid</p>
+      </div>
+      <div style="display:flex; justify-content: space-between">
+        <div class="bold-font">
+          <img class="logo" style="width: 90px;" src="~static/files/logo.png" alt="logo" />
+        </div>
+        <div class>
+          <div class style="text-align:right">
+            <h6 class="address-para margin-0">WENSLink Pvt. Ltd.</h6>
+            <p class="margin-0">Milan Path, 11 Bylane, House No. 13A</p>
+            <p class="margin-0">Zoo Road Tiliali</p>
+            <p class="margin-0">Guwahati, Assam, 781024</p>
+            <p class="margin-0">GSTIN:18AACCW4881E1Z4</p>
+            <p class="margin-0">Toll Free: 1800-121-3578</p>
+            <p class="margin-0">Email: sales@wenslink.com</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="invoice-date">
-      <h5 class="bold-font ">Tax Invoice - {{invoice.id}}</h5>
-      <h5 class="margin-0 bold-font ">Invoice date : {{date}}</h5>
-      <!-- <p class="margin-0">Due date:16/10/2019</p> -->
-    </div>
-    <div class="billing-ID">
-      <!-- Billing Client ID:411434 -->
-    </div>
-    <div class="">
-      <div class="bold-font">Invoiced To</div>
-      <div class="">
-        <h4 class="margin-0 padding-0 bold-font">{{invoice.company_name}}</h4>
-        <!-- <h6 class="margin-0">ATTN: WENSLink</h6> -->
-        <p class="margin-0">{{invoice.address1}}</p>
-        <p class="margin-0">{{invoice.address2}}</p>
-        <p class="margin-0">{{invoice.city}}, {{invoice.state}}, {{invoice.pincode}}</p>
-        <p>{{invoice.country}}</p>
+      <div class="invoice-date">
+        <h5 class="bold-font">Tax Invoice - {{invoice.id}}</h5>
+        <h5 class="margin-0 bold-font">Invoice date : {{date}}</h5>
+        <!-- <p class="margin-0">Due date:16/10/2019</p> -->
       </div>
-      <div class="">
-        <!-- <p class="margin-0">State Code:18</p> -->
-        <p v-if="invoice.gstin != ''"> GSTIN:{{invoice.gstin}}</p>
-        <p v-if="invoice.gstin == ''">Please Update your GSTIN to enable Dashboard Features</p>
+      <div class="billing-ID">
+        <!-- Billing Client ID:411434 -->
       </div>
-    </div>
+      <div class>
+        <div class="bold-font">Invoiced To</div>
+        <div class>
+          <h4 class="margin-0 padding-0 bold-font">{{invoice.company_name}}</h4>
+          <!-- <h6 class="margin-0">ATTN: WENSLink</h6> -->
+          <p class="margin-0">{{invoice.address1}}</p>
+          <p class="margin-0">{{invoice.address2}}</p>
+          <p class="margin-0">{{invoice.city}}, {{invoice.state}}, {{invoice.pincode}}</p>
+          <p>{{invoice.country}}</p>
+        </div>
+        <div class>
+          <!-- <p class="margin-0">State Code:18</p> -->
+          <p v-if="invoice.gstin != ''">GSTIN:{{invoice.gstin}}</p>
+          <p v-if="invoice.gstin == ''">Please Update your GSTIN to enable Dashboard Features</p>
+        </div>
+      </div>
 
-    <div class="">
-      <table>
-        <thead>
-          <tr class="hex-bg">
-            <th class="center-align table-rborder">Transaction ID</th>
-            <th class="center-align table-rborder">Description</th>
-            <th class="center-align table-rborder">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="table-rborder center-align" style="line-height: 60px;">{{invoice.invoice_id}}</td>
-            <td class="table-rborder center-align" style="line-height: 60px;">Seller Registration Fees</td>
-            <td class="center-align" style="line-height: 60px;">Rs. 1000.00</td>
-          </tr>
-          <tr class="hex-bg">
-            <td class="table-rborder"></td>
-            <td class="table-rborder right-align bold-font table-pad">18.00% IGST</td>
-            <td class="center-align">Rs. 180.00</td>
-          </tr>
-          <tr class="hex-bg">
-            <td class="table-rborder"></td>
-            <td class="table-rborder right-align bold-font table-pad">Transaction Charge</td>
-            <td class="center-align">Rs. 30.00</td>
-          </tr>
-          <tr class="hex-bg">
-            <td class="table-rborder"></td>
-            <td class="table-rborder right-align bold-font table-pad" style="line-height: 60px;">Total Charge Including GST</td>
-            <td class="center-align bold-font" style="line-height: 60px;">Rs. 1210.00</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!-- <div class="">
+      <div class>
+        <table>
+          <thead>
+            <tr class="hex-bg">
+              <th class="center-align table-rborder">Transaction ID</th>
+              <th class="center-align table-rborder">Description</th>
+              <th class="center-align table-rborder">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                class="table-rborder center-align"
+                style="line-height: 60px;"
+              >{{invoice.invoice_id}}</td>
+              <td
+                class="table-rborder center-align"
+                style="line-height: 60px;"
+              >Seller Registration Fees</td>
+              <td class="center-align" style="line-height: 60px;">Rs. 1000.00</td>
+            </tr>
+            <tr class="hex-bg">
+              <td class="table-rborder"></td>
+              <td class="table-rborder right-align bold-font table-pad">18.00% IGST</td>
+              <td class="center-align">Rs. 180.00</td>
+            </tr>
+            <tr class="hex-bg">
+              <td class="table-rborder"></td>
+              <td class="table-rborder right-align bold-font table-pad">Transaction Charge</td>
+              <td class="center-align">Rs. 30.00</td>
+            </tr>
+            <tr class="hex-bg">
+              <td class="table-rborder"></td>
+              <td
+                class="table-rborder right-align bold-font table-pad"
+                style="line-height: 60px;"
+              >Total Charge Including GST</td>
+              <td class="center-align bold-font" style="line-height: 60px;">Rs. 1210.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- <div class="">
       <h4>Payments</h4>
       <table>
         <tr class="hex-bg">
@@ -109,10 +120,10 @@
           <th class="center-align">Rs.0.00</th>
         </tr>
       </table>
-    </div> -->
-    
-    <div class="">
-      <!-- <div class="">
+      </div>-->
+
+      <div class>
+        <!-- <div class="">
         <p>All payments by transfer/cheque/ DD should be drawn locally in favour of BigFoot Retail Solutions Pvt. Ltd.</p>
       </div>
       <p>Bank and Other Commercial Details</p>
@@ -121,20 +132,21 @@
         <li>Bank:Kotak Mahindra Bank:Saket, New Delhi</li>
         <li>RTGS/NEFT Code:KKBK0000187</li>
         <li>GSTIN No: 07AAECB7131Q1ZC | PAN Number: AAECB7131Q | CIN Number: U72900DL2011PTC225614</li>
-      </ul> -->
-      <p style="    font-size: 15px;
-    margin-top: 40px;">Disclaimer: This is computer generated invoice no signature required.</p>
-
-    </div>
-      <div style="display: flex; align-items:center;
+        </ul>-->
+        <p
+          style="    font-size: 15px;
+    margin-top: 40px;"
+        >Disclaimer: This is computer generated invoice no signature required.</p>
+      </div>
+      <div
+        style="display: flex; align-items:center;
     justify-content: center; flex-direction: column;
-    margin-top: 30px;">
-    <button type="button" style="width: 90px" class="hide-print" @click="print">Print</button>
-    <!-- <button type="button" @click="goToSeller" style="width: 180px;margin-top: 20px" class="hide-print btn btn-green">Go to Seller Dashboard</button> -->
-  </div>
-
-  </div>
-
+    margin-top: 30px;"
+      >
+        <button type="button" style="width: 90px" class="hide-print" @click="print">Print</button>
+        <!-- <button type="button" @click="goToSeller" style="width: 180px;margin-top: 20px" class="hide-print btn btn-green">Go to Seller Dashboard</button> -->
+      </div>
+    </div>
 
     <!-- <div class="bg">
       <div class="card">
@@ -147,47 +159,51 @@
         <nuxt-link to="/login">HOME</nuxt-link>
       </div>
       
-    </div> -->
+    </div>-->
   </div>
 </template>
 
 
 <script>
 export default {
-  data(){
-    return{
+  data() {
+    return {
       invoice: [],
       date: "",
-    }
-  },
-  mounted(){
-    document.title = 'WENSLink Seller Registration Invoice'
-
-
-    window.onbeforeunload = function () {
-      console.log("sdsdsdsd")
-      localStorage.setItem('invoice_id', '0')
+      payment_status: 0
     };
-    
-    this.$store.dispatch('invoice_success' , localStorage.getItem('invoice_id')).then( res => {
-      // console.log(res)
-      this.invoice = res.data
-      this.date = this.invoice['created_date'].split('T')[0].split('-').reverse().join('-')
-    })
-
   },
-  methods:{
-    print: function(){
-      document.title = 'WENSLink Seller Registration Invoice'
-      window.print()
+  mounted() {
+    document.title = "WENSLink Seller Registration Invoice";
+
+    // window.onbeforeunload = function() {
+    //   console.log("sdsdsdsd");
+    //   localStorage.setItem("invoice_id", "0");
+    // };
+
+    this.$store
+      .dispatch("invoice_success", localStorage.getItem("invoice_id"))
+      .then(res => {
+        // console.log(res)
+        this.invoice = res.data;
+        this.payment_status = res.data.payment_status
+        this.date = this.invoice["created_date"]
+          .split("T")[0]
+          .split("-")
+          .reverse()
+          .join("-");
+      });
+  },
+  methods: {
+    print: function() {
+      document.title = "WENSLink Seller Registration Invoice";
+      window.print();
     },
-    goToSeller: function(){
-
-        window.location.href = "/vendors"
-
+    goToSeller: function() {
+      window.location.href = "/vendors";
     }
   }
-}
+};
 </script>
 
 
@@ -199,7 +215,7 @@ export default {
   margin: 0 auto;
   box-sizing: border-box;
   padding: 40px;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   margin-top: 40px;
 }
 .card {
@@ -335,99 +351,88 @@ export default {
   color: #d3cece;
 }
 
+h3 {
+  font-weight: bold;
+  text-align: center;
+}
 
+.bold-font {
+  font-weight: bold;
+}
 
+.address-para {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
 
+.center-align {
+  text-align: center;
+}
 
+.right-align {
+  text-align: right;
+}
 
+.margin-0 {
+  margin: 0;
+}
 
+p {
+  font-size: 0.9rem;
+}
 
+.top-right-address {
+  margin-right: 9rem;
+}
 
+.tax-invoice {
+  margin: 17px 0 30px;
+}
 
+.invoice-date {
+  background-color: #edeff3 !important;
+  margin: 14px 0 5px;
+  padding: 7px 3px;
+  -webkit-print-color-adjust: exact;
+}
 
-    h3 {
-      font-weight: bold;
-      text-align: center;
-    }
+.billing-ID {
+  font-weight: bold;
+  margin-bottom: 23px;
+}
 
-    .bold-font {
-      font-weight: bold;
-    }
+.hex-bg {
+  background: #edeff3 !important;
+  -webkit-print-color-adjust: exact;
+}
 
-    .address-para {
-      font-weight: bold;
-      font-size: 1.1rem;
-    }
+tbody,
+table {
+  border: 1px solid #d4d4d4;
+  width: 100%;
+}
 
-    .center-align {
-      text-align: center;
-    }
+tr {
+  border-bottom: 1px solid #dee2e6;
+}
 
-    .right-align {
-      text-align: right;
-    }
-
-    .margin-0 {
-      margin: 0;
-    }
-
-    p {
-      font-size: 0.9rem;
-    }
-
-    .top-right-address {
-      margin-right: 9rem;
-    }
-
-    .tax-invoice {
-      margin: 17px 0 30px;
-    }
-
-    .invoice-date {
-      background-color: #edeff3!important;
-      margin: 14px 0 5px;
-      padding: 7px 3px;
-      -webkit-print-color-adjust: exact;
-    }
-
-    .billing-ID {
-      font-weight: bold;
-      margin-bottom: 23px;
-    }
-
-    .hex-bg {
-      background: #edeff3!important;
-      -webkit-print-color-adjust: exact;
-    }
-
-    tbody,
-    table {
-      border: 1px solid #d4d4d4;
-      width: 100%;
-    }
-
-    tr {
-      border-bottom: 1px solid #dee2e6;
-    }
-
-    .table-rborder {
-      border-right: 1px solid #d4d4d4;
-      border-bottom: 1px solid #d4d4d4;
-    }
-    .table-pad{
-      padding-right:7px;
-    }
-    @media print{
-      body {
-        -webkit-print-color-adjust:exact;
-        color-adjust:exact;
-    }
-    
+.table-rborder {
+  border-right: 1px solid #d4d4d4;
+  border-bottom: 1px solid #d4d4d4;
+}
+.table-pad {
+  padding-right: 7px;
+}
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
   }
-  @page{
-     size:A4; margin:8mm;
-   }
-
+}
+@page {
+  size: A4;
+  margin: 8mm;
+}
 
 .table > thead,
 table > tbody {
@@ -453,5 +458,32 @@ table > tbody > tr > td:nth-child(even) {
 
 thead tr {
   border-bottom: 1px solid #cccccc;
+}
+
+.payment_status {
+  position: fixed;
+  top: 37px;
+  left: -96px;
+  transform: rotate(-45deg);
+}
+
+.payment_status--paid {
+  background-color: green;
+  font-size: 50px;
+  color: white;
+  border-top: 3px solid green;
+  border-bottom: 3px solid green;
+  width: 376px;
+  text-align: center;
+}
+
+.payment_status--unpaid {
+  background-color: red;
+  font-size: 50px;
+  color: white;
+  border-top: 3px solid red;
+  border-bottom: 3px solid red;
+  width: 376px;
+  text-align: center;
 }
 </style>

@@ -39,7 +39,7 @@
             <div class="btn btn-success" @click="navbarOrderUpdate">Save</div>
           </div>
         </div>
-        <div class="col s24 m12">
+        <div class="col s24 m8">
           <h3>Active Menus</h3>
           <draggable
             class="dragArea list-group"
@@ -55,7 +55,7 @@
           </draggable>
         </div>
 
-        <div class="col s24 m12">
+        <div class="col s24 m8">
           <h3>Available Categories</h3>
           <draggable class="dragArea list-group" :list="category" group="people">
             <div
@@ -65,6 +65,18 @@
             >{{ element.name }}</div>
           </draggable>
         </div>
+
+        <div class="col s24 m8">
+          <h3>All Categories</h3>
+          <draggable class="dragArea list-group" :list="allCarousels" group="people">
+            <div
+              class="list-group-item"
+              v-for="element in allCarousels"
+              :key="element.id"
+            >{{ element.name }}</div>
+          </draggable>
+        </div>
+
       </div>
 
       <!-- <div class="row">
@@ -137,14 +149,39 @@ export default {
       }),
       drag: false,
       final_category: [],
-      category: []
+      category: [],
+          allCarousels: []
     };
   },
   methods: {
+    GetAllCarousels: function() {
+      this.$store.dispatch("GetAllCarousels").then(res => {
+        console.log(res);
+        this.allCarousels = JSON.parse(JSON.stringify(res.data)).filter(
+          this.parse
+        );
+
+        this.allCarousels = this.allCarousels.filter(
+          v => !this.containsObject_id(v, this.final_category)
+        );
+      });
+    },
+        parse(v) {
+      if (v.carousel_type == 1) {
+        v.id = 'com-' + v.id 
+        v.dataType = 'component' 
+        v.name = v.title 
+        return v;
+      }
+    },
     getCategory: function() {
       this.$store.dispatch("getCategory").then(res => {
         console.log(res);
         this.category = JSON.parse(JSON.stringify(res.data));
+
+        this.category = this.category.filter(
+            v => v.dataType = 'section'
+          );
 
         this.navbarOrder();
       });
@@ -154,9 +191,10 @@ export default {
         if (res.data.length != 0) {
           this.final_category = JSON.parse(res.data[0].value);
           this.category = this.category.filter(
-            v => !this.containsObject(v, this.final_category)
+            v => !this.containsObject_id(v, this.final_category)
           );
         }
+          this.GetAllCarousels();
       });
     },
     navbarOrderUpdate: function() {
@@ -175,6 +213,19 @@ export default {
         console.log(JSON.stringify(obj));
         console.log(JSON.stringify(list[i]));
         if (JSON.stringify(list[i]) === JSON.stringify(obj)) {
+          return true;
+        }
+      }
+      return false;
+    },
+        containsObject_id: function(obj, list) {
+      var i;
+      for (i = 0; i < list.length; i++) {
+        console.log("----");
+        console.log(list[i].id);
+        console.log(obj.id);
+        if (list[i].id === obj.id) {
+          console.log("Same");
           return true;
         }
       }

@@ -66,11 +66,8 @@
               </span>
               <span v-else-if="props.column.field === 'payment_mode'">
                 <p v-if="props.row.payment_mode == 'Test'">Inactive</p>
-                <button
-                  type="button"
-                  class="btn btn-success"
-                  v-if="props.row.payment_mode == 'Live'"
-                >Active</button>
+                <p style="color: green;font-weight:bold" v-if="props.row.payment_mode == 'Live'"
+                >Active</p>
                 <p v-if="props.row.payment_mode == 'free'">Free</p>
               </span>
               <span v-else-if="props.column.field === 'password'">
@@ -86,6 +83,7 @@
                   type="button"
                   @click="openInvoice(props.row.id)"
                   class="btn btn-primary"
+                  v-if="props.row.payment_mode == 'Live'"
                 >Invoice</button>
               </span>
               <span v-else-if="props.column.field === 'addressline1'">

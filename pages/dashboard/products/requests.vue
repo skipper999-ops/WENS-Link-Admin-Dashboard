@@ -8,9 +8,7 @@
         >
           <h3
             style="display: flex;align-items: center;padding-left: 0;padding-bottom: 0;"
-          >
-            Product Approval Requests
-          </h3>
+          >Product Approval Requests</h3>
           <!-- <button class="btn btn-red" style="display: flex;align-items: center;">
             <i data-feather="upload"></i>
             <p class="padding-left-10 white-text">Upload New</p>
@@ -35,29 +33,49 @@
                 />
               </span>
               <span v-else-if="props.column.field === 'status'">
-                <p
-                  v-if="props.row.status == 1"
-                  style="color: #009688; font-weight: bold;"
-                >
-                  APPROVED
-                </p>
-                <p
-                  v-if="props.row.status == 2"
-                  style="color: #F44336; font-weight: bold;"
-                >
-                  REJECTED
-                </p>
-                <p v-if="props.row.status == 0">
-                  PENDING
-                </p>
+                <p v-if="props.row.status == 1" style="color: #009688; font-weight: bold;">APPROVED</p>
+                <p v-if="props.row.status == 2" style="color: #F44336; font-weight: bold;">REJECTED</p>
+                <p v-if="props.row.status == 0">PENDING</p>
               </span>
               <span v-else-if="props.column.field === 'approved_by'">
-                <p v-if="props.row.approved_by">
-                  {{props.row.approved_by['name']}}
-                </p>
+                <p v-if="props.row.approved_by">{{props.row.approved_by['name']}}</p>
+              </span>
+              <span v-else-if="props.column.field === 'approved_date'">
+                <p>{{ props.row.approved_date.split("T")[0] }} {{ props.row.approved_date.split("T")[1].split(".")[0] }}</p>
               </span>
               <span v-else-if="props.column.field === 'action'">
-                <div v-if="props.row.seller_id != null">
+                <div class="dropdown">
+                  <div class="dd-button" @mousedown="close_dropdown">Actions</div>
+                  <!-- <input type="checkbox" class="dd-input" /> -->
+                  <ul class="dd-menu">
+                    <li
+                      v-if="props.row.status == 0 || props.row.status == 2"
+                      @click="
+                      changeProductStatus(
+                        props.row.id,
+                        props.row.product_id.product_name,
+                        props.row.seller_id.phone_number,
+                        props.row.sku,
+                        1
+                      )
+                    "
+                    >Approve</li>
+                    <li
+                      v-if="props.row.status == 0 || props.row.status == 1"
+                      @click="
+                      changeProductStatus(
+                        props.row.id,
+                        props.row.product_id.product_name,
+                        props.row.seller_id.phone_number,
+                        props.row.sku,
+                        2
+                      )
+                    "
+                    >REJECT</li>
+                  </ul>
+                </div>
+
+                <!-- <div v-if="props.row.seller_id != null">
                   <button
                     type="button"
                     v-if="props.row.status == 0 || props.row.status == 2"
@@ -71,9 +89,7 @@
                       )
                     "
                     class="btn btn-success white-text"
-                  >
-                    APPROVE
-                  </button>
+                  >APPROVE</button>
                   <button
                     type="button"
                     v-if="props.row.status == 0 || props.row.status == 1"
@@ -87,13 +103,11 @@
                       )
                     "
                     class="btn btn-red white-text"
-                  >
-                    REJECT
-                  </button>
-                </div>
-                <div v-else>
+                  >REJECT</button>
+                </div>-->
+                <!-- <div v-else>
                   <p>Seller Not Available</p>
-                </div>
+                </div>-->
               </span>
               <span v-else>{{ props.formattedRow[props.column.field] }}</span>
             </template>
@@ -109,23 +123,11 @@
               <p>Page {{ offset / limit + 1 }}</p>
             </div>
             <div class="pagin">
-              <div
-                class="btn btn-success"
-                @click="prev_page"
-                v-if="offset != 0"
-              >
-                Prev
-              </div>
+              <div class="btn btn-success" @click="prev_page" v-if="offset != 0">Prev</div>
               <!-- <div class="btn btn-success" v-for="p in center_buttons" :key="p">
                   {{p}}
-                </div> -->
-              <div
-                class="btn btn-success"
-                @click="next_page"
-                v-if="offset != max_count_value"
-              >
-                Next
-              </div>
+              </div>-->
+              <div class="btn btn-success" @click="next_page" v-if="offset != max_count_value">Next</div>
             </div>
           </div>
         </div>
@@ -154,7 +156,8 @@ export default {
         },
         {
           label: "Product Name",
-          field: "product_id.product_name"
+          field: "product_id.product_name",
+          width: "200px"
         },
         {
           label: "Brand",
@@ -171,6 +174,11 @@ export default {
         {
           label: "Approved By",
           field: "approved_by"
+        },
+        {
+          label: "Approved At",
+          field: "approved_date",
+          width: "200px"
         },
         {
           label: "Action",
@@ -200,6 +208,8 @@ export default {
   },
   mounted() {
     this.offset_count();
+    this.fitTableToScreen();
+    window.addEventListener("resize", this.onResize);
   },
   methods: {
     offset_count: function() {
@@ -207,7 +217,61 @@ export default {
       var offset = this.offset;
       this.getAllProducts();
     },
+
+    offset_count: function() {
+      var limit = this.limit;
+      var offset = this.offset;
+      this.getAllProducts();
+    },
     getAllProducts: function() {
+      var limit = this.limit;
+      var offset = this.offset;
+      var query = this.query;
+      this.$store
+        .dispatch("allProductsRequests", { limit, offset, query })
+        .then(res => {
+          try {
+            if (this.limit == 0) {
+              this.allproducts = JSON.parse(JSON.stringify(res.data));
+              this.max_count = res.data.count;
+              this.maxPages = res.data.count;
+              for (var i = 0; i < this.allproducts.length; i++) {
+                this.allproducts[i].images = JSON.parse(
+                  this.allproducts[i].images
+                );
+              }
+            } else {
+              console.log(res);
+              this.allproducts = JSON.parse(JSON.stringify(res.data.results));
+              this.max_count = res.data.count;
+              for (var i = 0; i < this.allproducts.length; i++) {
+                this.allproducts[i].images = JSON.parse(
+                  this.allproducts[i].images
+                );
+              }
+
+              this.pagination_buttons = Math.ceil(
+                (res.data.count - this.offset) / this.limit
+              );
+
+              this.center_buttons = [];
+
+              this.center_buttons.push(
+                Math.ceil(this.pagination_buttons / 2) - 1
+              );
+              this.center_buttons.push(Math.ceil(this.pagination_buttons / 2));
+              this.center_buttons.push(
+                Math.ceil(this.pagination_buttons / 2) + 1
+              );
+
+              this.max_count_value =
+                parseInt(this.max_count / this.limit) * this.limit;
+            }
+          } catch {}
+        });
+    },
+
+    getAllProducts_back: function() {
       var limit = this.limit;
       var offset = this.offset;
       this.$store
@@ -244,31 +308,40 @@ export default {
         this.getAllProducts();
       });
     },
-        next_page: function() {
-      this.offset = this.offset + this.limit 
-      if(this.offset > this.max_count){
-          this.offset = parseInt(this.max_count / this.limit) * this.limit
-        }
-      var limit = this.limit
-      var offset = this.offset
-      this.getAllProducts()
+    next_page: function() {
+      this.offset = this.offset + this.limit;
+      if (this.offset > this.max_count) {
+        this.offset = parseInt(this.max_count / this.limit) * this.limit;
+      }
+      var limit = this.limit;
+      var offset = this.offset;
+      this.getAllProducts();
     },
     prev_page: function() {
-      this.offset = this.offset - this.limit 
-        if(this.offset < 0){
-          this.offset = 0
-        }
-      var limit = this.limit
-      var offset = this.offset
-      this.getAllProducts()
+      this.offset = this.offset - this.limit;
+      if (this.offset < 0) {
+        this.offset = 0;
+      }
+      var limit = this.limit;
+      var offset = this.offset;
+      this.getAllProducts();
     },
     change_limit: function() {
-      this.offset = 0
-      this.limit = parseInt(this.limit)
-      var limit = parseInt(this.limit)
-      var offset = this.offset
-      this.getAllProducts()
+      this.offset = 0;
+      this.limit = parseInt(this.limit);
+      var limit = parseInt(this.limit);
+      var offset = this.offset;
+      this.getAllProducts();
     },
+    onResize(event) {
+      this.fitTableToScreen();
+      // console.log("window has been resized", event);
+    },
+    fitTableToScreen: function() {
+      $(".vgt-responsive").height(
+        window.innerHeight - $(".vgt-responsive").offset().top - 126
+      );
+    }
   }
 };
 </script>

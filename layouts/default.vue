@@ -328,4 +328,53 @@ textarea {
   color: red
 }
 
+
+/*
+*  Pagination
+*/
+
+.pagination {
+	 display: flex;
+	 padding-top: 10rem;
+	 padding-bottom: 10rem;
+}
+ .pagination .page-item {
+	 font-weight: bold;
+	 margin-left: 1rem;
+	 margin-right: 1rem;
+}
+ .pagination .page-item.active {
+	 font-weight: bold;
+	 color: white;
+}
+ .pagination .page-item.active .page-link-item {
+	 background-color: red;
+	 padding-left: 4rem;
+	 padding-right: 4rem;
+	 padding-top: 2rem;
+	 padding-bottom: 2rem;
+	 color: white;
+	 font-weight: bold;
+	 outline: none;
+}
+ .pagination .page-item .page-link-item {
+	 padding-left: 4rem;
+	 padding-right: 4rem;
+	 padding-top: 2rem;
+	 padding-bottom: 2rem;
+	 color: black;
+	 font-weight: bold;
+	 outline: none;
+}
+ .pagination .next-item .prev-link-item, .pagination .prev-item .prev-link-item, .pagination .next-item .next-link-item, .pagination .prev-item .next-link-item {
+	 padding-left: 4rem;
+	 padding-right: 4rem;
+	 padding-top: 2rem;
+	 padding-bottom: 2rem;
+	 color: black;
+	 font-weight: bold;
+	 outline: none;
+}
+ 
+
 </style>

@@ -1,13 +1,15 @@
 <template>
   <div>
-    <div v-if="isURLBuilderVisible" class="popup">
-      <div class="popup-main">
-        <URL></URL>
-        <div class="popup-action">
-          <div class="pointer" @click="isURLBuilderVisible = false">Close</div>
+    <transition name="list">
+      <div v-if="isURLBuilderVisible" class="popup">
+        <div class="popup-main">
+          <URL></URL>
+          <div class="popup-action">
+            <div class="pointer" @click="isURLBuilderVisible = false">Close</div>
+          </div>
         </div>
       </div>
-    </div>
+    </transition>
     <div class="padding-top-20">
       <nav class="topnav box-shadow padding-left-10 padding-right-10 row">
         <div class="flex align-item col" style="width:100%; justify-content: space-between;">
@@ -40,7 +42,7 @@
                 <p class="bold font-12">{{ loggedUserData.name }}</p>
                 <p class="font-10">{{ loggedUserData.access_type }}</p>
               </div>
-              <div class="user-menu" @click>
+              <div class="user-menu" @click="isMenuVisible = !isMenuVisible">
                 <img
                   src="~static/files/user.svg"
                   style="border-radius: 50px;width: 40px;height: 100%;padding: 3px;"
@@ -201,6 +203,13 @@
         <nuxt-link to="/dashboard/templates/commission">
           <i data-feather="hash"></i>
           <span>Commission Rate</span>
+        </nuxt-link>
+      </div>
+      <p></p>
+      <div class="navbar__parent">
+        <nuxt-link to="/dashboard/website/settings">
+          <i data-feather="settings"></i>
+          <span>Website Settings</span>
         </nuxt-link>
       </div>
       <p></p>
@@ -618,7 +627,7 @@ svg {
   background-color: #ffffff;
   padding: 10px;
   width: 180px;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   border-color: rgba(0, 0, 0, 0.2);
   color: #000;
   -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -678,5 +687,19 @@ svg {
   right: 0;
   top: 0;
   bottom: 0;
+}
+
+.list-enter,
+.list-leave-to {
+  visibility: hidden;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s;
 }
 </style>

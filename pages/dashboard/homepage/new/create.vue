@@ -60,8 +60,12 @@
 
           <div class="form-control">
             <label>Image</label>
-             <img  style="object-fit:contain;height: 100px" :src="editingCarouselDetails.img" @error="setFallbackImageUrl"/>
-            <input type="file" ref="fileInput" style="width:70%" />
+            <img
+              style="object-fit:contain;height: 100px"
+              :src="editingCarouselDetails.img"
+              @error="setFallbackImageUrl"
+            />
+            <input type="file" @change="handleFileUpload()" ref="fileInput" style="width:70%" />
           </div>
 
           <div class="form-control">
@@ -96,9 +100,22 @@
                       <p class="offer-title clamp1">{{ p.title }}</p>
                       <p class="offer-text clamp1">{{ p.offer_text }}</p>
                       <p class="offer-subtitle clamp1">{{ p.subtitle }}</p>
-                      <a style="text-decoration: none; color: #3f51b5; margin-bottom: 10px" class="offer-subtitle clamp2" target="_blank" :href="origin + p.url">{{origin}}{{p.url}}</a>
-                      <button type="button" @click="editCarouselDetail(p.id)" class="btn btn-primary">Edit</button>
-                      <button type="button" @click="deleteCarouselDetail(p.id)" class="btn btn-red white-text">Delete</button>
+                      <a
+                        style="text-decoration: none; color: #3f51b5; margin-bottom: 10px"
+                        class="offer-subtitle clamp2"
+                        target="_blank"
+                        :href="origin + p.url"
+                      >{{origin}}{{p.url}}</a>
+                      <button
+                        type="button"
+                        @click="editCarouselDetail(p.id)"
+                        class="btn btn-primary"
+                      >Edit</button>
+                      <button
+                        type="button"
+                        @click="deleteCarouselDetail(p.id)"
+                        class="btn btn-red white-text"
+                      >Delete</button>
                     </div>
                     <div class="viewed_price">
                       <!-- ₹{{ q.price }}
@@ -131,7 +148,7 @@ export default {
 
       showDropdown: false,
       editDropdown: false,
-      origin:"https://wenslink.com/search",
+      origin: "https://wenslink.com/search",
       title: "",
       detailtitle: "",
       offer_text: "",
@@ -148,6 +165,9 @@ export default {
     });
   },
   methods: {
+    handleFileUpload: function() {
+      this.img = this.$refs.fileInput.files[0];
+    },
     gethomepagecarouseldetails: function() {
       this.$store.dispatch("gethomepagecarouseldetails").then(res => {
         console.log(res);
@@ -155,8 +175,6 @@ export default {
       });
     },
     addCarouselDetail: function() {
-      console.log(this.$refs.fileInput.files[0]);
-
       var payload = new FormData();
 
       payload.append("home_carousel", this.$cookies.get("customizeCarousel"));
@@ -164,7 +182,7 @@ export default {
       payload.append("offer_text", this.offer_text);
       payload.append("subtitle", this.subtitle);
       payload.append("url", this.url);
-      payload.append("img", this.$refs.fileInput.files[0]);
+      payload.append("img", this.img);
 
       // title: this.detailtitle,
       // offer_text: this.offer_text,
@@ -190,27 +208,21 @@ export default {
       this.img = "";
       this.url = "";
     },
-    deleteCarouselDetail: function(id){
-
-            
-        this.$store.dispatch('deletehomepagecarousel', id).then(res => {
-
-          this.gethomepagecarouseldetails();
-          this.editDropdown = false
-
-        })
-
+    deleteCarouselDetail: function(id) {
+      this.$store.dispatch("deletehomepagecarousel", id).then(res => {
+        this.gethomepagecarouseldetails();
+        this.editDropdown = false;
+      });
     },
-    editCarouselDetail: function(id){
-        
-        this.editingCarouselDetails = this.allCarouselDetails.filter(v => v.id === id )[0]
-        this.editDropdown = true
+    editCarouselDetail: function(id) {
+      this.editingCarouselDetails = this.allCarouselDetails.filter(
+        v => v.id === id
+      )[0];
+      this.editDropdown = true;
 
-        console.log(this.$refs.fileInput.files.length)
-
+      console.log(this.$refs.fileInput.files.length);
     },
-    saveCarouselDetail: function(id){
-
+    saveCarouselDetail: function(id) {
       var payload = new FormData();
 
       payload.append("title", this.editingCarouselDetails.title);
@@ -218,22 +230,20 @@ export default {
       payload.append("subtitle", this.editingCarouselDetails.subtitle);
       payload.append("url", this.editingCarouselDetails.url);
 
-      if(this.$refs.fileInput.files.length == 1){
+      if (this.$refs.fileInput.files.length == 1) {
         payload.append("img", this.$refs.fileInput.files[0]);
       }
 
-      
+      var id = this.editingCarouselDetails.id;
 
-      var id =  this.editingCarouselDetails.id
+      console.log(payload);
 
-      console.log(payload)
-        
-        this.$store.dispatch('edithomepagecarousel', {payload, id}).then(res => {
-
+      this.$store
+        .dispatch("edithomepagecarousel", { payload, id })
+        .then(res => {
           this.gethomepagecarouseldetails();
-          this.editDropdown = false
-
-        })
+          this.editDropdown = false;
+        });
     }
   }
 };
