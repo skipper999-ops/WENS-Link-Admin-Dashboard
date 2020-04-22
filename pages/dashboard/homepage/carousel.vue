@@ -67,7 +67,7 @@
         </div>
 
         <div class="col s24 m8">
-          <h3>All Categories</h3>
+          <h3>All Image Sections</h3>
           <draggable class="dragArea list-group" :list="allCarousels" group="people">
             <div
               class="list-group-item"
@@ -76,7 +76,6 @@
             >{{ element.name }}</div>
           </draggable>
         </div>
-
       </div>
 
       <!-- <div class="row">
@@ -102,7 +101,7 @@
             </div>
           </div>
         </div>
-      </div> -->
+      </div>-->
     </div>
   </div>
 </template>
@@ -150,7 +149,7 @@ export default {
       drag: false,
       final_category: [],
       category: [],
-          allCarousels: []
+      allCarousels: []
     };
   },
   methods: {
@@ -166,11 +165,11 @@ export default {
         );
       });
     },
-        parse(v) {
+    parse(v) {
       if (v.carousel_type == 1) {
-        v.id = 'com-' + v.id 
-        v.dataType = 'component' 
-        v.name = v.title 
+        v.id = "com-" + v.id;
+        v.name = "*" + v.title;
+        v.dataType = "component";
         return v;
       }
     },
@@ -179,9 +178,7 @@ export default {
         console.log(res);
         this.category = JSON.parse(JSON.stringify(res.data));
 
-        this.category = this.category.filter(
-            v => v.dataType = 'section'
-          );
+        this.category = this.category.filter(v => (v.dataType = "section"));
 
         this.navbarOrder();
       });
@@ -194,7 +191,7 @@ export default {
             v => !this.containsObject_id(v, this.final_category)
           );
         }
-          this.GetAllCarousels();
+        this.GetAllCarousels();
       });
     },
     navbarOrderUpdate: function() {
@@ -218,7 +215,7 @@ export default {
       }
       return false;
     },
-        containsObject_id: function(obj, list) {
+    containsObject_id: function(obj, list) {
       var i;
       for (i = 0; i < list.length; i++) {
         console.log("----");

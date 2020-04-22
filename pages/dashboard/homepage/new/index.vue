@@ -20,7 +20,7 @@
       <div class="popup-main">
         <div class="popup-title">
           <div style="display:flex;justify-content:space-between;align-items:center">
-            <h3>Add Carousel</h3>
+            <h3>Add Sections</h3>
             <button
               type="button"
               @click="isURLBuilderVisible = true"
@@ -67,7 +67,7 @@
     <div v-show="editDropdown" class="popup">
       <div class="popup-main">
         <div class="popup-title">
-          <h3>Edit Carousel</h3>
+          <h3>Edit Section</h3>
           <!-- <div @click="showDropdown1 = true" class="add-section" style="width: 100px">+ URL Builder</div> -->
         </div>
         <div class="popup-body">
@@ -112,8 +112,11 @@
           class="column-padding header-bottom"
           style="display: flex; justify-content: space-between"
         >
-          <h3>All Homepage Carousels</h3>
-          <button class="btn btn-red white-text" @click="openDropdownPanel">Add Carousel</button>
+          <div>
+            <h3>All Homepage Sections</h3>
+            <p>Here you can add clickable homepage image sections</p>
+          </div>
+          <button class="btn btn-red white-text" @click="openDropdownPanel">Add Sections</button>
         </div>
 
         <div class="row">

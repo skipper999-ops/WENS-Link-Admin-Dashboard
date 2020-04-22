@@ -90,7 +90,7 @@
       <div class="navbar__parent" v-if="loggedUserData.usertype == 0">
         <nuxt-link to="/dashboard/homepage/new">
           <i data-feather="code"></i>
-          <span>New Carousel</span>
+          <span>New Homepage</span>
         </nuxt-link>
       </div>
       <div class="navbar__parent" v-if="loggedUserData.usertype == 0">
@@ -102,7 +102,7 @@
       <div class="navbar__parent" v-if="loggedUserData.usertype == 0">
         <nuxt-link to="/dashboard/homepage/carousel">
           <i data-feather="layers"></i>
-          <span>Carousel</span>
+          <span>Active Sections</span>
         </nuxt-link>
       </div>
 
