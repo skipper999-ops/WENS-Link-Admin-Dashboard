@@ -17,9 +17,17 @@
           <vue-good-table :columns="columns" :rows="allproducts" :line-numbers="true">
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field === 'details'">
-                <!-- <button v-if="props.row.status != 0" type="button" @click="changeStatus(props.row.id , 0)" class="btn btn-primary">Delete</button>
-                <button v-if="props.row.status != 1" type="button" @click="changeStatus(props.row.id , 1)" class="btn btn-primary">Active</button>
-                <button v-if="props.row.status != 2" type="button" @click="changeStatus(props.row.id , 2)" class="btn btn-primary">Suspend</button>-->
+                <div class="dropdown">
+                  <div class="dd-button" @mousedown="close_dropdown">Actions</div>
+                  <!-- <input type="checkbox" class="dd-input" /> -->
+                  <ul class="dd-menu">
+                    <li v-if="props.row.status != 2" @click="changeStatus(props.row.id , 2)">Suspend</li>
+                    <li v-if="props.row.status != 1" @click="changeStatus(props.row.id , 1)">Active</li>
+                    <li v-if="props.row.status != 0" class="btn-danger red-text" @click="changeStatus(props.row.id , 0)">Delete</li>
+                  </ul>
+                </div>
+
+
               </span>
               <span v-else-if="props.column.field === 'status'">
                 <p v-if="props.row.status == 0">Deleted</p>
@@ -79,10 +87,10 @@ export default {
           label: "Status",
           field: "status"
         },
-        // {
-        //   label: "Action",
-        //   field: "details"
-        // },
+        {
+          label: "Action",
+          field: "details"
+        },
         // {
         //   label: "Reset Password",
         //   field: "password"
@@ -102,6 +110,7 @@ export default {
   },
   mounted(){
     this.getAllProducts()
+    this.fitTableToScreen();
   },
   methods: {
     getAllProducts: function() {

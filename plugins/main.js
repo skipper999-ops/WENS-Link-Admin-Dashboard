@@ -28,6 +28,16 @@ Vue.mixin({
                 that.nextElementSibling.style.display = "none";
             }
 
+        },
+        onResize(event) {
+            this.fitTableToScreen();
+            console.log("-----resized---")
+            console.log("window has been resized", event);
+        },
+        fitTableToScreen: function() {
+            $(".vgt-responsive").height(
+                window.innerHeight - $(".vgt-responsive").offset().top - 126
+            );
         }
     }
 })

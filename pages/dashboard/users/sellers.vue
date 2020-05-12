@@ -25,36 +25,10 @@
                     <li v-if="props.row.status != 1" @click="changeStatus(props.row.id , 1)">Active</li>
                     <li  v-if="props.row.status != 0" @click="loginAsVendor(props.row.phone_number)">Login as Seller</li>
                     <li v-if="props.row.status != 0" class="btn-danger red-text" @click="changeStatus(props.row.id , 0)">Delete</li>
-                    <!-- <li class="divider"></li>
-                    <li>
-                      <a href="http://rane.io">Link to Rane.io</a>
-                    </li>-->
                   </ul>
                 </div>
 
-                <!-- <button
-                  type="button"
-                  v-if="props.row.status != 0"
-                  @click="changeStatus(props.row.id , 0)"
-                  class="btn btn-primary"
-                >Delete</button>
-                <button
-                  type="button"
-                  v-if="props.row.status != 1"
-                  @click="changeStatus(props.row.id , 1)"
-                  class="btn btn-primary"
-                >Active</button>
-                <button
-                  type="button"
-                  v-if="props.row.status != 2"
-                  @click="changeStatus(props.row.id , 2)"
-                  class="btn btn-primary"
-                >Suspend</button>
-                <button
-                  type="button"
-                  @click="loginAsVendor(props.row.phone_number)"
-                  class="btn btn-primary"
-                >Login</button>-->
+
               </span>
               <span v-else-if="props.column.field === 'status'">
                 <p v-if="props.row.status == 0">Deleted</p>
@@ -260,15 +234,6 @@ export default {
         }
       });
     },
-    onResize(event) {
-      this.fitTableToScreen();
-      // console.log("window has been resized", event);
-    },
-    fitTableToScreen: function() {
-      $(".vgt-responsive").height(
-        window.innerHeight - $(".vgt-responsive").offset().top - 126
-      );
-    }
   }
 };
 </script>

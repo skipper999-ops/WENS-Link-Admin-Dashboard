@@ -9,6 +9,19 @@
           <h3
             style="display: flex;align-items: center;padding-left: 0;padding-bottom: 0;"
           >Product Approval Requests</h3>
+
+          <div class="wrap">
+            <div class="search">
+              <input type="text" v-model="query" class="searchTerm" placeholder="Search..." />
+              <button type="submit" @click="getAllProducts" class="searchButton">Search</button>
+            </div>
+            <a
+              v-if="query != ''"
+              @click="clearQuery"
+              style="display: flex;justify-content: flex-end;"
+            >Clear</a>
+          </div>
+
           <!-- <button class="btn btn-red" style="display: flex;align-items: center;">
             <i data-feather="upload"></i>
             <p class="padding-left-10 white-text">Upload New</p>
@@ -16,13 +29,12 @@
         </div>
 
         <div class="row">
-          <vue-good-table
-            :columns="columns"
-            :rows="allproducts.slice().reverse()"
-            :line-numbers="true"
-          >
+          <vue-good-table :columns="columns" :rows="allproducts">
             <template slot="table-row" slot-scope="props">
-              <span v-if="props.column.field === 'image'">
+              <span v-if="props.column.field === 'id'">
+                <p>{{ offset + props.row["originalIndex"] + 1 }}</p>
+              </span>
+              <span v-else-if="props.column.field === 'image'">
                 <img
                   style="width: 40px; height: 40px; object-fit:contain"
                   :src="
@@ -143,6 +155,10 @@ export default {
     return {
       columns: [
         {
+          label: "ID",
+          field: "id"
+        },
+        {
           label: "Seller Name",
           field: "seller_id.name"
         },
@@ -203,7 +219,11 @@ export default {
       pagination_buttons: 0,
       center_buttons: [],
       max_count: 0,
-      max_count_value: 0
+      max_count_value: 0,
+      query: "",
+      pageNum: 1,
+      maxPages: 1,
+      maxPerPage: 9
     };
   },
   mounted() {
@@ -212,12 +232,12 @@ export default {
     window.addEventListener("resize", this.onResize);
   },
   methods: {
-    offset_count: function() {
-      var limit = this.limit;
-      var offset = this.offset;
+    clearQuery: function() {
+      this.query = "";
+      this.limit = 10;
+      this.offset = 0;
       this.getAllProducts();
     },
-
     offset_count: function() {
       var limit = this.limit;
       var offset = this.offset;
@@ -243,10 +263,11 @@ export default {
             } else {
               console.log(res);
               this.allproducts = JSON.parse(JSON.stringify(res.data.results));
+              console.log(this.allproducts);
               this.max_count = res.data.count;
               for (var i = 0; i < this.allproducts.length; i++) {
                 this.allproducts[i].images = JSON.parse(
-                  this.allproducts[i].images
+                  this.allproducts[i].product_id.images
                 );
               }
 
@@ -264,10 +285,16 @@ export default {
                 Math.ceil(this.pagination_buttons / 2) + 1
               );
 
+              console.log("this.max_count");
+              console.log(this.max_count);
+
               this.max_count_value =
                 parseInt(this.max_count / this.limit) * this.limit;
             }
-          } catch {}
+          } catch (error) {
+            console.log(error);
+            console.log("errr");
+          }
         });
     },
 

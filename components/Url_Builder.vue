@@ -11,7 +11,7 @@
             Copy URL
           </div>
         </div>
-          <a class="add-section" target="_blank" :href="baseurl + created_url_1">View Result</a>
+          <a class="add-section" target="_blank" :href="created_url_1">View Result</a>
         </div>
       </div>
 
@@ -313,7 +313,7 @@ export default {
           .replace(/[\s.;,?&%0-9]/g, "-")
           .toLowerCase() +
         "?";
-      this.created_url_1 = temp + decodeURIComponent(searchParams.toString());
+      this.created_url_1 = "https://www.wenslink.com/backend/api/products/" + temp + decodeURIComponent(searchParams.toString());
     },
     searchString: function() {
       // console.log(this.searchQuery)

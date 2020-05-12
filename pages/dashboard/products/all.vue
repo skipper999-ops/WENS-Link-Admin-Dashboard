@@ -171,9 +171,9 @@ export default {
       console.log(a, b);
     }
   },
-  computed: {
-    ...mapState(["getAllProducts"])
-  },
+  // computed: {
+  //   ...mapState(["getAllProducts"])
+  // },
 
   methods: {
     clearQuery: function() {
