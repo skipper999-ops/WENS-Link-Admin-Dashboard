@@ -88,15 +88,15 @@
         </nuxt-link>
       </div>
       <div class="navbar__parent" v-if="loggedUserData.usertype == 0">
-        <nuxt-link to="/dashboard/homepage/new">
-          <i data-feather="code"></i>
-          <span>New Homepage</span>
-        </nuxt-link>
-      </div>
-      <div class="navbar__parent" v-if="loggedUserData.usertype == 0">
         <nuxt-link to="/dashboard/homepage/slider">
           <i data-feather="code"></i>
           <span>Main Slider</span>
+        </nuxt-link>
+      </div>
+      <div class="navbar__parent" v-if="loggedUserData.usertype == 0">
+        <nuxt-link to="/dashboard/homepage/new">
+          <i data-feather="code"></i>
+          <span>Offers Images</span>
         </nuxt-link>
       </div>
       <div class="navbar__parent" v-if="loggedUserData.usertype == 0">
