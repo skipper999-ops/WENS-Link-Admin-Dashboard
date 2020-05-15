@@ -151,8 +151,8 @@
                 <a
                   v-if="props.row.carousel_type == 1"
                   target="_blank"
-                  :href="origin + props.row.url"
-                >{{origin}}{{props.row.url}}</a>
+                  :href="props.row.url"
+                >{{props.row.url}}</a>
                 <p v-else>Not Applicable</p>
               </span>
               <span v-else>{{ props.formattedRow[props.column.field] }}</span>

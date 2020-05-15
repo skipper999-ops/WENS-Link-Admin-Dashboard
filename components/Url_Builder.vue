@@ -6,11 +6,11 @@
         <textarea id="myInput" disabled v-model="created_url_1" type="text" style="width:100%"></textarea>
         <div class="flex">
           <div class="tooltip">
-          <div class="add-section" @click="myFunction" @mouseout="outFunc">
-            <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
-            Copy URL
+            <div class="add-section" @click="myFunction" @mouseout="outFunc">
+              <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+              Copy URL
+            </div>
           </div>
-        </div>
           <a class="add-section" target="_blank" :href="created_url_1">View Result</a>
         </div>
       </div>
@@ -169,13 +169,27 @@ export default {
 
   methods: {
     myFunction() {
-      var copyText = document.getElementById("myInput");
-      copyText.select();
-      copyText.setSelectionRange(0, 99999);
-      document.execCommand("copy");
+      var text = document.getElementById("myInput").value;
+      navigator.clipboard.writeText(text).then(
+        function() {
+          console.log("Async: Copying to clipboard was successful!");
+        },
+        function(err) {
+          console.error("Async: Could not copy text: ", err);
+        }
+      );
 
-      var tooltip = document.getElementById("myTooltip");
-      tooltip.innerHTML = "Copied: " + copyText.value;
+      // console.log('copy')
+      // var copyText = document.getElementById("myInput");
+      // copyText.select();
+      // console.log(copyText)
+      // copyText.setSelectionRange(0, 99999);
+      // document.execCommand("copy");
+
+      // var tooltip = document.getElementById("myTooltip");
+      // tooltip.innerHTML = "Copied: " + copyText.value;
+
+      console.log("copy");
     },
 
     outFunc() {
@@ -313,7 +327,10 @@ export default {
           .replace(/[\s.;,?&%0-9]/g, "-")
           .toLowerCase() +
         "?";
-      this.created_url_1 = "https://www.wenslink.com/backend/api/products/" + temp + decodeURIComponent(searchParams.toString());
+      this.created_url_1 =
+        "https://www.wenslink.com/backend/api/products/" +
+        temp +
+        decodeURIComponent(searchParams.toString());
     },
     searchString: function() {
       // console.log(this.searchQuery)
