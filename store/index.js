@@ -151,6 +151,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -173,6 +174,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -196,6 +198,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -222,6 +225,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -244,6 +248,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -271,6 +276,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -292,6 +298,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -313,6 +320,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -342,6 +350,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -371,6 +380,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -397,6 +407,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -419,6 +430,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -441,6 +453,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -463,6 +476,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -486,6 +500,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -509,6 +524,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -531,6 +547,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -576,6 +593,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -598,6 +616,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -619,6 +638,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -663,6 +683,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -690,6 +711,30 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
+                });
+        });
+    },
+
+    editSubCategory({ commit, state }, { id, payload }) {
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "PUT",
+                    data: payload,
+                    url: state.api.editSubCategory + id,
+                    contentType: "application/json",
+                    headers: {
+                        Authorization: "Bearer " + this.$cookies.get("access_token")
+                    }
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    resolve(res);
+                })
+                .catch(err => {
+                    console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -712,6 +757,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -734,6 +780,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -759,6 +806,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -788,6 +836,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -813,6 +862,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -834,6 +884,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -855,6 +906,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -876,6 +928,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -898,6 +951,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -919,6 +973,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -941,6 +996,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -963,6 +1019,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -980,6 +1037,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1001,6 +1059,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1021,6 +1080,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1030,7 +1090,10 @@ export const actions = {
             axios({
                     method: "GET",
                     url: state.api.navbarOrder,
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1039,6 +1102,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1049,7 +1113,10 @@ export const actions = {
                     method: "PUT",
                     data: payload,
                     url: state.api.navbarOrderUpdate + "ActiveCategory",
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1058,6 +1125,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1067,7 +1135,10 @@ export const actions = {
             axios({
                     method: "GET",
                     url: state.api.WebsiteNav,
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1076,6 +1147,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1096,6 +1168,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1105,7 +1178,10 @@ export const actions = {
             axios({
                     method: "GET",
                     url: state.api.HomepageCarousel,
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1114,6 +1190,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1125,7 +1202,10 @@ export const actions = {
                     method: "PUT",
                     data: payload,
                     url: state.api.HomepageCarouselUpdate + "HomepageCarousel",
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1134,6 +1214,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1143,7 +1224,10 @@ export const actions = {
             axios({
                     method: "GET",
                     url: state.api.GetAllCarousels,
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1152,6 +1236,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1161,7 +1246,10 @@ export const actions = {
             axios({
                     method: "GET",
                     url: state.api.gethomepagecarousel + this.$cookies.get('customizeCarousel'),
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1170,6 +1258,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1179,7 +1268,10 @@ export const actions = {
             axios({
                     method: "GET",
                     url: state.api.gethomepagecarouseldetails + this.$cookies.get('customizeCarousel'),
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1188,6 +1280,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1198,7 +1291,10 @@ export const actions = {
                     method: "PUT",
                     data: payload,
                     url: state.api.gethomepagecarousel + id,
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1207,6 +1303,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1217,7 +1314,10 @@ export const actions = {
                     method: "PUT",
                     data: payload,
                     url: state.api.edithomepagecarousel + id,
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1226,6 +1326,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1235,7 +1336,10 @@ export const actions = {
             axios({
                     method: "DELETE",
                     url: state.api.edithomepagecarousel + id,
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1244,6 +1348,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1254,7 +1359,10 @@ export const actions = {
                     method: "POST",
                     data: payload,
                     url: state.api.gethomepagecarouseldetailscreate,
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1263,6 +1371,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1273,7 +1382,10 @@ export const actions = {
                     method: "POST",
                     data: payload,
                     url: state.api.createcarousel,
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1282,6 +1394,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1291,7 +1404,10 @@ export const actions = {
             axios({
                     method: "GET",
                     url: state.api.getAnalytics + days,
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1300,6 +1416,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1309,7 +1426,10 @@ export const actions = {
             axios({
                     method: "GET",
                     url: state.api.getProductIssues,
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1318,6 +1438,7 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
@@ -1327,7 +1448,10 @@ export const actions = {
             axios({
                     method: "GET",
                     url: state.api.admin_counts,
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1336,13 +1460,111 @@ export const actions = {
                 })
                 .catch(err => {
                     console.log("error in request", err);
+                    reject(err)
                 });
         });
     },
 
 
 
+    addSellerProduct({ commit, state }, payload) {
 
+
+        return new Promise((resolve, reject) => {
+
+            axios({
+                    method: 'POST',
+                    data: payload,
+                    url: state.api.addSellerProduct,
+                    contentType: 'application/json',
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
+                })
+                .then(res => {
+                    console.log(res.data)
+                    console.log('response')
+                    resolve(res)
+                })
+                .catch(err => {
+                    console.log('error in request', err)
+                })
+        })
+    },
+
+
+    allProducts__single({ commit, state }, { limit, offset, query }) {
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "GET",
+                    url: state.api.allProducts__single + "?limit=" + limit + "&offset=" + offset + "&search=" + query,
+                    contentType: "application/json",
+                    headers: {
+                        Authorization: "Bearer " + this.$cookies.get("access_token")
+                    }
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    commit("getAllProducts", res.data.result);
+                    resolve(res);
+                })
+                .catch(err => {
+                    console.log("error in request", err);
+                    reject(err)
+                });
+        });
+    },
+
+
+
+    getSingleVendorProduct({ commit, state }, payload) {
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "GET",
+                    url: state.api.getSingleVendorProduct + payload + "/",
+                    contentType: "application/json",
+                    headers: {
+                        Authorization: "Bearer " + this.$cookies.get("access_token")
+                    }
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    resolve(res);
+                })
+                .catch(err => {
+                    console.log("error in request", err);
+                    reject(err)
+                });
+        });
+    },
+
+    updateSellerSingleProduct({ commit, state }, { payload, id }) {
+
+
+
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "PUT",
+                    data: payload,
+                    url: state.api.updateSellerSingleProduct + id + "/",
+                    contentType: "application/json",
+                    headers: {
+                        Authorization: "Bearer " + this.$cookies.get("access_token")
+                    }
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    resolve(res);
+                })
+                .catch(err => {
+                    reject(err)
+                    console.log("error in request", err);
+                });
+        });
+    },
 
 
 };

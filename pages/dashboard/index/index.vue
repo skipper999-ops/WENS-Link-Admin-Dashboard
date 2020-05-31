@@ -23,6 +23,7 @@
       </div>
     </div>
 
+    <!-- <PackChart :tweetData=loadData /> -->
 
     <div class="analytics row" style="margin-bottom: 0">
       <div class="col s24 m8 l6">
@@ -58,7 +59,13 @@
             <h3>Orders Placed Today</h3>
             <p>{{orders_placed}}</p>
           </div>
-          <apexchart class="charts hide" height="80" type="area" :options="options_3" :series="series"></apexchart>
+          <apexchart
+            class="charts hide"
+            height="80"
+            type="area"
+            :options="options_3"
+            :series="series"
+          ></apexchart>
         </div>
       </div>
     </div>
@@ -66,9 +73,7 @@
     <div class="analytics row">
       <div class="col s24">
         <div>
-          <h3 class="page-title">
-            Summary
-          </h3>
+          <h3 class="page-title">Summary</h3>
         </div>
       </div>
       <div class="col s24 m8 l6">
@@ -119,7 +124,7 @@
           </div>
         </div>
       </div>
-      <div class="col s24 m8 l6">
+      <div class="col s24 m8 l6" v-if="false">
         <div class="card summary-card">
           <div class="card-content">
             <h3>Total Seller Products</h3>
@@ -189,6 +194,9 @@
 </template>
 
 <script>
+import * as d3 from "d3";
+import PackChart from "@/components/Charts.vue";
+
 export default {
   name: "dashboard",
   data() {
@@ -508,19 +516,31 @@ export default {
       orders_placed: 0,
       new_customers: 0,
       today_sales: 0,
-      admin_counts: []
+      admin_counts: [],
+      loadData: {}
     };
   },
 
+  components: {
+    PackChart
+  },
   updated: function() {},
   mounted() {
     this.getAnalytics(this.days);
     this.getProductIssues();
     this.getAdminCounts();
+
+    this.fetchData();
   },
   watch: {},
   beforeMount() {},
   methods: {
+    fetchData() {
+      let data = d3.json("assam.json").then(function(){
+        console.log("shsjdhsjdhsjh")
+      });
+      this.loadData = data;
+    },
     getAnalytics: function(days) {
       this.$store.dispatch("getAnalytics", days).then(res => {
         console.log(res);
@@ -590,8 +610,8 @@ export default {
   margin-bottom: 0;
 }
 
-.card.summary-card{
-  margin-bottom: 20px
+.card.summary-card {
+  margin-bottom: 20px;
 }
 
 .analytics .charts {

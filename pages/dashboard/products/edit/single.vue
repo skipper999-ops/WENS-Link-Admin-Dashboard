@@ -35,23 +35,26 @@
 
         <div class="holder" v-if="selected.length != 0">
           <div class="product-detail-row">
-            <div class="header-row">{{ selected.product_name }}</div>
+            <div class="header-row">{{ product_name }}</div>
             <div class="detail-row">
               <div class="column-left">
-                <img class="product-image" :src="baseurl + '/backend/api/products/image/200/40/' + images[0]" />
+                <img
+                  class="product-image"
+                  :src="baseurl + '/backend/api/products/image/200/40/' + images[0]"
+                />
               </div>
               <div class="column-right">
                 <span>
                   <b>Item Name (aka Title):</b>
-                  {{ selected.product_name }}
+                  {{ product_name }}
                 </span>
                 <span>
                   <b>Product ID:</b>
-                  {{ selected.product_id }}
+                  {{ product_id_seller }}
                 </span>
                 <span>
                   <b>Brand:</b>
-                  {{ selected.brand }}
+                  {{ selected.product_id.brand }}
                 </span>
               </div>
             </div>
@@ -110,8 +113,8 @@
                 </div>
 
                 <div class="row">
-                  <div class="col s24">
-                    <div class="col s24 m8 l6">
+                  <div class="col s24 m16">
+                    <div class="col s24 m12">
                       <label>Category</label>
                       <select @change="getSubcategories" v-model="category_selected">
                         <option v-for="p in category" :key="p.id" :value="p.id">
@@ -121,7 +124,7 @@
                         </option>
                       </select>
                     </div>
-                    <div class="col s24 m8 l6">
+                    <div class="col s24 m12">
                       <label>SubCategory</label>
                       <select v-model="subcategory_selected">
                         <option v-for="p in subcategory" :key="p.id" :value="p.id">
@@ -135,20 +138,20 @@
                 </div>
 
                 <div class="row">
-                  <div class="col s24">
-                    <div class="col s24 m16">
+                  <div class="col s24 m16">
+                    <div class="col s24">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Product Name</label>
                         <input
                           type="text"
                           @input="slugifyTitle"
-                          v-model="selected.product_name"
+                          v-model="product_name"
                           class="form-control"
                           placeholder="Redmi 7A ( 32GB , 2 GB ) Black"
                         />
                       </div>
                     </div>
-                    <div class="col s24 m16">
+                    <div class="col s24">
                       <div class="form-group">
                         <div
                           style="display: flex;justify-content: space-between;align-items: center;"
@@ -158,25 +161,61 @@
                           <div v-if="editSlug" @click="allowSlugField(0)" class="link_tag">Save</div>
                         </div>
                         <input
-                          v-model="selected.slug"
+                          v-model="slug"
                           :disabled="editSlug == 0"
                           class="form-control"
                           placeholder="redmi-7a-32gb-2-gb-black"
                         />
                       </div>
                     </div>
-                    <div class="col s24 m16">
+                    <div class="col s24 m12">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Brand</label>
+                        <label for="exampleInputEmail1">
+                          Brand
+                          <span class="red-text">*</span>
+                        </label>
                         <input
                           type="text"
                           class="form-control"
-                          v-model="selected.brand"
+                          v-model="brand"
                           placeholder="Xiaomi"
                         />
                       </div>
                     </div>
-                    <div class="col s24 m16">
+                    <div class="col s24 m12">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Manufacturer</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="manufacturer"
+                          placeholder="Xiaomi"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24 m12">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Original Price</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="mrp"
+                          placeholder="0"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24 m12">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Selling Price</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="price"
+                          placeholder="0"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24 m16" v-show="false">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Suggested Price</label>
                         <input
@@ -187,23 +226,13 @@
                         />
                       </div>
                     </div>
-                    <div class="col s24 m16">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Manufacturer</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          v-model="selected.manufacturer"
-                          placeholder="Xiaomi"
-                        />
-                      </div>
-                    </div>
-                    <div class="col s24 m16">
+
+                    <div class="col s24">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Search Terms (SEO)</label>
                         <input
                           type="text"
-                          v-model="selected.seo"
+                          v-model="seo"
                           class="form-control"
                           placeholder="Terms that will describe this product"
                         />
@@ -215,22 +244,66 @@
                         <input
                           type="text"
                           class="form-control"
-                          v-model="selected.product_id"
+                          v-model="product_id_seller"
                           aria-describedby="emailHelp"
                           placeholder="UPC, EAN, GCID, GTIN, ASIN"
                         />
                       </div>
                     </div>
-                    <div class="col s24 m16">
+                    <div class="col s24 m8">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Product ID Type</label>
-                        <select v-model="selected.product_id_type">
+                        <select v-model="product_id_type">
                           <option
                             v-for="p in product_id_list"
                             :key="p.id"
                             :value="p.id"
                           >{{ p.name }}</option>
                         </select>
+                      </div>
+                    </div>
+                    <div class="col s24 m16">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">SKU</label>
+                        <input type="text" class="form-control" v-model="sku" />
+                      </div>
+                    </div>
+                    <div class="col s24 m8">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Stock Quantity</label>
+                        <input
+                          type="number"
+                          v-model="stock"
+                          class="form-control"
+                          placeholder
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col s24">
+                      <div class="form-group">
+                        <label
+                          for="exampleInputEmail1"
+                        >Return Window (Days) (Set 0 if return not allowed)</label>
+                        <input
+                          type="number"
+                          @input="changeText"
+                          v-model="return_window"
+                          class="form-control"
+                          placeholder
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24" v-if="return_window != 0">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Return Policy Terms</label>
+                        <textarea
+                          style="height:130px"
+                          type="text"
+                          v-model="return_text"
+                          class="form-control"
+                          placeholder
+                        ></textarea>
                       </div>
                     </div>
                   </div>
@@ -251,7 +324,7 @@
                     <div class="col s24">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Write a Short Description about the product</label>
-                        <textarea v-model="selected.description" style="height:160px"></textarea>
+                        <textarea v-model="description" style="height:160px"></textarea>
                       </div>
                     </div>
                     <div class="col s24">
@@ -413,12 +486,20 @@ export default {
     return {
       category: [],
       subcategory: [],
-      product_id: this.$cookies.get("product_edit"),
+      product_id_seller: this.$cookies.get("product_edit"),
+      product_id_admin: 0,
       selected: [],
+      manufacturer: "",
+      brand: "",
+      return_window: "",
+      product_id_type: 0,
+      return_text: "",
       subcategory_selected: 0,
       category_selected: 0,
       images: [],
       product_name: "",
+      description: "",
+      slug: "",
       bullet_points: [],
       error: {},
       showDropdown: false,
@@ -454,7 +535,12 @@ export default {
       suggested_price: 0,
       breadth: 0,
       height: 0,
-      weight: 0
+      seo: "",
+      weight: 0,
+      mrp: 0,
+      price: 0,
+      sku: "",
+      stock: 0,
     };
   },
 
@@ -531,81 +617,99 @@ export default {
       }
     });
 
-    this.$store.dispatch("getSingleProduct", this.product_id).then(res => {
-      console.log(res);
-      this.selected = res.data;
-      this.images = JSON.parse(this.selected.images);
-      this.subcategory_selected = this.selected.subcategory.id;
-      this.product_name = this.selected.product_name;
-      this.category_selected = this.selected.category.id;
-      this.length = this.selected.length;
-      this.breadth = this.selected.breadth;
-      this.height = this.selected.height;
-      this.weight = this.selected.weight;
-      this.bullet_points = JSON.parse(this.selected.bullet_points);
-      this.selected.specs = JSON.parse(this.selected.specs);
-
-      this.specs = JSON.parse(this.selected.subcategory.specs);
-
-      for (var i = 0; i < this.images.length; i++) {
-        var mockFile = { name: this.images[i] };
-        this.myDropzone.options.addedfile.call(this.myDropzone, mockFile);
-        this.myDropzone.options.thumbnail.call(
-          this.myDropzone,
-          mockFile,
-          this.baseurl + '/backend/api/products/image/200/40/' + this.images[i]
-        );
-        this.myDropzone.files.push(mockFile);
-        mockFile.previewElement.classList.add("dz-complete");
-      }
-
-      console.log(this.myDropzone.getAcceptedFiles());
-
-      this.$store.dispatch("getCategory").then(res => {
+    this.$store
+      .dispatch("getSingleVendorProduct", this.product_id_seller)
+      .then(res => {
         console.log(res);
-        this.category = res.data;
-        this.getSubcategories();
-      });
+        this.selected = res.data;
+        this.product_id_admin = this.selected.product_id.id;
+        this.images = JSON.parse(this.selected.product_id.images);
+        this.subcategory_selected = this.selected.product_id.subcategory.id;
+        this.product_name = this.selected.product_id.product_name;
+        this.slug = this.selected.product_id.slug;
+        this.product_id_id = this.selected.product_id.product_id;
+        this.product_id_type = this.selected.product_id.product_id_type;
+        this.return_text = this.selected.return_text;
+        this.return_window = parseInt(this.selected.return_days);
+        this.category_selected = this.selected.product_id.category.id;
+        this.seo = this.selected.product_id.seo;
+        this.brand = this.selected.product_id.brand;
+        this.description = this.selected.product_id.description;
+        this.manufacturer = this.selected.product_id.manufacturer;
+        this.length = this.selected.product_id.length;
+        this.breadth = this.selected.product_id.breadth;
+        this.height = this.selected.product_id.height;
+        this.mrp = this.selected.mrp;
+        this.price = this.selected.price;
+        this.sku = this.selected.sku;
+        this.stock = this.selected.stock;
+        this.weight = this.selected.product_id.weight;
+        this.bullet_points = JSON.parse(this.selected.product_id.bullet_points);
+        this.selected.specs = JSON.parse(this.selected.product_id.specs);
 
-      setTimeout(function() {
-        for (let key1 in vm.selected.specs) {
-          var specs = vm.selected.specs;
+        this.specs = JSON.parse(this.selected.product_id.subcategory.specs);
 
-          var template_specs = vm.specs;
+        for (var i = 0; i < this.images.length; i++) {
+          var mockFile = { name: this.images[i] };
+          this.myDropzone.options.addedfile.call(this.myDropzone, mockFile);
+          this.myDropzone.options.thumbnail.call(
+            this.myDropzone,
+            mockFile,
+            this.baseurl +
+              "/backend/api/products/image/200/40/" +
+              this.images[i]
+          );
+          this.myDropzone.files.push(mockFile);
+          mockFile.previewElement.classList.add("dz-complete");
+        }
 
-          if (template_specs.hasOwnProperty(key1)) {
-            console.log(specs);
+        console.log(this.myDropzone.getAcceptedFiles());
 
-            for (let key2 in specs[key1].sub) {
-              console.log(key1);
-              var sub = vm.specs[key1].sub;
+        this.$store.dispatch("getCategory").then(res => {
+          console.log(res);
+          this.category = res.data;
+          this.getSubcategories();
+        });
 
-              if (sub.hasOwnProperty(key2)) {
-                if (specs[key1].sub[key2].type == 3) {
-                  vm.$set(
-                    vm.specs[key1].sub[key2],
-                    "dropdown",
-                    specs[key1].sub[key2].dropdown
-                  );
-                  vm.$set(
-                    vm.specs[key1].sub[key2],
-                    "value",
-                    specs[key1].sub[key2].value
-                  );
-                } else {
-                  vm.$set(
-                    vm.specs[key1].sub[key2],
-                    "value",
-                    specs[key1].sub[key2].value
-                  );
-                  console.log(this.specs);
+        this.$nextTick(() => {
+          for (let key1 in vm.selected.specs) {
+            var specs = vm.selected.specs;
+
+            var template_specs = vm.specs;
+
+            if (template_specs.hasOwnProperty(key1)) {
+              console.log(specs);
+
+              for (let key2 in specs[key1].sub) {
+                console.log(key1);
+                var sub = vm.specs[key1].sub;
+
+                if (sub.hasOwnProperty(key2)) {
+                  if (specs[key1].sub[key2].type == 3) {
+                    vm.$set(
+                      vm.specs[key1].sub[key2],
+                      "dropdown",
+                      specs[key1].sub[key2].dropdown
+                    );
+                    vm.$set(
+                      vm.specs[key1].sub[key2],
+                      "value",
+                      specs[key1].sub[key2].value
+                    );
+                  } else {
+                    vm.$set(
+                      vm.specs[key1].sub[key2],
+                      "value",
+                      specs[key1].sub[key2].value
+                    );
+                    console.log(this.specs);
+                  }
                 }
               }
             }
           }
-        }
-      }, 100);
-    });
+        });
+      });
   },
   watch: {
     product_name: function(newVal, oldVal) {
@@ -621,18 +725,18 @@ export default {
   methods: {
     updateProduct: function() {
       var payload = new FormData();
-      payload.append("id", this.product_id);
+      payload.append("id", this.product_id_admin);
       payload.append("product_name", this.product_name);
-      payload.append("product_id", this.selected.product_id);
-      payload.append("product_id_type", this.selected.product_id_type);
-      payload.append("slug", this.selected.slug);
-      payload.append("description", this.selected.description);
+      payload.append("product_id", this.product_id);
+      payload.append("product_id_type", this.product_id_type);
+      payload.append("slug", this.slug);
+      payload.append("description", this.description);
       payload.append("images", JSON.stringify(this.images));
       payload.append("category", this.category_selected);
       payload.append("subcategory", this.subcategory_selected);
-      payload.append("brand", this.selected.brand);
-      payload.append("manufacturer", this.selected.manufacturer);
-      payload.append("seo", this.selected.seo);
+      payload.append("brand", this.brand);
+      payload.append("manufacturer", this.manufacturer);
+      payload.append("seo", this.seo);
       payload.append("suggested_price", this.suggested_price);
       payload.append("length", this.length);
       payload.append("breadth", this.breadth);
@@ -644,21 +748,47 @@ export default {
       this.$store
         .dispatch("updateProduct", {
           payload: payload,
-          id: this.product_id
+          id: this.product_id_admin
         })
         .then(res => {
           console.log(res);
-          this.$router.push("/dashboard/products/all");
+          this.updateSellerProduct()
         })
         .catch(error => {
+          console.log(error.response.status);
           this.error = error.response.data;
-          this.openDropdownPanel();
+
+          if (error.response.status == 404) {
+            alert("Product Not Found");
+          } else {
+            this.openDropdownPanel();
+          }
         });
+    },
+
+    updateSellerProduct: function() {
+      var payload = new FormData();
+      payload.append("product_name", this.product_name);
+      payload.append("id", this.product_id_seller);
+      payload.append("sku", this.sku);
+      payload.append("mrp", this.mrp);
+      payload.append("price", this.price);
+      payload.append("stock", this.stock);
+      payload.append("return_text", this.return_text);
+      payload.append("return_days", this.return_window);
+
+      var id = this.product_id_seller
+
+
+      this.$store.dispatch("updateSellerSingleProduct", { payload , id }).then(res => {
+        console.log(res);
+        this.$router.push("/dashboard/products/all_single");
+      });
     },
 
     slugifyTitle: function() {
       console.log("Sdsd");
-      this.selected.slug = this.selected.product_name
+      this.slug = this.product_name
         .toLowerCase()
         .replace(/[^\w ]+/g, "")
         .replace(/ +/g, "-");
@@ -686,6 +816,82 @@ export default {
 
       this.editSlug = val;
     },
+    changeText: function() {
+      this.return_text =
+        "Returns are just acknowledged inside " +
+        this.return_window +
+        " (" +
+        this.inWords(this.return_window) +
+        ") days of the date of procurement. To be qualified for an arrival, your thing must be unused and in a similar condition that you got it. On the off chance that the item is gotten by seller in unused and perfect condition and in its unique bundling without tearing out the Tag, seller will discount your buy.";
+    },
+    inWords: function(num) {
+      console.log(num);
+
+      var a = [
+        "",
+        "one ",
+        "two ",
+        "three ",
+        "four ",
+        "five ",
+        "six ",
+        "seven ",
+        "eight ",
+        "nine ",
+        "ten ",
+        "eleven ",
+        "twelve ",
+        "thirteen ",
+        "fourteen ",
+        "fifteen ",
+        "sixteen ",
+        "seventeen ",
+        "eighteen ",
+        "nineteen "
+      ];
+      var b = [
+        "",
+        "",
+        "twenty",
+        "thirty",
+        "forty",
+        "fifty",
+        "sixty",
+        "seventy",
+        "eighty",
+        "ninety"
+      ];
+
+      if ((num = num.toString()).length > 9) return "overflow";
+      var n = ("000000000" + num)
+        .substr(-9)
+        .match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+      if (!n) return;
+      var str = "";
+      str +=
+        n[1] != 0
+          ? (a[Number(n[1])] || b[n[1][0]] + " " + a[n[1][1]]) + "crore "
+          : "";
+      str +=
+        n[2] != 0
+          ? (a[Number(n[2])] || b[n[2][0]] + " " + a[n[2][1]]) + "lakh "
+          : "";
+      str +=
+        n[3] != 0
+          ? (a[Number(n[3])] || b[n[3][0]] + " " + a[n[3][1]]) + "thousand "
+          : "";
+      str +=
+        n[4] != 0
+          ? (a[Number(n[4])] || b[n[4][0]] + " " + a[n[4][1]]) + "hundred "
+          : "";
+      str +=
+        n[5] != 0
+          ? (str != "" ? "and " : "") +
+            (a[Number(n[5])] || b[n[5][0]] + " " + a[n[5][1]])
+          : "";
+      return str;
+    },
+
     openDropdownPanel: function() {
       this.showDropdown = true;
     },

@@ -38,7 +38,7 @@
                   :src="
                     baseurl +
                       '/backend/api/products/image/40/40/' +
-                      props.row.images[0]
+                      props.row.product_id.images[0]
                   "
                 />
               </span>
@@ -88,7 +88,7 @@
                 :next-link-class="'next-link-item'"
                 :break-view-class="'break-view'"
                 :break-view-link-class="'break-view-link'"
-              ></paginate> -->
+              ></paginate>-->
 
               <div class="btn btn-success" @click="prev_page" v-if="offset != 0">Prev</div>
               <!-- <div class="btn btn-success" v-for="p in center_buttons" :key="p">
@@ -116,21 +116,34 @@ export default {
           field: "id"
         },
         {
+          label: "Product Name",
+          field: "product_id.product_name",
+          width: "400px"
+        },
+        {
           label: "Image",
           field: "image"
         },
         {
-          label: "Product Name",
-          field: "product_name",
-          width: "400px"
+          label: "Original MRP",
+          field: "stock"
         },
         {
+          label: "Original MRP",
+          field: "stock"
+        },
+        {
+          label: "Stock Count",
+          field: "stock"
+        },
+
+        {
           label: "Brand",
-          field: "brand"
+          field: "product_id.brand"
         },
         {
           label: "Category",
-          field: "category.name"
+          field: "product_id.category.name"
         },
         {
           label: "Action",
@@ -165,7 +178,6 @@ export default {
   },
   mounted() {
     this.offset_count();
-    this.fitTableToScreen();
   },
   watch: {
     query: function(a, b) {
@@ -200,7 +212,7 @@ export default {
       var offset = this.offset;
       var query = this.query;
       this.$store
-        .dispatch("allProducts", { limit, offset, query })
+        .dispatch("allProducts__single", { limit, offset, query })
         .then(res => {
           try {
             if (this.limit == 0) {
@@ -208,8 +220,8 @@ export default {
               this.max_count = res.data.count;
               this.maxPages = res.data.count;
               for (var i = 0; i < this.allproducts.length; i++) {
-                this.allproducts[i].images = JSON.parse(
-                  this.allproducts[i].images
+                this.allproducts[i].product_id.images = JSON.parse(
+                  this.allproducts[i].product_id.images
                 );
               }
             } else {
@@ -217,10 +229,12 @@ export default {
               this.allproducts = JSON.parse(JSON.stringify(res.data.results));
               this.max_count = res.data.count;
               for (var i = 0; i < this.allproducts.length; i++) {
-                this.allproducts[i].images = JSON.parse(
-                  this.allproducts[i].images
+                this.allproducts[i].product_id.images = JSON.parse(
+                  this.allproducts[i].product_id.images
                 );
               }
+
+              console.log(this.allproducts);
 
               this.pagination_buttons = Math.ceil(
                 (res.data.count - this.offset) / this.limit
@@ -257,7 +271,7 @@ export default {
         // secure: true,
         maxAge: 60 * 60 * 24 * 7
       });
-      this.$router.push("/dashboard/products/edit/");
+      this.$router.push("/dashboard/products/edit/single");
       //  this.$store.dispatch("getSingleProduct", id).then(res => {
       //   console.log(res);
       // });

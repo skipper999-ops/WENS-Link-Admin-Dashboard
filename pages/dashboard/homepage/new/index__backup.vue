@@ -150,7 +150,7 @@ export default {
   data: () => ({
     allCarousels: [],
     editingCarousel: {},
-    origin: "https://wenslink.com/search",
+    origin: process.env.BASE_URL + "/search",
     showDropdown: false,
     showDropdown1: false,
     editDropdown: false,

@@ -1,4 +1,11 @@
+const env = require('dotenv').config()
+
+console.log(env)
+
 export default {
+
+
+    env: env.parsed,
 
 
     server: {
@@ -59,7 +66,9 @@ export default {
     /*
      ** Nuxt.js dev-modules
      */
-    buildModules: [],
+    buildModules: [
+        '@nuxtjs/dotenv',
+    ],
     /*
      ** Nuxt.js modules
      */
@@ -79,10 +88,10 @@ export default {
      */
 
 
-    env: {
-        // baseUrl: process.env.BASE_URL || 'http://localhost:3003',
-        baseUrl: (process.env.NODE_ENV == "development") ? "http://127.0.0.1:8000" : 'https://www.wenslink.com'
-    },
+    // env: {
+    //     // baseUrl: process.env.BASE_URL || 'http://localhost:3003',
+    //     baseUrl: (process.env.NODE_ENV == "development") ? "http://127.0.0.1:8000" : 'https://www.wenslink.com'
+    // },
 
     router: {
         base: "/admin/"

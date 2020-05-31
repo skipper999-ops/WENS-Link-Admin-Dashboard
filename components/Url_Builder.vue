@@ -153,7 +153,8 @@ export default {
       searchQuery: "",
       created_url_1: "",
       limit: 10,
-      brand: ""
+      brand: "",
+      base_url: process.env.BASE_URL
     };
   },
   components: {
@@ -328,7 +329,7 @@ export default {
           .toLowerCase() +
         "?";
       this.created_url_1 =
-        "https://www.wenslink.com/backend/api/products/" +
+        this.base_url + "/backend/api/products/" +
         temp +
         decodeURIComponent(searchParams.toString());
     },

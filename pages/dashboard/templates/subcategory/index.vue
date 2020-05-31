@@ -21,6 +21,23 @@
       </div>
     </div>
 
+    <div v-if="showEditDropdown" class="popup">
+      <div class="popup-main">
+        <div class="popup-title">
+          <h3>Edit Category</h3>
+        </div>
+        <div class="popup-body">
+          <div>
+            <input v-model="editingSubCategory" type="text" style="width:70%" />
+          </div>
+        </div>
+        <div class="popup-action">
+          <div class="pointer" @click="editSubCategory">Save</div>
+          <div class="pointer" @click="closeDropdownPanel">Cancel</div>
+        </div>
+      </div>
+    </div>
+
     <div class="holder">
       <div
         class="column-padding header-bottom"
@@ -40,6 +57,11 @@
         <vue-good-table :columns="sub_columns" :rows="subcategory">
           <template slot="table-row" slot-scope="props">
             <span v-if="props.column.field === 'details'">
+              <button
+                type="button"
+                @click="openEditSubCategory(props.row.id, props.row.name)"
+                class="btn btn-primary"
+              >Edit</button>
               <button
                 type="button"
                 @click="deleteSubCategory(props.row.id)"
@@ -68,8 +90,11 @@ export default {
     showDropdown: false,
     subcategory_selected: 0,
     brand: [],
+    editingSubCategory: "",
+    editingSubCategoryID: 0,
     brand_selected: 0,
     showDropdown1: false,
+    showEditDropdown: false,
     columns: [
       {
         label: "Category",
@@ -109,9 +134,12 @@ export default {
         this.category = JSON.parse(JSON.stringify(res.data));
       });
     },
+    openEditSubCategory: function(id, name) {
+      this.editingSubCategoryID = id;
+      this.editingSubCategory = name;
+      this.showEditDropdown = true;
+    },
     addCategory: function() {
-      
-      
       var payload = new FormData();
 
       payload.append("name", this.newCategory);
@@ -119,11 +147,25 @@ export default {
       this.$store.dispatch("addCategory", payload).then(res => {
         console.log(res);
         this.getCategory();
-        this.newCategory = ""
-        this.selected_category = ""
+        this.newCategory = "";
+        this.selected_category = "";
         this.closeDropdownPanel();
         // this.category = JSON.parse(JSON.stringify(res.data));
       });
+    },
+    editSubCategory: function() {
+      this.$store
+        .dispatch("editSubCategory", {
+          id: this.editingSubCategoryID,
+          payload: {
+            name: this.editingSubCategory
+          }
+        })
+        .then(res => {
+          console.log(res);
+          this.getSubcategories();
+          this.closeDropdownPanel();
+        });
     },
     addSubCategory: function() {
       this.closeSubCatModel();
@@ -135,7 +177,7 @@ export default {
 
       this.$store.dispatch("addSubCategory", payload).then(res => {
         console.log(res);
-        this.sub_Category = ""
+        this.sub_Category = "";
         this.getSubcategories();
         // this.category = JSON.parse(JSON.stringify(res.data));
       });
@@ -164,14 +206,15 @@ export default {
         console.log(res);
         this.getCategory();
         this.getSubcategories();
-        this.getBrand();
       });
     },
     deleteSubCategory: function(id) {
       this.$store.dispatch("deleteSubCategory", id).then(res => {
         console.log(res);
         this.getSubcategories();
-        this.getBrand();
+      }).catch(res =>{
+        console.log(res.response)
+        alert(res.response.data.message)
       });
     },
     deleteBrand: function(id) {
@@ -182,15 +225,15 @@ export default {
     },
     openDropdownPanel: function() {
       this.showDropdown = true;
-      this.sub_Category = ""
-      this.selected_category = 0
+      this.sub_Category = "";
+      this.selected_category = 0;
     },
     openSubCatModel: function() {
       this.showDropdown1 = true;
     },
     closeDropdownPanel: function() {
-      this.showDropdown = false
-      this.newCategory = ""
+      this.showEditDropdown = false;
+      this.newCategory = "";
     },
     closeSubCatModel: function() {
       this.showDropdown1 = false;

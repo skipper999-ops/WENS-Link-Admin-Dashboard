@@ -23,7 +23,7 @@
               <p
                 class="hide-on-large-only"
                 style="line-height:64px;font-family:'Bold'; font-size: 17px;white-space: nowrap;"
-              >WENSLink {{ loggedUserData['access_type'] }} Dashboard</p>
+              >{{client_name}} {{ loggedUserData['access_type'] }} Dashboard</p>
             </div>
           </div>
           <div
@@ -69,8 +69,8 @@
         <i data-feather="x"></i>
       </div>
       <div class="dashboard-logo">
-        <img src="~static/files/logo.png" class="sideNav__Logo" />
-        <h1 style="font-family:bold">WENSLink {{ loggedUserData.access_type }} Dashboard</h1>
+        <img  v-if="vendor_type == 2" src="~static/files/logo.png" class="sideNav__Logo" />
+        <h1 style="font-family:bold">{{client_name}} {{ loggedUserData.access_type }} Dashboard</h1>
       </div>
       <p></p>
       <div class="navbar__parent">
@@ -107,19 +107,31 @@
       </div>
 
       <p>Product</p>
-      <div class="navbar__parent">
+      <div class="navbar__parent" v-if="vendor_type == 2">
         <nuxt-link to="/dashboard/products/new">
           <i data-feather="plus-square"></i>
           <span>New</span>
         </nuxt-link>
       </div>
-      <div class="navbar__parent">
+      <div class="navbar__parent" v-if="vendor_type == 1">
+        <nuxt-link to="/dashboard/products/single">
+          <i data-feather="plus-square"></i>
+          <span>New</span>
+        </nuxt-link>
+      </div>
+      <div class="navbar__parent" v-if="vendor_type == 2">
         <nuxt-link to="/dashboard/products/all">
           <i data-feather="users"></i>
           <span>Catalogue</span>
         </nuxt-link>
       </div>
-      <div class="navbar__parent">
+      <div class="navbar__parent" v-if="vendor_type == 1">
+        <nuxt-link to="/dashboard/products/all_single">
+          <i data-feather="users"></i>
+          <span>All Products</span>
+        </nuxt-link>
+      </div>
+      <div class="navbar__parent" v-if="vendor_type == 2">
         <nuxt-link to="/dashboard/products/requests">
           <i data-feather="package"></i>
           <span>Approval</span>
@@ -144,16 +156,16 @@
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/users/customers">
           <i data-feather="users"></i>
-          <span>Buyers</span>
+          <span>Customers</span>
         </nuxt-link>
       </div>
-      <div class="navbar__parent" v-if="loggedUserData.usertype == 0">
+      <div class="navbar__parent" v-if="loggedUserData.usertype == 0 && vendor_type == 2">
         <nuxt-link to="/dashboard/users/subadmins">
           <i data-feather="users"></i>
           <span>Sub Admins</span>
         </nuxt-link>
       </div>
-      <div class="navbar__parent">
+      <div class="navbar__parent" v-if="vendor_type == 2">
         <nuxt-link to="/dashboard/users/sellers">
           <i data-feather="users"></i>
           <span>Sellers</span>
@@ -342,14 +354,18 @@ import { MenuIcon } from "vue-feather-icons";
 import URL from "@/components/Url_Builder";
 
 export default {
-  data: () => ({
-    active: false,
-    currentUserEmail: "",
-    pickup_count: 0,
-    message_count: 0,
-    isMenuVisible: false,
-    isURLBuilderVisible: false
-  }),
+  data() {
+    return {
+      active: false,
+      currentUserEmail: "",
+      pickup_count: 0,
+      message_count: 0,
+      isMenuVisible: false,
+      isURLBuilderVisible: false,
+      client_name: process.env.CLIENT_NAME,
+      vendor_type: process.env.VENDOR_TYPE
+    };
+  },
 
   components: {
     MenuIcon,

@@ -15,8 +15,11 @@
     "@nuxtjs/pwa": "^3.0.0-0",
     "apexcharts": "^3.15.0",
     "cookie-universal-nuxt": "^2.0.18",
+    "d3": "^5.16.0",
+    "d3-queue": "^3.0.7",
     "nuxt": "^2.0.0",
     "postcss-color-mod-function": "^3.0.3",
+    "topojson": "^3.0.2",
     "vue-apexcharts": "^1.5.2",
     "vue-carousel": "^0.18.0",
     "vue-feather-icons": "^5.0.0",
@@ -26,5 +29,7 @@
     "vuedraggable": "^2.23.2",
     "vuejs-paginate": "^2.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@nuxtjs/dotenv": "^1.4.1"
+  }
 }

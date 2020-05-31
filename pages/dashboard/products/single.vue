@@ -8,8 +8,8 @@
         <div class="popup-body">
           <div>
             <div v-for="(p, index) in error" :key="p.id">
-              <p style="font-size:15px;font-weight: bold">{{ index }}</p>
-              <p style="margin-bottom: 15px">{{ p[0] }}</p>
+              <p style="font-size:15px;font-weight: bold">{{index}}</p>
+              <p style="margin-bottom: 15px">{{p[0]}}</p>
             </div>
           </div>
         </div>
@@ -23,53 +23,52 @@
       <div class="holder">
         <div class="column-padding header-bottom">
           <h3 style="display: flex;align-items: center;">Add a Product to your catalogue</h3>
-          <p style="padding-left: 19px;padding-bottom: 10px;">
-            Product added here will be added to a common database and vendors
-            can use these as templates when adding their products
-          </p>
+          <p
+            style="padding-left: 19px;padding-bottom: 10px;"
+          >Product added here will be added to a common database and vendors can use these as templates when adding their products</p>
           <!-- <button class="btn btn-red" style="display: flex;align-items: center;">
             <i data-feather="upload"></i>
             <p class="padding-left-10 white-text">Upload New</p>
           </button>-->
         </div>
 
-        <div class="holder" v-if="selected.length != 0">
-          <div class="product-detail-row">
-            <div class="header-row">{{ selected.product_name }}</div>
-            <div class="detail-row">
-              <div class="column-left">
-                <img class="product-image" :src="baseurl + '/backend/api/products/image/200/40/' + images[0]" />
-              </div>
-              <div class="column-right">
-                <span>
-                  <b>Item Name (aka Title):</b>
-                  {{ selected.product_name }}
-                </span>
-                <span>
-                  <b>Product ID:</b>
-                  {{ selected.product_id }}
-                </span>
-                <span>
-                  <b>Brand:</b>
-                  {{ selected.brand }}
-                </span>
-              </div>
+        <div class="row">
+          <div class="col s24">
+            <div class="col s24 m8 l6">
+              <label>Category</label>
+              <select @change="getSubcategories" v-model="category_selected">
+                <option v-for="p in category" :key="p.id" :value="p.id">{{p.name}}</option>
+              </select>
+            </div>
+            <div class="col s24 m8 l6">
+              <label>SubCategory</label>
+              <select @change="getsubCategoryDetails" v-model="subcategory_selected">
+                <option v-for="p in subcategory" :key="p.id" :value="p.id">{{p.name}}</option>
+              </select>
             </div>
           </div>
         </div>
-        <div v-else>
-          <p>No Product Found</p>
-        </div>
       </div>
 
-      <div class="holder" v-if="selected.slug != ''">
+      <div class="holder" v-show="subcategory_selected != undefined && subcategory_selected != 0">
         <h3 class>Submit Product</h3>
-        <div style="padding-left: 19px;padding-bottom: 10px;" class>
-          <button
-            class="btn btn-primary"
-            @click="updateProduct"
-            :disabled="selected.slug == ''"
-          >Update Product</button>
+        <div style="display:flex;justify-content: space-between;align-items: center;">
+          <div style="padding-left: 19px;padding-bottom: 10px;" class>
+            <button
+              class="btn btn-primary"
+              @click="addProduct"
+              :disabled="slugify == ''"
+            >Add Product</button>
+          </div>
+          <!-- <div class="toggle-button-cover">
+          <div class="button-cover">
+            <div class="button r" id="button-3">
+              <input type="checkbox" class="checkbox" />
+              <div class="knobs"></div>
+              <div class="layer"></div>
+            </div>
+          </div>
+          </div>-->
         </div>
       </div>
 
@@ -110,73 +109,81 @@
                 </div>
 
                 <div class="row">
-                  <div class="col s24">
-                    <div class="col s24 m8 l6">
-                      <label>Category</label>
-                      <select @change="getSubcategories" v-model="category_selected">
-                        <option v-for="p in category" :key="p.id" :value="p.id">
-                          {{
-                          p.name
-                          }}
-                        </option>
-                      </select>
-                    </div>
-                    <div class="col s24 m8 l6">
-                      <label>SubCategory</label>
-                      <select v-model="subcategory_selected">
-                        <option v-for="p in subcategory" :key="p.id" :value="p.id">
-                          {{
-                          p.name
-                          }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col s24">
-                    <div class="col s24 m16">
+                  <div class="col s24 m16">
+                    <div class="col s24">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Product Name</label>
+                        <label for="exampleInputEmail1">
+                          Product Name
+                          <span class="red-text">*</span>
+                        </label>
                         <input
                           type="text"
                           @input="slugifyTitle"
-                          v-model="selected.product_name"
+                          v-model="product_name"
                           class="form-control"
                           placeholder="Redmi 7A ( 32GB , 2 GB ) Black"
                         />
                       </div>
                     </div>
-                    <div class="col s24 m16">
+                    <div class="col s24">
                       <div class="form-group">
                         <div
                           style="display: flex;justify-content: space-between;align-items: center;"
                         >
-                          <label style="display:flex" for="exampleInputEmail1">Product Slug</label>
+                          <label style="display:flex" for="exampleInputEmail1">
+                            Product Slug
+                            <span class="red-text">*</span>
+                          </label>
                           <div v-if="!editSlug" @click="allowSlugField(1)" class="link_tag">Edit</div>
                           <div v-if="editSlug" @click="allowSlugField(0)" class="link_tag">Save</div>
                         </div>
                         <input
-                          v-model="selected.slug"
+                          v-model="slugify"
                           :disabled="editSlug == 0"
                           class="form-control"
                           placeholder="redmi-7a-32gb-2-gb-black"
                         />
                       </div>
                     </div>
-                    <div class="col s24 m16">
+                    <div class="col s24 m12">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Brand</label>
+                        <label for="exampleInputEmail1">
+                          Brand
+                          <span class="red-text">*</span>
+                        </label>
                         <input
                           type="text"
                           class="form-control"
-                          v-model="selected.brand"
+                          v-model="brand"
                           placeholder="Xiaomi"
                         />
                       </div>
                     </div>
-                    <div class="col s24 m16">
+
+                    <div class="col s24 m12">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Manufacturer</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="manufacturer"
+                          placeholder="Xiaomi"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24 m12">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Original Price</label>
+                        <input type="text" class="form-control" v-model="mrp" placeholder="0" />
+                      </div>
+                    </div>
+                    <div class="col s24 m12">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Selling Price</label>
+                        <input type="text" class="form-control" v-model="price" placeholder="0" />
+                      </div>
+                    </div>
+                    <div class="col s24 m16" v-show="false">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Suggested Price</label>
                         <input
@@ -187,23 +194,13 @@
                         />
                       </div>
                     </div>
-                    <div class="col s24 m16">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Manufacturer</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          v-model="selected.manufacturer"
-                          placeholder="Xiaomi"
-                        />
-                      </div>
-                    </div>
-                    <div class="col s24 m16">
+
+                    <div class="col s24">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Search Terms (SEO)</label>
                         <input
                           type="text"
-                          v-model="selected.seo"
+                          v-model="seo"
                           class="form-control"
                           placeholder="Terms that will describe this product"
                         />
@@ -215,22 +212,57 @@
                         <input
                           type="text"
                           class="form-control"
-                          v-model="selected.product_id"
+                          v-model="product_id"
                           aria-describedby="emailHelp"
                           placeholder="UPC, EAN, GCID, GTIN, ASIN"
                         />
                       </div>
                     </div>
-                    <div class="col s24 m16">
+                    <div class="col s24 m8">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Product ID Type</label>
-                        <select v-model="selected.product_id_type">
-                          <option
-                            v-for="p in product_id_list"
-                            :key="p.id"
-                            :value="p.id"
-                          >{{ p.name }}</option>
+                        <select v-model="product_id_type">
+                          <option v-for="p in product_id_list" :key="p.id" :value="p.id">{{p.name}}</option>
                         </select>
+                      </div>
+                    </div>
+                    <div class="col s24 m16">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">SKU</label>
+                        <input type="text" class="form-control" v-model="sku" />
+                      </div>
+                    </div>
+                    <div class="col s24 m8">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Stock Quantity</label>
+                        <input type="number" v-model="stock" class="form-control" placeholder />
+                      </div>
+                    </div>
+
+                    <div class="col s24">
+                      <div class="form-group">
+                        <label
+                          for="exampleInputEmail1"
+                        >Return Window (Days) (Set 0 if return not allowed)</label>
+                        <input
+                          type="number"
+                          @input="changeText"
+                          v-model="return_window"
+                          class="form-control"
+                          placeholder
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24" v-if="return_window != 0">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Return Policy Terms</label>
+                        <textarea
+                          style="height:130px"
+                          type="number"
+                          v-model="return_policy"
+                          class="form-control"
+                          placeholder
+                        ></textarea>
                       </div>
                     </div>
                   </div>
@@ -251,7 +283,7 @@
                     <div class="col s24">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Write a Short Description about the product</label>
-                        <textarea v-model="selected.description" style="height:160px"></textarea>
+                        <textarea v-model="desc" style="height:160px"></textarea>
                       </div>
                     </div>
                     <div class="col s24">
@@ -291,65 +323,82 @@
             </div>
             <div class="content" id="c4">
               <div class="bg-white">
-                <div v-if="selected.specs == ''">
+                <!-- <h3>Specifications</h3> -->
+                <div v-if="specs == ''">
                   <p style="padding-left: 19px;padding-bottom: 10px;">
                     Specifications not added. Go to
                     <nuxt-link
-                      :to="
-                '/dashboard/templates/specification/' +
-                  this.subcategory_selected
-              "
+                      :to="'/dashboard/templates/specification/' + this.subcategory_selected"
                     >Specifications</nuxt-link>and add them
                   </p>
                 </div>
+                <div v-if="specs != ''">
+                  <p style="padding-left: 19px;padding-bottom: 10px;">
+                    You can edit
+                    <nuxt-link
+                      :to="'/dashboard/templates/specification/' + this.subcategory_selected"
+                    >Specifications</nuxt-link>here
+                  </p>
+                </div>
                 <!-- <p>Please Complete the specification section</p> -->
-                <div v-if="specs != '{}'">
+                <div v-if="specs != ''">
                   <div
                     v-for="(p, index) in specs"
                     :key="p.id"
                     class="input_fields_wrap drag-list"
                     id="h"
                   >
-                    <h3>{{ p.name }}</h3>
+                    <h3>{{p.name}}</h3>
                     <div class="row">
                       <div class="col s12">
                         <div class="col s24" v-for="(q, index1) in p['sub']" :key="q.id">
                           <div class="form-group">
-                            <label>{{ q.name }}</label>
+                            <label>{{q.name}}</label>
 
                             <div v-if="q.type == 1">
-                              <input type="text" :id="q.id" v-model="q.value" />
+                              <input
+                                class="specs-value"
+                                :data-id="q.id"
+                                type="text"
+                                v-model="q.value"
+                              />
                             </div>
 
                             <div style="display: flex;" v-if="q.type == 2">
                               <select
+                                class="specs-value"
+                                :data-id="q.id"
                                 v-model="q.value"
-                                :id="q.id"
                                 style="display: inline-block; width: 100% "
                               >
                                 <option :value="undefined">Not Selected</option>
-
                                 <option
                                   v-for="r in q.dropdown_items"
                                   :key="r.id"
                                   :value="r.name"
-                                >{{ r.name }}</option>
+                                >{{r.name}}</option>
                               </select>
                             </div>
 
                             <div style="display: flex;" v-if="q.type == 3">
-                              <input type="text" :class="q.id" v-model="q.value" />
+                              <input
+                                class="specs-value"
+                                type="text"
+                                :data-id="q.id"
+                                v-model="q.value"
+                              />
                               <select
+                                class="specs-value"
+                                :data-id="q.id"
                                 v-model="q.dropdown"
-                                :class="q.id"
-                                style="display: inline-block; width: 40%"
+                                style="display: inline-block; width: 30% "
                               >
                                 <option :value="undefined">Not Selected</option>
                                 <option
                                   v-for="r in q.dropdown_items"
                                   :key="r.id"
                                   :value="r.name"
-                                >{{ r.name }}</option>
+                                >{{r.name}}</option>
                               </select>
                             </div>
                           </div>
@@ -402,29 +451,76 @@
             </div>
           </div>
         </div>
+
+        <!-- <hr class="break" /> -->
+
+        <!-- <hr class="break">
+
+
+        <div class="column-padding">
+          <h3 style="display: flex;align-items: center;">Stock Management</h3>
+          <p style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
+          >These informations cannot be changed by the Vendors</p>
+        </div>
+
+        <div class="row">
+          <div class="col s24">
+            <div class="col s24">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Write a Short Description about the product</label>
+                <textarea style="height:160px"></textarea>
+              </div>
+            </div>
+            <div class="col s24">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Add Bullet Points (Upto 9)</label>
+                <div style="display: flex; align-items:center" v-for="(p, index) in bullet_points" :key="p.length">
+                  <input
+                  type="text"
+                  class="form-control"
+                  v-model="p.value"
+                />
+                <div style="color: red" class="pointer" @click="removeBullets(index)">Remove</div>
+                </div>
+                <div class="link_tag" @click="addMoreBullets">Add More points</div>
+              </div>
+            </div>
+          </div>
+        </div>-->
       </div>
+      <!-- <div class="holder" v-show="subcategory_selected != undefined && subcategory_selected != 0">
+
+      </div>-->
+      <!-- <div class="holder" v-if="subcategory_selected != undefined && subcategory_selected != 0">
+        
+      </div>-->
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  name: "my-component",
   data() {
     return {
       category: [],
       subcategory: [],
-      product_id: this.$cookies.get("product_edit"),
-      selected: [],
-      subcategory_selected: 0,
-      category_selected: 0,
       images: [],
+      category_selected: 0,
+      editSlug: 0,
       product_name: "",
-      bullet_points: [],
+      subcategory_selected: undefined,
+      brand: [],
+      product_id: "",
+      product_id_type: "",
+      slugify: "",
       error: {},
       showDropdown: false,
-      slugify: "",
-      editSlug: 0,
-      not_similar: 0,
+      brand: "",
+      manufacturer: "",
+      seo: "",
+      desc: "",
+      bullet_points: [],
       product_id_list: [
         {
           id: 1,
@@ -447,18 +543,63 @@ export default {
           name: "ASIN"
         }
       ],
+      product_id_type: 1,
       specs: [],
+      brand_selected: 0,
+      columns: [
+        {
+          label: "Category",
+          field: "name"
+        },
+        {
+          label: "Age",
+          field: "age",
+          type: "number"
+        },
+        {
+          label: "Created On",
+          field: "createdAt",
+          type: "date",
+          dateInputFormat: "yyyy-MM-dd",
+          dateOutputFormat: "MMM Do yy"
+        },
+        {
+          label: "Action",
+          field: "details"
+        }
+      ],
+      rows: [
+        {
+          id: 1,
+          name: "Mobile",
+          age: 20,
+          createdAt: "2011-10-31",
+          details: "<p>asa</p>"
+        }
+      ],
       vs: this,
-      baseurl: process.env.baseUrl,
-      length: 0,
       suggested_price: 0,
+      length: 0,
       breadth: 0,
       height: 0,
-      weight: 0
+      weight: 0,
+
+      //seller
+
+      sku: "",
+      mrp: 0,
+      price: 0,
+      return_policy: "",
+      return_window: 0,
+      stock: 0
     };
   },
-
   mounted() {
+    this.$store.dispatch("getCategory").then(res => {
+      console.log(res);
+      this.category = res.data;
+    });
+
     var vm = this;
     Dropzone.autoDiscover = false;
     this.myDropzone = new Dropzone("div#myDrop", {
@@ -516,11 +657,7 @@ export default {
     this.myDropzone.on("removedfile", function(file) {
       //   myDropzone.removeFile(file)
       console.log(file);
-      if (!file.upload) {
-        vm.images = vm.images.filter(v => v != file.name);
-      } else {
-        vm.images = vm.images.filter(v => v != file.upload.filename);
-      }
+      vm.images = vm.images.filter(v => v != "static/products/" + file.name);
     });
     this.myDropzone.on("addedfile", function(file) {
       console.log("added file");
@@ -530,82 +667,11 @@ export default {
         this.removeFile(this.files[10]);
       }
     });
-
-    this.$store.dispatch("getSingleProduct", this.product_id).then(res => {
-      console.log(res);
-      this.selected = res.data;
-      this.images = JSON.parse(this.selected.images);
-      this.subcategory_selected = this.selected.subcategory.id;
-      this.product_name = this.selected.product_name;
-      this.category_selected = this.selected.category.id;
-      this.length = this.selected.length;
-      this.breadth = this.selected.breadth;
-      this.height = this.selected.height;
-      this.weight = this.selected.weight;
-      this.bullet_points = JSON.parse(this.selected.bullet_points);
-      this.selected.specs = JSON.parse(this.selected.specs);
-
-      this.specs = JSON.parse(this.selected.subcategory.specs);
-
-      for (var i = 0; i < this.images.length; i++) {
-        var mockFile = { name: this.images[i] };
-        this.myDropzone.options.addedfile.call(this.myDropzone, mockFile);
-        this.myDropzone.options.thumbnail.call(
-          this.myDropzone,
-          mockFile,
-          this.baseurl + '/backend/api/products/image/200/40/' + this.images[i]
-        );
-        this.myDropzone.files.push(mockFile);
-        mockFile.previewElement.classList.add("dz-complete");
-      }
-
-      console.log(this.myDropzone.getAcceptedFiles());
-
-      this.$store.dispatch("getCategory").then(res => {
-        console.log(res);
-        this.category = res.data;
-        this.getSubcategories();
-      });
-
-      setTimeout(function() {
-        for (let key1 in vm.selected.specs) {
-          var specs = vm.selected.specs;
-
-          var template_specs = vm.specs;
-
-          if (template_specs.hasOwnProperty(key1)) {
-            console.log(specs);
-
-            for (let key2 in specs[key1].sub) {
-              console.log(key1);
-              var sub = vm.specs[key1].sub;
-
-              if (sub.hasOwnProperty(key2)) {
-                if (specs[key1].sub[key2].type == 3) {
-                  vm.$set(
-                    vm.specs[key1].sub[key2],
-                    "dropdown",
-                    specs[key1].sub[key2].dropdown
-                  );
-                  vm.$set(
-                    vm.specs[key1].sub[key2],
-                    "value",
-                    specs[key1].sub[key2].value
-                  );
-                } else {
-                  vm.$set(
-                    vm.specs[key1].sub[key2],
-                    "value",
-                    specs[key1].sub[key2].value
-                  );
-                  console.log(this.specs);
-                }
-              }
-            }
-          }
-        }
-      }, 100);
+    $("#add_file").on("click", function() {
+      console.log("success");
+      this.myDropzone.processQueue();
     });
+    this.vs.myDropzone.disable();
   },
   watch: {
     product_name: function(newVal, oldVal) {
@@ -619,20 +685,30 @@ export default {
     }
   },
   methods: {
-    updateProduct: function() {
+    getSubcategories: function() {
+      this.$store
+        .dispatch("getsubCategory", this.category_selected)
+        .then(res => {
+          console.log(res);
+          console.log("________________");
+          this.subcategory_selected = 0;
+          console.log(this.subcategory_selected);
+          this.subcategory = res.data;
+        });
+    },
+    addProduct: function() {
       var payload = new FormData();
-      payload.append("id", this.product_id);
       payload.append("product_name", this.product_name);
-      payload.append("product_id", this.selected.product_id);
-      payload.append("product_id_type", this.selected.product_id_type);
-      payload.append("slug", this.selected.slug);
-      payload.append("description", this.selected.description);
+      payload.append("product_id", this.product_id);
+      payload.append("product_id_type", this.product_id_type);
+      payload.append("slug", this.slugify);
+      payload.append("description", this.desc);
       payload.append("images", JSON.stringify(this.images));
       payload.append("category", this.category_selected);
       payload.append("subcategory", this.subcategory_selected);
-      payload.append("brand", this.selected.brand);
-      payload.append("manufacturer", this.selected.manufacturer);
-      payload.append("seo", this.selected.seo);
+      payload.append("brand", this.brand);
+      payload.append("manufacturer", this.manufacturer);
+      payload.append("seo", this.seo);
       payload.append("suggested_price", this.suggested_price);
       payload.append("length", this.length);
       payload.append("breadth", this.breadth);
@@ -642,45 +718,150 @@ export default {
       payload.append("specs", JSON.stringify(this.specs));
 
       this.$store
-        .dispatch("updateProduct", {
-          payload: payload,
-          id: this.product_id
-        })
+        .dispatch("addProduct", payload)
         .then(res => {
           console.log(res);
-          this.$router.push("/dashboard/products/all");
+
+
+            this.seller_addProduct(res.data)
+
+
+
+        //   this.$router.push("/dashboard/products/all");
         })
         .catch(error => {
+            console.log(error)
           this.error = error.response.data;
           this.openDropdownPanel();
         });
     },
 
-    slugifyTitle: function() {
-      console.log("Sdsd");
-      this.selected.slug = this.selected.product_name
-        .toLowerCase()
-        .replace(/[^\w ]+/g, "")
-        .replace(/ +/g, "-");
+
+    seller_addProduct: function(res) {
+      var payload = new FormData();
+      payload.append("product_name", this.product_name);
+      payload.append("product_id", res["id"]);
+      payload.append("sku", this.sku);
+      payload.append("mrp", this.mrp);
+      payload.append("price", this.price);
+      payload.append("status", 1);
+      payload.append("stock", this.stock);
+      payload.append("return_text", this.return_policy);
+      payload.append("return_days", this.return_window);
+
+      this.$store.dispatch("addSellerProduct", payload).then(res => {
+        console.log(res);
+        this.$router.push("/dashboard/products/all");
+      });
+    },
+
+
+    getsubCategoryDetails: function() {
+      if (this.subcategory_selected != undefined) {
+        this.$store
+          .dispatch("getsubCategoryDetails", this.subcategory_selected)
+          .then(res => {
+            console.log(res);
+            console.log("response");
+            this.specs = [];
+            if (res.data.specs.length != 0) {
+              this.specs = JSON.parse(res.data.specs);
+            }
+          })
+          .catch(err => {
+            console.log("error in request", err);
+          });
+      }
     },
     addMoreBullets: function() {
       if (this.bullet_points.length < 9) {
         this.bullet_points.push({ value: "" });
       }
     },
+    changeText: function() {
+      this.return_policy =
+        "Returns are just acknowledged inside " +
+        this.return_window +
+        " (" +
+        this.inWords(this.return_window) +
+        ") days of the date of procurement. To be qualified for an arrival, your thing must be unused and in a similar condition that you got it. On the off chance that the item is gotten by seller in unused and perfect condition and in its unique bundling without tearing out the Tag, seller will discount your buy.";
+    },
+    inWords: function(num) {
+      console.log(num);
+
+      var a = [
+        "",
+        "one ",
+        "two ",
+        "three ",
+        "four ",
+        "five ",
+        "six ",
+        "seven ",
+        "eight ",
+        "nine ",
+        "ten ",
+        "eleven ",
+        "twelve ",
+        "thirteen ",
+        "fourteen ",
+        "fifteen ",
+        "sixteen ",
+        "seventeen ",
+        "eighteen ",
+        "nineteen "
+      ];
+      var b = [
+        "",
+        "",
+        "twenty",
+        "thirty",
+        "forty",
+        "fifty",
+        "sixty",
+        "seventy",
+        "eighty",
+        "ninety"
+      ];
+
+      if ((num = num.toString()).length > 9) return "overflow";
+      var n = ("000000000" + num)
+        .substr(-9)
+        .match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+      if (!n) return;
+      var str = "";
+      str +=
+        n[1] != 0
+          ? (a[Number(n[1])] || b[n[1][0]] + " " + a[n[1][1]]) + "crore "
+          : "";
+      str +=
+        n[2] != 0
+          ? (a[Number(n[2])] || b[n[2][0]] + " " + a[n[2][1]]) + "lakh "
+          : "";
+      str +=
+        n[3] != 0
+          ? (a[Number(n[3])] || b[n[3][0]] + " " + a[n[3][1]]) + "thousand "
+          : "";
+      str +=
+        n[4] != 0
+          ? (a[Number(n[4])] || b[n[4][0]] + " " + a[n[4][1]]) + "hundred "
+          : "";
+      str +=
+        n[5] != 0
+          ? (str != "" ? "and " : "") +
+            (a[Number(n[5])] || b[n[5][0]] + " " + a[n[5][1]])
+          : "";
+      return str;
+    },
     removeBullets: function(index) {
       this.bullet_points.splice(index, 1);
     },
-    getSubcategories: function() {
-      this.$store
-        .dispatch("getsubCategory", this.category_selected)
-        .then(res => {
-          console.log(res);
-          console.log("________________");
-          this.subcategory = res.data;
-        });
+    slugifyTitle: function() {
+      this.slugify = this.product_name
+        .toLowerCase()
+        .replace(/[^\w ]+/g, "")
+        .replace(/ +/g, "-");
     },
-
     allowSlugField: function(val) {
       console.log(val);
 
@@ -696,193 +877,8 @@ export default {
 };
 </script>
 
+
 <style scoped>
-.product-detail-row {
-  border: 1px solid #e7e7e7;
-}
-
-@media (max-width: 75em) {
-  .product-detail-row {
-    margin: 3%;
-  }
-}
-
-@media (min-width: 75em) {
-  .product-detail-row {
-  }
-}
-
-.header-row {
-  background-color: #f7f7f7;
-  padding: 1rem;
-  font-weight: 700;
-  font-size: 0.9rem;
-  display: block;
-}
-
-.detail-row {
-  display: flex;
-}
-
-.column-left {
-  flex: 1;
-}
-
-.column-right {
-  flex: 1;
-  padding: 1rem;
-}
-
-.column-right span {
-  display: block;
-  font-size: 1.2rem;
-  line-height: 30px;
-}
-
-.column-right span a {
-  text-decoration: none;
-  cursor: pointer;
-  font-weight: 700;
-  color: #0066c0;
-}
-
-.column-right span a:hover {
-  color: orange;
-}
-
-.product-image {
-  width: 220px;
-  height: 200px;
-  padding: 2rem 1rem;
-  object-fit: contain;
-}
-
-select,
-input,
-textarea {
-  height: 35px;
-  font-family: "Regular";
-  margin: 0 10px 10px 0;
-  border-radius: 0;
-  outline: none;
-  width: 100%;
-  resize: vertical;
-  font-size: 1rem;
-  padding: 0.6rem 1rem;
-  box-shadow: none;
-  border: 1px solid rgb(169, 169, 169);
-  transition: all 0.3s;
-}
-
-h3 {
-  font-size: 20px;
-  padding-left: 19px;
-  padding-bottom: 10px;
-}
-
-h4 {
-  font-size: 25px;
-
-  padding-left: 19px;
-  padding-bottom: 10px;
-}
-
-.holder {
-  margin-bottom: 20px;
-}
-
-label {
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 30px;
-  font-family: "Bold";
-}
-
-/* .form-group{
-  display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-} */
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-::-webkit-input-placeholder {
-  /* Edge */
-  color: #afafaf;
-}
-
-:-ms-input-placeholder {
-  /* Internet Explorer 10-11 */
-  color: #afafaf;
-}
-
-::placeholder {
-  color: #afafaf;
-}
-
-.link_tag {
-  color: blue;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.popup {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 99;
-}
-
-.popup-main {
-  background-color: white;
-  margin: auto;
-  position: absolute;
-  max-width: 400px;
-  height: 290px;
-  left: 260px;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-  border-radius: 5px;
-}
-
-.popup-body {
-  height: 300px;
-  overflow: auto;
-  padding: 30px;
-}
-
-.popup-title {
-  padding: 30px 30px 16px;
-  border-bottom: 1px solid #00000024;
-}
-.popup-action {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  padding: 25px;
-  box-shadow: 0px -7px 10px 0px #0000000d;
-}
-
-.popup:after {
-  background-color: rgba(0, 0, 0, 0.83);
-  margin: auto;
-  position: absolute;
-  content: "";
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-}
-
 select,
 input,
 textarea {

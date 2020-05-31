@@ -7,7 +7,7 @@ var url;
 if (process.env.NODE_ENV == "development") {
     var url = "http://127.0.0.1:8000/backend/api/";
 } else {
-    var url = "/backend/api/";
+    var url = process.env.BASE_URL + "/backend/api/";
 }
 
 console.log(url);
@@ -21,6 +21,8 @@ export const state = () => ({
 
     allProducts: url + "products/",
 
+    allProducts__single: url + "products/products_single",
+
     singleProduct: url + "products/single/",
 
     getCategory: url + "products/product/category",
@@ -28,6 +30,8 @@ export const state = () => ({
     getsubCategory: url + "products/product/subcategory",
 
     getAllSubCategory: url + "products/product/subcategory/all",
+
+    editSubCategory: url + "products/product/subcategory/single/", //id
 
     getBrand: url + "products/product/brand",
 
@@ -75,6 +79,8 @@ export const state = () => ({
 
     getSingleProducts: url + "products/single/", //id
 
+    getSingleVendorProduct: url + "products/single/vendor/", //id
+
     singleupdate: url + "products/singleupdate/", //id
 
     invoice_success: url + "payments/admin-invoice/", //id
@@ -118,5 +124,10 @@ export const state = () => ({
     getProductIssues: url + "admin_app/getproductissues",
 
     admin_counts: url + "admin_app/admin_counts",
+
+
+    addSellerProduct: url + "products/seller/addproduct", //id
+
+    updateSellerSingleProduct: url + "products/seller_single/", //id
 
 });

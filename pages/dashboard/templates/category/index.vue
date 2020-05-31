@@ -74,13 +74,13 @@
             <span v-if="props.column.field === 'details'">
               <button
                 type="button"
-                @click="openEditCategory(props.row.id)"
+                @click="openEditCategory(props.row.id, props.row.name)"
                 class="btn btn-primary"
               >Edit</button>
               <button
                 type="button"
                 @click="deleteCategory(props.row.id)"
-                class="btn btn-primary"
+                class="btn btn-red white-text"
               >Delete</button>
             </span>
             <span v-else>{{ props.formattedRow[props.column.field] }}</span>
@@ -203,9 +203,10 @@ export default {
       this.$store.dispatch("deleteCategory", id).then(res => {
         console.log(res);
         this.getCategory();
-        this.getSubcategories();
-        this.getBrand();
-      });
+      }).catch(res =>{
+        console.log(res.response)
+        alert(res.response.data.message)
+      });;
     },
     editCategory: function() {
       this.$store.dispatch("editCategory", {
@@ -216,8 +217,6 @@ export default {
       }).then(res => {
         console.log(res);
         this.getCategory();
-        this.getSubcategories();
-        this.getBrand();
       });
     },
     deleteSubCategory: function(id) {
@@ -233,8 +232,9 @@ export default {
         this.getBrand();
       });
     },
-    openEditCategory: function(id){
+    openEditCategory: function(id, name){
       this.editingCategoryID = id
+      this.editingCategory = name
       this.showEditDropdown = true;
     },
     openDropdownPanel: function() {

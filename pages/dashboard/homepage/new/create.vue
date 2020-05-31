@@ -148,7 +148,7 @@ export default {
 
       showDropdown: false,
       editDropdown: false,
-      origin: "https://wenslink.com/search",
+      origin: process.env.BASE_URL + "/search",
       title: "",
       detailtitle: "",
       offer_text: "",
