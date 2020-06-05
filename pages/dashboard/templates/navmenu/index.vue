@@ -145,7 +145,7 @@ export default {
   methods: {
     editFilter: function(id) {
        this.$cookies.set("submenu_edit", id, {
-            path: "/",
+            path: "/admin",
             // httpOnly : true,
             // secure: true,
             maxAge: 60 * 60 * 24 * 7

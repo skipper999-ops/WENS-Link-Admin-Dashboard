@@ -15,13 +15,13 @@
             <label>Banner Description (Optional)</label>
             <input v-model="description" type="text" style="width:70%" />
           </div>
-          
+
           <div style="margin: 0 10px 10px 0">
             <label>Banner Image</label>
-              <div class="dropzone dz-clickable" id="myDrop">
-                <div class="dz-default dz-message" data-dz-message>
-                  <span>Drop files here to upload</span>
-                </div>
+            <div class="dropzone dz-clickable" id="myDrop">
+              <div class="dz-default dz-message" data-dz-message>
+                <span>Drop files here to upload</span>
+              </div>
             </div>
           </div>
 
@@ -36,7 +36,7 @@
               <option value="0">Inactive</option>
               <option value="1">Active</option>
             </select>
-          </div> -->
+          </div>-->
         </div>
         <div class="popup-action">
           <div class="pointer" @click="addBanner">Save</div>
@@ -52,33 +52,23 @@
           style="display: flex; justify-content: space-between"
         >
           <h3>Main Banner Images</h3>
-          <button class="btn btn-red white-text" @click="openDropdownPanel">
-            Add Banner
-          </button>
+          <button class="btn btn-red white-text" @click="openDropdownPanel">Add Banner</button>
         </div>
 
         <div class="row">
-          <vue-good-table
-            :columns="columns"
-            :rows="allBanners"
-            :line-numbers="true"
-          >
+          <vue-good-table :columns="columns" :rows="allBanners" :line-numbers="true">
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field === 'action'">
                 <button
                   type="button"
                   @click="viewBanner(props.row.image)"
                   class="btn btn-primary"
-                >
-                  View Banner
-                </button>
+                >View Banner</button>
                 <button
                   type="button"
                   @click="deleteBanner(props.row.id)"
                   class="btn btn-primary"
-                >
-                  Delete
-                </button>
+                >Delete</button>
               </span>
               <span v-if="props.column.field === 'url'">
                 <a target="_blank" :href="origin + props.row.url">{{origin}}{{props.row.url}}</a>
@@ -146,7 +136,9 @@ export default {
       url: vm.$store.state.api.bannerImageUpload,
       headers: {
         "Cache-Control": null,
-        "X-Requested-With": null
+        "X-Requested-With": null,
+
+        Authorization: "Bearer " + this.$cookies.get("access_token")
       },
       renameFilename: function(filename) {
         console.log(filename);
@@ -186,7 +178,7 @@ export default {
     this.myDropzone.on("removedfile", function(file) {
       //   myDropzone.removeFile(file)
       console.log(file);
-      vm.image = ""
+      vm.image = "";
     });
     this.myDropzone.on("addedfile", function(file) {
       console.log("added file");
@@ -205,34 +197,31 @@ export default {
     getAllBanner: function() {
       this.$store.dispatch("getAllBanner").then(res => {
         console.log(res);
-        try{
+        try {
           this.allBanners = JSON.parse(JSON.stringify(res.data.body));
-        }catch{
-
-        }
+        } catch {}
       });
     },
     addBanner: function() {
-
       var payload = {
         name: this.name,
         description: this.description,
         status: this.status,
         image: this.image,
         url: this.url
-      }
+      };
 
       this.$store.dispatch("addBanner", payload).then(res => {
         console.log(res);
         this.getAllBanner();
-        this.closeDropdownPanel()
+        this.closeDropdownPanel();
       });
     },
     viewBanner: function(id) {
-      window.open(process.env.baseUrl + "/media/banners/" + id)
+      window.open(process.env.BASE_URL + "/media/banners/" + id);
     },
-    deleteBanner: function(id){
-       this.$store.dispatch("editDeleteBanner", id).then(res => {
+    deleteBanner: function(id) {
+      this.$store.dispatch("editDeleteBanner", id).then(res => {
         console.log(res);
         this.getAllBanner();
       });
@@ -242,9 +231,9 @@ export default {
     },
     closeDropdownPanel: function() {
       this.showDropdown = false;
-       this.name = ""
-      this.description = ""
-      this.myDropzone.removeAllFiles()
+      this.name = "";
+      this.description = "";
+      this.myDropzone.removeAllFiles();
     }
   }
 };

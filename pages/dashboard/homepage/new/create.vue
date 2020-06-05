@@ -144,7 +144,7 @@ export default {
       allCarouselDetails: [],
       editingCarouselDetails: {},
       title: "",
-      baseurl: process.env.baseUrl,
+      baseurl: process.env.BASE_URL,
 
       showDropdown: false,
       editDropdown: false,

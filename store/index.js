@@ -1028,7 +1028,10 @@ export const actions = {
             axios({
                     method: "GET",
                     url: state.api.getallbanner,
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);
@@ -1159,7 +1162,10 @@ export const actions = {
                     method: "PUT",
                     data: payload,
                     url: state.api.WebsiteNavUpdate + "WebsiteNav",
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
                 })
                 .then(res => {
                     console.log(res.data);

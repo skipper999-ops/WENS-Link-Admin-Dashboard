@@ -146,14 +146,14 @@ export default {
             
 
             this.$cookies.set("access_token", res.data.access, {
-              path: "/",
+              path: "/admin",
               // httpOnly : true,
               // secure: true,
               maxAge: 60 * 60 * 24 * 7
             });
 
             this.$cookies.set("usertype", this.parseJwt(res.data.access)['usertype'], {
-              path: "/",
+              path: "/admin",
               // httpOnly : true,
               // secure: true,
               maxAge: 60 * 60 * 24 * 7
@@ -162,21 +162,21 @@ export default {
             this.$store.commit('usertype', this.parseJwt(res.data.access)['usertype'])
 
             this.$cookies.set("refresh_token", res.data.refresh, {
-              path: "/",
+              path: "/admin",
               // httpOnly : true,
               // secure: true,
               maxAge: 60 * 60 * 24 * 7
             });
 
             this.$cookies.set("username", res.data.user_info.name, {
-              path: "/",
+              path: "/admin",
               // httpOnly : true,
               // secure: true,
               maxAge: 60 * 60 * 24 * 7
             });
 
             this.$cookies.set("company_name", res.data.user_info.company_name, {
-              path: "/",
+              path: "/admin",
               // httpOnly : true,
               // secure: true,
               maxAge: 60 * 60 * 24 * 7

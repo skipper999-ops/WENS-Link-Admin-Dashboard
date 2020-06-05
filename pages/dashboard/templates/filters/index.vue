@@ -111,7 +111,7 @@ export default {
     editFilter: function(id) {
 
        this.$cookies.set("filter_edit", id, {
-            path: "/",
+            path: "/admin",
             // httpOnly : true,
             // secure: true,
             maxAge: 60 * 60 * 24 * 7
