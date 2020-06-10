@@ -161,7 +161,7 @@ export default {
         }
       ],
       allproducts: [],
-      baseurl: process.env.baseUrl,
+      baseurl: process.env.BASE_URL,
       next: "",
       prev: "",
       limit: 10,

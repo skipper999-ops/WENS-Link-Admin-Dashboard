@@ -530,7 +530,7 @@ export default {
       ],
       specs: [],
       vs: this,
-      baseurl: process.env.baseUrl,
+      baseurl: process.env.BASE_URL,
       length: 0,
       suggested_price: 0,
       breadth: 0,

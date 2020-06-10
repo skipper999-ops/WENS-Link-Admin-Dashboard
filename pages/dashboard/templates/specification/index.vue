@@ -64,7 +64,7 @@ export default {
   },
   mounted() {
     this.getSubcategories();
-    console.log(process.env.baseUrl)
+    console.log(process.env.BASE_URL)
   },
   methods: {
     getSubcategories: function() {

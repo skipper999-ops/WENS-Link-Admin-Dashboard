@@ -229,7 +229,7 @@ export default {
       });
     },
     viewBanner: function(id) {
-      window.open(process.env.baseUrl + "/media/banners/" + id)
+      window.open(process.env.BASE_URL + "/media/banners/" + id)
     },
     deleteBanner: function(id){
        this.$store.dispatch("editDeleteBanner", id).then(res => {

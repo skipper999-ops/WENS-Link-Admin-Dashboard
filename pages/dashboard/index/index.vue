@@ -201,7 +201,7 @@ export default {
   name: "dashboard",
   data() {
     return {
-      baseurl: process.env.baseUrl,
+      baseurl: process.env.BASE_URL,
       options: {
         grid: {
           show: false,
