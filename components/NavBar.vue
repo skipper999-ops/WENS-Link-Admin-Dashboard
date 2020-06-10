@@ -50,8 +50,8 @@
               </div>
               <div class="user-menu-dropdown" v-show="isMenuVisible">
                 <ul>
-                  <li>sdsdsd</li>
-                  <li>fdfggf</li>
+                  <!-- <li>fdfggf</li> -->
+                  <li style="cursor: pointer; font-size: 14px" @click="logout">Logout</li>
                 </ul>
               </div>
             </div>
@@ -69,7 +69,7 @@
         <i data-feather="x"></i>
       </div>
       <div class="dashboard-logo">
-        <img  v-if="vendor_type == 2" src="~static/files/logo.png" class="sideNav__Logo" />
+        <img v-if="vendor_type == 2" src="~static/files/logo.png" class="sideNav__Logo" />
         <h1 style="font-family:bold">{{client_name}} {{ loggedUserData.access_type }} Dashboard</h1>
       </div>
       <p></p>
@@ -224,13 +224,13 @@
           <span>Website Settings</span>
         </nuxt-link>
       </div>
-      <p></p>
+      <!-- <p></p>
       <div class="navbar__parent">
         <div @click="logout" class="logout">
           <i data-feather="log-out"></i>
           <span>Logout</span>
         </div>
-      </div>
+      </div> -->
       <p></p>
       <div class="navbar__parent">
         <div class>

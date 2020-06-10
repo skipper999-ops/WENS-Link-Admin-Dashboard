@@ -9,14 +9,12 @@
           <div>
             <div style="display: flex;flex-direction: column;">
               <label>Select Sub Category</label>
-              <select
-                v-model="selected_category"
-                @change="sub_select"
-                style="width:70%"
-              >
-                <option v-for="p in category" :key="p.id" :value="p.id">{{
+              <select v-model="selected_category" @change="sub_select" style="width:70%">
+                <option v-for="p in category" :key="p.id" :value="p.id">
+                  {{
                   p.name
-                }}</option>
+                  }}
+                </option>
               </select>
             </div>
 
@@ -27,44 +25,22 @@
               </div>
               <div style="display: flex;flex-direction: column;">
                 <label>Market place Commission (%)</label>
-                <input
-                  v-model="market_commission"
-                  type="text"
-                  style="width:70%"
-                />
+                <input v-model="market_commission" type="text" style="width:70%" />
               </div>
 
               <div style="display: flex;flex-direction: column;">
                 <label>GST on Commission (%)</label>
-                <input
-                  max="100"
-                  min="0"
-                  v-model="gst_commission"
-                  type="number"
-                  style="width:70%"
-                />
+                <input max="100" min="0" v-model="gst_commission" type="number" style="width:70%" />
               </div>
 
               <div style="display: flex;flex-direction: column;">
                 <label>Marketplace Payment Fee (%)</label>
-                <input
-                  max="100"
-                  min="0"
-                  v-model="payment_fee"
-                  type="number"
-                  style="width:70%"
-                />
+                <input max="100" min="0" v-model="payment_fee" type="number" style="width:70%" />
               </div>
 
               <div style="display: flex;flex-direction: column;">
                 <label>GST on Payment Fee (%)</label>
-                <input
-                  max="100"
-                  min="0"
-                  v-model="gst_payment_fee"
-                  type="number"
-                  style="width:70%"
-                />
+                <input max="100" min="0" v-model="gst_payment_fee" type="number" style="width:70%" />
               </div>
 
               <div style="display: flex;flex-direction: column;">
@@ -98,11 +74,7 @@
 
       <div class="row" style="display: flex; flex-direction:column">
         <label>Base Amount</label>
-        <input
-          v-model="base_amount"
-          type="text"
-          style="width:70%;max-width:200px"
-        />
+        <input v-model="base_amount" type="text" style="width:70%;max-width:200px" />
         <vue-good-table :columns="sub_columns" :rows="subcategory">
           <template slot="table-row" slot-scope="props">
             <span v-if="props.column.field === 'details'">
@@ -110,26 +82,24 @@
                 type="button"
                 @click="EditCommission(props.row.id)"
                 class="btn btn-primary"
-              >
-                Edit
-              </button>
+              >Edit</button>
             </span>
             <span v-else-if="props.column.field === 'totalgst'">
               <!-- <p style="width:70%">{{ 1000 * (props.row.gst_commission / 100) }}</p> -->
               <p style="width:70%">
                 {{
-                  (
-                    per(base_amount, props.row.product_gst) +
-                    per(
-                      per(base_amount, props.row.market_commission),
-                      props.row.gst_commission
-                    ) +
-                    per(base_amount, props.row.payment_fee) +
-                    per(
-                      per(base_amount, props.row.payment_fee),
-                      props.row.gst_payment_fee
-                    )
-                  ).toFixed(2)
+                (
+                per(base_amount, props.row.product_gst) +
+                per(
+                per(base_amount, props.row.market_commission),
+                props.row.gst_commission
+                ) +
+                per(base_amount, props.row.payment_fee) +
+                per(
+                per(base_amount, props.row.payment_fee),
+                props.row.gst_payment_fee
+                )
+                ).toFixed(2)
                 }}
               </p>
             </span>
@@ -137,19 +107,19 @@
               <!-- <p style="width:70%">{{ 1000 * (props.row.gst_commission / 100) }}</p> -->
               <p style="width:70%">
                 {{
-                  base_amount - (
-                    per(base_amount, props.row.market_commission) +
-                    per(base_amount, props.row.product_gst) +
-                    per(
-                      per(base_amount, props.row.market_commission),
-                      props.row.gst_commission
-                    ) +
-                    per(base_amount, props.row.payment_fee) +
-                    per(
-                      per(base_amount, props.row.payment_fee),
-                      props.row.gst_payment_fee
-                    )
-                  ).toFixed(2)
+                base_amount - (
+                per(base_amount, props.row.market_commission) +
+                per(base_amount, props.row.product_gst) +
+                per(
+                per(base_amount, props.row.market_commission),
+                props.row.gst_commission
+                ) +
+                per(base_amount, props.row.payment_fee) +
+                per(
+                per(base_amount, props.row.payment_fee),
+                props.row.gst_payment_fee
+                )
+                ).toFixed(2)
                 }}
               </p>
             </span>
@@ -157,19 +127,19 @@
               <!-- <p style="width:70%">{{ 1000 * (props.row.gst_commission / 100) }}</p> -->
               <p style="width:70%">
                 {{
-                  (
-                    per(base_amount, props.row.market_commission) +
-                    per(base_amount, props.row.product_gst) +
-                    per(
-                      per(base_amount, props.row.market_commission),
-                      props.row.gst_commission
-                    ) +
-                    per(base_amount, props.row.payment_fee) +
-                    per(
-                      per(base_amount, props.row.payment_fee),
-                      props.row.gst_payment_fee
-                    )
-                  ).toFixed(2)
+                (
+                per(base_amount, props.row.market_commission) +
+                per(base_amount, props.row.product_gst) +
+                per(
+                per(base_amount, props.row.market_commission),
+                props.row.gst_commission
+                ) +
+                per(base_amount, props.row.payment_fee) +
+                per(
+                per(base_amount, props.row.payment_fee),
+                props.row.gst_payment_fee
+                )
+                ).toFixed(2)
                 }}
               </p>
             </span>
@@ -263,7 +233,15 @@ export default {
       this.$store.dispatch("getsubCategory", 0).then(res => {
         console.log(res);
         this.category = JSON.parse(JSON.stringify(res.data));
+        this.category = this.sortAlphabetical(this.category, 'name')
       });
+    },
+    sortAlphabetical(obj, sort_text) {
+      obj.sort(function(a, b) {
+        return a[sort_text].localeCompare(b[sort_text]);
+      });
+
+      return obj;
     },
     EditCommission: function(id) {
       this.openSubCatModel();

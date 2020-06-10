@@ -266,7 +266,7 @@ export default {
       console.log(id);
 
       this.$cookies.set("product_edit", id, {
-        path: "/",
+        path: "/admin",
         // httpOnly : true,
         // secure: true,
         maxAge: 60 * 60 * 24 * 7

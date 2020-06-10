@@ -23,7 +23,7 @@
                   <ul class="dd-menu">
                     <li v-if="props.row.status != 2" @click="changeStatus(props.row.id , 2)">Suspend</li>
                     <li v-if="props.row.status != 1" @click="changeStatus(props.row.id , 1)">Active</li>
-                    <li  v-if="props.row.status != 0" @click="loginAsVendor(props.row.phone_number)">Login as Seller</li>
+                    <li v-if="props.row.status != 0" @click="loginAsVendor(props.row.phone_number)">Login as Seller</li>
                     <li v-if="props.row.status != 0" class="btn-danger red-text" @click="changeStatus(props.row.id , 0)">Delete</li>
                   </ul>
                 </div>
@@ -224,11 +224,11 @@ export default {
       this.$store.dispatch("loginAsVendor", payload).then(res => {
         if (res.data.step < 5) {
           window.open(
-            "https://seller.wenslink.com/adminlogin?token=" + res.data.access
+           "https://seller.wenslink.com/adminlogin?token=" + res.data.access
           );
         } else {
           window.open(
-            "https://seller.wenslink.com/vendors/adminlogin?token=" +
+             "https://seller.wenslink.com/vendors/adminlogin?token=" +
               res.data.access
           );
         }
