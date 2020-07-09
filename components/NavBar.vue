@@ -230,7 +230,7 @@
           <i data-feather="log-out"></i>
           <span>Logout</span>
         </div>
-      </div> -->
+      </div>-->
       <p></p>
       <div class="navbar__parent">
         <div class>
@@ -435,8 +435,8 @@ export default {
     },
     logout: function() {
       this.$cookies.removeAll();
-
       this.$router.push("/");
+      window.location.reload();
     }
   }
 };

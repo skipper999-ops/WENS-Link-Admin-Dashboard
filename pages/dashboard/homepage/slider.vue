@@ -142,7 +142,7 @@ export default {
       parallelUploads: 1,
       maxFiles: 1,
       maxFilesize: 5, // MB
-      acceptedFiles: ".png, .jpeg, .jpg",
+      acceptedFiles: ".png, .jpeg, .jpg, .webp",
       url: vm.$store.state.api.bannerImageUpload,
       headers: {
         "Cache-Control": null,
