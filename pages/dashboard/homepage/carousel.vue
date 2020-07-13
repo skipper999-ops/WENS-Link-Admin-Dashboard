@@ -155,23 +155,25 @@ export default {
   methods: {
     GetAllCarousels: function() {
       this.$store.dispatch("GetAllCarousels").then(res => {
+        console.log("res");
         console.log(res);
         this.allCarousels = JSON.parse(JSON.stringify(res.data)).filter(
           this.parse
         );
 
+        console.log(this.allCarousels);
         this.allCarousels = this.allCarousels.filter(
           v => !this.containsObject_id(v, this.final_category)
         );
       });
     },
     parse(v) {
-      if (v.carousel_type == 1) {
+      // if (v.carousel_type == 1) {
         v.id = "com-" + v.id;
         v.name = "*" + v.title;
         v.dataType = "component";
         return v;
-      }
+      // }
     },
     getCategory: function() {
       this.$store.dispatch("getCategory").then(res => {

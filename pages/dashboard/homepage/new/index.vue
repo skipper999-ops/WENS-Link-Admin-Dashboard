@@ -34,13 +34,13 @@
             <input v-model="title" type="text" style="width:70%" />
           </div>
 
-          <!-- <div class="form-control">
+          <div class="form-control">
             <label>Carousel Type</label>
             <select v-model="carousel_type" style="width:70%">
               <option value="1">Single Category</option>
               <option value="2">Multiple Products</option>
             </select>
-          </div>-->
+          </div>
 
           <div class="form-control">
             <label>Image</label>
@@ -224,9 +224,10 @@ export default {
     GetAllCarousels: function() {
       this.$store.dispatch("GetAllCarousels").then(res => {
         console.log(res);
-        this.allCarousels = JSON.parse(JSON.stringify(res.data)).filter(
-          v => v.carousel_type == 1
-        );
+        this.allCarousels = JSON.parse(JSON.stringify(res.data))
+        // .filter(
+        //   v => v.carousel_type == 1
+        // );
       });
     },
     addCarousels: function() {
