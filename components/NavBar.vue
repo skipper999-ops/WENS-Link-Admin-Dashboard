@@ -145,12 +145,12 @@
           <span>Orders</span>
         </nuxt-link>
       </div>
-      <div class="navbar__parent">
+      <!-- <div class="navbar__parent">
         <nuxt-link to="/dashboard/shipping/all">
           <i data-feather="truck"></i>
           <span>Shipping</span>
         </nuxt-link>
-      </div>
+      </div> -->
 
       <p>Users</p>
       <div class="navbar__parent">

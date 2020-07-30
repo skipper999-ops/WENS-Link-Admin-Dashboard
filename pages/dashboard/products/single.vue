@@ -69,6 +69,13 @@
             </div>
           </div>
           </div>-->
+        </div>OR
+        <div style="display:flex;justify-content: space-between;align-items: center;">
+          <div style="padding-left: 19px;padding-bottom: 10px;" class>
+            <label>Fetch Data from Flipkart.com</label>
+            <input type="text" v-model="url" />
+          </div>
+          <button class="btn btn-primary" @click="fetchProduct">Fetch</button>
         </div>
       </div>
 
@@ -506,8 +513,10 @@ export default {
       category: [],
       subcategory: [],
       images: [],
+       baseurl: process.env.BASE_URL,
       category_selected: 0,
       editSlug: 0,
+      url: "",
       product_name: "",
       subcategory_selected: undefined,
       brand: [],
@@ -524,24 +533,24 @@ export default {
       product_id_list: [
         {
           id: 1,
-          name: "UPC"
+          name: "UPC",
         },
         {
           id: 2,
-          name: "EAN"
+          name: "EAN",
         },
         {
           id: 3,
-          name: "GCID"
+          name: "GCID",
         },
         {
           id: 4,
-          name: "GTIN"
+          name: "GTIN",
         },
         {
           id: 5,
-          name: "ASIN"
-        }
+          name: "ASIN",
+        },
       ],
       product_id_type: 1,
       specs: [],
@@ -549,24 +558,24 @@ export default {
       columns: [
         {
           label: "Category",
-          field: "name"
+          field: "name",
         },
         {
           label: "Age",
           field: "age",
-          type: "number"
+          type: "number",
         },
         {
           label: "Created On",
           field: "createdAt",
           type: "date",
           dateInputFormat: "yyyy-MM-dd",
-          dateOutputFormat: "MMM Do yy"
+          dateOutputFormat: "MMM Do yy",
         },
         {
           label: "Action",
-          field: "details"
-        }
+          field: "details",
+        },
       ],
       rows: [
         {
@@ -574,8 +583,8 @@ export default {
           name: "Mobile",
           age: 20,
           createdAt: "2011-10-31",
-          details: "<p>asa</p>"
-        }
+          details: "<p>asa</p>",
+        },
       ],
       vs: this,
       suggested_price: 0,
@@ -591,11 +600,11 @@ export default {
       price: 0,
       return_policy: "",
       return_window: 0,
-      stock: 0
+      stock: 0,
     };
   },
   mounted() {
-    this.$store.dispatch("getCategory").then(res => {
+    this.$store.dispatch("getCategory").then((res) => {
       console.log(res);
       this.category = res.data;
     });
@@ -615,30 +624,26 @@ export default {
       headers: {
         Authorization: "Bearer " + vm.$cookies.get("access_token"),
         "Cache-Control": null,
-        "X-Requested-With": null
+        "X-Requested-With": null,
       },
-      renameFilename: function(filename) {
+      renameFilename: function (filename) {
         console.log(filename);
         console.log(
           vm.product_name + "_" + new Date().getTime() + "_" + filename
         );
         return vm.product_name + "_" + new Date().getTime() + "_" + filename;
-      }
+      },
     });
-    this.myDropzone.on("sending", function(file, xhr, formData) {
+    this.myDropzone.on("sending", function (file, xhr, formData) {
       var filenames = [];
       console.log("success");
-      $(".dz-preview .dz-filename").each(function() {
-        filenames.push(
-          $(this)
-            .find("span")
-            .text()
-        );
+      $(".dz-preview .dz-filename").each(function () {
+        filenames.push($(this).find("span").text());
       });
       formData.append("filenames", filenames);
     });
     /* Add Files Script*/
-    this.myDropzone.on("successmultiple", function(file, message) {
+    this.myDropzone.on("successmultiple", function (file, message) {
       console.log("success");
       console.log(file, message);
       console.log(file);
@@ -646,20 +651,20 @@ export default {
         vm.images.push(file.filename);
       });
     });
-    this.myDropzone.on("error", function(data) {
+    this.myDropzone.on("error", function (data) {
       $("#msg").html(
         '<div class="alert alert-danger">There is some thing wrong, Please try again!</div>'
       );
     });
-    this.myDropzone.on("complete", function(file) {
+    this.myDropzone.on("complete", function (file) {
       //   myDropzone.removeFile(file)
     });
-    this.myDropzone.on("removedfile", function(file) {
+    this.myDropzone.on("removedfile", function (file) {
       //   myDropzone.removeFile(file)
       console.log(file);
-      vm.images = vm.images.filter(v => v != "static/products/" + file.name);
+      vm.images = vm.images.filter((v) => v != "static/products/" + file.name);
     });
-    this.myDropzone.on("addedfile", function(file) {
+    this.myDropzone.on("addedfile", function (file) {
       console.log("added file");
       console.log(this.files.length);
       console.log(this.options.maxFiles);
@@ -667,14 +672,14 @@ export default {
         this.removeFile(this.files[10]);
       }
     });
-    $("#add_file").on("click", function() {
+    $("#add_file").on("click", function () {
       console.log("success");
       this.myDropzone.processQueue();
     });
     this.vs.myDropzone.disable();
   },
   watch: {
-    product_name: function(newVal, oldVal) {
+    product_name: function (newVal, oldVal) {
       // watch it
       console.log("Prop changed: ", newVal, " | was: ", oldVal);
       if (newVal != "") {
@@ -682,13 +687,13 @@ export default {
       } else {
         this.vs.myDropzone.disable();
       }
-    }
+    },
   },
   methods: {
-    getSubcategories: function() {
+    getSubcategories: function () {
       this.$store
         .dispatch("getsubCategory", this.category_selected)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           console.log("________________");
           this.subcategory_selected = 0;
@@ -696,7 +701,7 @@ export default {
           this.subcategory = res.data;
         });
     },
-    addProduct: function() {
+    addProduct: function () {
       var payload = new FormData();
       payload.append("product_name", this.product_name);
       payload.append("product_id", this.product_id);
@@ -719,25 +724,21 @@ export default {
 
       this.$store
         .dispatch("addProduct", payload)
-        .then(res => {
+        .then((res) => {
           console.log(res);
 
+          this.seller_addProduct(res.data);
 
-            this.seller_addProduct(res.data)
-
-
-
-        //   this.$router.push("/dashboard/products/all");
+          //   this.$router.push("/dashboard/products/all");
         })
-        .catch(error => {
-            console.log(error)
+        .catch((error) => {
+          console.log(error);
           this.error = error.response.data;
           this.openDropdownPanel();
         });
     },
 
-
-    seller_addProduct: function(res) {
+    seller_addProduct: function (res) {
       var payload = new FormData();
       payload.append("product_name", this.product_name);
       payload.append("product_id", res["id"]);
@@ -749,18 +750,17 @@ export default {
       payload.append("return_text", this.return_policy);
       payload.append("return_days", this.return_window);
 
-      this.$store.dispatch("addSellerProduct", payload).then(res => {
+      this.$store.dispatch("addSellerProduct", payload).then((res) => {
         console.log(res);
-        this.$router.push("/dashboard/products/all");
+        this.$router.push("/dashboard/products/all_single");
       });
     },
 
-
-    getsubCategoryDetails: function() {
+    getsubCategoryDetails: function () {
       if (this.subcategory_selected != undefined) {
         this.$store
           .dispatch("getsubCategoryDetails", this.subcategory_selected)
-          .then(res => {
+          .then((res) => {
             console.log(res);
             console.log("response");
             this.specs = [];
@@ -768,17 +768,17 @@ export default {
               this.specs = JSON.parse(res.data.specs);
             }
           })
-          .catch(err => {
+          .catch((err) => {
             console.log("error in request", err);
           });
       }
     },
-    addMoreBullets: function() {
+    addMoreBullets: function () {
       if (this.bullet_points.length < 9) {
         this.bullet_points.push({ value: "" });
       }
     },
-    changeText: function() {
+    changeText: function () {
       this.return_policy =
         "Returns are just acknowledged inside " +
         this.return_window +
@@ -786,7 +786,7 @@ export default {
         this.inWords(this.return_window) +
         ") days of the date of procurement. To be qualified for an arrival, your thing must be unused and in a similar condition that you got it. On the off chance that the item is gotten by seller in unused and perfect condition and in its unique bundling without tearing out the Tag, seller will discount your buy.";
     },
-    inWords: function(num) {
+    inWords: function (num) {
       console.log(num);
 
       var a = [
@@ -809,7 +809,7 @@ export default {
         "sixteen ",
         "seventeen ",
         "eighteen ",
-        "nineteen "
+        "nineteen ",
       ];
       var b = [
         "",
@@ -821,7 +821,7 @@ export default {
         "sixty",
         "seventy",
         "eighty",
-        "ninety"
+        "ninety",
       ];
 
       if ((num = num.toString()).length > 9) return "overflow";
@@ -853,27 +853,70 @@ export default {
           : "";
       return str;
     },
-    removeBullets: function(index) {
+    removeBullets: function (index) {
       this.bullet_points.splice(index, 1);
     },
-    slugifyTitle: function() {
+    slugifyTitle: function () {
       this.slugify = this.product_name
         .toLowerCase()
         .replace(/[^\w ]+/g, "")
         .replace(/ +/g, "-");
     },
-    allowSlugField: function(val) {
+    allowSlugField: function (val) {
       console.log(val);
 
       this.editSlug = val;
     },
-    openDropdownPanel: function() {
+    openDropdownPanel: function () {
       this.showDropdown = true;
     },
-    closeSubCatModel: function() {
+    closeSubCatModel: function () {
       this.showDropdown = false;
-    }
-  }
+    },
+    fetchProduct: function () {
+      var payload = new FormData();
+
+      payload.append("URL", this.url);
+
+      this.$store.dispatch("scrapper", payload).then((res) => {
+        var data = res.data.result;
+
+        this.product_name = data.product_name;
+        this.slugify = data.slug;
+        this.mrp = data.mrp;
+        this.price = data.price;
+        this.price = data.price;
+        this.sku = data.sku;
+        this.desc = data.description;
+        this.specs = data.specs;
+        this.stock = data.stock;
+        this.suggested_price = data.mrp;
+        this.bullet_points = this.bullet_points.concat(data.bullet_points);
+
+        var payload = new FormData();
+
+        payload.append("filename", this.slugify + "_flipkart");
+        payload.append("url", JSON.stringify(data.images));
+
+        this.$store.dispatch("uploadImageFromURL", payload).then((res) => {
+          for (var i = 0; i < res.data.filenames.length; i++) {
+            this.images.push(res.data.filenames[i].filename);
+            var mockFile = { name: data.images[i] };
+            this.myDropzone.options.addedfile.call(this.myDropzone, mockFile);
+            this.myDropzone.options.thumbnail.call(
+              this.myDropzone,
+              mockFile,
+              this.baseurl +
+                "/backend/api/products/image/200/40/" +
+                res.data.filenames[i].filename
+            );
+            this.myDropzone.files.push(mockFile);
+            mockFile.previewElement.classList.add("dz-complete");
+          }
+        });
+      });
+    },
+  },
 };
 </script>
 

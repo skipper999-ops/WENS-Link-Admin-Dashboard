@@ -50,13 +50,19 @@ export default {
   mounted() {
     console.log($nuxt.$route.name);
     // document.body.classList.add('theme-dark')
-    console.log(this.$cookies.get("access_token"))
-     if (this.$cookies.get("access_token") != undefined) {
-      console.log(this.parseJwt(this.$cookies.get("access_token"))['usertype']);
-      this.$store.commit("usertype", this.parseJwt(this.$cookies.get("access_token"))['usertype']);
-      this.$store.commit("loggedUserData", this.parseJwt(this.$cookies.get("access_token")));
-    }else{
-      this.$router.push("/")
+    console.log(this.$cookies.get("access_token"));
+    if (this.$cookies.get("access_token") != undefined) {
+      console.log(this.parseJwt(this.$cookies.get("access_token"))["usertype"]);
+      this.$store.commit(
+        "usertype",
+        this.parseJwt(this.$cookies.get("access_token"))["usertype"]
+      );
+      this.$store.commit(
+        "loggedUserData",
+        this.parseJwt(this.$cookies.get("access_token"))
+      );
+    } else {
+      this.$router.push("/");
     }
   }
 };
@@ -127,14 +133,13 @@ body {
   overflow: hidden;
 }
 
-
 .btn-primary {
   background-color: #009688;
   color: white;
 }
 
-ul li{
-  list-style : none;
+ul li {
+  list-style: none;
 }
 
 .button--green {
@@ -150,24 +155,22 @@ ul li{
   padding: 10px 0 !important;
 }
 
-
 table.vgt-table {
   font-size: 13px !important;
 }
 
-.vgt-table thead th{
-  background-color: #f7fbff!important;
-  background: #f7fbff!important
+.vgt-table thead th {
+  background-color: #f7fbff !important;
+  background: #f7fbff !important;
 }
 
 .vgt-inner-wrap {
   /* padding: 0 10px */
 }
 
-.vue-good-table-correction tr:last-child td{
+.vue-good-table-correction tr:last-child td {
   border-bottom: 0 solid #eaeaea !important;
 }
-
 
 .vgt-table.bordered td {
   border: none !important;
@@ -179,12 +182,12 @@ table.vgt-table {
   border: none !important;
 }
 
-.vgt-table th{
-  padding: 0.75em 1.5em 0.75em .75em!important
+.vgt-table th {
+  padding: 0.75em 1.5em 0.75em 0.75em !important;
 }
 
-table.vgt-table td{
-  padding: 20px .75em .75em .75em
+table.vgt-table td {
+  padding: 20px 0.75em 0.75em 0.75em;
 }
 
 .apexcharts-svg {
@@ -214,7 +217,6 @@ table.vgt-table td{
 .feather-icon.black {
   color: black;
 }
-
 
 .analytics table.vgt-table {
   border: 0 solid #dcdfe6 !important;
@@ -312,69 +314,73 @@ textarea {
   transition: all 0.3s;
 }
 
-.capitalize{
-  text-transform: capitalize
+.capitalize {
+  text-transform: capitalize;
 }
 
-.bold{
-  font-family: 'Bold'
+.bold {
+  font-family: "Bold";
 }
 
 /*
 * COLOR
 */
 
-.red-text{
-  color: red
+.red-text {
+  color: red;
 }
-
 
 /*
 *  Pagination
 */
 
 .pagination {
-	 display: flex;
-	 padding-top: 10rem;
-	 padding-bottom: 10rem;
+  display: flex;
+  padding-top: 10rem;
+  padding-bottom: 10rem;
 }
- .pagination .page-item {
-	 font-weight: bold;
-	 margin-left: 1rem;
-	 margin-right: 1rem;
+.pagination .page-item {
+  font-weight: bold;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
- .pagination .page-item.active {
-	 font-weight: bold;
-	 color: white;
+.pagination .page-item.active {
+  font-weight: bold;
+  color: white;
 }
- .pagination .page-item.active .page-link-item {
-	 background-color: red;
-	 padding-left: 4rem;
-	 padding-right: 4rem;
-	 padding-top: 2rem;
-	 padding-bottom: 2rem;
-	 color: white;
-	 font-weight: bold;
-	 outline: none;
+.pagination .page-item.active .page-link-item {
+  background-color: red;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  color: white;
+  font-weight: bold;
+  outline: none;
 }
- .pagination .page-item .page-link-item {
-	 padding-left: 4rem;
-	 padding-right: 4rem;
-	 padding-top: 2rem;
-	 padding-bottom: 2rem;
-	 color: black;
-	 font-weight: bold;
-	 outline: none;
+.pagination .page-item .page-link-item {
+  padding-left: 4rem;
+  padding-right: 4rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  color: black;
+  font-weight: bold;
+  outline: none;
 }
- .pagination .next-item .prev-link-item, .pagination .prev-item .prev-link-item, .pagination .next-item .next-link-item, .pagination .prev-item .next-link-item {
-	 padding-left: 4rem;
-	 padding-right: 4rem;
-	 padding-top: 2rem;
-	 padding-bottom: 2rem;
-	 color: black;
-	 font-weight: bold;
-	 outline: none;
+.pagination .next-item .prev-link-item,
+.pagination .prev-item .prev-link-item,
+.pagination .next-item .next-link-item,
+.pagination .prev-item .next-link-item {
+  padding-left: 4rem;
+  padding-right: 4rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  color: black;
+  font-weight: bold;
+  outline: none;
 }
- 
 
+.owl-carousel.owl-drag .owl-item {
+  border: 1px solid whitesmoke;
+}
 </style>

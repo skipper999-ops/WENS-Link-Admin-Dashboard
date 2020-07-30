@@ -10,41 +10,31 @@
         </div>
 
         <div class="row">
-          <vue-good-table
-            :columns="columns"
-            :rows="allOrder"
-            :line-numbers="true"
-          >
+          <vue-good-table :columns="columns" :rows="allOrder" :line-numbers="true">
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field === 'action'">
-                <!-- <button type="button" @click="deleteProduct(props.row.id)" class="btn btn-primary">Delete</button> -->
+                <div class="dropdown">
+                  <div class="dd-button" @mousedown="close_dropdown">Actions</div>
+                  <!-- <input type="checkbox" class="dd-input" /> -->
+                  <ul class="dd-menu">
+                    <li v-if="props.row.delivery_status != 2" @click="changeStatus(props.row.id , 2)">Mark as Delivered</li>
+                  </ul>
+                </div>
               </span>
               <span v-else-if="props.column.field === 'payment_method'">
                 <p v-if="props.row.payment_method == 0">Placed</p>
-                <p v-else-if="props.row.payment_method == 1">
-                  Credit / Debit Card
-                </p>
+                <p v-else-if="props.row.payment_method == 1">Credit / Debit Card</p>
                 <p v-else-if="props.row.payment_method == 2">Net Banking</p>
                 <p v-else-if="props.row.payment_method == 3">Wallet</p>
-                <p v-else-if="props.row.payment_method == 4">
-                  Cash on Delivery
-                </p>
-                <p v-else style="color:red">
-                  Order Error. Please contact admin
-                </p>
+                <p v-else-if="props.row.payment_method == 4">Cash on Delivery</p>
+                <p v-else style="color:red">Order Error. Please contact admin</p>
               </span>
               <span v-else-if="props.column.field === 'delivery_status'">
-                <p v-if="props.row.delivery_status == 0">Placed</p>
-                <p v-else-if="props.row.delivery_status == 1">Delivered</p>
-                <p v-else-if="props.row.delivery_status == 2">
-                  Cancelled By Seller
-                </p>
-                <p v-else-if="props.row.delivery_status == 3">
-                  Cancelled By Buyer
-                </p>
-                <p v-else style="color:red">
-                  Order Error. Please contact admin
-                </p>
+                <p v-if="props.row.delivery_status == 0">Pending</p>
+                <p v-else-if="props.row.delivery_status == 1">Placed</p>
+                <p v-else-if="props.row.delivery_status == 2">Delivered</p>
+                <p v-else-if="props.row.delivery_status == 3">Cancelled By Buyer</p>
+                <p v-else style="color:red">Order Error. Please contact admin</p>
               </span>
               <span v-else-if="props.column.field === 'created_date'">
                 <p>
@@ -66,23 +56,11 @@
               <p>Page {{ offset / limit + 1 }}</p>
             </div>
             <div class="pagin">
-              <div
-                class="btn btn-success"
-                @click="prev_page"
-                v-if="offset != 0"
-              >
-                Prev
-              </div>
+              <div class="btn btn-success" @click="prev_page" v-if="offset != 0">Prev</div>
               <!-- <div class="btn btn-success" v-for="p in center_buttons" :key="p">
                   {{p}}
-                </div> -->
-              <div
-                class="btn btn-success"
-                @click="next_page"
-                v-if="offset != max_count_value"
-              >
-                Next
-              </div>
+              </div>-->
+              <div class="btn btn-success" @click="next_page" v-if="offset != max_count_value">Next</div>
             </div>
           </div>
         </div>
@@ -131,15 +109,18 @@ export default {
       },
       {
         label: "RazorPay Order Id",
-        field: "razor_order_id"
+        field: "razor_order_id",
+        width: "100px"
       },
       {
         label: "RazorPay Payment Id",
-        field: "razorpay_payment_id"
+        field: "razorpay_payment_id",
+        width: "100px"
       },
       {
         label: "RazorPay Order Id",
-        field: "razorpay_payment_id"
+        field: "razorpay_payment_id",
+        width: "100px"
       },
       {
         label: "RazorPay Signature",
@@ -150,23 +131,29 @@ export default {
         field: "created_date",
         width: "150px"
       },
-      // {
-      //   label: "Action",
-      //   field: "action"
-      // }
+      {
+        label: "Action",
+        field: "action"
+      }
     ],
-      next: "",
-      prev: "",
-      limit: 10,
-      offset: 0,
-      pagination_buttons: 0,
-      center_buttons: [],
-      max_count: 0,
-      max_count_value: 0
+    next: "",
+    prev: "",
+    limit: 10,
+    offset: 0,
+    pagination_buttons: 0,
+    center_buttons: [],
+    max_count: 0,
+    max_count_value: 0
   }),
 
   mounted() {
     this.offset_count();
+    this.fitTableToScreen();
+    window.addEventListener("resize", this.onResize);
+  },
+  beforeDestroy() {
+    // Unregister the event listener before destroying this Vue instance
+    window.removeEventListener("resize", this.onResize);
   },
   methods: {
     offset_count: function() {
@@ -179,37 +166,161 @@ export default {
         console.log(res);
         this.allOrder = JSON.parse(JSON.stringify(res.data));
         // for(var i = 0; i < 30; i++){
-          
+
         //   this.allOrder.push(JSON.parse(JSON.stringify(res.data))[0]);
 
         // }
       });
     },
-        next_page: function() {
-      this.offset = this.offset + this.limit 
-      if(this.offset > this.max_count){
-          this.offset = parseInt(this.max_count / this.limit) * this.limit
+    changeStatus: function(id, status) {
+
+
+        var payload = {
+          id: id,
+          delivery_status: status
         }
-      var limit = this.limit
-      var offset = this.offset
-      this.getAllProducts()
+   
+
+        this.$store.dispatch('changeStatus', payload).then(res=>{
+
+
+            alert('Status changed')
+            this.offset_count();
+
+        })
+
+    },
+    next_page: function() {
+      this.offset = this.offset + this.limit;
+      if (this.offset > this.max_count) {
+        this.offset = parseInt(this.max_count / this.limit) * this.limit;
+      }
+      var limit = this.limit;
+      var offset = this.offset;
+      this.getAllProducts();
     },
     prev_page: function() {
-      this.offset = this.offset - this.limit 
-        if(this.offset < 0){
-          this.offset = 0
-        }
-      var limit = this.limit
-      var offset = this.offset
-      this.getAllProducts()
+      this.offset = this.offset - this.limit;
+      if (this.offset < 0) {
+        this.offset = 0;
+      }
+      var limit = this.limit;
+      var offset = this.offset;
+      this.getAllProducts();
     },
     change_limit: function() {
-      this.offset = 0
-      this.limit = parseInt(this.limit)
-      var limit = parseInt(this.limit)
-      var offset = this.offset
-      this.getAllProducts()
-    },
+      this.offset = 0;
+      this.limit = parseInt(this.limit);
+      var limit = parseInt(this.limit);
+      var offset = this.offset;
+      this.getAllProducts();
+    }
   }
 };
 </script>
+
+
+<style scoped>
+
+/* Dropdown */
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.dd-button {
+  display: inline-block;
+  border: 1px solid gray;
+  border-radius: 4px;
+  padding: 10px 30px 10px 20px;
+  background-color: #ffffff;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dd-button:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid black;
+}
+
+.dd-button:hover {
+  background-color: #eeeeee;
+}
+
+.dd-input {
+  display: none;
+}
+
+.dd-menu {
+  position: absolute;
+  top: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0;
+  margin: 2px 0 0 0;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  list-style-type: none;
+  z-index: 9;
+  right: 0;
+}
+
+.dd-menu {
+  display: none;
+}
+
+.dd-input:checked + .dd-menu {
+  display: block;
+}
+
+.dd-menu li {
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dd-menu li:hover {
+  background-color: #f6f6f6;
+}
+
+.dd-menu li a {
+  display: block;
+  margin: -10px -20px;
+  padding: 10px 20px;
+}
+
+.dd-menu li.divider {
+  padding: 0;
+  border-bottom: 1px solid #cccccc;
+}
+
+/* table {
+    width: 300px;
+    overflow-x: scroll;
+    display: block;
+}
+thead, tbody {
+    display: block;
+}
+tbody {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 140px;
+}
+td, th {
+    min-width: 100px;
+} */
+
+table.vgt-table {
+  border: 0;
+}
+</style>

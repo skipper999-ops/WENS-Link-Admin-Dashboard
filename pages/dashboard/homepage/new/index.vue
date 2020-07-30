@@ -37,12 +37,13 @@
           <div class="form-control">
             <label>Carousel Type</label>
             <select v-model="carousel_type" style="width:70%">
-              <option value="1">Single Category</option>
+              <option value="1">Single Image Category</option>
               <option value="2">Multiple Products</option>
+              <option value="3">Single Category</option>
             </select>
           </div>
 
-          <div class="form-control">
+          <div class="form-control" v-show="carousel_type != 3">
             <label>Image</label>
             <input type="file" ref="fileInputAdd" style="width:70%" />
           </div>
@@ -52,7 +53,7 @@
             <input v-model="subtitle" type="text" style="width:70%" />
           </div>
 
-          <div class="form-control" v-if="carousel_type == 1">
+          <div class="form-control" v-if="carousel_type != 2">
             <label>URL</label>
             <input type="text" v-model="url" style="width:70%" />
           </div>
@@ -68,7 +69,11 @@
       <div class="popup-main">
         <div class="popup-title">
           <h3>Edit Section</h3>
-          <!-- <div @click="showDropdown1 = true" class="add-section" style="width: 100px">+ URL Builder</div> -->
+          <button
+            type="button"
+            @click="isURLBuilderVisible = true"
+            class="btn btn-primary btn-small"
+          >URL Builder</button>
         </div>
         <div class="popup-body">
           <div class="form-control">
@@ -94,7 +99,7 @@
             <input v-model="editingCarousel.subtitle" type="text" style="width:70%" />
           </div>
 
-          <div class="form-control" v-if="editingCarousel.carousel_type == 1">
+          <div class="form-control" v-if="editingCarousel.carousel_type != 2">
             <label>URL</label>
             <input type="text" v-model="editingCarousel.url" style="width:70%" />
           </div>
@@ -224,7 +229,7 @@ export default {
     GetAllCarousels: function() {
       this.$store.dispatch("GetAllCarousels").then(res => {
         console.log(res);
-        this.allCarousels = JSON.parse(JSON.stringify(res.data))
+        this.allCarousels = JSON.parse(JSON.stringify(res.data));
         // .filter(
         //   v => v.carousel_type == 1
         // );

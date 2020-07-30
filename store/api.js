@@ -19,6 +19,8 @@ export const state = () => ({
 
     imageUpload: url + "products/upload/image",
 
+    uploadImageFromURL: url + "products/upload/image/url",
+
     allProducts: url + "products/",
 
     allProducts__single: url + "products/products_single",
@@ -129,5 +131,9 @@ export const state = () => ({
     addSellerProduct: url + "products/seller/addproduct", //id
 
     updateSellerSingleProduct: url + "products/seller_single/", //id
+
+    changeStatus: url + "orders/order_status/", //id
+
+    scrapper: url + "products/scrap/", //id
 
 });
