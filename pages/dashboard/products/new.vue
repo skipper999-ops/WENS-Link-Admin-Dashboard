@@ -159,7 +159,7 @@
                       <div class="form-group">
                         <label for="exampleInputEmail1">Suggested Price</label>
                         <input
-                          type="text"
+                          type="number"
                           class="form-control"
                           v-model="suggested_price"
                           placeholder="0"

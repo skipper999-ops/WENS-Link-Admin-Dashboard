@@ -181,20 +181,20 @@
                     <div class="col s24 m12">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Original Price</label>
-                        <input type="text" class="form-control" v-model="mrp" placeholder="0" />
+                        <input type="number" class="form-control" v-model="mrp" placeholder="0" />
                       </div>
                     </div>
                     <div class="col s24 m12">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Selling Price</label>
-                        <input type="text" class="form-control" v-model="price" placeholder="0" />
+                        <input type="number" class="form-control" v-model="price" placeholder="0" />
                       </div>
                     </div>
                     <div class="col s24 m16" v-show="false">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Suggested Price</label>
                         <input
-                          type="text"
+                          type="number"
                           class="form-control"
                           v-model="suggested_price"
                           placeholder="0"
@@ -887,10 +887,10 @@ export default {
         this.price = data.price;
         this.price = data.price;
         this.sku = data.sku;
-        this.desc = data.description;
+        this.desc = data.description.replace((/  |\r\n|\n|\r/gm),"");
         this.specs = data.specs;
         this.stock = data.stock;
-        this.suggested_price = data.mrp;
+        this.suggested_price = data.mrp
         this.bullet_points = this.bullet_points.concat(data.bullet_points);
 
         var payload = new FormData();

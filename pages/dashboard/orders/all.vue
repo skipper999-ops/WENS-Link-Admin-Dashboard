@@ -17,7 +17,26 @@
                   <div class="dd-button" @mousedown="close_dropdown">Actions</div>
                   <!-- <input type="checkbox" class="dd-input" /> -->
                   <ul class="dd-menu">
-                    <li v-if="props.row.delivery_status != 2" @click="changeStatus(props.row.id , 2)">Mark as Delivered</li>
+                    <li
+                      v-if="props.row.delivery_status != 3"
+                      @click="changeStatus(props.row.id , 3)"
+                    >Mark as Processing</li>
+                    <li
+                      v-if="props.row.delivery_status != 4"
+                      @click="changeStatus(props.row.id , 4)"
+                    >Mark as Packed</li>
+                    <li
+                      v-if="props.row.delivery_status != 5"
+                      @click="changeStatus(props.row.id , 5)"
+                    >Mark as Shipped</li>
+                    <li
+                      v-if="props.row.delivery_status != 400"
+                      @click="changeStatus(props.row.id , 400)"
+                    >Mark as Cancel</li>
+                    <li
+                      v-if="props.row.delivery_status != 2"
+                      @click="changeStatus(props.row.id , 2)"
+                    >Mark as Delivered</li>
                   </ul>
                 </div>
               </span>
@@ -29,11 +48,15 @@
                 <p v-else-if="props.row.payment_method == 4">Cash on Delivery</p>
                 <p v-else style="color:red">Order Error. Please contact admin</p>
               </span>
-              <span v-else-if="props.column.field === 'delivery_status'">
+              <span class="status" v-else-if="props.column.field === 'delivery_status'">
                 <p v-if="props.row.delivery_status == 0">Pending</p>
                 <p v-else-if="props.row.delivery_status == 1">Placed</p>
                 <p v-else-if="props.row.delivery_status == 2">Delivered</p>
-                <p v-else-if="props.row.delivery_status == 3">Cancelled By Buyer</p>
+                <p v-else-if="props.row.delivery_status == 3">Processing</p>
+                <p v-else-if="props.row.delivery_status == 4">Packed</p>
+                <p v-else-if="props.row.delivery_status == 5">Shipped</p>
+                <p v-else-if="props.row.delivery_status == 400">Cancelled By Seller</p>
+                <p v-else-if="props.row.delivery_status == 401">Cancelled By Buyer</p>
                 <p v-else style="color:red">Order Error. Please contact admin</p>
               </span>
               <span v-else-if="props.column.field === 'created_date'">
@@ -76,65 +99,60 @@ export default {
     columns: [
       {
         label: "Order Id",
-        field: "order_id"
+        field: "order_id",
       },
       {
         label: "Invoice Id",
-        field: "invoice_id"
+        field: "invoice_id",
       },
       {
         label: "Product Name",
         field: "product_name",
-        width: "300px"
+        width: "300px",
       },
       {
         label: "Price",
         field: "product_price",
-        width: "100px"
-      },
-      {
-        label: "Delivery Status",
-        field: "delivery_status",
-        width: "150px"
-      },
-      {
-        label: "Payment Details",
-        field: "payment_detail",
-        width: "150px"
+        width: "100px",
       },
       {
         label: "Payment Method",
         field: "payment_method",
-        width: "150px"
+        width: "150px",
       },
       {
         label: "RazorPay Order Id",
         field: "razor_order_id",
-        width: "100px"
+        width: "100px",
       },
       {
         label: "RazorPay Payment Id",
         field: "razorpay_payment_id",
-        width: "100px"
+        width: "100px",
       },
       {
         label: "RazorPay Order Id",
         field: "razorpay_payment_id",
-        width: "100px"
+        width: "100px",
       },
       {
         label: "RazorPay Signature",
-        field: "razorpay_signature"
+        field: "razorpay_signature",
       },
       {
         label: "Created Date",
         field: "created_date",
-        width: "150px"
+        width: "150px",
+      },
+      {
+        label: "Delivery Status",
+        field: "delivery_status",
+        width: "150px",
       },
       {
         label: "Action",
-        field: "action"
-      }
+        field: "action",
+      },
     ],
     next: "",
     prev: "",
@@ -143,7 +161,7 @@ export default {
     pagination_buttons: 0,
     center_buttons: [],
     max_count: 0,
-    max_count_value: 0
+    max_count_value: 0,
   }),
 
   mounted() {
@@ -156,13 +174,13 @@ export default {
     window.removeEventListener("resize", this.onResize);
   },
   methods: {
-    offset_count: function() {
+    offset_count: function () {
       var limit = this.limit;
       var offset = this.offset;
       this.getAllOrder();
     },
-    getAllOrder: function() {
-      this.$store.dispatch("getAllOrder").then(res => {
+    getAllOrder: function () {
+      this.$store.dispatch("getAllOrder").then((res) => {
         console.log(res);
         this.allOrder = JSON.parse(JSON.stringify(res.data));
         // for(var i = 0; i < 30; i++){
@@ -172,25 +190,18 @@ export default {
         // }
       });
     },
-    changeStatus: function(id, status) {
+    changeStatus: function (id, status) {
+      var payload = {
+        id: id,
+        delivery_status: status,
+      };
 
-
-        var payload = {
-          id: id,
-          delivery_status: status
-        }
-   
-
-        this.$store.dispatch('changeStatus', payload).then(res=>{
-
-
-            alert('Status changed')
-            this.offset_count();
-
-        })
-
+      this.$store.dispatch("changeStatus", payload).then((res) => {
+        alert("Status changed");
+        this.offset_count();
+      });
     },
-    next_page: function() {
+    next_page: function () {
       this.offset = this.offset + this.limit;
       if (this.offset > this.max_count) {
         this.offset = parseInt(this.max_count / this.limit) * this.limit;
@@ -199,7 +210,7 @@ export default {
       var offset = this.offset;
       this.getAllProducts();
     },
-    prev_page: function() {
+    prev_page: function () {
       this.offset = this.offset - this.limit;
       if (this.offset < 0) {
         this.offset = 0;
@@ -208,20 +219,19 @@ export default {
       var offset = this.offset;
       this.getAllProducts();
     },
-    change_limit: function() {
+    change_limit: function () {
       this.offset = 0;
       this.limit = parseInt(this.limit);
       var limit = parseInt(this.limit);
       var offset = this.offset;
       this.getAllProducts();
-    }
-  }
+    },
+  },
 };
 </script>
 
 
 <style scoped>
-
 /* Dropdown */
 
 .dropdown {
@@ -322,5 +332,9 @@ td, th {
 
 table.vgt-table {
   border: 0;
+}
+
+.status p{
+  font-family: 'Bold'
 }
 </style>

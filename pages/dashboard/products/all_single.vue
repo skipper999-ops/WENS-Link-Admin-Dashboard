@@ -125,12 +125,8 @@ export default {
           field: "image"
         },
         {
-          label: "Original MRP",
-          field: "stock"
-        },
-        {
-          label: "Original MRP",
-          field: "stock"
+          label: "Selling Price",
+          field: "price"
         },
         {
           label: "Stock Count",

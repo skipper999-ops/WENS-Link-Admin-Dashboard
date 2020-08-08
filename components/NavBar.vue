@@ -119,6 +119,12 @@
           <span>New</span>
         </nuxt-link>
       </div>
+      <div class="navbar__parent">
+        <nuxt-link to="/dashboard/products/bulk">
+          <i data-feather="file-text"></i>
+          <span>Bulk</span>
+        </nuxt-link>
+      </div>
       <div class="navbar__parent" v-if="vendor_type == 2">
         <nuxt-link to="/dashboard/products/all">
           <i data-feather="users"></i>
