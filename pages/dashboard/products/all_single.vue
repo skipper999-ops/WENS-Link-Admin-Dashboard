@@ -55,6 +55,9 @@
                   class="btn btn-red white-text"
                 >Delete</button>
               </span>
+              <span v-else-if="props.column.field === 'product_id.product_name'">
+                <a target="_blank" :href="baseurl + '/products/' + props.row.product_id.slug">{{props.row.product_id.product_name}}</a>
+              </span>
               <span v-else>{{ props.formattedRow[props.column.field] }}</span>
             </template>
           </vue-good-table>

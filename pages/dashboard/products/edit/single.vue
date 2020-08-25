@@ -376,9 +376,9 @@
                   </p>
                 </div>
                 <!-- <p>Please Complete the specification section</p> -->
-                <div v-if="specs != '{}'">
+                <div v-if="selected.specs != '{}'">
                   <div
-                    v-for="(p, index) in specs"
+                    v-for="(p, index) in selected.specs"
                     :key="p.id"
                     class="input_fields_wrap drag-list"
                     id="h"
@@ -677,36 +677,39 @@ export default {
 
             var template_specs = vm.specs;
 
-            if (template_specs.hasOwnProperty(key1)) {
+            // if (template_specs.hasOwnProperty(key1)) {
               console.log(specs);
 
               for (let key2 in specs[key1].sub) {
                 console.log(key1);
-                var sub = vm.specs[key1].sub;
+                var sub = specs[key1].sub;
 
                 if (sub.hasOwnProperty(key2)) {
+                  console.log(specs[key1].sub[key2].type)
                   if (specs[key1].sub[key2].type == 3) {
                     vm.$set(
-                      vm.specs[key1].sub[key2],
+                      specs[key1].sub[key2],
                       "dropdown",
                       specs[key1].sub[key2].dropdown
                     );
                     vm.$set(
-                      vm.specs[key1].sub[key2],
+                      specs[key1].sub[key2],
                       "value",
                       specs[key1].sub[key2].value
                     );
                   } else {
+                    console.log("Sdsd");
+                    console.log(specs[key1].sub[key2]);
+                    console.log(specs[key1].sub[key2].value);
                     vm.$set(
-                      vm.specs[key1].sub[key2],
+                      specs[key1].sub[key2],
                       "value",
                       specs[key1].sub[key2].value
                     );
-                    console.log(this.specs);
                   }
                 }
               }
-            }
+            // }
           }
         });
       });
@@ -743,7 +746,7 @@ export default {
       payload.append("height", this.height);
       payload.append("weight", this.weight);
       payload.append("bullet_points", JSON.stringify(this.bullet_points));
-      payload.append("specs", JSON.stringify(this.specs));
+      payload.append("specs", JSON.stringify(this.selected.specs));
 
       this.$store
         .dispatch("updateProduct", {
