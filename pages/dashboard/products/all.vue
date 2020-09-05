@@ -302,7 +302,6 @@ export default {
   padding: 9px 12px;
 }
 
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 body {
   background: #f2f2f2;

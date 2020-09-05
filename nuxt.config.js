@@ -62,6 +62,7 @@ export default {
         { src: './plugins/pagination.js', ssr: false },
         { src: '~/plugins/apexcharts', ssr: false },
         { src: '~/plugins/carousel', lang: 'js', ssr: false },
+        { src: '~plugins/vue-good-wizard', mode: 'client', ssr: false },
     ],
     /*
      ** Nuxt.js dev-modules

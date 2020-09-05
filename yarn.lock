@@ -6599,6 +6599,10 @@ vue-good-table@^2.18.0:
     lodash.isequal "^4.5.0"
     vue-select "^3.1.0"
 
+vue-good-wizard@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/vue-good-wizard/-/vue-good-wizard-1.4.1.tgz#4f63b27ea04a4ca36203d19fec7fa65f5683dcef"
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"

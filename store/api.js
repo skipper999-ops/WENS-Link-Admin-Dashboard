@@ -120,6 +120,9 @@ export const state = () => ({
     gethomepagecarouseldetailscreate: url + "admin_app/gethomepagecarouseldetailscreate", //key
 
 
+    orderDetails: url + "orders/orderdetails/", // Order ID
+
+
     //analytics
     getAnalytics: url + "admin_app/analytics/", //days
 

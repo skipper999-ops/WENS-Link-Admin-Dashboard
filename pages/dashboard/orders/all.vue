@@ -48,6 +48,13 @@
                 <p v-else-if="props.row.payment_method == 4">Cash on Delivery</p>
                 <p v-else style="color:red">Order Error. Please contact admin</p>
               </span>
+              <span v-else-if="props.column.field === 'delivery_address'">
+                <ul class="delivery_address">
+                  <li v-for="(p ,i) in props.row.delivery_address" :key="p">
+                    {{i}} : {{p}}
+                  </li>
+                </ul>
+              </span>
               <span class="status" v-else-if="props.column.field === 'delivery_status'">
                 <p v-if="props.row.delivery_status == 0">Pending</p>
                 <p v-else-if="props.row.delivery_status == 1">Placed</p>
@@ -128,16 +135,7 @@ export default {
       {
         label: "RazorPay Payment Id",
         field: "razorpay_payment_id",
-        width: "100px",
-      },
-      {
-        label: "RazorPay Order Id",
-        field: "razorpay_payment_id",
-        width: "100px",
-      },
-      {
-        label: "RazorPay Signature",
-        field: "razorpay_signature",
+        width: "200px",
       },
       {
         label: "Created Date",
@@ -182,12 +180,19 @@ export default {
     getAllOrder: function () {
       this.$store.dispatch("getAllOrder").then((res) => {
         console.log(res);
+
+        var that = this
         this.allOrder = JSON.parse(JSON.stringify(res.data));
-        // for(var i = 0; i < 30; i++){
 
-        //   this.allOrder.push(JSON.parse(JSON.stringify(res.data))[0]);
-
-        // }
+        this.allOrder.forEach(function (value, key) {
+          for (const property in value) {
+            if (property == "delivery_address") {
+              that.allOrder[key]["delivery_address"] = JSON.parse(
+                that.allOrder[key]["delivery_address"]
+              )[0];
+            }
+          }
+        });
       });
     },
     changeStatus: function (id, status) {
@@ -334,7 +339,9 @@ table.vgt-table {
   border: 0;
 }
 
-.status p{
-  font-family: 'Bold'
+.status p {
+  font-family: "Bold";
 }
+
+
 </style>
