@@ -1,7 +1,10 @@
 <template>
   <div class="navbar-spacing padding-top-30">
-
-    <nuxt-link to="/dashboard/orders/all" class="btn btn-primary" style="margin-bottom:20px;text-decoration:none">Go Back</nuxt-link>
+    <nuxt-link
+      to="/dashboard/orders/all"
+      class="btn btn-primary"
+      style="margin-bottom:20px;text-decoration:none"
+    >Go Back</nuxt-link>
 
     <div class="specification">
       <div class="holder">
@@ -21,6 +24,11 @@
             <p class="padding-top-15">
               <span class="bold">Phone number</span>
               {{delivery_address.mobilenumber}}
+            </p>
+
+            <p class="padding-top-15">
+              <span class="bold">Ordered At:</span>
+              {{ ordered_at }}
             </p>
           </div>
           <div class="col s24 m12">
@@ -50,12 +58,30 @@
               <span class="bold">Quantity:</span>
               {{total_quantity}}
             </p>
+
+            <h5 class="padding-bottom-15 margin-top-25">Razorpay Summary</h5>
+            <p>
+              <span class="bold">Order ID:</span>
+              {{details.razor_order_id}}
+            </p>
+            <p>
+              <span class="bold">Payment ID:</span>
+              {{details.razorpay_payment_id}}
+            </p>
+            <p>
+              <span class="bold">Order id:</span>
+              {{details.razor_order_id}}
+            </p>
+            <p>
+              <span class="bold">Signature:</span>
+              {{details.razorpay_signature}}
+            </p>
           </div>
         </div>
       </div>
       <div class="holder margin-top-25" v-for="p in products" :key="p.id">
         <div class="row">
-          <div class="col s24 m12"  style="padding-bottom: 55px">
+          <div class="col s24 m12" style="padding-bottom: 55px">
             <div style="display: flex">
               <img
                 class="img"
@@ -72,7 +98,7 @@
                   Price:
                   <span class="bold">₹ {{p.product_price}}</span>
                 </p>
-                <span>Qty: {{p.quantity}}</span>
+                <p>Qty: <span class="bold">{{p.quantity}}</span></p>
               </div>
             </div>
           </div>
@@ -159,6 +185,7 @@ export default {
       products: [],
       baseurl: process.env.BASE_URL,
       total_amount: 0,
+      ordered_at: "",
       total_quantity: 0,
       steps: [
         {
@@ -197,6 +224,10 @@ export default {
 
           this.total_quantity = this.sum(this.products, "quantity");
 
+          this.ordered_at = `${this.details.created_date.split("T")[0]} ${
+            this.details.created_date.split("T")[1].split(".")[0]
+          }`;
+
           this.delivery_address = JSON.parse(this.details.delivery_address)[0];
           if (this.products.length > 0) {
             for (var i = 0; i < this.products.length; i++) {
@@ -230,6 +261,12 @@ export default {
 
 
 <style scoped>
+p {
+  font-size: 15px;
+  word-break: break-all;
+  padding-bottom: 5px;
+}
+
 h4 {
   font-size: 18px;
 }

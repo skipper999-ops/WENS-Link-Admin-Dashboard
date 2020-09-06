@@ -18,6 +18,9 @@
                   <!-- <input type="checkbox" class="dd-input" /> -->
                   <ul class="dd-menu">
                     <li
+                      @click="goToDetails(props.row.order_id)"
+                    >View Details</li>
+                    <li
                       v-if="props.row.delivery_status != 3"
                       @click="changeStatus(props.row.id , 3)"
                     >Mark as Processing</li>
@@ -205,6 +208,11 @@ export default {
         alert("Status changed");
         this.offset_count();
       });
+    },
+    goToDetails: function (id) {
+
+      this.$router.push({ path: `${id}`})
+      
     },
     next_page: function () {
       this.offset = this.offset + this.limit;
