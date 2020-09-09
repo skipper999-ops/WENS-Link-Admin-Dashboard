@@ -187,15 +187,15 @@ export default {
         var that = this
         this.allOrder = JSON.parse(JSON.stringify(res.data));
 
-        this.allOrder.forEach(function (value, key) {
-          for (const property in value) {
-            if (property == "delivery_address") {
-              that.allOrder[key]["delivery_address"] = JSON.parse(
-                that.allOrder[key]["delivery_address"]
-              )[0];
-            }
-          }
-        });
+        // this.allOrder.forEach(function (value, key) {
+        //   for (const property in value) {
+        //     if (property == "delivery_address") {
+        //       that.allOrder[key]["delivery_address"] = JSON.parse(
+        //         that.allOrder[key]["delivery_address"]
+        //       )[0];
+        //     }
+        //   }
+        // });
       });
     },
     changeStatus: function (id, status) {

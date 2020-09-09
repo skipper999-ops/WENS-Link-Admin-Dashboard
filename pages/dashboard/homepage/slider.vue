@@ -17,11 +17,35 @@
           </div>
 
           <div style="margin: 0 10px 10px 0">
-            <label>Banner Image</label>
-            <div class="dropzone dz-clickable" id="myDrop">
-              <div class="dz-default dz-message" data-dz-message>
-                <span>Drop files here to upload</span>
-              </div>
+            <label>Desktop Banner Image ( 1680 x 478 ) </label>
+
+            <input
+              type="file"
+              ref="image"
+              class="custom-file-input"
+              id="mainImage"
+              accept="image/jpeg"
+              @change="uploadImage"
+            />
+
+            <div class="preview">
+              <img :src="image_preview" />
+            </div>
+          </div>
+
+          <div style="margin: 0 10px 10px 0">
+            <label>Mobile Banner Image ( 1200 x 640 )</label>
+            <input
+              type="file"
+              class="custom-file-input"
+              ref="image"
+              id="mainImage"
+              accept="image/jpeg"
+              @change="uploadImageMobile"
+            />
+
+            <div class="preview">
+              <img :src="image_mobile_preview" />
             </div>
           </div>
 
@@ -86,16 +110,16 @@
 export default {
   data: () => ({
     allBanners: [],
-    origin: window.location.origin + "/",
+    origin: "",
     showDropdown: false,
     columns: [
       {
         label: "Title",
-        field: "name"
+        field: "name",
       },
       {
         label: "Description",
-        field: "description"
+        field: "description",
       },
       // {
       //   label: "Banner",
@@ -103,7 +127,7 @@ export default {
       // },
       {
         label: "URL",
-        field: "url"
+        field: "url",
       },
       // {
       //   label: "Status",
@@ -111,131 +135,101 @@ export default {
       // },
       {
         label: "Action",
-        field: "action"
-      }
+        field: "action",
+      },
     ],
     name: "",
     description: "",
     status: 1,
+    image_mobile: "",
     image: "",
-    url: ""
+    image_mobile_preview: "",
+    image_preview: "",
+    url: "",
   }),
 
   mounted() {
     this.getAllBanner();
 
     var vm = this;
-    Dropzone.autoDiscover = false;
-    this.myDropzone = new Dropzone("div#myDrop", {
-      paramName: "file",
-      autoProcessQueue: true,
-      parallelUploads: 1,
-      maxFiles: 1,
-      maxFilesize: 5, // MB
-      acceptedFiles: ".png, .jpeg, .jpg",
-      url: vm.$store.state.api.bannerImageUpload,
-      headers: {
-        "Cache-Control": null,
-        "X-Requested-With": null,
-
-        Authorization: "Bearer " + this.$cookies.get("access_token")
-      },
-      renameFilename: function(filename) {
-        console.log(filename);
-        console.log("zzzzzzzzzzzzzzz");
-        return new Date().getTime() + "_" + filename;
-      }
-    });
-    this.myDropzone.on("sending", function(file, xhr, formData) {
-      var filenames = [];
-      console.log("success");
-      $(".dz-preview .dz-filename").each(function() {
-        filenames.push(
-          $(this)
-            .find("span")
-            .text()
-        );
-      });
-      formData.append("filenames", filenames);
-    });
-    /* Add Files Script*/
-    this.myDropzone.on("success", function(file, message) {
-      console.log("success");
-      console.log(file, message);
-      console.log(file);
-      message.filenames.forEach((file, index) => {
-        vm.image = file.filename;
-      });
-    });
-    this.myDropzone.on("error", function(data) {
-      $("#msg").html(
-        '<div class="alert alert-danger">There is some thing wrong, Please try again!</div>'
-      );
-    });
-    this.myDropzone.on("complete", function(file) {
-      //   myDropzone.removeFile(file)
-    });
-    this.myDropzone.on("removedfile", function(file) {
-      //   myDropzone.removeFile(file)
-      console.log(file);
-      vm.image = "";
-    });
-    this.myDropzone.on("addedfile", function(file) {
-      console.log("added file");
-      console.log(this.files.length);
-      console.log(this.options.maxFiles);
-      while (this.files.length > this.options.maxFiles) {
-        this.removeFile(this.files[0]);
-      }
-    });
-    $("#add_file").on("click", function() {
-      console.log("success");
-      this.myDropzone.processQueue();
-    });
   },
   methods: {
-    getAllBanner: function() {
-      this.$store.dispatch("getAllBanner").then(res => {
+    uploadImage() {
+      var target = event.target || event.srcElement;
+      console.log(target, "changed.");
+      console.log(event);
+      if (target.value.length == 0) {
+        console.log("Suspect Cancel was hit, no files selected.");
+      } else {
+        var tmppath = URL.createObjectURL(event.target.files[0]);
+        console.log(tmppath);
+
+        this.image = event.target.files[0];
+        this.image_preview = tmppath;
+      }
+    },
+    uploadImageMobile() {
+      var target = event.target || event.srcElement;
+      console.log(target, "changed.");
+      console.log(event);
+      if (target.value.length == 0) {
+        console.log("Suspect Cancel was hit, no files selected.");
+      } else {
+        var tmppath = URL.createObjectURL(event.target.files[0]);
+        console.log(tmppath);
+
+        this.image_mobile = event.target.files[0];
+        this.image_mobile_preview = tmppath;
+      }
+    },
+
+    getAllBanner: function () {
+      this.$store.dispatch("getAllBanner").then((res) => {
         console.log(res);
         try {
           this.allBanners = JSON.parse(JSON.stringify(res.data.body));
         } catch {}
       });
     },
-    addBanner: function() {
-      var payload = {
-        name: this.name,
-        description: this.description,
-        status: this.status,
-        image: this.image,
-        url: this.url
-      };
+    addBanner: function () {
+      var payload = new FormData();
+      payload.append("name", this.name);
+      payload.append("description", this.description);
+      payload.append("status", this.status);
+      payload.append("image", this.image);
+      payload.append("image_mobile", this.image_mobile);
+      payload.append("url", this.url);
 
-      this.$store.dispatch("addBanner", payload).then(res => {
+      this.$store.dispatch("addBanner", payload).then((res) => {
         console.log(res);
         this.getAllBanner();
         this.closeDropdownPanel();
       });
     },
-    viewBanner: function(id) {
+    viewBanner: function (id) {
       window.open(process.env.BASE_URL + "/media/banners/" + id);
     },
-    deleteBanner: function(id) {
-      this.$store.dispatch("editDeleteBanner", id).then(res => {
+    deleteBanner: function (id) {
+      this.$store.dispatch("editDeleteBanner", id).then((res) => {
         console.log(res);
         this.getAllBanner();
       });
     },
-    openDropdownPanel: function() {
+    openDropdownPanel: function () {
       this.showDropdown = true;
     },
-    closeDropdownPanel: function() {
+    closeDropdownPanel: function () {
       this.showDropdown = false;
       this.name = "";
       this.description = "";
+      this.image_mobile = "";
+      this.image = "";
+      this.image_mobile_preview = "";
+      this.image_preview = "";
+      this.url = "";
       this.myDropzone.removeAllFiles();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -305,5 +299,42 @@ select {
   padding: 0.6rem 1rem;
   box-shadow: none;
   transition: all 0.3s;
+}
+
+.preview img {
+  width: 100%;
+  max-height: 200px;
+}
+
+.custom-file-input {
+  color: transparent;
+}
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: "Select some files";
+  color: black;
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active {
+  outline: 0;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 }
 </style>

@@ -14,6 +14,8 @@
 
         <div class="row">
           <div class="col s24 m12" style="padding-bottom: 55px">
+            <h4 v-if="isGuest" style="padding-bottom: 10px">Guest User</h4>
+            <h4 v-else style="padding-bottom: 10px">Registered User</h4>
             <h5 class="padding-bottom-15">Delivery Address</h5>
             <h6
               class="padding-bottom-10"
@@ -181,12 +183,16 @@ export default {
     return {
       order_id: this.$route.params.orderid,
       details: {},
-      delivery_address: {},
+      delivery_address: {
+        firstname: "",
+        lastname: "",
+      },
       products: [],
       baseurl: process.env.BASE_URL,
       total_amount: 0,
       ordered_at: "",
       total_quantity: 0,
+      isGuest: false,
       steps: [
         {
           label: "Select Items",
@@ -219,6 +225,9 @@ export default {
         if (res.data.length > 0) {
           this.products = res.data;
           this.details = res.data[0];
+          if(res.data[0]['customer'] == null){
+            this.isGuest = true
+          }
 
           this.total_amount = this.sum(this.products, "product_price");
 
@@ -228,7 +237,7 @@ export default {
             this.details.created_date.split("T")[1].split(".")[0]
           }`;
 
-          this.delivery_address = JSON.parse(this.details.delivery_address)[0];
+          this.delivery_address = JSON.parse(this.details.delivery_address);
           if (this.products.length > 0) {
             for (var i = 0; i < this.products.length; i++) {
               this.products[i].product_id.images = JSON.parse(
