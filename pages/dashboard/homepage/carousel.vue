@@ -204,6 +204,7 @@ export default {
       this.$store.dispatch("navbarOrderUpdate", payload).then(res => {
         console.log(res.data);
         this.navbarOrder();
+        alert("Saved")
       });
     },
     containsObject: function(obj, list) {

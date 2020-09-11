@@ -21,11 +21,11 @@
         <div class="popup-title">
           <div style="display:flex;justify-content:space-between;align-items:center">
             <h3>Add Sections</h3>
-            <button
+            <!-- <button
               type="button"
               @click="isURLBuilderVisible = true"
               class="btn btn-primary btn-small"
-            >URL Builder</button>
+            >URL Builder</button> -->
           </div>
         </div>
         <div class="popup-body">
@@ -38,12 +38,12 @@
             <label>Carousel Type</label>
             <select v-model="carousel_type" style="width:70%">
               <option value="1">Single Image Category</option>
-              <option value="2">Multiple Products</option>
+              <!-- <option value="2">Multiple Products</option> -->
               <option value="3">Single Category</option>
             </select>
           </div>
 
-          <div class="form-control" v-show="carousel_type != 3">
+          <div class="form-control" v-show="carousel_type == 1">
             <label>Image</label>
             <input type="file" ref="fileInputAdd" style="width:70%" />
           </div>
@@ -139,6 +139,11 @@
                   @click="editCarousel(props.row.id)"
                   class="btn btn-primary"
                 >Edit</button>
+                <button
+                  type="button"
+                  @click="deleteThis(props.row.id)"
+                  class="btn btn-red white-text"
+                >Delete</button>
               </span>
               <span v-else-if="props.column.field === 'carousel_type'">
                 <p v-if="props.row.carousel_type == 2">{{props.row.carousel_type}} ( Grouped )</p>
@@ -314,10 +319,10 @@ export default {
       this.editingCarousel = this.allCarousels.filter(v => v.id === id)[0];
       this.editDropdown = true;
     },
-    deleteBanner: function(id) {
-      this.$store.dispatch("editDeleteBanner", id).then(res => {
+    deleteThis: function(id) {
+      this.$store.dispatch("gethomepagecarouselDelete", id).then(res => {
         console.log(res);
-        this.getAllBanner();
+        alert("Deleted")
       });
     },
     openDropdownPanel: function() {

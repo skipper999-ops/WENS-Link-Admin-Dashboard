@@ -6,7 +6,7 @@
           <h3>Add Carousel Item</h3>
         </div>
         <div class="popup-body">
-          <div class="form-control">
+          <!-- <div class="form-control">
             <label>Title</label>
             <input v-model="detailtitle" type="text" style="width:70%" />
           </div>
@@ -24,10 +24,10 @@
           <div class="form-control">
             <label>Image</label>
             <input type="file" ref="fileInput" style="width:70%" />
-          </div>
+          </div> -->
 
           <div class="form-control">
-            <label>url</label>
+            <label>Product URL</label>
             <input v-model="url" type="text" style="width:70%" />
           </div>
         </div>
@@ -104,8 +104,8 @@
                         style="text-decoration: none; color: #3f51b5; margin-bottom: 10px"
                         class="offer-subtitle clamp2"
                         target="_blank"
-                        :href="origin + p.url"
-                      >{{origin}}{{p.url}}</a>
+                        :href="p.url"
+                      >{{p.url}}</a>
                       <button
                         type="button"
                         @click="editCarouselDetail(p.id)"

@@ -199,12 +199,12 @@
       </div>
 
       <p>Templates</p>
-      <div class="navbar__parent">
+      <!-- <div class="navbar__parent">
         <nuxt-link to="/dashboard/templates/home_carousel">
           <i data-feather="hash"></i>
           <span>Home Carousel</span>
         </nuxt-link>
-      </div>
+      </div> -->
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/templates/filters">
           <i data-feather="hash"></i>
@@ -217,12 +217,12 @@
           <span>Nav Menu</span>
         </nuxt-link>
       </div>
-      <div class="navbar__parent">
+      <!-- <div class="navbar__parent">
         <nuxt-link to="/dashboard/templates/commission">
           <i data-feather="hash"></i>
           <span>Commission Rate</span>
         </nuxt-link>
-      </div>
+      </div> -->
       <p></p>
       <div class="navbar__parent">
         <nuxt-link to="/dashboard/website/settings">

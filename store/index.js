@@ -1268,6 +1268,27 @@ export const actions = {
                 });
         });
     },
+    gethomepagecarouselDelete({ commit, state }) {
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "DELETE",
+                    url: state.api.gethomepagecarousel + this.$cookies.get('customizeCarousel'),
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    resolve(res);
+                })
+                .catch(err => {
+                    console.log("error in request", err);
+                    reject(err)
+                });
+        });
+    },
 
     gethomepagecarouseldetails({ commit, state }) {
         return new Promise((resolve, reject) => {
