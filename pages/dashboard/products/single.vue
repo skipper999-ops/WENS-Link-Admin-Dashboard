@@ -8,8 +8,8 @@
         <div class="popup-body">
           <div>
             <div v-for="(p, index) in error" :key="p.id">
-              <p style="font-size:15px;font-weight: bold">{{index}}</p>
-              <p style="margin-bottom: 15px">{{p[0]}}</p>
+              <p style="font-size: 15px; font-weight: bold">{{ index }}</p>
+              <p style="margin-bottom: 15px">{{ p[0] }}</p>
             </div>
           </div>
         </div>
@@ -22,10 +22,13 @@
     <div class="specification">
       <div class="holder">
         <div class="column-padding header-bottom">
-          <h3 style="display: flex;align-items: center;">Add a Product to your catalogue</h3>
-          <p
-            style="padding-left: 19px;padding-bottom: 10px;"
-          >Product added here will be added to a common database and vendors can use these as templates when adding their products</p>
+          <h3 style="display: flex; align-items: center">
+            Add a Product to your catalogue
+          </h3>
+          <p style="padding-left: 19px; padding-bottom: 10px">
+            Product added here will be added to a common database and vendors
+            can use these as templates when adding their products
+          </p>
           <!-- <button class="btn btn-red" style="display: flex;align-items: center;">
             <i data-feather="upload"></i>
             <p class="padding-left-10 white-text">Upload New</p>
@@ -37,28 +40,46 @@
             <div class="col s24 m8 l6">
               <label>Category</label>
               <select @change="getSubcategories" v-model="category_selected">
-                <option v-for="p in category" :key="p.id" :value="p.id">{{p.name}}</option>
+                <option v-for="p in category" :key="p.id" :value="p.id">
+                  {{ p.name }}
+                </option>
               </select>
             </div>
             <div class="col s24 m8 l6">
               <label>SubCategory</label>
-              <select @change="getsubCategoryDetails" v-model="subcategory_selected">
-                <option v-for="p in subcategory" :key="p.id" :value="p.id">{{p.name}}</option>
+              <select
+                @change="getsubCategoryDetails"
+                v-model="subcategory_selected"
+              >
+                <option v-for="p in subcategory" :key="p.id" :value="p.id">
+                  {{ p.name }}
+                </option>
               </select>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="holder" v-show="subcategory_selected != undefined && subcategory_selected != 0">
+      <div
+        class="holder"
+        v-show="subcategory_selected != undefined && subcategory_selected != 0"
+      >
         <h3 class>Submit Product</h3>
-        <div style="display:flex;justify-content: space-between;align-items: center;">
-          <div style="padding-left: 19px;padding-bottom: 10px;" class>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <div style="padding-left: 19px; padding-bottom: 10px" class>
             <button
               class="btn btn-primary"
               @click="addProduct"
               :disabled="slugify == ''"
-            >Add Product</button>
+            >
+              Add Product
+            </button>
           </div>
           <!-- <div class="toggle-button-cover">
           <div class="button-cover">
@@ -69,9 +90,16 @@
             </div>
           </div>
           </div>-->
-        </div>OR
-        <div style="display:flex;justify-content: space-between;align-items: center;">
-          <div style="padding-left: 19px;padding-bottom: 10px;" class>
+        </div>
+        OR
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <div style="padding-left: 19px; padding-bottom: 10px" class>
             <label>Fetch Data from Flipkart.com</label>
             <input type="text" v-model="url" />
           </div>
@@ -85,25 +113,17 @@
       >
         <div class="element-tab-view">
           <input type="radio" id="tab1" name="tab" checked />
-          <label for="tab1">
-            <i class="fa fa-code"></i> Basic
-          </label>
+          <label for="tab1"> <i class="fa fa-code"></i> Basic </label>
           <input type="radio" id="tab2" name="tab" />
-          <label for="tab2">
-            <i class="fa fa-history"></i> Descriptions
-          </label>
+          <label for="tab2"> <i class="fa fa-history"></i> Descriptions </label>
           <input type="radio" id="tab3" name="tab" />
-          <label for="tab3">
-            <i class="fa fa-pencil"></i> Images
-          </label>
+          <label for="tab3"> <i class="fa fa-pencil"></i> Images </label>
           <input type="radio" id="tab4" name="tab" />
           <label for="tab4">
             <i class="fa fa-share-alt"></i> Specifications
           </label>
           <input type="radio" id="tab5" name="tab" />
-          <label for="tab5">
-            <i class="fa fa-share-alt"></i> Shipping
-          </label>
+          <label for="tab5"> <i class="fa fa-share-alt"></i> Shipping </label>
           <div class="line"></div>
           <div class="content-container">
             <div class="content basic" id="c1">
@@ -135,14 +155,30 @@
                     <div class="col s24">
                       <div class="form-group">
                         <div
-                          style="display: flex;justify-content: space-between;align-items: center;"
+                          style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                          "
                         >
-                          <label style="display:flex" for="exampleInputEmail1">
+                          <label style="display: flex" for="exampleInputEmail1">
                             Product Slug
                             <span class="red-text">*</span>
                           </label>
-                          <div v-if="!editSlug" @click="allowSlugField(1)" class="link_tag">Edit</div>
-                          <div v-if="editSlug" @click="allowSlugField(0)" class="link_tag">Save</div>
+                          <div
+                            v-if="!editSlug"
+                            @click="allowSlugField(1)"
+                            class="link_tag"
+                          >
+                            Edit
+                          </div>
+                          <div
+                            v-if="editSlug"
+                            @click="allowSlugField(0)"
+                            class="link_tag"
+                          >
+                            Save
+                          </div>
                         </div>
                         <input
                           v-model="slugify"
@@ -181,13 +217,23 @@
                     <div class="col s24 m12">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Original Price</label>
-                        <input type="number" class="form-control" v-model="mrp" placeholder="0" />
+                        <input
+                          type="number"
+                          class="form-control"
+                          v-model="mrp"
+                          placeholder="0"
+                        />
                       </div>
                     </div>
                     <div class="col s24 m12">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Selling Price</label>
-                        <input type="number" class="form-control" v-model="price" placeholder="0" />
+                        <input
+                          type="number"
+                          class="form-control"
+                          v-model="price"
+                          placeholder="0"
+                        />
                       </div>
                     </div>
                     <div class="col s24 m16" v-show="false">
@@ -204,7 +250,9 @@
 
                     <div class="col s24">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Search Terms (SEO)</label>
+                        <label for="exampleInputEmail1"
+                          >Search Terms (SEO)</label
+                        >
                         <input
                           type="text"
                           v-model="seo"
@@ -229,7 +277,13 @@
                       <div class="form-group">
                         <label for="exampleInputEmail1">Product ID Type</label>
                         <select v-model="product_id_type">
-                          <option v-for="p in product_id_list" :key="p.id" :value="p.id">{{p.name}}</option>
+                          <option
+                            v-for="p in product_id_list"
+                            :key="p.id"
+                            :value="p.id"
+                          >
+                            {{ p.name }}
+                          </option>
                         </select>
                       </div>
                     </div>
@@ -242,15 +296,21 @@
                     <div class="col s24 m8">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Stock Quantity</label>
-                        <input type="number" v-model="stock" class="form-control" placeholder />
+                        <input
+                          type="number"
+                          v-model="stock"
+                          class="form-control"
+                          placeholder
+                        />
                       </div>
                     </div>
 
                     <div class="col s24">
                       <div class="form-group">
-                        <label
-                          for="exampleInputEmail1"
-                        >Return Window (Days) (Set 0 if return not allowed)</label>
+                        <label for="exampleInputEmail1"
+                          >Return Window (Days) (Set 0 if return not
+                          allowed)</label
+                        >
                         <input
                           type="number"
                           @input="changeText"
@@ -262,9 +322,11 @@
                     </div>
                     <div class="col s24" v-if="return_window != 0">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Return Policy Terms</label>
+                        <label for="exampleInputEmail1"
+                          >Return Policy Terms</label
+                        >
                         <textarea
-                          style="height:130px"
+                          style="height: 130px"
                           type="number"
                           v-model="return_policy"
                           class="form-control"
@@ -281,34 +343,55 @@
                 <div class="column-padding">
                   <!-- <h3 style="display: flex;align-items: center;">Descriptions & Bullet Points</h3> -->
                   <p
-                    style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
-                  >These informations cannot be changed by the Vendors</p>
+                    style="
+                      padding-left: 19px;
+                      padding-bottom: 10px;
+                      color: #e91e63;
+                    "
+                  >
+                    These informations cannot be changed by the Vendors
+                  </p>
                 </div>
 
                 <div class="row">
                   <div class="col s24">
                     <div class="col s24">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Write a Short Description about the product</label>
-                        <textarea v-model="desc" style="height:160px"></textarea>
+                        <label for="exampleInputEmail1"
+                          >Write a Short Description about the product</label
+                        >
+                        <textarea
+                          v-model="desc"
+                          style="height: 160px"
+                        ></textarea>
                       </div>
                     </div>
                     <div class="col s24">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Add Bullet Points (Upto 9)</label>
+                        <label for="exampleInputEmail1"
+                          >Add Bullet Points (Upto 9)</label
+                        >
                         <div
-                          style="display: flex; align-items:center"
+                          style="display: flex; align-items: center"
                           v-for="(p, index) in bullet_points"
                           :key="p.length"
                         >
-                          <input type="text" class="form-control" v-model="p.value" />
+                          <input
+                            type="text"
+                            class="form-control"
+                            v-model="p.value"
+                          />
                           <div
                             style="color: red"
                             class="pointer"
                             @click="removeBullets(index)"
-                          >Remove</div>
+                          >
+                            Remove
+                          </div>
                         </div>
-                        <div class="link_tag" @click="addMoreBullets">+ Add More points</div>
+                        <div class="link_tag" @click="addMoreBullets">
+                          + Add More points
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -318,8 +401,10 @@
             <div class="content images" id="c3">
               <div class="bg-white">
                 <!-- <h3 class>Images</h3> -->
-                <p style="padding-left: 19px;padding-bottom: 10px;">Upload Images. (Max 10)</p>
-                <div style="padding-left: 19px;padding-bottom: 10px;" class>
+                <p style="padding-left: 19px; padding-bottom: 10px">
+                  Upload Images. (Max 10)
+                </p>
+                <div style="padding-left: 19px; padding-bottom: 10px" class>
                   <div class="dropzone dz-clickable" id="myDrop">
                     <div class="dz-default dz-message" data-dz-message>
                       <span>Drop files here to upload</span>
@@ -332,86 +417,169 @@
               <div class="bg-white">
                 <!-- <h3>Specifications</h3> -->
                 <div v-if="specs == ''">
-                  <p style="padding-left: 19px;padding-bottom: 10px;">
+                  <p style="padding-left: 19px; padding-bottom: 10px">
                     Specifications not added. Go to
                     <nuxt-link
-                      :to="'/dashboard/templates/specification/' + this.subcategory_selected"
-                    >Specifications</nuxt-link>and add them
+                      :to="
+                        '/dashboard/templates/specification/' +
+                        this.subcategory_selected
+                      "
+                      >Specifications</nuxt-link
+                    >and add them
                   </p>
                 </div>
                 <div v-if="specs != ''">
-                  <p style="padding-left: 19px;padding-bottom: 10px;">
+                  <!-- <p style="padding-left: 19px;padding-bottom: 10px;">
                     You can edit
                     <nuxt-link
                       :to="'/dashboard/templates/specification/' + this.subcategory_selected"
                     >Specifications</nuxt-link>here
-                  </p>
+                  </p> -->
                 </div>
                 <!-- <p>Please Complete the specification section</p> -->
                 <div v-if="specs != ''">
-                  <div
-                    v-for="(p, index) in specs"
-                    :key="p.id"
-                    class="input_fields_wrap drag-list"
-                    id="h"
-                  >
-                    <h3>{{p.name}}</h3>
-                    <div class="row">
-                      <div class="col s12">
-                        <div class="col s24" v-for="(q, index1) in p['sub']" :key="q.id">
-                          <div class="form-group">
-                            <label>{{q.name}}</label>
-
-                            <div v-if="q.type == 1">
-                              <input
-                                class="specs-value"
-                                :data-id="q.id"
-                                type="text"
-                                v-model="q.value"
-                              />
-                            </div>
-
-                            <div style="display: flex;" v-if="q.type == 2">
-                              <select
-                                class="specs-value"
-                                :data-id="q.id"
-                                v-model="q.value"
-                                style="display: inline-block; width: 100% "
+                  <div>
+                    <div
+                      class="white"
+                      style="
+                        margin: 10px 0;
+                        width: 100%;
+                        border: 1px solid #e6e6e6;
+                        box-shadow: rgba(0, 0, 0, 0.03) 0px 2px 2px,
+                          rgba(0, 0, 0, 0.03) 0px 1px 0px;
+                      "
+                    >
+                      <div
+                        class="section toolbar"
+                        style="
+                          display: flex;
+                          justify-content: space-between;
+                          border-bottom: 1px solid #e6e6e6;
+                        "
+                      >
+                        <div
+                          class="container"
+                          style="display: flex; justify-content: space-between"
+                        >
+                          <div class="add-section" @click="add_section">
+                            + Add Section
+                          </div>
+                          <!-- <div class="add-section grey">Reset to Default</div> -->
+                        </div>
+                      </div>
+                      <div>
+                        <div
+                          class="spec-section white container"
+                          id="templateHolder"
+                        >
+                          <div
+                            v-for="(p, index) in data"
+                            :key="p.id"
+                            class="input_fields_wrap drag-list"
+                            id="h"
+                          >
+                            <div
+                              style="
+                                display: flex;
+                                justify-content: space-between;
+                              "
+                            >
+                              <div
+                                class="add_field_button"
+                                @click="add_field(index)"
                               >
-                                <option :value="undefined">Not Selected</option>
-                                <option
-                                  v-for="r in q.dropdown_items"
-                                  :key="r.id"
-                                  :value="r.name"
-                                >{{r.name}}</option>
-                              </select>
-                            </div>
-
-                            <div style="display: flex;" v-if="q.type == 3">
-                              <input
-                                class="specs-value"
-                                type="text"
-                                :data-id="q.id"
-                                v-model="q.value"
-                              />
-                              <select
-                                class="specs-value"
-                                :data-id="q.id"
-                                v-model="q.dropdown"
-                                style="display: inline-block; width: 30% "
+                                Add More Fields
+                              </div>
+                              <div
+                                class="remove-section"
+                                @click="remove_section(index)"
                               >
-                                <option :value="undefined">Not Selected</option>
-                                <option
-                                  v-for="r in q.dropdown_items"
-                                  :key="r.id"
-                                  :value="r.name"
-                                >{{r.name}}</option>
-                              </select>
+                                Remove Section
+                              </div>
+                            </div>
+                            <br />
+                            <input
+                              type="text"
+                              v-model="p.name"
+                              class="header-data input"
+                              placeholder="Header"
+                              style="display: inline-block"
+                            />
+                            <div class="row">
+                              <div
+                                v-for="(q, index1) in p['sub']"
+                                :key="q.id"
+                                class="col s24"
+                              >
+                                <input
+                                  class="input"
+                                  placeholder="Field"
+                                  id="data"
+                                  v-model="q.name"
+                                  type="text"
+                                  style="display: inline-block; width: 35%"
+                                />
+
+                              
+                                <input
+                                  class="input"
+                                  placeholder="Field"
+                                  id="data"
+                                  v-model="q.value"
+                                  type="text"
+                                  style="display: inline-block; width: 35%"
+                                />
+
+                                <select
+                                  v-model="q.type"
+                                  v-if="false"
+                                  style="display: inline-block; width: 15%"
+                                >
+                                  <option value="1">Text</option>
+                                  <option value="2">Dropdown</option>
+                                  <option value="3">Mixed</option>
+                                </select>
+
+                                <select
+                                  v-if="q.type == 2 || q.type == 3"
+                                  style="display: inline-block; width: 20%"
+                                >
+                                  <option
+                                    v-for="r in q.dropdown_items"
+                                    :key="r.id"
+                                    :value="r.type"
+                                  >
+                                    {{ r.name }}
+                                  </option>
+                                </select>
+
+                                <div
+                                  v-if="q.type == 2 || q.type == 3"
+                                  @click="openDropdownPanel(index, index1)"
+                                  class="right add_field_button"
+                                  style="
+                                    display: inline-block;
+                                    text-decoration: none;
+                                    font-size: 12px;
+                                  "
+                                >
+                                  + Add
+                                </div>
+
+                                <div
+                                  @click="remove_field(index, index1)"
+                                  class="remove_field right"
+                                  style="display: inline-block; font-size: 12px"
+                                >
+                                  Remove
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                    <!-- <button class="btn" @click="saveSpecs">Save</button> -->
                   </div>
                 </div>
               </div>
@@ -420,35 +588,69 @@
               <div class="bg-white">
                 <!-- <h3>Shipping Details</h3> -->
                 <p
-                  style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
-                >Shipping Information Based on ShipRocket</p>
+                  style="
+                    padding-left: 19px;
+                    padding-bottom: 10px;
+                    color: #e91e63;
+                  "
+                >
+                  Shipping Information Based on ShipRocket
+                </p>
                 <div class="row">
                   <div class="col s24">
                     <div class="col s24 m16">
                       <div class="form-group small">
-                        <label for="exampleInputEmail1">Length (Length in cms. More than 0.5 cm)</label>
-                        <input type="number" v-model="length" class="form-control" placeholder />
+                        <label for="exampleInputEmail1"
+                          >Length (Length in cms. More than 0.5 cm)</label
+                        >
+                        <input
+                          type="number"
+                          v-model="length"
+                          class="form-control"
+                          placeholder
+                        />
                         <span class="input_span_right">cms</span>
                       </div>
                     </div>
                     <div class="col s24 m16">
                       <div class="form-group small">
-                        <label for="exampleInputEmail1">Breadth (Breadth in cms. More than 0.5 cm)</label>
-                        <input type="number" v-model="breadth" class="form-control" placeholder />
+                        <label for="exampleInputEmail1"
+                          >Breadth (Breadth in cms. More than 0.5 cm)</label
+                        >
+                        <input
+                          type="number"
+                          v-model="breadth"
+                          class="form-control"
+                          placeholder
+                        />
                         <span class="input_span_right">cms</span>
                       </div>
                     </div>
                     <div class="col s24 m16">
                       <div class="form-group small">
-                        <label for="exampleInputEmail1">Height (Height in cms. More than 0.5 cm)</label>
-                        <input type="number" v-model="height" class="form-control" placeholder />
+                        <label for="exampleInputEmail1"
+                          >Height (Height in cms. More than 0.5 cm)</label
+                        >
+                        <input
+                          type="number"
+                          v-model="height"
+                          class="form-control"
+                          placeholder
+                        />
                         <span class="input_span_right">cms</span>
                       </div>
                     </div>
                     <div class="col s24 m16">
                       <div class="form-group small">
-                        <label for="exampleInputEmail1">Weight (Weight in kgs. More than 0)</label>
-                        <input type="number" v-model="weight" class="form-control" placeholder />
+                        <label for="exampleInputEmail1"
+                          >Weight (Weight in kgs. More than 0)</label
+                        >
+                        <input
+                          type="number"
+                          v-model="weight"
+                          class="form-control"
+                          placeholder
+                        />
                         <span class="input_span_right">kgs</span>
                       </div>
                     </div>
@@ -513,9 +715,10 @@ export default {
       category: [],
       subcategory: [],
       images: [],
-       baseurl: process.env.BASE_URL,
+      baseurl: process.env.BASE_URL,
       category_selected: 0,
       editSlug: 0,
+      data: {},
       url: "",
       product_name: "",
       subcategory_selected: undefined,
@@ -720,7 +923,7 @@ export default {
       payload.append("height", this.height);
       payload.append("weight", this.weight);
       payload.append("bullet_points", JSON.stringify(this.bullet_points));
-      payload.append("specs", JSON.stringify(this.specs));
+      payload.append("specs", JSON.stringify(this.data));
 
       this.$store
         .dispatch("addProduct", payload)
@@ -853,6 +1056,18 @@ export default {
           : "";
       return str;
     },
+    makeid: function (length) {
+      var result = "";
+      var characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      var charactersLength = characters.length;
+      for (var i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      return new Date().getTime() + result;
+    },
     removeBullets: function (index) {
       this.bullet_points.splice(index, 1);
     },
@@ -887,10 +1102,11 @@ export default {
         this.price = data.price;
         this.price = data.price;
         this.sku = data.sku;
-        this.desc = data.description.replace((/  |\r\n|\n|\r/gm),"");
+        this.desc = data.description.replace(/  |\r\n|\n|\r/gm, "");
         this.specs = data.specs;
+        this.data = data.specs;
         this.stock = data.stock;
-        this.suggested_price = data.mrp
+        this.suggested_price = data.mrp;
         this.bullet_points = this.bullet_points.concat(data.bullet_points);
 
         var payload = new FormData();
@@ -915,6 +1131,66 @@ export default {
           }
         });
       });
+    },
+    add_section: function () {
+      var id = this.makeid(5);
+      var a = {
+        name: "",
+        id: this.makeid(5),
+        sub: {},
+      };
+      console.log(this.data);
+      // this.data.push(a);
+      this.$set(this.data, id, a);
+      this.add_field(id);
+
+      // this.data[this.makeid(5)] = a
+    },
+    remove_field: function (section, index) {
+      // this.field += 1;
+      console.log(section, index);
+      // this.data[section]["sub"].splice(index, 1);
+      this.$delete(this.data[section].sub, index);
+    },
+    remove_section: function (index) {
+      this.$delete(this.data, index);
+    },
+
+    addInput: function () {
+      this.input.push({ name: "" });
+    },
+    remove_input: function (index) {
+      this.input.splice(index, 1);
+    },
+    add_field: function (index) {
+      console.log(index);
+      // this.field += 1;
+      console.log(index);
+      var a = {
+        name: "",
+        type: "1",
+        id: this.makeid(5),
+        dropdown_items: [],
+      };
+
+      this.$set(this.data[index].sub, this.makeid(5), a);
+    },
+    saveSpecs: function () {
+      var payload = {
+        id: this.category,
+        specs: JSON.stringify(this.data),
+      };
+
+      this.$store
+        .dispatch("saveSpecs", payload)
+        .then((res) => {
+          console.log(res);
+          console.log("response");
+          this.$router.push("/dashboard/templates/specification");
+        })
+        .catch((err) => {
+          console.log("error in request", err);
+        });
     },
   },
 };
