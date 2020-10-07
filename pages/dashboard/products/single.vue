@@ -1529,4 +1529,119 @@ label {
   border-radius: 0;
   color: white;
 }
+
+.add-section,
+.add_field_button {
+  background: #2196f3;
+  color: white;
+  padding: 7px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.remove-section,
+.remove_field {
+  background: #f44336;
+  margin-left: 10px;
+  color: white;
+  padding: 7px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+input,
+.spec-section select {
+  height: 35px;
+  margin: 0 10px 10px 0;
+  border-radius: 0;
+  outline: none;
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  box-shadow: none;
+  transition: all 0.3s;
+}
+
+.input_fields_wrap {
+  padding: 15px 0 0;
+}
+
+.input_fields_wrap:not(:last-child) {
+  border-bottom: 1px dashed #e6e6e6;
+}
+
+.popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+}
+
+.popup-main {
+  background-color: white;
+  margin: auto;
+  position: absolute;
+  max-width: 400px;
+  height: 460px;
+  left: 260px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.popup-body {
+  height: 300px;
+  overflow: auto;
+  padding: 30px;
+}
+
+.popup-title {
+  padding: 30px 30px 16px;
+  border-bottom: 1px solid #00000024;
+}
+.popup-action {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 25px;
+  box-shadow: 0px -7px 10px 0px #0000000d;
+}
+
+.popup:after {
+  background-color: rgba(0, 0, 0, 0.83);
+  margin: auto;
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.add_dropdown {
+  background-color: #4caf50;
+  width: 40px;
+  height: 40px;
+  color: white;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  box-shadow: 0px 6px 4px rgba(76, 175, 80, 0.25098);
+  position: absolute;
+  right: 40px;
+}
+
+.pointer {
+  cursor: pointer;
+}
 </style>

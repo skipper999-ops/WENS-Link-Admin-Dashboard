@@ -103,6 +103,10 @@ export const state = () => ({
 
     WebsiteNavUpdate: url + "admin_app/websitenavbar-order/", //key
 
+    slider: url + "admin_app/slider",
+
+    sliderUpdate: url + "admin_app/slider-order/", //key
+
     GetAllCarousels: url + "admin_app/getallcarousel",
 
     createcarousel: url + "admin_app/createcarousel",

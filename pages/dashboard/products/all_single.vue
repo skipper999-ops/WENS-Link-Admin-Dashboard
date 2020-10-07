@@ -264,13 +264,21 @@ export default {
     editProduct: function(id) {
       console.log(id);
 
-      this.$cookies.set("product_edit", id, {
-        path: "/admin",
-        // httpOnly : true,
-        // secure: true,
-        maxAge: 60 * 60 * 24 * 7
-      });
-      this.$router.push("/dashboard/products/edit/single");
+      // this.$cookies.set("product_edit", id, {
+      //   path: "/admin",
+      //   // httpOnly : true,
+      //   // secure: true,
+      //   maxAge: 60 * 60 * 24 * 7
+      // });
+      
+      // this.$router.push(`/dashboard/products/edit/single/id`);
+
+
+      let routeData = this.$router.resolve(`/dashboard/products/edit/${id}`);
+      console.log(routeData.href)
+      window.open(routeData.href, '_blank');
+
+
       //  this.$store.dispatch("getSingleProduct", id).then(res => {
       //   console.log(res);
       // });

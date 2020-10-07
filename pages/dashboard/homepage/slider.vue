@@ -1,5 +1,20 @@
 <template>
   <div class="navbar-spacing padding-top-30">
+    <div
+      class="column-padding header-bottom"
+      style="display: flex; justify-content: space-between;align-items:center"
+    >
+      <h3>Slider Banners</h3>
+      <div>
+      <button v-if="allBanners.length != 0" class="btn btn-success white-text" @click="SaveOrder">
+        Save Order
+      </button>
+      <button class="btn btn-primary white-text" @click="openDropdownPanel">
+        Add Banner
+      </button>
+    </div>
+    </div>
+
     <div v-show="showDropdown" class="popup">
       <div class="popup-main">
         <div class="popup-title">
@@ -8,12 +23,12 @@
         <div class="popup-body">
           <div class="form-control">
             <label>Banner Name</label>
-            <input v-model="name" type="text" style="width:70%" />
+            <input v-model="name" type="text" style="width: 70%" />
           </div>
 
           <div class="form-control">
             <label>Banner Description (Optional)</label>
-            <input v-model="description" type="text" style="width:70%" />
+            <input v-model="description" type="text" style="width: 70%" />
           </div>
 
           <div style="margin: 0 10px 10px 0">
@@ -22,7 +37,7 @@
             <input
               type="file"
               ref="image"
-              class="custom-file-input"
+              class="custom-file-input mainImage"
               id="mainImage"
               accept="image/jpeg"
               @change="uploadImage"
@@ -37,7 +52,7 @@
             <label>Mobile Banner Image ( 1200 x 640 )</label>
             <input
               type="file"
-              class="custom-file-input"
+              class="custom-file-input mainImage"
               ref="image"
               id="mainImage"
               accept="image/jpeg"
@@ -51,7 +66,7 @@
 
           <div class="form-control">
             <label>URL</label>
-            <input type="text" v-model="url" style="width:70%" />
+            <input type="text" v-model="url" style="width: 70%" />
           </div>
 
           <!-- <div class="form-control">
@@ -69,37 +84,143 @@
       </div>
     </div>
 
-    <div class="specification">
-      <div class="holder">
-        <div
-          class="column-padding header-bottom"
-          style="display: flex; justify-content: space-between"
-        >
-          <h3>Main Banner Images</h3>
-          <button class="btn btn-red white-text" @click="openDropdownPanel">Add Banner</button>
+    <div v-show="editshowDropdown" class="popup">
+      <div class="popup-main">
+        <div class="popup-title">
+          <h3>Edit Banner</h3>
         </div>
+        <div class="popup-body">
+          <div class="form-control">
+            <label>Banner Name</label>
+            <input v-model="editing.name" type="text" style="width: 70%" />
+          </div>
 
-        <div class="row">
-          <vue-good-table :columns="columns" :rows="allBanners" :line-numbers="true">
-            <template slot="table-row" slot-scope="props">
-              <span v-if="props.column.field === 'action'">
+          <div class="form-control">
+            <label>Banner Description (Optional)</label>
+            <input v-model="editing.description" type="text" style="width: 70%" />
+          </div>
+
+          <div style="margin: 0 10px 10px 0">
+            <label>Desktop Banner Image ( 1680 x 478 ) </label>
+
+            <input
+              type="file"
+              ref="image"
+              class="custom-file-input mainImage"
+              id="mainImage"
+              accept="image/jpeg"
+              @change="uploadImage"
+            />
+
+            <div class="preview">
+              <img :src="image_preview" />
+            </div>
+          </div>
+
+          <div style="margin: 0 10px 10px 0">
+            <label>Mobile Banner Image ( 1200 x 640 )</label>
+            <input
+              type="file"
+              class="custom-file-input mainImage"
+              ref="image"
+              id="mainImage"
+              accept="image/jpeg"
+              @change="uploadImageMobile"
+            />
+
+            <div class="preview">
+              <img :src="image_mobile_preview" />
+            </div>
+          </div>
+
+          <div class="form-control">
+            <label>URL</label>
+            <input type="text" v-model="editing.url" style="width: 70%" />
+          </div>
+
+          <!-- <div class="form-control">
+            <label>Status</label>
+            <select v-model="status" style="width:70%">
+              <option value="0">Inactive</option>
+              <option value="1">Active</option>
+            </select>
+          </div>-->
+        </div>
+        <div class="popup-action">
+          <div class="pointer" @click="updateBanner">Save</div>
+          <div class="pointer" @click="closeDropdownPanel">Cancel</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="holder">
+      <div class="row">
+        <div class="col-6">
+          <div
+            class="grid-table"
+            style="
+              display: grid;
+              grid-template-columns: repeat(4, minmax(0, 1fr));
+              gap: 4rem;
+              padding: 1rem 1.25rem;
+            "
+          >
+            <div style="padding-left: 50px">Title</div>
+            <div>Description</div>
+            <div>URL</div>
+            <div>Action</div>
+          </div>
+          <draggable
+            handle=".handle"
+            :list="allBanners"
+            class="list-group"
+            ghost-class="ghost"
+            :move="checkMove"
+            @start="dragging = true"
+            @end="dragging = false"
+          >
+            <div
+              class="list-group-item"
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 4rem;
+                align-items: center !important;
+              "
+              v-for="p in allBanners"
+              :key="p.name"
+            >
+              <div>
+                <menu-icon class="feather-icon black handle"></menu-icon>
+                {{ p.name }}
+              </div>
+              <div style="word-break: break-word">{{ p.description }}</div>
+              <div style="word-break: break-word">{{ p.url }}</div>
+              <div>
                 <button
                   type="button"
-                  @click="viewBanner(props.row.image)"
+                  @click="viewBanner(p.image)"
                   class="btn btn-primary"
-                >View Banner</button>
+                >
+                  View
+                </button>
                 <button
                   type="button"
-                  @click="deleteBanner(props.row.id)"
-                  class="btn btn-primary"
-                >Delete</button>
-              </span>
-              <span v-if="props.column.field === 'url'">
-                <a target="_blank" :href="origin + props.row.url">{{origin}}{{props.row.url}}</a>
-              </span>
-              <span v-else>{{ props.formattedRow[props.column.field] }}</span>
-            </template>
-          </vue-good-table>
+                  @click="editBanner(p.id)"
+                  class="btn btn-success"
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  @click="deleteBanner(p.id)"
+                  class="btn btn-red white-text"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </draggable>
         </div>
       </div>
     </div>
@@ -107,53 +228,52 @@
 </template>
 
 <script>
+import { MenuIcon } from "vue-feather-icons";
+import draggable from "vuedraggable";
+let id = 1;
 export default {
-  data: () => ({
-    allBanners: [],
-    origin: "",
-    showDropdown: false,
-    columns: [
-      {
-        label: "Title",
-        field: "name",
-      },
-      {
-        label: "Description",
-        field: "description",
-      },
-      // {
-      //   label: "Banner",
-      //   field: "image"
-      // },
-      {
-        label: "URL",
-        field: "url",
-      },
-      // {
-      //   label: "Status",
-      //   field: "status"
-      // },
-      {
-        label: "Action",
-        field: "action",
-      },
-    ],
-    name: "",
-    description: "",
-    status: 1,
-    image_mobile: "",
-    image: "",
-    image_mobile_preview: "",
-    image_preview: "",
-    url: "",
-  }),
-
+  name: "simple",
+  display: "Simple",
+  order: 0,
+  components: {
+    draggable,
+  },
+  data() {
+    return {
+      allBanners: [],
+      name: "",
+      baseurl: process.env.BASE_URL,
+      description: "",
+      status: 1,
+      image_mobile: "",
+      image: "",
+      image_mobile_preview: "",
+      image_preview: "",
+      url: "",
+      origin: "",
+      editshowDropdown: false,
+      showDropdown: false,
+      editing: {}
+    };
+  },
   mounted() {
-    this.getAllBanner();
-
-    var vm = this;
+    feather.replace({ color: "white" });
+    this.getAllBanner('onload');
+  },
+  components: {
+    MenuIcon,
   },
   methods: {
+    add: function () {
+      this.list.push({ name: "Juan " + id, id: id++ });
+    },
+    replace: function () {
+      this.list = [{ name: "Edgard", id: id++ }];
+    },
+    checkMove: function (e) {
+      window.console.log("Future index: " + e.draggedContext.futureIndex);
+    },
+
     uploadImage() {
       var target = event.target || event.srcElement;
       console.log(target, "changed.");
@@ -183,14 +303,42 @@ export default {
       }
     },
 
-    getAllBanner: function () {
+    getAllBanner: function (type) {
       this.$store.dispatch("getAllBanner").then((res) => {
-        console.log(res);
-        try {
           this.allBanners = JSON.parse(JSON.stringify(res.data.body));
-        } catch {}
+          if( type != 'onload' ){
+            this.SaveOrder();
+          }else{
+            this.GetOrder()
+          }
       });
     },
+
+    editBanner: function (id) {
+      this.editshowDropdown = true
+      this.editing = this.allBanners.filter( v=> v.id == id )[0]
+      console.log(this.editing)
+      this.image_preview = `${this.baseurl}/${this.editing.image}`
+      this.image_mobile_preview = `${this.baseurl}/${this.editing.image_mobile}`
+    },
+
+    openDropdownPanel: function () {
+      this.showDropdown = true;
+    },
+    closeDropdownPanel: function () {
+      this.showDropdown = false;
+      this.editshowDropdown = false;
+      this.name = "";
+      this.description = "";
+      this.image_mobile = "";
+      this.image = "";
+      this.image_mobile_preview = "";
+      this.image_preview = "";
+      this.url = "";
+      this.editing = {};
+      $(".mainImage").val('')
+    },
+
     addBanner: function () {
       var payload = new FormData();
       payload.append("name", this.name);
@@ -201,6 +349,29 @@ export default {
       payload.append("url", this.url);
 
       this.$store.dispatch("addBanner", payload).then((res) => {
+        this.getAllBanner();
+        this.closeDropdownPanel();
+      
+      });
+    },
+
+    updateBanner: function () {
+      var payload = new FormData();
+      payload.append("name", this.editing.name);
+      payload.append("description", this.editing.description);
+      payload.append("status", this.editing.status);
+      if( this.image != '' ){
+        payload.append("image", this.image);
+      }
+      if( this.image != '' ){
+        payload.append("image", this.image_mobile);
+      }
+      payload.append("image_mobile", this.image_mobile);
+      payload.append("url", this.editing.url);
+
+      var id = this.editing.id
+
+      this.$store.dispatch("EditBanner", {payload , id}).then((res) => {
         console.log(res);
         this.getAllBanner();
         this.closeDropdownPanel();
@@ -210,30 +381,96 @@ export default {
       window.open(process.env.BASE_URL + "/media/banners/" + id);
     },
     deleteBanner: function (id) {
-      this.$store.dispatch("editDeleteBanner", id).then((res) => {
+      this.$store.dispatch("DeleteBanner", id).then((res) => {
         console.log(res);
         this.getAllBanner();
       });
     },
-    openDropdownPanel: function () {
-      this.showDropdown = true;
+    SaveOrder: function () {
+      var payload = {
+        key: "SliderOrdering",
+        value: JSON.stringify(this.allBanners)
+      }
+
+      this.$store.dispatch("sliderUpdate", payload).then((res) => {
+        console.log(res);
+        alert("Order Saved")
+      });
     },
-    closeDropdownPanel: function () {
-      this.showDropdown = false;
-      this.name = "";
-      this.description = "";
-      this.image_mobile = "";
-      this.image = "";
-      this.image_mobile_preview = "";
-      this.image_preview = "";
-      this.url = "";
-      this.myDropzone.removeAllFiles();
+    GetOrder: function () {
+      this.$store.dispatch("slider").then((res) => {
+        console.log(res);
+        console.log(JSON.parse(res.data[0].value))
+      });
     },
   },
 };
 </script>
-
 <style scoped>
+.button {
+  margin-top: 35px;
+}
+.handle {
+  float: left;
+  color: #607d8b;
+  margin-right: 20px;
+}
+.close {
+  float: right;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+input {
+  display: inline-block;
+  width: 50%;
+}
+.text {
+  margin: 20px;
+}
+.button {
+  margin-top: 35px;
+}
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+.list-group {
+  min-height: 39px;
+  padding-bottom: 1px;
+  border: 1px dashed #d2d2d2;
+}
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 1rem 1.25rem;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+.handle {
+  cursor: move !important;
+}
+.list-group-item i {
+  cursor: pointer;
+}
+
+.sortable-chosen {
+  background-color: #4caf50;
+  color: white;
+}
+
+.grid-table {
+  font-size: "12px";
+  font-family: "bold";
+}
+
+
 .popup {
   position: fixed;
   left: 0;

@@ -364,7 +364,7 @@
             </div>
             <div class="content" id="c4">
               <div class="bg-white">
-                <div v-if="selected.specs == ''">
+                <div v-if="false">
                   <p style="padding-left: 19px;padding-bottom: 10px;">
                     Specifications not added. Go to
                     <nuxt-link
@@ -376,7 +376,7 @@
                   </p>
                 </div>
                 <!-- <p>Please Complete the specification section</p> -->
-                <div v-if="selected.specs != '{}'">
+                <div v-if="false">
                   <div
                     v-for="(p, index) in selected.specs"
                     :key="p.id"
@@ -431,6 +431,155 @@
                     </div>
                   </div>
                 </div>
+                
+
+
+<div v-if="data != ''">
+                  <div>
+                    <div
+                      class="white"
+                      style="
+                        margin: 10px 0;
+                        width: 100%;
+                        border: 1px solid #e6e6e6;
+                        box-shadow: rgba(0, 0, 0, 0.03) 0px 2px 2px,
+                          rgba(0, 0, 0, 0.03) 0px 1px 0px;
+                      "
+                    >
+                      <div
+                        class="section toolbar"
+                        style="
+                          display: flex;
+                          justify-content: space-between;
+                          border-bottom: 1px solid #e6e6e6;
+                        "
+                      >
+                        <div
+                          class="container"
+                          style="display: flex; justify-content: space-between"
+                        >
+                          <div class="add-section" @click="add_section">
+                            + Add Section
+                          </div>
+                          <!-- <div class="add-section grey">Reset to Default</div> -->
+                        </div>
+                      </div>
+                      <div>
+                        <div
+                          class="spec-section white container"
+                          id="templateHolder"
+                        >
+                          <div
+                            v-for="(p, index) in data"
+                            :key="p.id"
+                            class="input_fields_wrap drag-list"
+                            id="h"
+                          >
+                            <div
+                              style="
+                                display: flex;
+                                justify-content: space-between;
+                              "
+                            >
+                              <div
+                                class="add_field_button"
+                                @click="add_field(index)"
+                              >
+                                Add More Fields
+                              </div>
+                              <div
+                                class="remove-section"
+                                @click="remove_section(index)"
+                              >
+                                Remove Section
+                              </div>
+                            </div>
+                            <br />
+                            <input
+                              type="text"
+                              v-model="p.name"
+                              class="header-data input"
+                              placeholder="Header"
+                              style="display: inline-block"
+                            />
+                            <div class="row">
+                              <div
+                                v-for="(q, index1) in p['sub']"
+                                :key="q.id"
+                                class="col s24"
+                              >
+                                <input
+                                  class="input"
+                                  placeholder="Field"
+                                  id="data"
+                                  v-model="q.name"
+                                  type="text"
+                                  style="display: inline-block; width: 35%"
+                                />
+
+                              
+                                <input
+                                  class="input"
+                                  placeholder="Field"
+                                  id="data"
+                                  v-model="q.value"
+                                  type="text"
+                                  style="display: inline-block; width: 35%"
+                                />
+
+                                <select
+                                  v-model="q.type"
+                                  v-if="false"
+                                  style="display: inline-block; width: 15%"
+                                >
+                                  <option value="1">Text</option>
+                                  <option value="2">Dropdown</option>
+                                  <option value="3">Mixed</option>
+                                </select>
+
+                                <select
+                                  v-if="q.type == 2 || q.type == 3"
+                                  style="display: inline-block; width: 20%"
+                                >
+                                  <option
+                                    v-for="r in q.dropdown_items"
+                                    :key="r.id"
+                                    :value="r.type"
+                                  >
+                                    {{ r.name }}
+                                  </option>
+                                </select>
+
+                                <div
+                                  v-if="q.type == 2 || q.type == 3"
+                                  @click="openDropdownPanel(index, index1)"
+                                  class="right add_field_button"
+                                  style="
+                                    display: inline-block;
+                                    text-decoration: none;
+                                    font-size: 12px;
+                                  "
+                                >
+                                  + Add
+                                </div>
+
+                                <div
+                                  @click="remove_field(index, index1)"
+                                  class="remove_field right"
+                                  style="display: inline-block; font-size: 12px"
+                                >
+                                  Remove
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <button class="btn" @click="saveSpecs">Save</button> -->
+                  </div>
+                </div>
+
               </div>
             </div>
             <div class="content shipping" id="c5">
@@ -486,7 +635,7 @@ export default {
     return {
       category: [],
       subcategory: [],
-      product_id_seller: this.$cookies.get("product_edit"),
+      product_id_seller: this.$route.params.id,
       product_id_admin: 0,
       selected: [],
       manufacturer: "",
@@ -494,6 +643,7 @@ export default {
       return_window: "",
       product_id_type: 0,
       return_text: "",
+      data: {},
       subcategory_selected: 0,
       category_selected: 0,
       images: [],
@@ -646,6 +796,7 @@ export default {
         this.weight = this.selected.product_id.weight;
         this.bullet_points = JSON.parse(this.selected.product_id.bullet_points);
         this.selected.specs = JSON.parse(this.selected.product_id.specs);
+        this.data = JSON.parse(this.selected.product_id.specs);
 
         this.specs = JSON.parse(this.selected.product_id.subcategory.specs);
 
@@ -746,7 +897,7 @@ export default {
       payload.append("height", this.height);
       payload.append("weight", this.weight);
       payload.append("bullet_points", JSON.stringify(this.bullet_points));
-      payload.append("specs", JSON.stringify(this.selected.specs));
+      payload.append("specs", JSON.stringify(this.data));
 
       this.$store
         .dispatch("updateProduct", {
@@ -900,7 +1051,50 @@ export default {
     },
     closeSubCatModel: function() {
       this.showDropdown = false;
-    }
+    },
+    add_section: function () {
+      var id = this.makeid(5);
+      var a = {
+        name: "",
+        id: this.makeid(5),
+        sub: {},
+      };
+      console.log(this.data);
+      // this.data.push(a);
+      this.$set(this.data, id, a);
+      this.add_field(id);
+
+      // this.data[this.makeid(5)] = a
+    },
+    remove_field: function (section, index) {
+      // this.field += 1;
+      console.log(section, index);
+      // this.data[section]["sub"].splice(index, 1);
+      this.$delete(this.data[section].sub, index);
+    },
+    remove_section: function (index) {
+      this.$delete(this.data, index);
+    },
+
+    addInput: function () {
+      this.input.push({ name: "" });
+    },
+    remove_input: function (index) {
+      this.input.splice(index, 1);
+    },
+    add_field: function (index) {
+      console.log(index);
+      // this.field += 1;
+      console.log(index);
+      var a = {
+        name: "",
+        type: "1",
+        id: this.makeid(5),
+        dropdown_items: [],
+      };
+
+      this.$set(this.data[index].sub, this.makeid(5), a);
+    },
   }
 };
 </script>
@@ -1422,5 +1616,120 @@ label {
   text-align: center;
   border-radius: 0;
   color: white;
+}
+
+.add-section,
+.add_field_button {
+  background: #2196f3;
+  color: white;
+  padding: 7px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.remove-section,
+.remove_field {
+  background: #f44336;
+  margin-left: 10px;
+  color: white;
+  padding: 7px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+input,
+.spec-section select {
+  height: 35px;
+  margin: 0 10px 10px 0;
+  border-radius: 0;
+  outline: none;
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  box-shadow: none;
+  transition: all 0.3s;
+}
+
+.input_fields_wrap {
+  padding: 15px 0 0;
+}
+
+.input_fields_wrap:not(:last-child) {
+  border-bottom: 1px dashed #e6e6e6;
+}
+
+.popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+}
+
+.popup-main {
+  background-color: white;
+  margin: auto;
+  position: absolute;
+  max-width: 400px;
+  height: 460px;
+  left: 260px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.popup-body {
+  height: 300px;
+  overflow: auto;
+  padding: 30px;
+}
+
+.popup-title {
+  padding: 30px 30px 16px;
+  border-bottom: 1px solid #00000024;
+}
+.popup-action {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 25px;
+  box-shadow: 0px -7px 10px 0px #0000000d;
+}
+
+.popup:after {
+  background-color: rgba(0, 0, 0, 0.83);
+  margin: auto;
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.add_dropdown {
+  background-color: #4caf50;
+  width: 40px;
+  height: 40px;
+  color: white;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  box-shadow: 0px 6px 4px rgba(76, 175, 80, 0.25098);
+  position: absolute;
+  right: 40px;
+}
+
+.pointer {
+  cursor: pointer;
 }
 </style>

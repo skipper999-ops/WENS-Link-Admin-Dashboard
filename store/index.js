@@ -1066,11 +1066,33 @@ export const actions = {
                 });
         });
     },
-    editDeleteBanner({ commit, state }, payload) {
+    DeleteBanner({ commit, state }, payload) {
         return new Promise((resolve, reject) => {
             axios({
                     method: "DELETE",
                     url: state.api.editDeleteBanner + payload,
+                    contentType: "application/json",
+                    headers: {
+                        Authorization: "Bearer " + this.$cookies.get("access_token")
+                    }
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    resolve(res);
+                })
+                .catch(err => {
+                    console.log("error in request", err);
+                    reject(err)
+                });
+        });
+    },
+    EditBanner({ commit, state }, {payload , id}) {
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "PATCH",
+                    url: state.api.editDeleteBanner + id,
+                    data: payload,
                     contentType: "application/json",
                     headers: {
                         Authorization: "Bearer " + this.$cookies.get("access_token")
@@ -1162,6 +1184,52 @@ export const actions = {
                     method: "PUT",
                     data: payload,
                     url: state.api.WebsiteNavUpdate + "WebsiteNav",
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    resolve(res);
+                })
+                .catch(err => {
+                    console.log("error in request", err);
+                    reject(err)
+                });
+        });
+    },
+
+    slider({ commit, state }) {
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "GET",
+                    url: state.api.slider,
+                    contentType: "application/json",
+                    headers: {
+                        'Authorization': "Bearer " + this.$cookies.get('access_token')
+                    }
+                })
+                .then(res => {
+                    console.log(res.data);
+                    console.log("response");
+                    resolve(res);
+                })
+                .catch(err => {
+                    console.log("error in request", err);
+                    reject(err)
+                });
+        });
+    },
+
+
+    sliderUpdate({ commit, state }, payload) {
+        return new Promise((resolve, reject) => {
+            axios({
+                    method: "PUT",
+                    data: payload,
+                    url: state.api.sliderUpdate + "SliderOrdering",
                     contentType: "application/json",
                     headers: {
                         'Authorization': "Bearer " + this.$cookies.get('access_token')
