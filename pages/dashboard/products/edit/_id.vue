@@ -8,7 +8,7 @@
         <div class="popup-body">
           <div>
             <div v-for="(p, index) in error" :key="p.id">
-              <p style="font-size:15px;font-weight: bold">{{ index }}</p>
+              <p style="font-size: 15px; font-weight: bold">{{ index }}</p>
               <p style="margin-bottom: 15px">{{ p[0] }}</p>
             </div>
           </div>
@@ -22,8 +22,10 @@
     <div class="specification">
       <div class="holder">
         <div class="column-padding header-bottom">
-          <h3 style="display: flex;align-items: center;">Add a Product to your catalogue</h3>
-          <p style="padding-left: 19px;padding-bottom: 10px;">
+          <h3 style="display: flex; align-items: center">
+            Add a Product to your catalogue
+          </h3>
+          <p style="padding-left: 19px; padding-bottom: 10px">
             Product added here will be added to a common database and vendors
             can use these as templates when adding their products
           </p>
@@ -40,7 +42,9 @@
               <div class="column-left">
                 <img
                   class="product-image"
-                  :src="baseurl + '/backend/api/products/image/200/40/' + images[0]"
+                  :src="
+                    baseurl + '/backend/api/products/image/200/40/' + images[0]
+                  "
                 />
               </div>
               <div class="column-right">
@@ -67,12 +71,14 @@
 
       <div class="holder" v-if="selected.slug != ''">
         <h3 class>Submit Product</h3>
-        <div style="padding-left: 19px;padding-bottom: 10px;" class>
+        <div style="padding-left: 19px; padding-bottom: 10px" class>
           <button
             class="btn btn-primary"
             @click="updateProduct"
             :disabled="selected.slug == ''"
-          >Update Product</button>
+          >
+            Update Product
+          </button>
         </div>
       </div>
 
@@ -82,25 +88,19 @@
       >
         <div class="element-tab-view">
           <input type="radio" id="tab1" name="tab" checked />
-          <label for="tab1">
-            <i class="fa fa-code"></i> Basic
-          </label>
+          <label for="tab1"> <i class="fa fa-code"></i> Basic </label>
           <input type="radio" id="tab2" name="tab" />
-          <label for="tab2">
-            <i class="fa fa-history"></i> Descriptions
-          </label>
+          <label for="tab2"> <i class="fa fa-history"></i> Descriptions </label>
           <input type="radio" id="tab3" name="tab" />
-          <label for="tab3">
-            <i class="fa fa-pencil"></i> Images
-          </label>
+          <label for="tab3"> <i class="fa fa-pencil"></i> Images </label>
           <input type="radio" id="tab4" name="tab" />
           <label for="tab4">
             <i class="fa fa-share-alt"></i> Specifications
           </label>
           <input type="radio" id="tab5" name="tab" />
-          <label for="tab5">
-            <i class="fa fa-share-alt"></i> Shipping
-          </label>
+          <label for="tab5"> <i class="fa fa-share-alt"></i> Filters </label>
+          <input type="radio" id="tab6" name="tab" />
+          <label for="tab6"> <i class="fa fa-share-alt"></i> Shipping </label>
           <div class="line"></div>
           <div class="content-container">
             <div class="content basic" id="c1">
@@ -116,21 +116,24 @@
                   <div class="col s24 m16">
                     <div class="col s24 m12">
                       <label>Category</label>
-                      <select @change="getSubcategories" v-model="category_selected">
+                      <select
+                        @change="getSubcategories"
+                        v-model="category_selected"
+                      >
                         <option v-for="p in category" :key="p.id" :value="p.id">
-                          {{
-                          p.name
-                          }}
+                          {{ p.name }}
                         </option>
                       </select>
                     </div>
                     <div class="col s24 m12">
                       <label>SubCategory</label>
                       <select v-model="subcategory_selected">
-                        <option v-for="p in subcategory" :key="p.id" :value="p.id">
-                          {{
-                          p.name
-                          }}
+                        <option
+                          v-for="p in subcategory"
+                          :key="p.id"
+                          :value="p.id"
+                        >
+                          {{ p.name }}
                         </option>
                       </select>
                     </div>
@@ -154,11 +157,29 @@
                     <div class="col s24">
                       <div class="form-group">
                         <div
-                          style="display: flex;justify-content: space-between;align-items: center;"
+                          style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                          "
                         >
-                          <label style="display:flex" for="exampleInputEmail1">Product Slug</label>
-                          <div v-if="!editSlug" @click="allowSlugField(1)" class="link_tag">Edit</div>
-                          <div v-if="editSlug" @click="allowSlugField(0)" class="link_tag">Save</div>
+                          <label style="display: flex" for="exampleInputEmail1"
+                            >Product Slug</label
+                          >
+                          <div
+                            v-if="!editSlug"
+                            @click="allowSlugField(1)"
+                            class="link_tag"
+                          >
+                            Edit
+                          </div>
+                          <div
+                            v-if="editSlug"
+                            @click="allowSlugField(0)"
+                            class="link_tag"
+                          >
+                            Save
+                          </div>
                         </div>
                         <input
                           v-model="slug"
@@ -229,7 +250,9 @@
 
                     <div class="col s24">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Search Terms (SEO)</label>
+                        <label for="exampleInputEmail1"
+                          >Search Terms (SEO)</label
+                        >
                         <input
                           type="text"
                           v-model="seo"
@@ -258,7 +281,9 @@
                             v-for="p in product_id_list"
                             :key="p.id"
                             :value="p.id"
-                          >{{ p.name }}</option>
+                          >
+                            {{ p.name }}
+                          </option>
                         </select>
                       </div>
                     </div>
@@ -282,9 +307,10 @@
 
                     <div class="col s24">
                       <div class="form-group">
-                        <label
-                          for="exampleInputEmail1"
-                        >Return Window (Days) (Set 0 if return not allowed)</label>
+                        <label for="exampleInputEmail1"
+                          >Return Window (Days) (Set 0 if return not
+                          allowed)</label
+                        >
                         <input
                           type="number"
                           @input="changeText"
@@ -296,11 +322,54 @@
                     </div>
                     <div class="col s24" v-if="return_window != 0">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Return Policy Terms</label>
+                        <label for="exampleInputEmail1"
+                          >Return Policy Terms</label
+                        >
                         <textarea
-                          style="height:130px"
+                          style="height: 130px"
                           type="text"
                           v-model="return_text"
+                          class="form-control"
+                          placeholder
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div class="col s24">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1"
+                          >Meta Title</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="meta_title"
+                          placeholder="Meta Title"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1"
+                          >Meta Keywords</label
+                        >
+                        <textarea
+                          style="height: 130px"
+                          type="text"
+                          v-model="meta_keyword"
+                          class="form-control"
+                          placeholder
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div class="col s24">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1"
+                          >Meta Description</label
+                        >
+                        <textarea
+                          style="height: 130px"
+                          type="text"
+                          v-model="meta_description"
                           class="form-control"
                           placeholder
                         ></textarea>
@@ -315,34 +384,55 @@
                 <div class="column-padding">
                   <!-- <h3 style="display: flex;align-items: center;">Descriptions & Bullet Points</h3> -->
                   <p
-                    style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
-                  >These informations cannot be changed by the Vendors</p>
+                    style="
+                      padding-left: 19px;
+                      padding-bottom: 10px;
+                      color: #e91e63;
+                    "
+                  >
+                    These informations cannot be changed by the Vendors
+                  </p>
                 </div>
 
                 <div class="row">
                   <div class="col s24">
                     <div class="col s24">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Write a Short Description about the product</label>
-                        <textarea v-model="description" style="height:160px"></textarea>
+                        <label for="exampleInputEmail1"
+                          >Write a Short Description about the product</label
+                        >
+                        <textarea
+                          v-model="description"
+                          style="height: 160px"
+                        ></textarea>
                       </div>
                     </div>
                     <div class="col s24">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Add Bullet Points (Upto 9)</label>
+                        <label for="exampleInputEmail1"
+                          >Add Bullet Points (Upto 9)</label
+                        >
                         <div
-                          style="display: flex; align-items:center"
+                          style="display: flex; align-items: center"
                           v-for="(p, index) in bullet_points"
                           :key="p.length"
                         >
-                          <input type="text" class="form-control" v-model="p.value" />
+                          <input
+                            type="text"
+                            class="form-control"
+                            v-model="p.value"
+                          />
                           <div
                             style="color: red"
                             class="pointer"
                             @click="removeBullets(index)"
-                          >Remove</div>
+                          >
+                            Remove
+                          </div>
                         </div>
-                        <div class="link_tag" @click="addMoreBullets">+ Add More points</div>
+                        <div class="link_tag" @click="addMoreBullets">
+                          + Add More points
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -352,8 +442,10 @@
             <div class="content images" id="c3">
               <div class="bg-white">
                 <!-- <h3 class>Images</h3> -->
-                <p style="padding-left: 19px;padding-bottom: 10px;">Upload Images. (Max 10)</p>
-                <div style="padding-left: 19px;padding-bottom: 10px;" class>
+                <p style="padding-left: 19px; padding-bottom: 10px">
+                  Upload Images. (Max 10)
+                </p>
+                <div style="padding-left: 19px; padding-bottom: 10px" class>
                   <div class="dropzone dz-clickable" id="myDrop">
                     <div class="dz-default dz-message" data-dz-message>
                       <span>Drop files here to upload</span>
@@ -365,14 +457,15 @@
             <div class="content" id="c4">
               <div class="bg-white">
                 <div v-if="false">
-                  <p style="padding-left: 19px;padding-bottom: 10px;">
+                  <p style="padding-left: 19px; padding-bottom: 10px">
                     Specifications not added. Go to
                     <nuxt-link
                       :to="
-                '/dashboard/templates/specification/' +
-                  this.subcategory_selected
-              "
-                    >Specifications</nuxt-link>and add them
+                        '/dashboard/templates/specification/' +
+                        this.subcategory_selected
+                      "
+                      >Specifications</nuxt-link
+                    >and add them
                   </p>
                 </div>
                 <!-- <p>Please Complete the specification section</p> -->
@@ -386,7 +479,11 @@
                     <h3>{{ p.name }}</h3>
                     <div class="row">
                       <div class="col s12">
-                        <div class="col s24" v-for="(q, index1) in p['sub']" :key="q.id">
+                        <div
+                          class="col s24"
+                          v-for="(q, index1) in p['sub']"
+                          :key="q.id"
+                        >
                           <div class="form-group">
                             <label>{{ q.name }}</label>
 
@@ -394,11 +491,11 @@
                               <input type="text" :id="q.id" v-model="q.value" />
                             </div>
 
-                            <div style="display: flex;" v-if="q.type == 2">
+                            <div style="display: flex" v-if="q.type == 2">
                               <select
                                 v-model="q.value"
                                 :id="q.id"
-                                style="display: inline-block; width: 100% "
+                                style="display: inline-block; width: 100%"
                               >
                                 <option :value="undefined">Not Selected</option>
 
@@ -406,12 +503,18 @@
                                   v-for="r in q.dropdown_items"
                                   :key="r.id"
                                   :value="r.name"
-                                >{{ r.name }}</option>
+                                >
+                                  {{ r.name }}
+                                </option>
                               </select>
                             </div>
 
-                            <div style="display: flex;" v-if="q.type == 3">
-                              <input type="text" :class="q.id" v-model="q.value" />
+                            <div style="display: flex" v-if="q.type == 3">
+                              <input
+                                type="text"
+                                :class="q.id"
+                                v-model="q.value"
+                              />
                               <select
                                 v-model="q.dropdown"
                                 :class="q.id"
@@ -422,7 +525,9 @@
                                   v-for="r in q.dropdown_items"
                                   :key="r.id"
                                   :value="r.name"
-                                >{{ r.name }}</option>
+                                >
+                                  {{ r.name }}
+                                </option>
                               </select>
                             </div>
                           </div>
@@ -431,10 +536,8 @@
                     </div>
                   </div>
                 </div>
-                
 
-
-<div v-if="data != ''">
+                <div v-if="data != ''">
                   <div>
                     <div
                       class="white"
@@ -517,7 +620,6 @@
                                   style="display: inline-block; width: 35%"
                                 />
 
-                              
                                 <input
                                   class="input"
                                   placeholder="Field"
@@ -579,42 +681,122 @@
                     <!-- <button class="btn" @click="saveSpecs">Save</button> -->
                   </div>
                 </div>
-
               </div>
             </div>
             <div class="content shipping" id="c5">
               <div class="bg-white">
                 <!-- <h3>Shipping Details</h3> -->
                 <p
-                  style="padding-left: 19px;padding-bottom: 10px;color:#E91E63"
-                >Shipping Information Based on ShipRocket</p>
+                  style="
+                    padding-left: 19px;
+                    padding-bottom: 10px;
+                    color: #e91e63;
+                  "
+                >
+                  
+                </p>
+                <div class="row">
+                  <div class="col s24">
+
+
+            <div>
+              <div class="spec-section white container" id="templateHolder">
+                <div
+                  v-for="(p, index) in filters"
+                  :key="p.id"
+                  class="input_fields_wrap drag-list"
+                  id="h"
+                >
+                      <p>
+                       {{p.name}}
+                      </p>
+
+                      <input
+                        class="input"
+                        placeholder="value"
+                        v-model="p.value"
+                        type="text"
+                        style="display: inline-block; width: 35%"
+                      />
+
+        
+                  
+                  </div>
+                </div>
+              </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="content shipping" id="c6">
+              <div class="bg-white">
+                <!-- <h3>Shipping Details</h3> -->
+                <p
+                  style="
+                    padding-left: 19px;
+                    padding-bottom: 10px;
+                    color: #e91e63;
+                  "
+                >
+                  Shipping Information Based on ShipRocket
+                </p>
                 <div class="row">
                   <div class="col s24">
                     <div class="col s24 m16">
                       <div class="form-group small">
-                        <label for="exampleInputEmail1">Length (Length in cms. More than 0.5 cm)</label>
-                        <input type="number" v-model="length" class="form-control" placeholder />
+                        <label for="exampleInputEmail1"
+                          >Length (Length in cms. More than 0.5 cm)</label
+                        >
+                        <input
+                          type="number"
+                          v-model="length"
+                          class="form-control"
+                          placeholder
+                        />
                         <span class="input_span_right">cms</span>
                       </div>
                     </div>
                     <div class="col s24 m16">
                       <div class="form-group small">
-                        <label for="exampleInputEmail1">Breadth (Breadth in cms. More than 0.5 cm)</label>
-                        <input type="number" v-model="breadth" class="form-control" placeholder />
+                        <label for="exampleInputEmail1"
+                          >Breadth (Breadth in cms. More than 0.5 cm)</label
+                        >
+                        <input
+                          type="number"
+                          v-model="breadth"
+                          class="form-control"
+                          placeholder
+                        />
                         <span class="input_span_right">cms</span>
                       </div>
                     </div>
                     <div class="col s24 m16">
                       <div class="form-group small">
-                        <label for="exampleInputEmail1">Height (Height in cms. More than 0.5 cm)</label>
-                        <input type="number" v-model="height" class="form-control" placeholder />
+                        <label for="exampleInputEmail1"
+                          >Height (Height in cms. More than 0.5 cm)</label
+                        >
+                        <input
+                          type="number"
+                          v-model="height"
+                          class="form-control"
+                          placeholder
+                        />
                         <span class="input_span_right">cms</span>
                       </div>
                     </div>
                     <div class="col s24 m16">
                       <div class="form-group small">
-                        <label for="exampleInputEmail1">Weight (Weight in kgs. More than 0)</label>
-                        <input type="number" v-model="weight" class="form-control" placeholder />
+                        <label for="exampleInputEmail1"
+                          >Weight (Weight in kgs. More than 0)</label
+                        >
+                        <input
+                          type="number"
+                          v-model="weight"
+                          class="form-control"
+                          placeholder
+                        />
                         <span class="input_span_right">kgs</span>
                       </div>
                     </div>
@@ -655,30 +837,34 @@ export default {
       showDropdown: false,
       slugify: "",
       editSlug: 0,
+      meta_description: "",
+      meta_keyword: "",
+      meta_title: "",
       not_similar: 0,
       product_id_list: [
         {
           id: 1,
-          name: "UPC"
+          name: "UPC",
         },
         {
           id: 2,
-          name: "EAN"
+          name: "EAN",
         },
         {
           id: 3,
-          name: "GCID"
+          name: "GCID",
         },
         {
           id: 4,
-          name: "GTIN"
+          name: "GTIN",
         },
         {
           id: 5,
-          name: "ASIN"
-        }
+          name: "ASIN",
+        },
       ],
       specs: [],
+      filters: [],
       vs: this,
       baseurl: process.env.BASE_URL,
       length: 0,
@@ -710,30 +896,26 @@ export default {
       headers: {
         Authorization: "Bearer " + vm.$cookies.get("access_token"),
         "Cache-Control": null,
-        "X-Requested-With": null
+        "X-Requested-With": null,
       },
-      renameFilename: function(filename) {
+      renameFilename: function (filename) {
         console.log(filename);
         console.log(
           vm.product_name + "_" + new Date().getTime() + "_" + filename
         );
         return vm.product_name + "_" + new Date().getTime() + "_" + filename;
-      }
+      },
     });
-    this.myDropzone.on("sending", function(file, xhr, formData) {
+    this.myDropzone.on("sending", function (file, xhr, formData) {
       var filenames = [];
       console.log("success");
-      $(".dz-preview .dz-filename").each(function() {
-        filenames.push(
-          $(this)
-            .find("span")
-            .text()
-        );
+      $(".dz-preview .dz-filename").each(function () {
+        filenames.push($(this).find("span").text());
       });
       formData.append("filenames", filenames);
     });
     /* Add Files Script*/
-    this.myDropzone.on("successmultiple", function(file, message) {
+    this.myDropzone.on("successmultiple", function (file, message) {
       console.log("success");
       console.log(file, message);
       console.log(file);
@@ -741,24 +923,24 @@ export default {
         vm.images.push(file.filename);
       });
     });
-    this.myDropzone.on("error", function(data) {
+    this.myDropzone.on("error", function (data) {
       $("#msg").html(
         '<div class="alert alert-danger">There is some thing wrong, Please try again!</div>'
       );
     });
-    this.myDropzone.on("complete", function(file) {
+    this.myDropzone.on("complete", function (file) {
       //   myDropzone.removeFile(file)
     });
-    this.myDropzone.on("removedfile", function(file) {
+    this.myDropzone.on("removedfile", function (file) {
       //   myDropzone.removeFile(file)
       console.log(file);
       if (!file.upload) {
-        vm.images = vm.images.filter(v => v != file.name);
+        vm.images = vm.images.filter((v) => v != file.name);
       } else {
-        vm.images = vm.images.filter(v => v != file.upload.filename);
+        vm.images = vm.images.filter((v) => v != file.upload.filename);
       }
     });
-    this.myDropzone.on("addedfile", function(file) {
+    this.myDropzone.on("addedfile", function (file) {
       console.log("added file");
       console.log(this.files.length);
       console.log(this.options.maxFiles);
@@ -769,7 +951,7 @@ export default {
 
     this.$store
       .dispatch("getSingleVendorProduct", this.product_id_seller)
-      .then(res => {
+      .then((res) => {
         console.log(res);
         this.selected = res.data;
         this.product_id_admin = this.selected.product_id.id;
@@ -784,6 +966,9 @@ export default {
         this.category_selected = this.selected.product_id.category.id;
         this.seo = this.selected.product_id.seo;
         this.brand = this.selected.product_id.brand;
+        this.meta_title = this.selected.product_id.meta_title;
+        this.meta_keyword = this.selected.product_id.meta_keyword;
+        this.meta_description = this.selected.product_id.meta_description;
         this.description = this.selected.product_id.description;
         this.manufacturer = this.selected.product_id.manufacturer;
         this.length = this.selected.product_id.length;
@@ -798,7 +983,43 @@ export default {
         this.selected.specs = JSON.parse(this.selected.product_id.specs);
         this.data = JSON.parse(this.selected.product_id.specs);
 
-        this.specs = JSON.parse(this.selected.product_id.subcategory.specs);
+        var filter_values = JSON.parse(this.selected.product_id.filters)
+
+        this.filters = JSON.parse(this.selected.product_id.subcategory.filters);
+
+
+
+
+
+
+        if( filter_values.length != 0 ){
+
+              for( var i = 0; i < this.filters.length; i++ ){
+
+                var index = filter_values.findIndex( v => v.name == this.filters[i].name)
+
+                if( index != -1){
+
+                    this.filters[i]['value'] = filter_values[index].value
+
+                }
+
+                
+                
+
+
+              }
+      
+      }
+
+      console.log(this.filters)
+
+      
+         for( var i = 0; i < this.filters.length; i++ ){
+
+           if( this.filters[i]['value'] == undefined ) this.filters[i]['value'] = ''
+
+         }
 
         for (var i = 0; i < this.images.length; i++) {
           var mockFile = { name: this.images[i] };
@@ -814,10 +1035,8 @@ export default {
           mockFile.previewElement.classList.add("dz-complete");
         }
 
-        console.log(this.myDropzone.getAcceptedFiles());
 
-        this.$store.dispatch("getCategory").then(res => {
-          console.log(res);
+        this.$store.dispatch("getCategory").then((res) => {
           this.category = res.data;
           this.getSubcategories();
         });
@@ -829,44 +1048,38 @@ export default {
             var template_specs = vm.specs;
 
             // if (template_specs.hasOwnProperty(key1)) {
-              console.log(specs);
 
-              for (let key2 in specs[key1].sub) {
-                console.log(key1);
-                var sub = specs[key1].sub;
+            for (let key2 in specs[key1].sub) {
+              var sub = specs[key1].sub;
 
-                if (sub.hasOwnProperty(key2)) {
-                  console.log(specs[key1].sub[key2].type)
-                  if (specs[key1].sub[key2].type == 3) {
-                    vm.$set(
-                      specs[key1].sub[key2],
-                      "dropdown",
-                      specs[key1].sub[key2].dropdown
-                    );
-                    vm.$set(
-                      specs[key1].sub[key2],
-                      "value",
-                      specs[key1].sub[key2].value
-                    );
-                  } else {
-                    console.log("Sdsd");
-                    console.log(specs[key1].sub[key2]);
-                    console.log(specs[key1].sub[key2].value);
-                    vm.$set(
-                      specs[key1].sub[key2],
-                      "value",
-                      specs[key1].sub[key2].value
-                    );
-                  }
+              if (sub.hasOwnProperty(key2)) {
+                if (specs[key1].sub[key2].type == 3) {
+                  vm.$set(
+                    specs[key1].sub[key2],
+                    "dropdown",
+                    specs[key1].sub[key2].dropdown
+                  );
+                  vm.$set(
+                    specs[key1].sub[key2],
+                    "value",
+                    specs[key1].sub[key2].value
+                  );
+                } else {
+                  vm.$set(
+                    specs[key1].sub[key2],
+                    "value",
+                    specs[key1].sub[key2].value
+                  );
                 }
               }
+            }
             // }
           }
         });
       });
   },
   watch: {
-    product_name: function(newVal, oldVal) {
+    product_name: function (newVal, oldVal) {
       // watch it
       console.log("Prop changed: ", newVal, " | was: ", oldVal);
       if (newVal != "") {
@@ -874,10 +1087,10 @@ export default {
       } else {
         this.vs.myDropzone.disable();
       }
-    }
+    },
   },
   methods: {
-    updateProduct: function() {
+    updateProduct: function () {
       var payload = new FormData();
       payload.append("id", this.product_id_admin);
       payload.append("product_name", this.product_name);
@@ -898,17 +1111,21 @@ export default {
       payload.append("weight", this.weight);
       payload.append("bullet_points", JSON.stringify(this.bullet_points));
       payload.append("specs", JSON.stringify(this.data));
+      payload.append("filters", JSON.stringify(this.filters));
+      payload.append("meta_title", this.meta_title);
+      payload.append("meta_keyword", this.meta_keyword);
+      payload.append("meta_description", this.meta_description);
 
       this.$store
         .dispatch("updateProduct", {
           payload: payload,
-          id: this.product_id_admin
+          id: this.product_id_admin,
         })
-        .then(res => {
+        .then((res) => {
           console.log(res);
-          this.updateSellerProduct()
+          this.updateSellerProduct();
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error.response.status);
           this.error = error.response.data;
 
@@ -920,7 +1137,7 @@ export default {
         });
     },
 
-    updateSellerProduct: function() {
+    updateSellerProduct: function () {
       var payload = new FormData();
       payload.append("product_name", this.product_name);
       payload.append("id", this.product_id_seller);
@@ -931,46 +1148,47 @@ export default {
       payload.append("return_text", this.return_text);
       payload.append("return_days", this.return_window);
 
-      var id = this.product_id_seller
+      var id = this.product_id_seller;
 
-
-      this.$store.dispatch("updateSellerSingleProduct", { payload , id }).then(res => {
-        console.log(res);
-        this.$router.push("/dashboard/products/all_single");
-      });
+      this.$store
+        .dispatch("updateSellerSingleProduct", { payload, id })
+        .then((res) => {
+          console.log(res);
+          this.$router.push("/dashboard/products/all_single");
+        });
     },
 
-    slugifyTitle: function() {
+    slugifyTitle: function () {
       console.log("Sdsd");
       this.slug = this.product_name
         .toLowerCase()
         .replace(/[^\w ]+/g, "")
         .replace(/ +/g, "-");
     },
-    addMoreBullets: function() {
+    addMoreBullets: function () {
       if (this.bullet_points.length < 9) {
         this.bullet_points.push({ value: "" });
       }
     },
-    removeBullets: function(index) {
+    removeBullets: function (index) {
       this.bullet_points.splice(index, 1);
     },
-    getSubcategories: function() {
+    getSubcategories: function () {
       this.$store
         .dispatch("getsubCategory", this.category_selected)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           console.log("________________");
           this.subcategory = res.data;
         });
     },
 
-    allowSlugField: function(val) {
+    allowSlugField: function (val) {
       console.log(val);
 
       this.editSlug = val;
     },
-    changeText: function() {
+    changeText: function () {
       this.return_text =
         "Returns are just acknowledged inside " +
         this.return_window +
@@ -978,7 +1196,7 @@ export default {
         this.inWords(this.return_window) +
         ") days of the date of procurement. To be qualified for an arrival, your thing must be unused and in a similar condition that you got it. On the off chance that the item is gotten by seller in unused and perfect condition and in its unique bundling without tearing out the Tag, seller will discount your buy.";
     },
-    inWords: function(num) {
+    inWords: function (num) {
       console.log(num);
 
       var a = [
@@ -1001,7 +1219,7 @@ export default {
         "sixteen ",
         "seventeen ",
         "eighteen ",
-        "nineteen "
+        "nineteen ",
       ];
       var b = [
         "",
@@ -1013,7 +1231,7 @@ export default {
         "sixty",
         "seventy",
         "eighty",
-        "ninety"
+        "ninety",
       ];
 
       if ((num = num.toString()).length > 9) return "overflow";
@@ -1046,10 +1264,10 @@ export default {
       return str;
     },
 
-    openDropdownPanel: function() {
+    openDropdownPanel: function () {
       this.showDropdown = true;
     },
-    closeSubCatModel: function() {
+    closeSubCatModel: function () {
       this.showDropdown = false;
     },
     add_section: function () {
@@ -1095,7 +1313,7 @@ export default {
 
       this.$set(this.data[index].sub, this.makeid(5), a);
     },
-  }
+  },
 };
 </script>
 
@@ -1402,6 +1620,13 @@ label {
   left: 542.948px;
 }
 .element-tab-view > input#tab5:checked ~ .content-container #c5 {
+  opacity: 1;
+  z-index: 93;
+}
+.element-tab-view > input#tab6:checked ~ .line {
+  left: 671.948px;
+}
+.element-tab-view > input#tab6:checked ~ .content-container #c6 {
   opacity: 1;
   z-index: 93;
 }

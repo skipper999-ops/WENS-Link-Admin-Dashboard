@@ -41,6 +41,12 @@
                 <p class="bold success" style="font-size: 25px">₹ {{ total_amount }}</p>
               </div>
             </div>
+            <div style="padding-bottom:10px" v-if="delivery_charge > 0">
+              <p class="bold">Delivery Charges</p>
+              <div>
+                <p class="bold success" style="font-size: 25px">₹ {{ delivery_charge }}</p>
+              </div>
+            </div>
             <div style="display:flex">
               <p class="bold">Method:</p>
               <div style="padding-left: 5px">
@@ -190,6 +196,7 @@ export default {
       products: [],
       baseurl: process.env.BASE_URL,
       total_amount: 0,
+      delivery_charge: 0,
       ordered_at: "",
       total_quantity: 0,
       isGuest: false,
@@ -230,6 +237,8 @@ export default {
           }
 
           this.total_amount = this.sum(this.products, "product_price");
+
+          this.delivery_charge = this.details.delivery_charge;
 
           this.total_quantity = this.sum(this.products, "quantity");
 

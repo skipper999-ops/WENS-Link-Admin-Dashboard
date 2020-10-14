@@ -123,7 +123,9 @@
             <i class="fa fa-share-alt"></i> Specifications
           </label>
           <input type="radio" id="tab5" name="tab" />
-          <label for="tab5"> <i class="fa fa-share-alt"></i> Shipping </label>
+          <label for="tab5"> <i class="fa fa-share-alt"></i> Filters </label>
+          <input type="radio" id="tab6" name="tab" />
+          <label for="tab6"> <i class="fa fa-share-alt"></i> Shipping </label>
           <div class="line"></div>
           <div class="content-container">
             <div class="content basic" id="c1">
@@ -334,6 +336,49 @@
                         ></textarea>
                       </div>
                     </div>
+
+                    <div class="col s24">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1"
+                          >Meta Title</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="meta_title"
+                          placeholder="Meta Title"
+                        />
+                      </div>
+                    </div>
+                    <div class="col s24">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1"
+                          >Meta Keywords</label
+                        >
+                        <textarea
+                          style="height: 130px"
+                          type="text"
+                          v-model="meta_keyword"
+                          class="form-control"
+                          placeholder
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div class="col s24">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1"
+                          >Meta Description</label
+                        >
+                        <textarea
+                          style="height: 130px"
+                          type="text"
+                          v-model="meta_description"
+                          class="form-control"
+                          placeholder
+                        ></textarea>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -584,7 +629,54 @@
                 </div>
               </div>
             </div>
-            <div class="content shipping" id="c5">
+<div class="content shipping" id="c5">
+              <div class="bg-white">
+                <!-- <h3>Shipping Details</h3> -->
+                <p
+                  style="
+                    padding-left: 19px;
+                    padding-bottom: 10px;
+                    color: #e91e63;
+                  "
+                >
+                  
+                </p>
+                <div class="row">
+                  <div class="col s24">
+
+
+            <div>
+              <div class="spec-section white container" id="templateHolder">
+                <div
+                  v-for="(p, index) in filters"
+                  :key="p.id"
+                  class="input_fields_wrap drag-list"
+                  id="h"
+                >
+                      <p>
+                       {{p.name}}
+                      </p>
+
+                      <input
+                        class="input"
+                        placeholder="value"
+                        v-model="p.value"
+                        type="text"
+                        style="display: inline-block; width: 35%"
+                      />
+
+        
+                  
+                  </div>
+                </div>
+              </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="content shipping" id="c6">
               <div class="bg-white">
                 <!-- <h3>Shipping Details</h3> -->
                 <p
@@ -729,6 +821,9 @@ export default {
       error: {},
       showDropdown: false,
       brand: "",
+      meta_description: "",
+      meta_keyword: "",
+      meta_title: "",
       manufacturer: "",
       seo: "",
       desc: "",
@@ -757,6 +852,7 @@ export default {
       ],
       product_id_type: 1,
       specs: [],
+      filters: [],
       brand_selected: 0,
       columns: [
         {
@@ -925,6 +1021,11 @@ export default {
       payload.append("bullet_points", JSON.stringify(this.bullet_points));
       payload.append("specs", JSON.stringify(this.data));
 
+      payload.append("filters", JSON.stringify(this.filters));
+      payload.append("meta_title", this.meta_title);
+      payload.append("meta_keyword", this.meta_keyword);
+      payload.append("meta_description", this.meta_description);
+
       this.$store
         .dispatch("addProduct", payload)
         .then((res) => {
@@ -969,6 +1070,7 @@ export default {
             this.specs = [];
             if (res.data.specs.length != 0) {
               this.specs = JSON.parse(res.data.specs);
+              this.filters = JSON.parse(res.data.specs);
             }
           })
           .catch((err) => {
@@ -1317,6 +1419,15 @@ label {
   opacity: 1;
   z-index: 93;
 }
+
+.element-tab-view > input#tab6:checked ~ .line {
+  left: 671.948px;
+}
+.element-tab-view > input#tab6:checked ~ .content-container #c6 {
+  opacity: 1;
+  z-index: 93;
+}
+
 .element-tab-view > label {
   display: inline-block;
   font-size: 14px;
