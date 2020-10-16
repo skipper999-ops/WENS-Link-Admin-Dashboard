@@ -42,7 +42,7 @@
                 style="display: flex;justify-content: space-between;"
               >
                 <div class="add-section" @click="add_field">
-                  + Add Field
+                  + Add Filter
                 </div>
                 <!-- <div class="add-section grey">Reset to Default</div> -->
               </div>
@@ -52,7 +52,8 @@
                 <div
                   v-for="(p, index) in filters"
                   :key="p.id"
-                  class="input_fields_wrap drag-list"
+                  class="input_fields_wrap drag-list" style="    display: flex;
+    align-items: center;"
                   id="h"
                 >
                       <input
@@ -60,6 +61,15 @@
                         placeholder="Field"
                         v-model="p.name"
                         type="text"
+                        style="display: inline-block; width: 35%"
+                      />
+                      
+
+                      <input
+                        class="input"
+                        placeholder="Field"
+                        v-model="p.status"
+                        type="checkbox"
                         style="display: inline-block; width: 35%"
                       />
 
@@ -102,7 +112,7 @@ export default {
     add_field: function() {
 
   
-      this.filters.push( { name: "" } )
+      this.filters.push( { name: "", status: true } )
 
       console.log(this.filters)
 
@@ -146,7 +156,7 @@ export default {
     saveSpecs: function() {
       var payload = {
         id: this.category,
-        specs: JSON.stringify(this.filters)
+        filters: JSON.stringify(this.filters)
       };
 
       this.$store
@@ -154,7 +164,7 @@ export default {
         .then(res => {
           console.log(res);
           console.log("response");
-          this.$router.push("/dashboard/templates/specification");
+          this.$router.push("/dashboard/templates/filters");
         })
         .catch(err => {
           console.log("error in request", err);

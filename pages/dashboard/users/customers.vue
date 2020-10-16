@@ -163,13 +163,3 @@ export default {
   }
 };
 </script>
-
-
-<style>
-
-.btn-success{
-  background-color: #4caf50;
-  color: white
-}
-
-</style>

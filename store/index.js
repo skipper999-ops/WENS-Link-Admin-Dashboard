@@ -330,7 +330,7 @@ export const actions = {
 
         bodyFormData.append("id", payload.id);
 
-        bodyFormData.append("specs", payload.specs);
+        bodyFormData.append("filters", payload.filters);
 
         return new Promise((resolve, reject) => {
             axios({

@@ -91,9 +91,12 @@
             </tbody>
           </table>
 
+
+          <p class="bold padding-top-15" v-if="Object.keys(specs).length != 0">Filter Options</p>
+
           <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tbody>
-              <tr v-for="(p, index) in specs" :key="p.id">
+              <tr>
                 <td>
                   <table
                     width="100%"
@@ -102,13 +105,12 @@
                     cellpadding="0"
                     class="product-spec"
                   >
-                    <tbody>
+                    <tbody v-for="(q, index1) in specs" :key="q.id">
                       <tr>
-                        <th width="20%" style="text-align:left" colspan>{{ p.name }}</th>
-                        <th></th>
+                        <th width="20%" style="text-align:left" colspan></th>
                         <th></th>
                       </tr>
-                      <tr v-for="(q, index1) in p['sub']" :key="q.id">
+                      <tr>
                         <td>{{ q.name }}</td>
                         <td>
                           <input v-model="q.filter_value" @input="createURL" type="text" />
@@ -152,7 +154,7 @@ export default {
       allCategories: [],
       searchQuery: "",
       created_url_1: "",
-      limit: 10,
+      limit: 12,
       brand: "",
       base_url: process.env.BASE_URL
     };
@@ -228,46 +230,21 @@ export default {
 
       var a = {};
 
-      for (let key1 in this.specs) {
+      for (let key in this.specs) {
         var specs = this.specs;
 
-        var template_specs = this.specs;
-        console.log(specs);
-
-        if (template_specs.hasOwnProperty(key1)) {
-          console.log(specs);
-
-          for (let key2 in specs[key1].sub) {
-            console.log(key1);
-            var sub = this.specs[key1].sub;
-
-            if (sub.hasOwnProperty(key2)) {
-              // if (sub.hasOwnProperty("filter_value")) {
-              //   b = [];
-              //   print("name");
-
-              //   if (specs[key]["sub"][key1]["name"] in k.keys()) {
-              //     print(specs[key]["sub"][key1]["name"]);
-              //     b = k[specs[key]["sub"][key1]["name"]];
-              //   } else {
-              //     k[specs[key]["sub"][key1]["name"]] = [];
-
-              //     b.append(specs[key]["sub"][key1]["value"]);
-              //     print(specs[key]["sub"][key1]["name"]);
-              //     k[specs[key]["sub"][key1]["name"]] = b;
-              //   }
-              // }
-              if (
-                sub[key2].hasOwnProperty("filter_value") &&
-                sub[key2].filter_value != ""
+        if (
+                specs[key].hasOwnProperty("filter_value") &&
+                specs[key].filter_value != ""
               ) {
-                a[sub[key2].name.toLowerCase()] = sub[
-                  key2
-                ].filter_value.replace(/ /g, "");
+                a[this.slugify(specs[key].name)] = this.slugify(specs[
+                  key
+                ].filter_value);
               }
-            }
-          }
-        }
+            
+            
+
+
       }
       console.log(a);
 
@@ -439,6 +416,16 @@ export default {
           this.subcategory = res.data;
         });
     },
+        slugify: function (string) {
+      string = string.toString()
+      // console.trace()
+      return string
+        .trim() // Remove surrounding whitespace.
+        .toLowerCase() // Lowercase.
+        .replace(/[^a-z0-9]+/g, '-') // Find everything that is not a lowercase letter or number, one or more times, globally, and replace it with a dash.
+        .replace(/^-+/, '') // Remove all dashes from the beginning of the string.
+        .replace(/-+$/, '') // Remove all dashes from the end of the string.
+    },
     getsubCategoryDetails: function() {
       if (this.subcategory_selected != undefined) {
         this.$store
@@ -447,8 +434,8 @@ export default {
             console.log(res);
             console.log("response");
             this.specs = [];
-            if (res.data.specs.length != 0) {
-              this.specs = JSON.parse(res.data.specs);
+            if (res.data.filters.length != 0) {
+              this.specs = JSON.parse(res.data.filters);
             }
 
             console.log(res.data.name);

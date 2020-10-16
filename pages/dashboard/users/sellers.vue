@@ -240,10 +240,7 @@ export default {
 
 
 <style>
-.btn-success {
-  background-color: #4caf50;
-  color: white;
-}
+
 
 /* Dropdown */
 
